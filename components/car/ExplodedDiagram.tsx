@@ -43,7 +43,7 @@ function Region({
   return (
     <motion.g
       style={{ x, y }}
-      animate={{ opacity: activeRegion && !focused ? 0.5 : 1 }}
+      animate={{ opacity: activeRegion && !focused ? 0.35 : 1 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
     >
       {children}
@@ -60,10 +60,10 @@ export function ExplodedDiagram({
   activeRegion: CarRegionId | null;
   className?: string;
 }) {
-  const accent = "#FF6B2C";
-  const paint = "#5A6472";
-  const edge = "#7E8896";
-  const metal = "#AEB7C2";
+  const accent = "#1B5E43";
+  const paint = "#1F5540";
+  const edge = "#8E938B";
+  const metal = "#9AA0A0";
 
   const strokeFor = (id: CarRegionId) => (activeRegion === id ? accent : edge);
 
@@ -76,7 +76,7 @@ export function ExplodedDiagram({
     >
       {/* Underbody: floor pan, exhaust, muffler */}
       <Region id="underbody" explode={explode} activeRegion={activeRegion}>
-        <rect x="52" y="146" width="300" height="9" rx="4" fill="#333944" stroke={strokeFor("underbody")} strokeWidth="1.5" />
+        <rect x="52" y="146" width="300" height="9" rx="4" fill="#2B2F2A" stroke={strokeFor("underbody")} strokeWidth="1.5" />
         <rect x="74" y="160" width="150" height="7" rx="3.5" fill={metal} opacity="0.75" />
         <ellipse cx="66" cy="163.5" rx="16" ry="9" fill={metal} opacity="0.75" />
       </Region>
@@ -90,31 +90,31 @@ export function ExplodedDiagram({
           strokeWidth="1.8"
           strokeLinejoin="round"
         />
-        <path d="M176 74 L246 74 L268 99 L150 99 Z" fill="#8CA3BB" opacity="0.6" />
-        <rect x="342" y="112" width="16" height="12" rx="3" fill="#E8D9B8" opacity="0.9" />
+        <path d="M176 74 L246 74 L268 99 L150 99 Z" fill="#7E9188" opacity="0.55" />
+        <rect x="342" y="112" width="16" height="12" rx="3" fill="#D8CFAE" opacity="0.9" />
       </Region>
 
       {/* Climate: condenser + blower */}
       <Region id="climate" explode={explode} activeRegion={activeRegion}>
-        <rect x="316" y="98" width="12" height="30" rx="2" fill="#6E7A88" stroke={strokeFor("climate")} strokeWidth="1.5" />
-        <circle cx="286" cy="92" r="11" fill="#5A6472" stroke={strokeFor("climate")} strokeWidth="1.5" />
-        <circle cx="286" cy="92" r="4" fill="#20242B" />
+        <rect x="316" y="98" width="12" height="30" rx="2" fill="#5F6B64" stroke={strokeFor("climate")} strokeWidth="1.5" />
+        <circle cx="286" cy="92" r="11" fill="#4A5750" stroke={strokeFor("climate")} strokeWidth="1.5" />
+        <circle cx="286" cy="92" r="4" fill="#1A1D19" />
       </Region>
 
       {/* Engine bay */}
       <Region id="engine" explode={explode} activeRegion={activeRegion}>
         <rect x="292" y="104" width="52" height="34" rx="4" fill={metal} stroke={strokeFor("engine")} strokeWidth="1.8" />
-        <rect x="300" y="96" width="10" height="10" rx="2" fill="#6E7A88" />
-        <rect x="318" y="96" width="10" height="10" rx="2" fill="#6E7A88" />
+        <rect x="300" y="96" width="10" height="10" rx="2" fill="#5F6B64" />
+        <rect x="318" y="96" width="10" height="10" rx="2" fill="#5F6B64" />
       </Region>
 
       {/* Brakes: discs + calipers, behind the wheels */}
       <Region id="brakes" explode={explode} activeRegion={activeRegion}>
         {[110, 300].map((cx) => (
           <g key={cx}>
-            <circle cx={cx} cy="160" r="16" fill="#9AA3AE" stroke={strokeFor("brakes")} strokeWidth="1.5" />
-            <circle cx={cx} cy="160" r="6" fill="#20242B" />
-            <rect x={cx - 22} y="152" width="9" height="16" rx="2" fill="#C2451E" />
+            <circle cx={cx} cy="160" r="16" fill="#A8AEAC" stroke={strokeFor("brakes")} strokeWidth="1.5" />
+            <circle cx={cx} cy="160" r="6" fill="#1A1D19" />
+            <rect x={cx - 22} y="152" width="9" height="16" rx="2" fill="#B4552A" />
           </g>
         ))}
       </Region>
@@ -123,9 +123,9 @@ export function ExplodedDiagram({
       <Region id="wheels" explode={explode} activeRegion={activeRegion}>
         {[110, 300].map((cx) => (
           <g key={cx}>
-            <circle cx={cx} cy="160" r="29" fill="#2B2F36" stroke={strokeFor("wheels")} strokeWidth="1.8" />
-            <circle cx={cx} cy="160" r="14" fill="#5A6472" />
-            <circle cx={cx} cy="160" r="5" fill="#565F6C" />
+            <circle cx={cx} cy="160" r="29" fill="#24262A" stroke={strokeFor("wheels")} strokeWidth="1.8" />
+            <circle cx={cx} cy="160" r="14" fill="#1F5540" />
+            <circle cx={cx} cy="160" r="5" fill="#8B928D" />
           </g>
         ))}
       </Region>

@@ -9,36 +9,45 @@
   }
 
   body {
-    @apply bg-ink text-chalk font-sans antialiased;
+    @apply bg-paper text-ink font-sans antialiased;
+    font-size: 17px;
+    line-height: 1.6;
   }
 
   ::selection {
-    @apply bg-rust text-ink;
+    @apply bg-pine text-paper;
   }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-rust ring-offset-2 ring-offset-ink;
+    @apply outline-none ring-1 ring-pine ring-offset-4 ring-offset-paper;
   }
 }
 
-@layer utilities {
-  /* Hairline rule used to separate sections without a heavy border. */
-  .rule-top {
-    box-shadow: inset 0 1px 0 theme("colors.line");
+@layer components {
+  /* Small uppercase mono label — the page's one recurring signal for metadata. */
+  .label {
+    @apply font-mono text-[0.68rem] uppercase tracking-label text-graphite;
   }
 
-  .asphalt {
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 107, 44, 0.07), transparent 70%),
-      linear-gradient(theme("colors.ink"), theme("colors.graphite"));
+  /* Section number + title, sitting on a hairline. Swiss editorial staple. */
+  .rule-above {
+    @apply border-t border-rule;
+  }
+
+  /* Text link with a rule that draws on hover, instead of a pill button. */
+  .link-underline {
+    @apply relative inline-block pb-1 text-ink no-underline;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    transition: background-size 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .link-underline:hover {
+    background-size: 0% 1px;
   }
 }
 
-/*
- * Reduced motion: kill every transition and animation outright. Components also
- * branch on the media query in JS (see lib/useMotionPreference) so scroll-driven
- * sequences render at their resting state rather than animating invisibly.
- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -46,9 +55,7 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
-
   html {
     scroll-behavior: auto;
   }

@@ -37,23 +37,27 @@ export function useIsCompactViewport(): boolean {
 /**
  * Decides whether this visitor gets the real WebGL car.
  *
- * Three ways to fall through to the 2D exploded diagram:
- *   - reduced motion is requested (a scroll-scrubbed 3D scene is the thing they opted out of)
- *   - the viewport is phone-sized (60%+ of this traffic; WebGL there is a battery tax)
- *   - the device reports few cores, a decent proxy for "will drop frames"
+ * Phones now get it too. The flat diagram was a poor substitute for the thing
+ * that makes this page worth visiting, and a scene this small (≈34 primitives,
+ * no textures, no post-processing) is well within a modern phone's budget —
+ * CarScene caps device pixel ratio to keep the fill rate sane.
+ *
+ * Two ways to fall through to the static diagram:
+ *   - reduced motion is requested; a scroll-scrubbed 3D scene is precisely what
+ *     that setting opts out of
+ *   - the device reports very few cores, a decent proxy for "will drop frames"
  *
  * Starts `false` and flips on after mount, so the server-rendered HTML is always
  * the lightweight diagram and the canvas is a progressive enhancement.
  */
 export function useRenders3D(): boolean {
   const reduced = usePrefersReducedMotion();
-  const compact = useIsCompactViewport();
   const [capable, setCapable] = useState(false);
 
   useEffect(() => {
     const cores = navigator.hardwareConcurrency;
-    setCapable(typeof cores !== "number" || cores > 4);
+    setCapable(typeof cores !== "number" || cores >= 4);
   }, []);
 
-  return capable && !reduced && !compact;
+  return capable && !reduced;
 }

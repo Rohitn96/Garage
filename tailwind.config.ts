@@ -1,47 +1,30 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./data/**/*.{ts,tsx}",
-  ],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
+    // Replacing rather than extending: a tight, deliberate palette is most of
+    // what separates a designed page from a themed template.
     extend: {
       colors: {
-        // Garage-industrial base: charcoal through near-black.
-        ink: "#0A0B0D",
-        graphite: "#101217",
-        steel: "#171A20",
-        line: "#282C34",
-        fog: "#9BA3AF",
-        chalk: "#F3F5F8",
-        // Single accent: warm signal orange, the colour of a shop light.
-        rust: {
-          DEFAULT: "#FF6B2C",
-          dim: "#E2510F",
-          glow: "#FF8A55",
+        paper: "#F4F2EC",      // warm off-white ground
+        panel: "#EBE7DE",      // one step down, for insets
+        ink: "#15160F",        // near-black with a green cast
+        graphite: "#4E5147",   // secondary text
+        rule: "#D6D1C4",       // hairlines
+        pine: {
+          DEFAULT: "#1B5E43",  // accent
+          deep: "#123D2C",
+          pale: "#DDE6DE",
         },
       },
       fontFamily: {
-        display: ["var(--font-display)", "system-ui", "sans-serif"],
-        sans: ["var(--font-body)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
-      letterSpacing: {
-        wordmark: "0.18em",
-      },
-      maxWidth: {
-        page: "1180px",
-      },
-      keyframes: {
-        nudge: {
-          "0%, 100%": { transform: "translateY(0)", opacity: "0.55" },
-          "50%": { transform: "translateY(6px)", opacity: "1" },
-        },
-      },
-      animation: {
-        nudge: "nudge 2s ease-in-out infinite",
-      },
+      maxWidth: { page: "1240px" },
+      letterSpacing: { label: "0.14em" },
     },
   },
   plugins: [],

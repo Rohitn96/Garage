@@ -46,13 +46,15 @@ export type CarPart = {
   opacity?: number;
 };
 
-const PAINT = "#5A6472";
-const PAINT_DARK = "#464F5C";
-const TRIM = "#333944";
-const GLASS = "#1B2432";
-const METAL = "#AEB7C2";
-const RUBBER = "#2B2F36";
-const SHADOW = "#171A20";
+const PAINT = "#1F5540";
+const PAINT_DARK = "#153B2C";
+const TRIM = "#2B2F2A";
+const GLASS = "#2E3E37";
+const METAL = "#9AA0A0";
+/** Darker steel for parts that end up sitting on the pale ground. */
+const UNDER_STEEL = "#5E645F";
+const RUBBER = "#24262A";
+const SHADOW = "#12211B";
 
 /** Wheel geometry, referenced by the arches and brake parts so they stay in sync. */
 const WHEEL_R = 0.28;
@@ -69,7 +71,7 @@ export const CAR_PARTS: CarPart[] = [
     region: "underbody",
     size: [4.05, 0.1, 1.7],
     at: [0, 0.31, 0],
-    blowsTo: [0, -1.6, 0],
+    blowsTo: [0, -0.4, 2.6],
     color: TRIM,
     metalness: 0.55,
     roughness: 0.65,
@@ -165,7 +167,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.38, 0.26, 0.3],
     at: [0.92, 0.74, 0.56],
     blowsTo: [1.0, 1.5, 1.6],
-    color: "#3C4450",
+    color: "#37403A",
     metalness: 0.4,
     roughness: 0.6,
   },
@@ -176,7 +178,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.12, 0.17, 0.4],
     at: [2.04, 0.72, 0.56],
     blowsTo: [2.1, 0.5, 1.2],
-    color: "#CBBE9E",
+    color: "#D8CFAE",
     metalness: 0.2,
     roughness: 0.18,
   },
@@ -187,7 +189,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.12, 0.17, 0.4],
     at: [2.04, 0.72, -0.56],
     blowsTo: [2.1, 0.5, -1.2],
-    color: "#CBBE9E",
+    color: "#D8CFAE",
     metalness: 0.2,
     roughness: 0.18,
   },
@@ -200,7 +202,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.14, 0.38, 1.05],
     at: [1.98, 0.66, 0],
     blowsTo: [2.4, 1.3, 0],
-    color: "#6E7A88",
+    color: "#5F6B64",
     metalness: 0.75,
     roughness: 0.45,
   },
@@ -212,7 +214,7 @@ export const CAR_PARTS: CarPart[] = [
     at: [0.52, 0.8, 0.4],
     rotation: [0, 0, Math.PI / 2],
     blowsTo: [0.3, 2.0, 1.5],
-    color: "#5A6472",
+    color: "#4A5750",
     metalness: 0.6,
     roughness: 0.5,
   },
@@ -225,8 +227,8 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.07, 2.5, 14],
     at: [-0.5, 0.2, -0.4],
     rotation: [0, 0, Math.PI / 2],
-    blowsTo: [-0.4, -1.9, -0.8],
-    color: METAL,
+    blowsTo: [-0.3, -0.5, 2.9],
+    color: UNDER_STEEL,
     metalness: 0.85,
     roughness: 0.42,
   },
@@ -237,8 +239,8 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.16, 0.58, 16],
     at: [-1.86, 0.22, -0.4],
     rotation: [0, 0, Math.PI / 2],
-    blowsTo: [-1.5, -1.9, -0.8],
-    color: METAL,
+    blowsTo: [-1.3, -0.5, 2.9],
+    color: UNDER_STEEL,
     metalness: 0.85,
     roughness: 0.42,
   },
@@ -248,8 +250,8 @@ export const CAR_PARTS: CarPart[] = [
     region: "underbody",
     size: [0.08, 0.42, 12],
     at: [AXLE_X, 0.5, 0.58],
-    blowsTo: [1.0, -1.6, 1.1],
-    color: "#B24A2A",
+    blowsTo: [1.4, -0.5, 2.4],
+    color: "#8A6A3C",
     metalness: 0.5,
     roughness: 0.55,
   },
@@ -259,8 +261,8 @@ export const CAR_PARTS: CarPart[] = [
     region: "underbody",
     size: [0.08, 0.42, 12],
     at: [-AXLE_X, 0.5, -0.58],
-    blowsTo: [-1.0, -1.6, -1.1],
-    color: "#B24A2A",
+    blowsTo: [-1.4, -0.5, 2.4],
+    color: "#8A6A3C",
     metalness: 0.5,
     roughness: 0.55,
   },
@@ -315,7 +317,7 @@ for (const corner of CORNERS) {
     at: [corner.x, AXLE_Y, corner.z],
     rotation: [Math.PI / 2, 0, 0],
     blowsTo: [corner.x * 0.2, 0.2, outward * 2.6],
-    color: "#8A94A2",
+    color: "#B8BDBB",
     metalness: 0.8,
     roughness: 0.35,
   });
@@ -328,7 +330,7 @@ for (const corner of CORNERS) {
     at: [corner.x, AXLE_Y, corner.z * 0.8],
     rotation: [Math.PI / 2, 0, 0],
     blowsTo: [corner.x * 0.2, 0.6, outward * 1.5],
-    color: "#9AA3AE",
+    color: "#A8AEAC",
     metalness: 0.95,
     roughness: 0.28,
   });
@@ -340,7 +342,7 @@ for (const corner of CORNERS) {
     size: [0.12, 0.22, 0.1],
     at: [corner.x - 0.18, AXLE_Y + 0.14, corner.z * 0.8],
     blowsTo: [corner.x * 0.2 - 0.5, 0.95, outward * 1.5],
-    color: "#C2451E",
+    color: "#B4552A",
     metalness: 0.6,
     roughness: 0.4,
   });

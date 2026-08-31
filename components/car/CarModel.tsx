@@ -7,11 +7,13 @@ import { MathUtils, Color, type Group, type Mesh, type MeshStandardMaterial } fr
 import type { MotionValue } from "framer-motion";
 import { CAR_PARTS, type CarPart } from "./carParts";
 import { REGION_ANCHORS, SERVICE_GROUPS, type CarRegionId } from "@/data/services";
-import { Callout, Connector } from "./Callout";
+import { ServiceNames } from "./ServiceNames";
 
-const HIGHLIGHT = new Color("#FF6B2C");
+const HIGHLIGHT = new Color("#1B5E43");
+/** Unfocused parts wash toward this, a shade off the paper ground. */
+const WASH = new Color("#CBC8BE");
 
-/** How far a part travels when its own region is the one being priced. */
+/** How far a part travels when its own region is the one being named. */
 const FOCUSED_SPREAD = 1;
 /** How far every other part travels, so the car opens up without hiding the focus. */
 const AMBIENT_SPREAD = 0.42;
@@ -25,7 +27,7 @@ function Part({
   part: CarPart;
   explode: MotionValue<number>;
   activeRegion: CarRegionId | null;
-  /** Anchored callout, rendered inside the mesh so it tracks the part. */
+  /** Anchored label, rendered inside the mesh so it tracks the part. */
   children?: ReactNode;
 }) {
   const mesh = useRef<Mesh>(null);
@@ -52,11 +54,13 @@ function Part({
     );
 
     if (material.current) {
-      // Glow through emissive intensity mostly. Lerping the base colour hard
-      // toward orange flattened dark parts (tyres especially) into solid discs —
-      // the shading, and with it the shape, disappeared.
-      material.current.emissiveIntensity = glow.current * 0.12;
-      material.current.color.lerpColors(baseColor, HIGHLIGHT, glow.current * 0.18);
+      // Unfocused parts recede by washing toward the paper, NOT by going
+      // translucent: dropping opacity turned the whole car into ghost glass and
+      // let the far wheels sort through the body. Everything stays solid.
+      const dim = activeRegion && !focused ? 1 - glow.current : 0;
+      material.current.color
+        .lerpColors(baseColor, HIGHLIGHT, glow.current * 0.25)
+        .lerp(WASH, dim * 0.34);
     }
   });
 
@@ -64,8 +68,6 @@ function Part({
     <meshStandardMaterial
       ref={material}
       color={part.color}
-      emissive={HIGHLIGHT}
-      emissiveIntensity={0}
       metalness={part.metalness ?? 0.5}
       roughness={part.roughness ?? 0.5}
       transparent={part.opacity !== undefined}
@@ -111,38 +113,43 @@ function Part({
 }
 
 /**
- * The price callout for the focused region, anchored to that region's part.
+ * Service names for the focused region, set directly beside the part.
+ *
+ * No card, no panel, no prices — a rule, an index and a short list floating on
+ * the page's own ground. A paper-coloured text-shadow keeps the names legible on
+ * the frames where one crosses the car body.
  *
  * Nested inside the part's mesh, so drei projects it from the part's live world
  * position and it follows the explode with no per-frame React work. Pointer
- * events are off throughout: the page scroll is the only scroll here, and a
- * DOM layer over the canvas must never swallow it.
+ * events stay off: the page scroll is the only scroll here.
+ *
+ * Desktop only. A 240px label hung off a part that happens to sit near the edge
+ * of a 375px viewport simply falls off it, so phones get the same typography as
+ * a block at the foot of the stage instead (see ServiceExplorer).
  */
-function AnchoredCallout({ region }: { region: CarRegionId }) {
+function PartLabel({ region }: { region: CarRegionId }) {
   const index = SERVICE_GROUPS.findIndex((g) => g.id === region);
-  const group = SERVICE_GROUPS[index];
   const side = REGION_ANCHORS[region].side;
 
   return (
-    <Html
-      center={false}
-      zIndexRange={[20, 0]}
-      style={{ pointerEvents: "none" }}
-      wrapperClass="revamp-callout"
-    >
+    <Html center={false} zIndexRange={[20, 0]} style={{ pointerEvents: "none" }}>
       <div
-        className="relative"
+        className="w-[15rem] select-none"
         style={{
-          // Offset the card off the anchor point by the connector's length,
-          // on whichever side keeps it inside frame.
           transform:
             side === "right"
-              ? "translate(3.5rem, -50%)"
-              : "translate(calc(-100% - 3.5rem), -50%)",
+              ? "translate(3rem, -50%)"
+              : "translate(calc(-100% - 3rem), -50%)",
+          textShadow:
+            "0 0 10px #F4F2EC, 0 0 10px #F4F2EC, 0 0 3px #F4F2EC, 0 0 3px #F4F2EC",
         }}
       >
-        <Connector orientation={side} />
-        <Callout group={group} index={index} total={SERVICE_GROUPS.length} />
+        <ServiceNames
+          group={SERVICE_GROUPS[index]}
+          index={index}
+          total={SERVICE_GROUPS.length}
+          align={side === "left" ? "right" : "left"}
+        />
       </div>
     </Html>
   );
@@ -151,9 +158,11 @@ function AnchoredCallout({ region }: { region: CarRegionId }) {
 export function CarModel({
   explode,
   activeRegion,
+  compact = false,
 }: {
   explode: MotionValue<number>;
   activeRegion: CarRegionId | null;
+  compact?: boolean;
 }) {
   const group = useRef<Group>(null);
 
@@ -174,8 +183,8 @@ export function CarModel({
     <group ref={group} position={[0, -0.55, 0]}>
       {CAR_PARTS.map((part) => (
         <Part key={part.id} part={part} explode={explode} activeRegion={activeRegion}>
-          {activeRegion && part.id === anchorPartId ? (
-            <AnchoredCallout region={activeRegion} />
+          {activeRegion && !compact && part.id === anchorPartId ? (
+            <PartLabel region={activeRegion} />
           ) : null}
         </Part>
       ))}

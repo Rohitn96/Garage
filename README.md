@@ -46,9 +46,13 @@ Three renderings of the same content, chosen at runtime by
 
 | Visitor | What they get |
 |---|---|
-| Desktop, motion OK, >4 cores | WebGL scene, scroll-scrubbed explode |
-| Phone (<768px) or low-core device | Flat SVG exploded diagram, same scroll behaviour |
-| `prefers-reduced-motion: reduce` | No pinning, no scrubbing — static diagram and the full catalogue as a plain grid |
+| Desktop, motion OK | WebGL scene, scroll-scrubbed explode, service names projected from each part |
+| Phone, motion OK | The same WebGL scene, framed for portrait, names as a block at the foot of the stage |
+| `prefers-reduced-motion: reduce`, or <4 cores | No pinning, no scrubbing — static SVG diagram and the full catalogue as a plain grid |
+
+Phones get the real 3D. The flat diagram was a poor substitute for the thing that
+makes the page worth visiting, and this scene (~34 primitives, no textures, no
+post-processing) fits a modern phone's budget once DPR is capped at 1.5.
 
 The WebGL path is a progressive enhancement: the server always renders the lightweight
 diagram, and three.js is `dynamic(..., { ssr: false })` so it stays out of the initial
@@ -95,20 +99,29 @@ The site is a **static export**, so there is no server route. On submit the payl
 `NEXT_PUBLIC_BOOKING_ENDPOINT` to a form service or Worker URL and the same payload is
 POSTed there instead — no other change needed.
 
-## Hero background
+## Design
 
-`public/images/parts-strip.jpg` is a **generated placeholder** — overwrite it with the
-real parts illustration at the same path and name; nothing else needs to change.
+Light editorial / Swiss: warm paper ground (`#F4F2EC`), near-black ink, one deep
+pine accent (`#1B5E43`) chosen with an eventual EV positioning in mind. Instrument
+Serif for display, IBM Plex Sans for text, IBM Plex Mono for labels and numbers.
 
-It is never edited pixel-wise. A `grayscale(0.75) brightness(0.4)` filter plus three
-gradient passes feather it into the page so no photo border shows, and opacity is held
-at 0.14. Measured with the hero text hidden, the brightest background pixel behind the
-headline is `rgb(22,24,28)` — 16.3:1 against the white headline and 6.3:1 against the
-orange, both far past WCAG AA. Re-measured with a pure-white source image as a worst
-case it still holds at 15.3:1, so any illustration is safe.
+Strict grid, hairline rules, numbered sections, no cards, no pill buttons, no
+gradients. The car became a dark object on a pale studio backdrop, which reads
+like product photography rather than a dark-mode hero.
 
-The `<img>` is `aria-hidden` and `fetchPriority="low"` so it never competes with the
-headline, which is the LCP element.
+There is no hero background image.
+
+## Prices
+
+Not rendered anywhere. `priceFrom` / `quoteOnly` stay in
+[data/services.ts](data/services.ts) as the catalogue's eventual source of truth,
+but the site shows service names only — in the scroll labels, the `sr-only`
+catalogue and the reduced-motion list alike, so no audience sees figures another
+does not.
+
+**If you turn prices back on, put a visible "indicative only" disclaimer next to
+them before any placeholder figure reaches a screen.** That is why the disclaimer
+existed and why it was removed with them.
 
 ## Known placeholders
 

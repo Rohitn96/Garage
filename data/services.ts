@@ -1,12 +1,13 @@
 /**
  * Placeholder service catalogue for the Revamp Motors pre-launch site.
  *
- * Every price here is INVENTED for the dry run. Nothing in this file has been
- * confirmed against real supplier or labour costs — see PRICE_DISCLAIMER, which
- * is rendered next to the pricing explorer for exactly this reason.
+ * Every price here is INVENTED for the dry run, and NONE of it is rendered:
+ * the site currently shows service names only. The figures stay because they are
+ * the thing this catalogue exists to hold once the business sets real rates.
  *
- * Editing later: change `priceFrom` for fixed-price work, or set `quoteOnly` for
- * anything whose cost depends on the vehicle. The UI derives its label from that.
+ * Turning prices on later: render `priceFrom` / `quoteOnly` in the explorer
+ * labels or a dedicated price list, and put a visible "indicative only"
+ * disclaimer next to them before any placeholder figure reaches a screen.
  */
 
 export type ServiceItem = {
@@ -36,9 +37,6 @@ export type ServiceGroup = {
   standfirst: string;
   items: ServiceItem[];
 };
-
-export const PRICE_DISCLAIMER =
-  "Prices shown are indicative examples for illustration only and do not reflect final rates.";
 
 export const SERVICE_GROUPS: ServiceGroup[] = [
   {
@@ -211,12 +209,6 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
 ];
-
-/** Formats a service into the single line the price cards render. */
-export function priceLabel(item: ServiceItem): string {
-  if (item.quoteOnly) return "Quote on inspection";
-  return item.unit ? `from ${item.priceFrom} € / ${item.unit}` : `from ${item.priceFrom} €`;
-}
 
 /**
  * Which part each region's price callout hangs off, and which side the card

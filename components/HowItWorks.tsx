@@ -11,7 +11,7 @@ const STEPS = [
   },
   {
     title: "We do the work",
-    body: "Only what you approved. If something else turns up, we call before going further.",
+    body: "Only what you approved. If something else turns up, we call before going any further.",
   },
   {
     title: "Collect and pay",
@@ -21,35 +21,26 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="rule-top bg-ink">
-      <div className="mx-auto w-full max-w-page px-6 py-24 md:py-32">
+    <section className="rule-above bg-panel">
+      <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <Reveal>
-          <h2 className="font-display text-[clamp(1.9rem,4.4vw,3.1rem)] font-bold uppercase leading-[1.02] tracking-tight">
-            How it works
+          <p className="label">04 — Process</p>
+          <h2 className="mt-8 font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
+            Four steps, <em className="italic text-pine">no surprises.</em>
           </h2>
         </Reveal>
 
-        <ol className="mt-14 grid gap-10 md:grid-cols-4 md:gap-6">
+        <ol className="mt-16 grid gap-y-10 md:grid-cols-4 md:gap-x-10">
           {STEPS.map((step, i) => (
-            <Reveal key={step.title} delay={i * 0.08}>
-              <li className="relative md:pr-6">
-                {/* Connector rule between steps on wide screens. */}
-                {i < STEPS.length - 1 && (
-                  <span
-                    aria-hidden
-                    className="absolute right-0 top-[13px] hidden h-px w-6 bg-line md:block"
-                  />
-                )}
-                <div className="flex items-center gap-3">
-                  <span className="font-display text-2xl font-bold text-rust">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span aria-hidden className="h-px flex-1 bg-line md:hidden" />
-                </div>
-                <h3 className="mt-4 font-display text-lg font-semibold leading-snug">
+            <Reveal key={step.title} delay={i * 0.07}>
+              <li className="rule-above pt-5">
+                <span className="label">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-4 font-display text-[1.5rem] leading-tight tracking-[-0.01em]">
                   {step.title}
                 </h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-fog">{step.body}</p>
+                <p className="mt-2.5 text-[0.95rem] leading-relaxed text-graphite">
+                  {step.body}
+                </p>
               </li>
             </Reveal>
           ))}
