@@ -46,15 +46,15 @@ export type CarPart = {
   opacity?: number;
 };
 
-const PAINT = "#1F5540";
-const PAINT_DARK = "#153B2C";
-const TRIM = "#2B2F2A";
-const GLASS = "#2E3E37";
-const METAL = "#9AA0A0";
+const PAINT = "#2E7C5B";
+const PAINT_DARK = "#215C43";
+const TRIM = "#585E58";
+const GLASS = "#1B2A24";
+const METAL = "#C2C7C7";
 /** Darker steel for parts that end up sitting on the pale ground. */
-const UNDER_STEEL = "#5E645F";
-const RUBBER = "#24262A";
-const SHADOW = "#12211B";
+const UNDER_STEEL = "#8E948E";
+const RUBBER = "#4A4D52";
+const SHADOW = "#1E2B25";
 
 /** Wheel geometry, referenced by the arches and brake parts so they stay in sync. */
 const WHEEL_R = 0.28;
@@ -167,7 +167,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.38, 0.26, 0.3],
     at: [0.92, 0.74, 0.56],
     blowsTo: [1.0, 1.5, 1.6],
-    color: "#37403A",
+    color: "#6A736C",
     metalness: 0.4,
     roughness: 0.6,
   },
@@ -202,7 +202,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.14, 0.38, 1.05],
     at: [1.98, 0.66, 0],
     blowsTo: [2.4, 1.3, 0],
-    color: "#5F6B64",
+    color: "#8D9A93",
     metalness: 0.75,
     roughness: 0.45,
   },
@@ -214,7 +214,7 @@ export const CAR_PARTS: CarPart[] = [
     at: [0.52, 0.8, 0.4],
     rotation: [0, 0, Math.PI / 2],
     blowsTo: [0.3, 2.0, 1.5],
-    color: "#4A5750",
+    color: "#78857E",
     metalness: 0.6,
     roughness: 0.5,
   },
@@ -251,7 +251,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.08, 0.42, 12],
     at: [AXLE_X, 0.5, 0.58],
     blowsTo: [1.4, -0.5, 2.4],
-    color: "#8A6A3C",
+    color: "#C79A55",
     metalness: 0.5,
     roughness: 0.55,
   },
@@ -262,7 +262,7 @@ export const CAR_PARTS: CarPart[] = [
     size: [0.08, 0.42, 12],
     at: [-AXLE_X, 0.5, -0.58],
     blowsTo: [-1.4, -0.5, 2.4],
-    color: "#8A6A3C",
+    color: "#C79A55",
     metalness: 0.5,
     roughness: 0.55,
   },
@@ -317,7 +317,7 @@ for (const corner of CORNERS) {
     at: [corner.x, AXLE_Y, corner.z],
     rotation: [Math.PI / 2, 0, 0],
     blowsTo: [corner.x * 0.2, 0.2, outward * 2.6],
-    color: "#B8BDBB",
+    color: "#D2D7D5",
     metalness: 0.8,
     roughness: 0.35,
   });
@@ -330,7 +330,7 @@ for (const corner of CORNERS) {
     at: [corner.x, AXLE_Y, corner.z * 0.8],
     rotation: [Math.PI / 2, 0, 0],
     blowsTo: [corner.x * 0.2, 0.6, outward * 1.5],
-    color: "#A8AEAC",
+    color: "#C8CECC",
     metalness: 0.95,
     roughness: 0.28,
   });
@@ -342,7 +342,7 @@ for (const corner of CORNERS) {
     size: [0.12, 0.22, 0.1],
     at: [corner.x - 0.18, AXLE_Y + 0.14, corner.z * 0.8],
     blowsTo: [corner.x * 0.2 - 0.5, 0.95, outward * 1.5],
-    color: "#B4552A",
+    color: "#D97A4A",
     metalness: 0.6,
     roughness: 0.4,
   });

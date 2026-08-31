@@ -63,8 +63,8 @@ export function CarScene({
 
       {/* Studio lighting for a pale ground: a broad soft key, a cool sky fill,
           and a low bounce standing in for light coming back off the floor. */}
-      <ambientLight intensity={1.15} />
-      <hemisphereLight args={["#FFFFFF", "#C8C4B6", 1.5]} />
+      <ambientLight intensity={0.75} />
+      <hemisphereLight args={["#FFFFFF", "#2A2A2A", 1.1]} />
       <directionalLight
         position={[6, 10, 6]}
         intensity={2.6}
@@ -89,7 +89,7 @@ export function CarScene({
       */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.56, 0]} receiveShadow>
         <circleGeometry args={[60, 48]} />
-        <shadowMaterial transparent opacity={0.16} color="#141A21" />
+        <shadowMaterial transparent opacity={0.3} color="#0B0F0D" />
       </mesh>
     </Canvas>
   );
