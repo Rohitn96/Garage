@@ -6,8 +6,6 @@ import type { MotionValue } from "framer-motion";
 import { CarModel } from "./CarModel";
 import type { CarRegionId } from "@/data/services";
 
-const PAPER = "#ADB5BD";
-
 /**
  * Pulls the camera back and lifts it as the car comes apart, so the exploded
  * spread stays inside frame. Driven by scroll progress, never by time.
@@ -56,9 +54,12 @@ export function CarScene({
       dpr={compact ? [1, 1.5] : [1, 2]}
       shadows
       camera={{ position: [6, 2.2, 7.5], fov: 40 }}
-      gl={{ antialias: true, powerPreference: "high-performance" }}
+      // Transparent canvas: the PAGE is the scene's background, so the two can
+      // never drift apart — no matter what the page ground becomes, gradient
+      // included. Previously the canvas painted its own flat colour and every
+      // ground change risked a visible seam where the two met.
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
     >
-      <color attach="background" args={[PAPER]} />
 
       {/* Studio lighting for a pale ground: a broad soft key, a cool sky fill,
           and a low bounce standing in for light coming back off the floor. */}
