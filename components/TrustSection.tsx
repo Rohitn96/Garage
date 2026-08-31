@@ -61,7 +61,7 @@ export function TrustSection() {
       <div className="mx-auto w-full max-w-page px-6 py-24 md:py-32">
         <Reveal>
           <h2 className="max-w-[18ch] font-display text-[clamp(1.9rem,4.4vw,3.1rem)] font-bold uppercase leading-[1.02] tracking-tight">
-            Why Rudra <span className="text-rust">Motors</span>
+            Why Revamp <span className="text-rust">Motors</span>
           </h2>
         </Reveal>
 

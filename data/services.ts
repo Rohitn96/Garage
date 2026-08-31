@@ -1,5 +1,5 @@
 /**
- * Placeholder service catalogue for the Rudra Motors pre-launch site.
+ * Placeholder service catalogue for the Revamp Motors pre-launch site.
  *
  * Every price here is INVENTED for the dry run. Nothing in this file has been
  * confirmed against real supplier or labour costs — see PRICE_DISCLAIMER, which
@@ -217,3 +217,20 @@ export function priceLabel(item: ServiceItem): string {
   if (item.quoteOnly) return "Quote on inspection";
   return item.unit ? `from ${item.priceFrom} € / ${item.unit}` : `from ${item.priceFrom} €`;
 }
+
+/**
+ * Which part each region's price callout hangs off, and which side the card
+ * sits on so it stays inside frame. Consumed by both the 3D scene (anchored to
+ * the part's mesh, so it tracks through the explode) and the SVG diagram.
+ */
+export const REGION_ANCHORS: Record<
+  CarRegionId,
+  { partId: string; side: "left" | "right"; svgX: number }
+> = {
+  engine: { partId: "engine-block", side: "right", svgX: 80 },
+  brakes: { partId: "disc-rl", side: "left", svgX: 28 },
+  wheels: { partId: "wheel-rl", side: "left", svgX: 30 },
+  climate: { partId: "ac-condenser", side: "right", svgX: 76 },
+  underbody: { partId: "muffler", side: "left", svgX: 22 },
+  body: { partId: "cabin", side: "right", svgX: 52 },
+};

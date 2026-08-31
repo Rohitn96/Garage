@@ -30,10 +30,10 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-line pt-6 text-xs text-fog/70 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            Rudra Motors is currently in pre-launch. Business registration in
+            Revamp Motors is currently in pre-launch. Business registration in
             progress.
           </p>
-          <p>© {new Date().getFullYear()} Rudra Motors</p>
+          <p>© {new Date().getFullYear()} Revamp Motors</p>
         </div>
       </div>
     </footer>

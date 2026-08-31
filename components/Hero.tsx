@@ -13,15 +13,49 @@ import { usePrefersReducedMotion } from "@/lib/useMotionPreference";
 
 export function Hero() {
   const reduced = usePrefersReducedMotion();
+
+  /*
+   * Both branches must state initial AND animate explicitly.
+   *
+   * usePrefersReducedMotion reports false until after mount (it has to, or the
+   * server and client markup disagree). Dropping the props entirely on the
+   * reduced branch meant these mounted at opacity 0, then lost their `animate`
+   * prop when the flag flipped — stranding the whole headline invisible for
+   * anyone with reduced motion switched on. Resting values keep it on screen.
+   */
   const rise = reduced
-    ? {}
-    : {
-        initial: { opacity: 0, y: 20 },
-        animate: { opacity: 1, y: 0 },
-      };
+    ? { initial: { opacity: 1, y: 0 }, animate: { opacity: 1, y: 0 } }
+    : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
 
   return (
     <section className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden asphalt px-6 py-10">
+      {/*
+        Ambient parts illustration.
+
+        Treated, not edited: greyscale + heavy brightness reduction knock the
+        source's flat grey ground most of the way to black, then three gradient
+        passes feather every edge into the page so no photo border is visible.
+        Opacity is held low enough that headline contrast stays well past WCAG
+        AA even if the source art is pure white — see the contrast check in the
+        build notes.
+
+        Decorative, so it is aria-hidden and deprioritised: the headline is the
+        LCP element and this must not compete with it on a slow connection.
+      */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <img
+          src="/images/parts-strip.jpg"
+          alt=""
+          decoding="async"
+          fetchPriority="low"
+          className="absolute left-1/2 top-1/2 h-[52%] min-h-[210px] w-[132%] min-w-[900px] -translate-x-1/2 -translate-y-1/2 object-cover object-center opacity-[0.14] [filter:grayscale(0.75)_brightness(0.4)_contrast(1.08)]"
+        />
+        {/* Feather the band's edges outward into the page background. */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_58%_54%_at_50%_50%,transparent_0%,rgba(10,11,13,0.5)_52%,#0A0B0D_86%)]" />
+        <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-ink to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink to-transparent" />
+      </div>
+
       {/* Faint workshop-floor grid — reads as depth without carrying any content. */}
       <div
         aria-hidden

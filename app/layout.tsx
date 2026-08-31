@@ -15,11 +15,11 @@ const body = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Rudra Motors — Opening soon in Vantaa",
+  title: "Revamp Motors — Opening soon in Vantaa",
   description:
-    "Honest work, fair price, back on the road. Rudra Motors is an auto repair garage opening soon in the Vantaa area.",
+    "Honest work, fair price, back on the road. Revamp Motors is an auto repair garage opening soon in the Vantaa area.",
   openGraph: {
-    title: "Rudra Motors — Opening soon in Vantaa",
+    title: "Revamp Motors — Opening soon in Vantaa",
     description: "Honest work, fair price, back on the road.",
     type: "website",
   },

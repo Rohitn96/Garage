@@ -3,8 +3,6 @@
 import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import {
-  AnimatePresence,
-  motion,
   useMotionValue,
   useMotionValueEvent,
   useScroll,
@@ -17,6 +15,7 @@ import {
 } from "@/data/services";
 import { usePrefersReducedMotion, useRenders3D } from "@/lib/useMotionPreference";
 import { ExplodedDiagram } from "./ExplodedDiagram";
+import { DiagramStage } from "./DiagramStage";
 import { PriceCard } from "./PriceCard";
 
 // three.js stays out of the initial bundle and never runs on the server.
@@ -138,35 +137,38 @@ function ScrollExplorer() {
         <SectionIntro />
       </div>
 
-      <div
-        aria-hidden
-        ref={track}
-        className="relative"
-        style={{ height: `${(SERVICE_GROUPS.length + 2) * 100}vh` }}
-      >
+      {/*
+        Track length. Phones get a much shorter run: six regions at ~65vh each
+        plus lead-in and tail is ~4.7 screens, against ~7.2 on desktop where
+        there is room to let each region breathe. The scroll fractions below are
+        proportional, so they hold at either height.
+      */}
+      <div aria-hidden ref={track} className="relative h-[470vh] md:h-[720vh]">
       <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
         {/* Stage — 3D on capable desktops, the flat diagram everywhere else.
-            On wide screens the canvas stops short of the price panel so the car
-            centres in the space it actually has. */}
-        <div className="absolute inset-y-0 left-0 right-0 md:right-[430px]">
+            Full width now: the price panel that used to occupy the right 430px
+            is gone, replaced by callouts anchored to the parts themselves. */}
+        <div className="absolute inset-0">
           {use3D ? (
             <CarScene explode={explode} activeRegion={activeRegion} />
           ) : (
-            <div className="flex h-full items-center justify-center px-4 pb-[46svh] pt-16 md:pb-0">
-              <ExplodedDiagram
-                explode={explode}
-                activeRegion={activeRegion}
-                className="h-auto w-full max-w-[560px]"
-              />
-            </div>
+            <DiagramStage
+              explode={explode}
+              activeRegion={activeRegion}
+              activeIndex={activeIndex}
+            />
           )}
         </div>
 
-        {/* Always on screen while prices are, so no screenshot loses the caveat. */}
-        <Disclaimer className="pointer-events-none absolute bottom-4 left-6 z-10 hidden max-w-[42ch] md:block" />
+        {/* Always on screen while prices are, so no screenshot loses the caveat —
+            at every width. It used to be md-only, with phones relying on a copy
+            inside the old price panel; when that panel went, mobile briefly had
+            placeholder prices and no disclaimer at all. */}
+        <Disclaimer className="pointer-events-none absolute bottom-3 left-1/2 z-10 w-[92%] -translate-x-1/2 text-center md:bottom-4 md:left-6 md:w-auto md:max-w-[42ch] md:translate-x-0 md:text-left" />
 
-        {/* Region rail — where you are in the sequence. */}
-        <div className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col gap-3 md:flex">
+        {/* Region rail — where you are in the sequence. Parked top-left so it
+            stays clear of callouts anchored on the car's left-hand parts. */}
+        <div className="pointer-events-none absolute left-6 top-8 hidden flex-col gap-3 md:flex">
           {SERVICE_GROUPS.map((group, i) => (
             <div key={group.id} className="flex items-center gap-3">
               <span
@@ -185,39 +187,13 @@ function ScrollExplorer() {
           ))}
         </div>
 
-        {/* Price cards for the region currently separated. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 md:inset-y-0 md:left-auto md:right-0 md:flex md:w-[430px] md:items-center">
-          <AnimatePresence mode="wait">
-            {activeGroup && (
-              <motion.div
-                key={activeGroup.id}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="pointer-events-auto max-h-[46svh] overflow-y-auto border-t border-line bg-graphite/95 px-6 py-5 backdrop-blur md:max-h-[76svh] md:border-l md:border-t-0 md:bg-graphite/80 md:px-7 md:py-7"
-              >
-                <p className="text-[0.7rem] uppercase tracking-[0.16em] text-rust">
-                  {String((activeIndex ?? 0) + 1).padStart(2, "0")} /{" "}
-                  {String(SERVICE_GROUPS.length).padStart(2, "0")}
-                </p>
-                <h3 className="mt-2 font-display text-2xl font-bold uppercase tracking-tight">
-                  {activeGroup.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-fog">
-                  {activeGroup.standfirst}
-                </p>
-                <ul className="mt-5 grid gap-2.5">
-                  {activeGroup.items.map((item) => (
-                    <PriceCard key={item.id} item={item} />
-                  ))}
-                </ul>
-                {/* Desktop keeps the persistent copy bottom-left instead. */}
-                <Disclaimer className="mt-5 md:hidden" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+        {/*
+          No price panel here any more. The prices for the focused region are
+          rendered as a callout anchored to the part itself — inside the canvas
+          for the WebGL path (see CarModel), inside DiagramStage for the flat
+          one. That removes the nested scroll container that used to fight the
+          page scroll, and it is why nothing in this stage scrolls.
+        */}
       </div>
       </div>
     </section>
@@ -234,6 +210,11 @@ function StaticExplorer() {
   return (
     <section id="services" className="mx-auto w-full max-w-page px-6 py-24">
       <SectionIntro />
+
+      {/* Ahead of the prices, not just after them. The trailing copy alone left
+          anyone reading the middle of a long catalogue looking at placeholder
+          figures with no caveat anywhere on screen. */}
+      <Disclaimer className="mt-6" />
 
       <ExplodedDiagram
         explode={explode}

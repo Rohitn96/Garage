@@ -1,4 +1,4 @@
-# Rudra Motors — pre-launch site
+# Revamp Motors — pre-launch site
 
 Single-page teaser for a garage opening in Vantaa. Dry run: **every price is invented**
 and the business is not trading.
@@ -63,10 +63,26 @@ region. Fixed-price jobs carry `priceFrom`; anything vehicle-dependent sets
 `PRICE_DISCLAIMER` is rendered next to the prices in every mode — persistently on
 desktop, in the card on mobile, and in the static catalogue.
 
-Because the animated cards only exist once a visitor has scrolled to the right offset,
-the full catalogue is **also** rendered `sr-only` in document order, and the animated
-stage is `aria-hidden`. Screen readers, crawlers and no-JS visitors get everything;
-nothing is announced twice.
+Because the animated callouts only exist once a visitor has scrolled to the right
+offset, the full catalogue is **also** rendered `sr-only` in document order, and the
+animated stage is `aria-hidden`. Screen readers, crawlers and no-JS visitors get
+everything; nothing is announced twice.
+
+### Prices are anchored to parts, and nothing nests a scrollbar
+
+There is exactly one scrollable element in this section: the page. Prices for the
+focused region render as a compact callout pinned to that region's part with a short
+pointer line — inside the canvas via drei's `<Html>` for the WebGL path (nested in the
+part's mesh, so it tracks the explode for free), and under the diagram via
+`DiagramStage` for the flat one. Both use the same `Callout`, which has no
+max-height and no overflow by design.
+
+At 375px the card stays centred and the *connector* moves to the part instead; a card
+nudged toward its part runs straight off a phone viewport.
+
+Track length is viewport-dependent: `h-[470vh] md:h-[720vh]` — roughly 4.7 screens on
+a phone against 7.2 on desktop. The scroll fractions are proportional, so the region
+timing holds at either height.
 
 ## Contact form
 
@@ -78,6 +94,21 @@ The site is a **static export**, so there is no server route. On submit the payl
 `console.log`ged and the success state shown. To send it somewhere real, set
 `NEXT_PUBLIC_BOOKING_ENDPOINT` to a form service or Worker URL and the same payload is
 POSTed there instead — no other change needed.
+
+## Hero background
+
+`public/images/parts-strip.jpg` is a **generated placeholder** — overwrite it with the
+real parts illustration at the same path and name; nothing else needs to change.
+
+It is never edited pixel-wise. A `grayscale(0.75) brightness(0.4)` filter plus three
+gradient passes feather it into the page so no photo border shows, and opacity is held
+at 0.14. Measured with the hero text hidden, the brightest background pixel behind the
+headline is `rgb(22,24,28)` — 16.3:1 against the white headline and 6.3:1 against the
+orange, both far past WCAG AA. Re-measured with a pure-white source image as a worst
+case it still holds at 15.3:1, so any illustration is safe.
+
+The `<img>` is `aria-hidden` and `fetchPriority="low"` so it never competes with the
+headline, which is the LCP element.
 
 ## Known placeholders
 
