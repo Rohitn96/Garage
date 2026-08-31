@@ -6,7 +6,7 @@ import type { MotionValue } from "framer-motion";
 import { CarModel } from "./CarModel";
 import type { CarRegionId } from "@/data/services";
 
-const PAPER = "#D4CDBB";
+const PAPER = "#ADB5BD";
 
 /**
  * Pulls the camera back and lifts it as the car comes apart, so the exploded
@@ -88,7 +88,7 @@ export function CarScene({
       */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.56, 0]} receiveShadow>
         <circleGeometry args={[60, 48]} />
-        <shadowMaterial transparent opacity={0.16} color="#2A2618" />
+        <shadowMaterial transparent opacity={0.16} color="#141A21" />
       </mesh>
     </Canvas>
   );

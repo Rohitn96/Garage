@@ -7,15 +7,15 @@ const config: Config = {
     // what separates a designed page from a themed template.
     extend: {
       colors: {
-        paper: "#D4CDBB",      // warm stone ground
-        panel: "#C8C0AC",      // one step down, for insets
+        paper: "#ADB5BD",      // cool slate ground
+        panel: "#9CA6AF",      // one step down, for insets
         ink: "#15160F",        // near-black with a green cast
-        graphite: "#4E5147",   // secondary text
-        rule: "#AFA68E",       // hairlines
+        graphite: "#3C4148",   // secondary text — darkened for AA on this ground
+        rule: "#8B959E",       // hairlines
         pine: {
-          DEFAULT: "#1B5E43",  // accent
-          deep: "#123D2C",
-          pale: "#DDE6DE",
+          DEFAULT: "#174A35",  // accent — darkened for AA on this ground
+          deep: "#0F3526",
+          pale: "#C3CFC9",
         },
       },
       fontFamily: {
