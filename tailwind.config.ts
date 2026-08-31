@@ -7,13 +7,13 @@ const config: Config = {
     // what separates a designed page from a themed template.
     extend: {
       colors: {
-        paper: "#CFD2D4",      // platinum ground
-        panel: "#BFC3C6",      // one step down, for insets
+        paper: "#B0BBBF",      // ground
+        panel: "#9FABB0",      // one step down, for insets
         ink: "#15160F",        // near-black with a green cast
-        graphite: "#454B50",   // secondary text
-        rule: "#A8ADB1",       // hairlines
+        graphite: "#3A4045",   // secondary text
+        rule: "#B85F00",       // borders and frames
         pine: {
-          DEFAULT: "#1B5E43",  // accent: British racing green
+          DEFAULT: "#174A35",  // accent: British racing green
           deep: "#123D2C",
           pale: "#D5E0DA",
         },
