@@ -7,11 +7,11 @@ const config: Config = {
     // what separates a designed page from a themed template.
     extend: {
       colors: {
-        paper: "#F4F2EC",      // warm off-white ground
-        panel: "#EBE7DE",      // one step down, for insets
+        paper: "#D4CDBB",      // warm stone ground
+        panel: "#C8C0AC",      // one step down, for insets
         ink: "#15160F",        // near-black with a green cast
         graphite: "#4E5147",   // secondary text
-        rule: "#D6D1C4",       // hairlines
+        rule: "#AFA68E",       // hairlines
         pine: {
           DEFAULT: "#1B5E43",  // accent
           deep: "#123D2C",

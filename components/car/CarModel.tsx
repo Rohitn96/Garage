@@ -11,7 +11,7 @@ import { ServiceNames } from "./ServiceNames";
 
 const HIGHLIGHT = new Color("#1B5E43");
 /** Unfocused parts wash toward this, a shade off the paper ground. */
-const WASH = new Color("#CBC8BE");
+const WASH = new Color("#B0AA9B");
 
 /** How far a part travels when its own region is the one being named. */
 const FOCUSED_SPREAD = 1;
@@ -60,7 +60,7 @@ function Part({
       const dim = activeRegion && !focused ? 1 - glow.current : 0;
       material.current.color
         .lerpColors(baseColor, HIGHLIGHT, glow.current * 0.25)
-        .lerp(WASH, dim * 0.34);
+        .lerp(WASH, dim * 0.28);
     }
   });
 
@@ -141,7 +141,7 @@ function PartLabel({ region }: { region: CarRegionId }) {
               ? "translate(3rem, -50%)"
               : "translate(calc(-100% - 3rem), -50%)",
           textShadow:
-            "0 0 10px #F4F2EC, 0 0 10px #F4F2EC, 0 0 3px #F4F2EC, 0 0 3px #F4F2EC",
+            "0 0 10px #D4CDBB, 0 0 10px #D4CDBB, 0 0 3px #D4CDBB, 0 0 3px #D4CDBB",
         }}
       >
         <ServiceNames

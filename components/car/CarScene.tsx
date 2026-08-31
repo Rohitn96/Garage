@@ -6,7 +6,7 @@ import type { MotionValue } from "framer-motion";
 import { CarModel } from "./CarModel";
 import type { CarRegionId } from "@/data/services";
 
-const PAPER = "#F4F2EC";
+const PAPER = "#D4CDBB";
 
 /**
  * Pulls the camera back and lifts it as the car comes apart, so the exploded
@@ -59,7 +59,6 @@ export function CarScene({
       gl={{ antialias: true, powerPreference: "high-performance" }}
     >
       <color attach="background" args={[PAPER]} />
-      <fog attach="fog" args={[PAPER, 22, 52]} />
 
       {/* Studio lighting for a pale ground: a broad soft key, a cool sky fill,
           and a low bounce standing in for light coming back off the floor. */}
@@ -78,11 +77,18 @@ export function CarScene({
       <ScrollCamera explode={explode} compact={compact} />
       <CarModel explode={explode} activeRegion={activeRegion} compact={compact} />
 
-      {/* Seamless studio floor — same value as the page, so the horizon is only
-          ever implied by the shadow the car casts on it. */}
+      {/*
+        Shadow-catcher, not a lit surface.
+
+        A standard material tinted to the page colour still gets lit, so the
+        floor rendered far brighter than its albedo and left a visible seam where
+        the canvas met the page. shadowMaterial draws nothing but the shadow, so
+        the canvas background IS the ground and the two are the same colour by
+        construction at any lighting level.
+      */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.56, 0]} receiveShadow>
-        <circleGeometry args={[220, 64]} />
-        <meshStandardMaterial color={PAPER} metalness={0} roughness={1} />
+        <circleGeometry args={[60, 48]} />
+        <shadowMaterial transparent opacity={0.16} color="#2A2618" />
       </mesh>
     </Canvas>
   );
