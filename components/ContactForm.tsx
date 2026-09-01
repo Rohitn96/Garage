@@ -6,6 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { bookingSchema, type BookingRequest } from "@/lib/bookingSchema";
 import { Reveal } from "./Reveal";
 
+/** Live Formspree endpoint; an env var overrides it for preview builds. */
+const FORMSPREE_ENDPOINT =
+  process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT ?? "https://formspree.io/f/maeyoeeq";
+
 /** Underlined field rather than a boxed input — one rule per row, like a form. */
 const FIELD =
   "w-full border-0 border-b border-rule bg-transparent px-0 pb-2.5 pt-1 text-[1.05rem] text-ink placeholder:text-graphite/45 focus:border-pine focus:outline-none focus:ring-0";
@@ -29,32 +33,22 @@ export function ContactForm() {
   });
 
   /**
-   * Delivery: Formspree.
+   * Delivery: Formspree → revampmotors1@gmail.com.
    *
    * Chosen over Resend-on-a-Worker because this site is a static export with no
-   * server route. Formspree needs no backend code, no API key in the bundle and
-   * no secret management — the endpoint id is public by design and rate-limited
-   * on their side. Resend would have meant adding a Worker route purely to hold
-   * a secret, which is more moving parts for the same outcome.
+   * server route. Formspree needs no backend code and no secret: the endpoint id
+   * is public by design — it ships in the HTML of every Formspree form — and
+   * abuse is rate-limited on their side. Resend would have meant standing up a
+   * Worker route purely to hold an API key.
    *
-   * ─────────────────────────────────────────────────────────────────────────
-   *  SETUP STILL NEEDED — submissions do NOT reach anyone until this is done:
-   *
-   *  1. Create a free account at formspree.io using revampmotors1@gmail.com
-   *  2. Create a new form; confirm the address when Formspree emails it
-   *  3. Copy the endpoint (looks like https://formspree.io/f/xxxxxxxx)
-   *  4. Put it in Cloudflare → Workers & Pages → garage → Settings →
-   *     Variables, as NEXT_PUBLIC_FORMSPREE_ENDPOINT, then redeploy.
-   *     For local dev, add the same line to .env.local
-   *
-   *  Until that variable is set the form validates, shows its success state and
-   *  logs the payload — it does not send. The visitor-facing notice under the
-   *  submit button says so, and must stay until delivery is confirmed working.
-   * ─────────────────────────────────────────────────────────────────────────
+   * The endpoint is baked in below rather than read only from the environment,
+   * because a static export inlines env vars at BUILD time — so an unset
+   * variable silently ships a form that posts nowhere. The env var still wins if
+   * set, which is the escape hatch for pointing a preview build somewhere else.
    */
   const onSubmit = handleSubmit(async (values) => {
     setFailed(false);
-    const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
+    const endpoint = FORMSPREE_ENDPOINT;
 
     try {
       if (endpoint) {
@@ -69,7 +63,7 @@ export function ContactForm() {
         if (!response.ok) throw new Error(`Request failed: ${response.status}`);
       } else {
         console.warn(
-          "[booking form] NEXT_PUBLIC_FORMSPREE_ENDPOINT is not set — this submission was NOT sent.",
+          "[booking form] No endpoint configured — this submission was NOT sent.",
           { ...values, submittedAt: new Date().toISOString() },
         );
       }
@@ -80,7 +74,7 @@ export function ContactForm() {
     }
   });
 
-  const deliveryConfigured = Boolean(process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT);
+  const deliveryConfigured = Boolean(FORMSPREE_ENDPOINT);
 
   return (
     <section id="contact" className="rule-above">
@@ -212,7 +206,7 @@ export function ContactForm() {
                 <p className="text-[0.8rem] leading-relaxed text-graphite">
                   {deliveryConfigured
                     ? "Pre-launch form. We will hold your details only to reply to this enquiry — no booking is confirmed yet."
-                    : "Pre-launch form. Delivery is not yet switched on, so this message is not sent anywhere and no booking is confirmed."}
+                    : "Pre-launch form. Delivery is not switched on, so this message is not sent anywhere."}
                 </p>
               </form>
             )}

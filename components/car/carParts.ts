@@ -46,7 +46,7 @@ export type CarPart = {
   opacity?: number;
 };
 
-const PAINT = "#2E7C5B";
+const PAINT = "#2F8C64";
 const PAINT_DARK = "#215C43";
 const TRIM = "#585E58";
 const GLASS = "#1B2A24";

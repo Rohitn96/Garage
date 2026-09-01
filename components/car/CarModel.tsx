@@ -9,9 +9,9 @@ import { CAR_PARTS, type CarPart } from "./carParts";
 import { REGION_ANCHORS, SERVICE_GROUPS, type CarRegionId } from "@/data/services";
 import { ServiceNames } from "./ServiceNames";
 
-const HIGHLIGHT = new Color("#7FBF9B");
+const HIGHLIGHT = new Color("#35D68A");
 /** Unfocused parts wash toward this, a shade off the paper ground. */
-const WASH = new Color("#2B2E2D");
+const WASH = new Color("#1D201E");
 
 /** How far a part travels when its own region is the one being named. */
 const FOCUSED_SPREAD = 1;
@@ -143,7 +143,7 @@ function PartLabel({ region }: { region: CarRegionId }) {
                 ? "translate(calc(-100% - 3rem), -50%)"
                 : "translate(-50%, calc(-100% - 2.5rem))",
           textShadow:
-            "0 0 10px #141414, 0 0 10px #141414, 0 0 3px #141414, 0 0 3px #141414",
+            "0 0 10px #0C0C0C, 0 0 10px #0C0C0C, 0 0 3px #0C0C0C, 0 0 3px #0C0C0C",
         }}
       >
         <ServiceNames

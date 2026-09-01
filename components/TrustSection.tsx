@@ -18,63 +18,38 @@ const PRICES: Array<{ service: string; price: string }> = [
 const PRICE_NOTE =
   "Prices shown are examples and may be adjusted based on your vehicle and the specific work needed. Special rates are available for food delivery and rideshare fleet vehicles — get in touch for a fleet quote.";
 
-const PROMISES = [
-  {
-    title: "The price is agreed first",
-    body: "We inspect, we quote, you decide. Nothing gets touched until you have said yes to a number.",
-  },
-  {
-    title: "No extra work without a call",
-    body: "If we find something else, we stop and ring you. You will never collect a car carrying charges you did not approve.",
-  },
-  {
-    title: "All makes and models",
-    body: "Japanese, German, French, Korean, hybrids included. If it is on Finnish plates, we will look at it.",
-  },
-  {
-    title: "Warranty on parts and labour",
-    body: "[Placeholder] cover on everything we fit and every hour we work. Terms confirmed before opening.",
-  },
-];
+/*
+ * This section used to carry four claim tiles — price agreed first, no extra
+ * work without a call, all makes and models, warranty on parts and labour.
+ * They were cut to reach the prices faster. The two that actually differentiate
+ * a garage (the price is agreed first, nothing extra happens without a call)
+ * are folded into the standfirst below so the promise is not lost with them.
+ * "All makes and models" and the warranty line are no longer stated anywhere.
+ */
 
 export function TrustSection() {
   return (
     <section className="rule-above">
       <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
-        <Reveal>
-          <p className="label">Why us</p>
-          <h2 className="mt-8 max-w-[16ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
-            A garage that <em className="italic text-pine">tells you first.</em>
-          </h2>
-        </Reveal>
+        <div className="grid gap-x-12 gap-y-10 md:grid-cols-12">
+          <Reveal className="md:col-span-5">
+            <p className="label">Why us</p>
+            <h2 className="mt-8 max-w-[14ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
+              Fair prices, <em className="italic text-pine">agreed first.</em>
+            </h2>
+          </Reveal>
 
-        {/* Numbered entries on hairlines: the claims read as a document rather
-            than as four floating marketing tiles with icons. */}
-        <ol className="mt-16 grid gap-x-12 gap-y-10 md:grid-cols-2">
-          {PROMISES.map((promise, i) => (
-            <Reveal key={promise.title} delay={i * 0.06}>
-              <li className="rule-above pt-5">
-                <div>
-                  <h3 className="font-display text-[1.6rem] leading-tight tracking-[-0.01em]">
-                    {promise.title}
-                  </h3>
-                  <p className="mt-2.5 max-w-[44ch] text-[0.95rem] leading-relaxed text-graphite">
-                    {promise.body}
-                  </p>
-                </div>
-              </li>
-            </Reveal>
-          ))}
-        </ol>
+          <Reveal delay={0.06} className="md:col-span-6 md:col-start-7">
+            <p className="max-w-[48ch] text-[1.05rem] leading-relaxed text-graphite">
+              Independent rates without the dealer overheads — and the number is
+              agreed with you before anything is touched. If we find something
+              else along the way, we stop and ring you first.
+            </p>
+          </Reveal>
+        </div>
 
-        {/*
-          Price list. The Services section's old price cards were removed when
-          prices came off the site, so there is no card style left to reuse —
-          these are hairline rows in the same register as the service catalogue,
-          which is what that card style had become anyway.
-        */}
         <Reveal>
-          <div className="mt-24 grid gap-x-12 gap-y-8 md:grid-cols-12">
+          <div className="mt-20 grid gap-x-12 gap-y-8 md:grid-cols-12">
             <div className="md:col-span-4">
               <p className="label">Guide prices</p>
               <h3 className="mt-5 max-w-[14ch] font-display text-[1.9rem] leading-tight tracking-[-0.01em]">

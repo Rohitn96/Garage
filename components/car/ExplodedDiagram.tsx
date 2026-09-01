@@ -60,8 +60,8 @@ export function ExplodedDiagram({
   activeRegion: CarRegionId | null;
   className?: string;
 }) {
-  const accent = "#7FBF9B";
-  const paint = "#2E7C5B";
+  const accent = "#35D68A";
+  const paint = "#2F8C64";
   const edge = "#9AA29F";
   const metal = "#C2C7C7";
 

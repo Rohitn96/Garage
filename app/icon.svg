@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0C0C0C"/>
+  <!-- Spanner set on the diagonal: reads at 16px better than a car silhouette,
+       which loses its wheels and becomes a blob at favicon size. -->
+  <g transform="rotate(-38 16 16)">
+    <rect x="14.4" y="9" width="3.2" height="15" rx="1.5" fill="#35D68A"/>
+    <path d="M16 4.6a4.9 4.9 0 1 0 0 9.8 4.9 4.9 0 0 0 0-9.8Zm0 2.5a2.4 2.4 0 1 1 0 4.8 2.4 2.4 0 0 1 0-4.8Z" fill="#35D68A"/>
+    <path d="M13.2 4.9h5.6v3.4h-5.6Z" fill="#0C0C0C"/>
+    <path d="M16 27.6a4.1 4.1 0 1 0 0-8.2 4.1 4.1 0 0 0 0 8.2Z" fill="#35D68A"/>
+  </g>
+</svg>
