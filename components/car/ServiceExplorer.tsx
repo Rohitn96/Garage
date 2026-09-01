@@ -34,7 +34,7 @@ const REGION_SPAN = (LAST_REGION - FIRST_REGION) / SERVICE_GROUPS.length;
 function SectionIntro() {
   return (
     <>
-      <p className="label">02 — Services</p>
+      <p className="label">Services</p>
       <h2 className="mt-8 max-w-[18ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
         Everything a car needs, <em className="italic text-pine">taken apart.</em>
       </h2>
@@ -60,9 +60,7 @@ function FullCatalogue() {
     <div className="grid gap-x-12 gap-y-14 md:grid-cols-2">
       {SERVICE_GROUPS.map((group, i) => (
         <section key={group.id} className="rule-above pt-5">
-          <p className="label">
-            {String(i + 1).padStart(2, "0")} / {group.title}
-          </p>
+          <p className="label">{group.title}</p>
           <p className="mt-3 max-w-[42ch] text-[0.95rem] leading-relaxed text-graphite">
             {group.standfirst}
           </p>
@@ -165,12 +163,7 @@ function ScrollExplorer() {
               carries the pointing. */}
           {compact && activeGroup && activeIndex !== null && (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10">
-              <ServiceNames
-                group={activeGroup}
-                index={activeIndex}
-                total={SERVICE_GROUPS.length}
-                align="center"
-              />
+              <ServiceNames group={activeGroup} align="center" />
             </div>
           )}
 
@@ -180,7 +173,7 @@ function ScrollExplorer() {
               <li key={group.id} className="flex items-center gap-3">
                 <span
                   className={`h-px transition-all duration-500 ${
-                    i === activeIndex ? "w-8 bg-rule" : "w-4 bg-rule/45"
+                    i === activeIndex ? "w-8 bg-rule" : "w-4 bg-rule"
                   }`}
                 />
                 <span

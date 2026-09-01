@@ -1,7 +1,7 @@
 import type { ServiceGroup } from "@/data/services";
 
 /**
- * The service names for one region: a rule, a mono index, and the list.
+ * The service names for one region: a rule, the region title, and the list.
  *
  * Shared by the desktop label (projected from the part inside the canvas) and
  * the phone label (a plain block at the foot of the stage), so both read as the
@@ -9,13 +9,9 @@ import type { ServiceGroup } from "@/data/services";
  */
 export function ServiceNames({
   group,
-  index,
-  total,
   align = "left",
 }: {
   group: ServiceGroup;
-  index: number;
-  total: number;
   align?: "left" | "right" | "center";
 }) {
   return (
@@ -27,7 +23,7 @@ export function ServiceNames({
       >
         <span aria-hidden className="h-px w-6 bg-pine" />
         <span className="font-mono text-[0.66rem] uppercase tracking-label text-pine">
-          {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")} — {group.title}
+          {group.title}
         </span>
       </div>
       <ul className={align === "right" ? "text-right" : align === "center" ? "text-center" : ""}>

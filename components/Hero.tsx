@@ -36,7 +36,7 @@ export function Hero() {
 
         <div className="flex flex-1 flex-col justify-center py-16 md:py-24">
           <motion.p {...rise(0)} className="label mb-10">
-            01 — Opening soon
+            Opening soon
           </motion.p>
 
           <motion.h1
@@ -55,9 +55,10 @@ export function Hero() {
               {...rise(0.16)}
               className="max-w-[46ch] text-[1.0625rem] leading-relaxed text-graphite md:col-span-6 md:col-start-1"
             >
-              A new independent garage for the Helsinki region. Every job is
-              inspected, scoped and agreed with you before we start — no
-              surprises on the invoice, and no work you did not ask for.
+              A new independent garage for the Helsinki region, specialised in
+              Tesla and other EVs — and just as at home with the engine cars
+              most of Finland still drives. Every job is inspected, scoped and
+              agreed with you before we start.
             </motion.p>
 
             <motion.div

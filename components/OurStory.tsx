@@ -16,7 +16,7 @@ export function OurStory() {
     <section className="rule-above">
       <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <Reveal>
-          <p className="label">03 — Our story</p>
+          <p className="label">Our story</p>
           <h2 className="mt-8 max-w-[18ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
             Built on experience,{" "}
             <em className="italic text-pine">tuned for what&rsquo;s next.</em>

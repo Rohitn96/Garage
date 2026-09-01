@@ -87,7 +87,7 @@ export function ContactForm() {
       <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-5">
-            <p className="label">06 — Contact</p>
+            <p className="label">Contact</p>
             <h2 className="mt-8 max-w-[12ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
               Tell us about <em className="italic text-pine">the car.</em>
             </h2>

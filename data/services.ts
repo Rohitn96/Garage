@@ -217,12 +217,12 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
  */
 export const REGION_ANCHORS: Record<
   CarRegionId,
-  { partId: string; side: "left" | "right"; svgX: number }
+  { partId: string; side: "left" | "right" | "top"; svgX: number }
 > = {
   engine: { partId: "engine-block", side: "right", svgX: 80 },
   brakes: { partId: "disc-rl", side: "left", svgX: 28 },
   wheels: { partId: "wheel-rl", side: "left", svgX: 30 },
   climate: { partId: "ac-condenser", side: "right", svgX: 76 },
   underbody: { partId: "muffler", side: "left", svgX: 22 },
-  body: { partId: "cabin", side: "right", svgX: 52 },
+  body: { partId: "battery", side: "right", svgX: 52 },
 };

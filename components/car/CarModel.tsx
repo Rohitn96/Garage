@@ -139,16 +139,16 @@ function PartLabel({ region }: { region: CarRegionId }) {
           transform:
             side === "right"
               ? "translate(3rem, -50%)"
-              : "translate(calc(-100% - 3rem), -50%)",
+              : side === "left"
+                ? "translate(calc(-100% - 3rem), -50%)"
+                : "translate(-50%, calc(-100% - 2.5rem))",
           textShadow:
             "0 0 10px #141414, 0 0 10px #141414, 0 0 3px #141414, 0 0 3px #141414",
         }}
       >
         <ServiceNames
           group={SERVICE_GROUPS[index]}
-          index={index}
-          total={SERVICE_GROUPS.length}
-          align={side === "left" ? "right" : "left"}
+          align={side === "left" ? "right" : side === "top" ? "center" : "left"}
         />
       </div>
     </Html>
