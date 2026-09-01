@@ -7,8 +7,8 @@ const config: Config = {
     // what separates a designed page from a themed template.
     extend: {
       colors: {
-        paper: "#333333",      // ground
-        panel: "#3C3C3C",      // one step UP, for insets
+        paper: "#141414",      // ground
+        panel: "#1E1E1E",      // one step UP, for insets
         ink: "#EDEBE6",        // warm off-white
         graphite: "#ABABA4",   // secondary text
         rule: "#D97F1F",       // borders and frames

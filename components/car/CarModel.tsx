@@ -11,7 +11,7 @@ import { ServiceNames } from "./ServiceNames";
 
 const HIGHLIGHT = new Color("#7FBF9B");
 /** Unfocused parts wash toward this, a shade off the paper ground. */
-const WASH = new Color("#4A4D4C");
+const WASH = new Color("#2B2E2D");
 
 /** How far a part travels when its own region is the one being named. */
 const FOCUSED_SPREAD = 1;
@@ -141,7 +141,7 @@ function PartLabel({ region }: { region: CarRegionId }) {
               ? "translate(3rem, -50%)"
               : "translate(calc(-100% - 3rem), -50%)",
           textShadow:
-            "0 0 10px #333333, 0 0 10px #333333, 0 0 3px #333333, 0 0 3px #333333",
+            "0 0 10px #141414, 0 0 10px #141414, 0 0 3px #141414, 0 0 3px #141414",
         }}
       >
         <ServiceNames
