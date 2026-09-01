@@ -41,7 +41,7 @@ export function Hero() {
 
           <motion.h1
             {...rise(0.08)}
-            className="max-w-[14ch] font-display text-[clamp(3rem,10vw,7.5rem)] font-normal leading-[0.94] tracking-[-0.02em]"
+            className="max-w-[15ch] font-display text-[clamp(2.5rem,7vw,5.75rem)] font-normal leading-[0.96] tracking-[-0.02em]"
           >
             Honest work,
             <br />

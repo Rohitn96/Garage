@@ -180,7 +180,7 @@ function ScrollExplorer() {
               <li key={group.id} className="flex items-center gap-3">
                 <span
                   className={`h-px transition-all duration-500 ${
-                    i === activeIndex ? "w-8 bg-pine" : "w-4 bg-rule"
+                    i === activeIndex ? "w-8 bg-rule" : "w-4 bg-rule/45"
                   }`}
                 />
                 <span

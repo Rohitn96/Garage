@@ -21,10 +21,10 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section className="rule-above bg-panel">
+    <section className="rule-above">
       <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <Reveal>
-          <p className="label">04 — Process</p>
+          <p className="label">05 — Process</p>
           <h2 className="mt-8 font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
             Four steps, <em className="italic text-pine">no surprises.</em>
           </h2>

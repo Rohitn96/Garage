@@ -29,29 +29,49 @@ export function ContactForm() {
   });
 
   /**
-   * Dry-run intake. The site is a static export, so there is no server route —
-   * and no business to route this to yet.
+   * Delivery: Formspree.
    *
-   * Set NEXT_PUBLIC_BOOKING_ENDPOINT (a form service, a Worker, whatever you end
-   * up using) and the same payload gets POSTed there instead of logged.
+   * Chosen over Resend-on-a-Worker because this site is a static export with no
+   * server route. Formspree needs no backend code, no API key in the bundle and
+   * no secret management — the endpoint id is public by design and rate-limited
+   * on their side. Resend would have meant adding a Worker route purely to hold
+   * a secret, which is more moving parts for the same outcome.
+   *
+   * ─────────────────────────────────────────────────────────────────────────
+   *  SETUP STILL NEEDED — submissions do NOT reach anyone until this is done:
+   *
+   *  1. Create a free account at formspree.io using revampmotors1@gmail.com
+   *  2. Create a new form; confirm the address when Formspree emails it
+   *  3. Copy the endpoint (looks like https://formspree.io/f/xxxxxxxx)
+   *  4. Put it in Cloudflare → Workers & Pages → garage → Settings →
+   *     Variables, as NEXT_PUBLIC_FORMSPREE_ENDPOINT, then redeploy.
+   *     For local dev, add the same line to .env.local
+   *
+   *  Until that variable is set the form validates, shows its success state and
+   *  logs the payload — it does not send. The visitor-facing notice under the
+   *  submit button says so, and must stay until delivery is confirmed working.
+   * ─────────────────────────────────────────────────────────────────────────
    */
   const onSubmit = handleSubmit(async (values) => {
     setFailed(false);
-    const endpoint = process.env.NEXT_PUBLIC_BOOKING_ENDPOINT;
+    const endpoint = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT;
 
     try {
       if (endpoint) {
         const response = await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            ...values,
+            _subject: `Booking request — ${values.name} (${values.registration})`,
+          }),
         });
         if (!response.ok) throw new Error(`Request failed: ${response.status}`);
       } else {
-        console.log("[booking request]", {
-          ...values,
-          submittedAt: new Date().toISOString(),
-        });
+        console.warn(
+          "[booking form] NEXT_PUBLIC_FORMSPREE_ENDPOINT is not set — this submission was NOT sent.",
+          { ...values, submittedAt: new Date().toISOString() },
+        );
       }
       setSent(true);
     } catch (error) {
@@ -60,19 +80,25 @@ export function ContactForm() {
     }
   });
 
+  const deliveryConfigured = Boolean(process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT);
+
   return (
     <section id="contact" className="rule-above">
       <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-5">
-            <p className="label">05 — Contact</p>
+            <p className="label">06 — Contact</p>
             <h2 className="mt-8 max-w-[12ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
               Tell us about <em className="italic text-pine">the car.</em>
             </h2>
-            <p className="mt-6 max-w-[38ch] text-graphite">
-              We are not open yet, so nothing is bookable today. Leave your
-              details and we will come back to you with a slot as soon as the
-              doors are up.
+            <p className="mt-6 max-w-[40ch] text-graphite">
+              We are not open yet, so nothing is bookable today. Once we are, we
+              will run flexible hours across every day of the week to fit around
+              your schedule — early drop-offs, evenings, whatever works.
+            </p>
+            <p className="mt-4 max-w-[40ch] text-graphite">
+              For now, leave your details below and we will get back to you
+              within 3 to 12 hours.
             </p>
           </Reveal>
 
@@ -137,6 +163,23 @@ export function ContactForm() {
                 </div>
 
                 <div>
+                  <label htmlFor="phone" className="label mb-3 block">
+                    Mobile number
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    inputMode="tel"
+                    className={`${FIELD} font-mono`}
+                    placeholder="+358 40 123 4567"
+                    autoComplete="tel"
+                    aria-invalid={Boolean(errors.phone)}
+                    {...register("phone")}
+                  />
+                  <FieldError message={errors.phone?.message} />
+                </div>
+
+                <div>
                   <label htmlFor="message" className="label mb-3 block">
                     Message
                   </label>
@@ -167,8 +210,9 @@ export function ContactForm() {
                 </div>
 
                 <p className="text-[0.8rem] leading-relaxed text-graphite">
-                  Pre-launch form. Your details are not yet stored in a live
-                  system and no booking is confirmed.
+                  {deliveryConfigured
+                    ? "Pre-launch form. We will hold your details only to reply to this enquiry — no booking is confirmed yet."
+                    : "Pre-launch form. Delivery is not yet switched on, so this message is not sent anywhere and no booking is confirmed."}
                 </p>
               </form>
             )}

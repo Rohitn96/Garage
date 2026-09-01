@@ -13,21 +13,6 @@
     font-size: 17px;
     line-height: 1.6;
 
-    /*
-     * A soft vertical fall across the ground: a touch of lift off the top, a
-     * shade deeper at the foot. Fixed, so it does not travel with the scroll —
-     * the pinned car sits against a stable ground rather than a moving one.
-     *
-     * Kept inside the palette's contrast budget rather than tuned by eye: the
-     * dark end cannot drag the accent or the body text under AA.
-     */
-    background-image: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(0, 0, 0, 0.16) 100%
-    );
-    background-attachment: fixed;
   }
 
   ::selection {

@@ -21,6 +21,18 @@ export const bookingSchema = z.object({
     .min(2, "Please add your registration number.")
     .max(20, "That does not look like a registration number."),
   email: z.email("Please check your email address.").max(120),
+  /*
+   * Finnish mobiles are +358 4x/5x, but plenty of customers will be on foreign
+   * numbers and every formatting habit exists (spaces, dashes, 00 vs +). The
+   * check is deliberately loose — enough digits to be dialable — because
+   * bouncing a real number is worse than accepting a messy one.
+   */
+  phone: z
+    .string()
+    .trim()
+    .min(6, "Please add a mobile number we can reach you on.")
+    .max(28, "That does not look like a phone number.")
+    .regex(/^[+0-9][0-9\s().-]*$/, "Digits, spaces, + ( ) - and . only."),
   message: z
     .string()
     .trim()
