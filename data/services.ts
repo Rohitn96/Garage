@@ -1,3 +1,5 @@
+import type { Localized } from "@/lib/i18n";
+
 /**
  * Placeholder service catalogue for the Revamp Motors pre-launch site.
  *
@@ -12,9 +14,9 @@
 
 export type ServiceItem = {
   id: string;
-  name: string;
+  name: Localized;
   /** One line, customer-facing. Says what they get, not how we do it. */
-  blurb: string;
+  blurb: Localized;
 } & (
   | { quoteOnly?: false; priceFrom: number; unit?: string }
   | { quoteOnly: true; priceFrom?: never; unit?: never }
@@ -32,93 +34,90 @@ export type CarRegionId =
 export type ServiceGroup = {
   id: CarRegionId;
   /** Shown as the card-stack heading. */
-  title: string;
+  title: Localized;
   /** Shown under the heading — orients the customer to the part in view. */
-  standfirst: string;
+  standfirst: Localized;
   items: ServiceItem[];
 };
 
 export const SERVICE_GROUPS: ServiceGroup[] = [
   {
     id: "engine",
-    title: "Engine bay",
-    standfirst:
-      "Routine servicing and the diagnostics that tell you what a warning light actually means.",
+    title: { en: "Engine bay", fi: "Moottoritila" },
+    standfirst: { en: "Routine servicing and the diagnostics that tell you what a warning light actually means.", fi: "Perushuollot ja vianhaku, joka kertoo mitä merkkivalo oikeasti tarkoittaa." },
     items: [
       {
         id: "oil-change",
-        name: "Oil change",
-        blurb: "Oil and filter replaced, fluid levels topped up and checked.",
+        name: { en: "Oil change", fi: "Öljynvaihto" },
+        blurb: { en: "Oil and filter replaced, fluid levels topped up and checked.", fi: "Öljy ja suodatin vaihdetaan, nestetasot täytetään ja tarkastetaan." },
         priceFrom: 89,
       },
       {
         id: "engine-diagnostics",
-        name: "Engine diagnostics",
-        blurb: "We read the fault codes and tell you what they mean in plain language.",
+        name: { en: "Engine diagnostics", fi: "Moottorin vianhaku" },
+        blurb: { en: "We read the fault codes and tell you what they mean in plain language.", fi: "Luemme vikakoodit ja kerromme selkokielellä, mitä ne tarkoittavat." },
         priceFrom: 69,
       },
       {
         id: "timing-belt",
-        name: "Timing belt or chain",
-        blurb: "Replacement on schedule, before it becomes the expensive kind of problem.",
+        name: { en: "Timing belt or chain", fi: "Jakohihna tai -ketju" },
+        blurb: { en: "Replacement on schedule, before it becomes the expensive kind of problem.", fi: "Vaihto ajallaan, ennen kuin siitä tulee kallis ongelma." },
         priceFrom: 450,
       },
       {
         id: "engine-repair",
-        name: "Engine repair",
-        blurb: "Scope and price confirmed after we have the engine in front of us.",
+        name: { en: "Engine repair", fi: "Moottorin korjaus" },
+        blurb: { en: "Scope and price confirmed after we have the engine in front of us.", fi: "Työn laajuus ja hinta vahvistetaan, kun moottori on edessämme." },
         quoteOnly: true,
       },
     ],
   },
   {
     id: "brakes",
-    title: "Brakes",
-    standfirst:
-      "Priced per axle. We show you the worn parts we take off before anything goes back on.",
+    title: { en: "Brakes", fi: "Jarrut" },
+    standfirst: { en: "Priced per axle. We show you the worn parts we take off before anything goes back on.", fi: "Hinta akselia kohden. Näytämme kuluneet osat ennen kuin mitään asennetaan takaisin." },
     items: [
       {
         id: "brake-pads",
-        name: "Brake pad replacement",
-        blurb: "Pads replaced per axle, with the discs measured while we are in there.",
+        name: { en: "Brake pad replacement", fi: "Jarrupalojen vaihto" },
+        blurb: { en: "Pads replaced per axle, with the discs measured while we are in there.", fi: "Palat vaihdetaan akselikohtaisesti ja levyt mitataan samalla." },
         priceFrom: 150,
       },
       {
         id: "brake-discs",
-        name: "Brake discs and pads",
-        blurb: "Discs and pads together per axle — the usual fix once discs are past limit.",
+        name: { en: "Brake discs and pads", fi: "Jarrulevyt ja -palat" },
+        blurb: { en: "Discs and pads together per axle — the usual fix once discs are past limit.", fi: "Levyt ja palat akselikohtaisesti — tavallinen korjaus, kun levyt ovat kuluneet loppuun." },
         priceFrom: 280,
       },
       {
         id: "brake-fluid",
-        name: "Brake fluid change",
-        blurb: "Full bleed and fresh fluid. Due every couple of years on most cars.",
+        name: { en: "Brake fluid change", fi: "Jarrunesteen vaihto" },
+        blurb: { en: "Full bleed and fresh fluid. Due every couple of years on most cars.", fi: "Täysi ilmaus ja uusi neste. Useimmissa autoissa parin vuoden välein." },
         priceFrom: 99,
       },
     ],
   },
   {
     id: "wheels",
-    title: "Tyres and wheels",
-    standfirst:
-      "Seasonal changeovers, geometry, and somewhere to keep the set you are not using.",
+    title: { en: "Tyres and wheels", fi: "Renkaat ja vanteet" },
+    standfirst: { en: "Seasonal changeovers, geometry, and somewhere to keep the set you are not using.", fi: "Kausivaihdot, suuntaukset ja säilytys sille rengassarjalle, joka ei ole käytössä." },
     items: [
       {
         id: "tyre-change",
-        name: "Tyre change, set of four",
-        blurb: "Summer to winter and back again, balanced and torqued to spec.",
+        name: { en: "Tyre change, set of four", fi: "Renkaiden vaihto, 4 kpl" },
+        blurb: { en: "Summer to winter and back again, balanced and torqued to spec.", fi: "Kesästä talveen ja takaisin, tasapainotettuna ja momenttiin kiristettynä." },
         priceFrom: 60,
       },
       {
         id: "wheel-alignment",
-        name: "Wheel alignment",
-        blurb: "Geometry reset so the car tracks straight and the tyres wear evenly.",
+        name: { en: "Wheel alignment", fi: "Pyöränsuuntaus" },
+        blurb: { en: "Geometry reset so the car tracks straight and the tyres wear evenly.", fi: "Suuntaus kohdalleen, jotta auto kulkee suoraan ja renkaat kuluvat tasaisesti." },
         priceFrom: 90,
       },
       {
         id: "tyre-storage",
-        name: "Tyre storage",
-        blurb: "Your off-season set kept indoors, cleaned and ready for the swap.",
+        name: { en: "Tyre storage", fi: "Rengashotelli" },
+        blurb: { en: "Your off-season set kept indoors, cleaned and ready for the swap.", fi: "Kauden ulkopuolinen rengassarja sisäsäilytyksessä, pestynä ja vaihtovalmiina." },
         priceFrom: 39,
         unit: "season",
       },
@@ -126,84 +125,81 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
   },
   {
     id: "climate",
-    title: "Air conditioning",
-    standfirst:
-      "The system most people only think about on the first warm week of the year.",
+    title: { en: "Air conditioning", fi: "Ilmastointi" },
+    standfirst: { en: "The system most people only think about on the first warm week of the year.", fi: "Järjestelmä, jota useimmat muistavat vasta vuoden ensimmäisellä lämpimällä viikolla." },
     items: [
       {
         id: "ac-service",
-        name: "AC service and refrigerant top-up",
-        blurb: "System evacuated, recharged and pressure-tested.",
+        name: { en: "AC service and refrigerant top-up", fi: "Ilmastoinnin huolto ja täyttö" },
+        blurb: { en: "System evacuated, recharged and pressure-tested.", fi: "Järjestelmä tyhjennetään, täytetään ja painekoestetaan." },
         priceFrom: 139,
       },
       {
         id: "ac-leak",
-        name: "AC leak diagnostics",
-        blurb: "We trace where the refrigerant is escaping before selling you a refill.",
+        name: { en: "AC leak diagnostics", fi: "Ilmastoinnin vuodonetsintä" },
+        blurb: { en: "We trace where the refrigerant is escaping before selling you a refill.", fi: "Etsimme mistä kylmäaine karkaa ennen kuin myymme sinulle täyttöä." },
         priceFrom: 79,
       },
     ],
   },
   {
     id: "underbody",
-    title: "Chassis and underbody",
-    standfirst:
-      "Suspension, exhaust and everything that takes the worst of a Finnish winter.",
+    title: { en: "Chassis and underbody", fi: "Alusta ja pohja" },
+    standfirst: { en: "Suspension, exhaust and everything that takes the worst of a Finnish winter.", fi: "Jousitus, pakoputkisto ja kaikki se, mikä kärsii Suomen talvesta eniten." },
     items: [
       {
         id: "chassis-inspection",
-        name: "Chassis inspection",
-        blurb: "On the lift, checking corrosion, mounts, bushings and joints.",
+        name: { en: "Chassis inspection", fi: "Alustan tarkastus" },
+        blurb: { en: "On the lift, checking corrosion, mounts, bushings and joints.", fi: "Nosturilla: ruoste, kiinnikkeet, holkit ja nivelet tarkastetaan." },
         priceFrom: 69,
       },
       {
         id: "suspension-repair",
-        name: "Suspension repair",
-        blurb: "Shocks, springs, arms and bushings — priced once we know what has gone.",
+        name: { en: "Suspension repair", fi: "Jousituksen korjaus" },
+        blurb: { en: "Shocks, springs, arms and bushings — priced once we know what has gone.", fi: "Iskunvaimentimet, jouset, tukivarret ja holkit — hinta selviää kun vika on tiedossa." },
         quoteOnly: true,
       },
       {
         id: "exhaust-repair",
-        name: "Exhaust repair",
-        blurb: "Sections, mounts and joints repaired or replaced.",
+        name: { en: "Exhaust repair", fi: "Pakoputken korjaus" },
+        blurb: { en: "Sections, mounts and joints repaired or replaced.", fi: "Osat, kiinnikkeet ja liitokset korjataan tai vaihdetaan." },
         priceFrom: 90,
       },
     ],
   },
   {
     id: "body",
-    title: "Whole car",
-    standfirst:
-      "Inspections and electrical work that do not belong to any one corner of the car.",
+    title: { en: "Whole car", fi: "Koko auto" },
+    standfirst: { en: "Inspections and electrical work that do not belong to any one corner of the car.", fi: "Tarkastukset ja sähkötyöt, jotka eivät kuulu mihinkään yksittäiseen auton osaan." },
     items: [
       {
         id: "pre-purchase",
-        name: "Pre-purchase inspection",
-        blurb: "Before you buy: what it needs now, and what it will need soon.",
+        name: { en: "Pre-purchase inspection", fi: "Ostotarkastus" },
+        blurb: { en: "Before you buy: what it needs now, and what it will need soon.", fi: "Ennen ostoa: mitä auto tarvitsee nyt ja mitä pian." },
         priceFrom: 119,
       },
       {
         id: "general-diagnostics",
-        name: "General diagnostics",
-        blurb: "Full fault-code scan across the car's systems, with the results explained.",
+        name: { en: "General diagnostics", fi: "Yleisvianhaku" },
+        blurb: { en: "Full fault-code scan across the car's systems, with the results explained.", fi: "Kaikkien järjestelmien vikakoodit luetaan ja tulokset selitetään." },
         priceFrom: 49,
       },
       {
         id: "battery-electrical",
-        name: "Battery and charging check",
-        blurb: "Battery health, alternator output and starter draw tested together.",
+        name: { en: "Battery and charging check", fi: "Akun ja latauksen tarkastus" },
+        blurb: { en: "Battery health, alternator output and starter draw tested together.", fi: "Akun kunto, laturin tuotto ja käynnistimen virranotto testataan yhdessä." },
         priceFrom: 45,
       },
       {
         id: "lighting",
-        name: "Headlight and bulb service",
-        blurb: "Bulbs replaced and beam alignment set — a common inspection failure.",
+        name: { en: "Headlight and bulb service", fi: "Valojen ja polttimoiden huolto" },
+        blurb: { en: "Bulbs replaced and beam alignment set — a common inspection failure.", fi: "Polttimot vaihdetaan ja valot suunnataan — yleinen katsastuksen hylkäyssyy." },
         priceFrom: 35,
       },
       {
         id: "inspection-failure",
-        name: "Inspection-failure repair package",
-        blurb: "Bring us the failure sheet and we will work through it and re-present the car.",
+        name: { en: "Inspection-failure repair package", fi: "Katsastuskorjaukset" },
+        blurb: { en: "Bring us the failure sheet and we will work through it and re-present the car.", fi: "Tuo hylkäyslappu, niin hoidamme kohdat kuntoon ja viemme auton jälkitarkastukseen." },
         quoteOnly: true,
       },
     ],

@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { bookingSchema, type BookingRequest } from "@/lib/bookingSchema";
+import { makeBookingSchema, type BookingRequest } from "@/lib/bookingSchema";
+import { useLang, useT } from "@/lib/i18n";
+import { CONTENT } from "@/lib/content";
 import { Reveal } from "./Reveal";
 
 /** Live Formspree endpoint; an env var overrides it for preview builds. */
@@ -22,15 +24,18 @@ function FieldError({ message }: { message?: string }) {
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [failed, setFailed] = useState(false);
+  const { lang } = useLang();
+  const t = useT();
+  const c = CONTENT.contact;
+
+  // Rebuilt when the language changes so error messages match the page.
+  const schema = useMemo(() => makeBookingSchema(lang), [lang]);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<BookingRequest>({
-    resolver: zodResolver(bookingSchema),
-    mode: "onBlur",
-  });
+  } = useForm<BookingRequest>({ resolver: zodResolver(schema), mode: "onBlur" });
 
   /**
    * Delivery: Formspree → revampmotors1@gmail.com.
@@ -38,34 +43,32 @@ export function ContactForm() {
    * Chosen over Resend-on-a-Worker because this site is a static export with no
    * server route. Formspree needs no backend code and no secret: the endpoint id
    * is public by design — it ships in the HTML of every Formspree form — and
-   * abuse is rate-limited on their side. Resend would have meant standing up a
-   * Worker route purely to hold an API key.
+   * abuse is rate-limited on their side.
    *
-   * The endpoint is baked in below rather than read only from the environment,
-   * because a static export inlines env vars at BUILD time — so an unset
-   * variable silently ships a form that posts nowhere. The env var still wins if
-   * set, which is the escape hatch for pointing a preview build somewhere else.
+   * The endpoint is baked in rather than read only from the environment, because
+   * a static export inlines env vars at BUILD time — an unset variable would
+   * silently ship a form that posts nowhere. The env var still wins if set.
+   *
+   * Note: Formspree rejects posts with no Origin header ("Bad form post
+   * request"). Browsers always send one; curl does not, so test with
+   * -H "Origin: https://revampmotors.fi" or it will look broken when it is not.
    */
   const onSubmit = handleSubmit(async (values) => {
     setFailed(false);
-    const endpoint = FORMSPREE_ENDPOINT;
-
     try {
-      if (endpoint) {
-        const response = await fetch(endpoint, {
+      if (FORMSPREE_ENDPOINT) {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
             ...values,
             _subject: `Booking request — ${values.name} (${values.registration})`,
+            _language: lang,
           }),
         });
         if (!response.ok) throw new Error(`Request failed: ${response.status}`);
       } else {
-        console.warn(
-          "[booking form] No endpoint configured — this submission was NOT sent.",
-          { ...values, submittedAt: new Date().toISOString() },
-        );
+        console.warn("[booking form] No endpoint configured — NOT sent.", values);
       }
       setSent(true);
     } catch (error) {
@@ -81,43 +84,33 @@ export function ContactForm() {
       <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-5">
-            <p className="label">Contact</p>
+            <p className="label">{t(c.eyebrow)}</p>
             <h2 className="mt-8 max-w-[12ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
-              Tell us about <em className="italic text-pine">the car.</em>
+              {t(c.headingA)} <em className="italic text-pine">{t(c.headingAccent)}</em>
             </h2>
-            <p className="mt-6 max-w-[40ch] text-graphite">
-              We are not open yet, so nothing is bookable today. Once we are, we
-              will run flexible hours across every day of the week to fit around
-              your schedule — early drop-offs, evenings, whatever works.
-            </p>
-            <p className="mt-4 max-w-[40ch] text-graphite">
-              For now, leave your details below and we will get back to you
-              within 3 to 12 hours.
-            </p>
+            <p className="mt-6 max-w-[40ch] text-graphite">{t(c.p1)}</p>
+            <p className="mt-4 max-w-[40ch] text-graphite">{t(c.p2)}</p>
           </Reveal>
 
           <Reveal delay={0.08} className="md:col-span-6 md:col-start-7">
             {sent ? (
               <div className="rule-above pt-8" role="status">
-                <p className="label">Received</p>
+                <p className="label">{t(c.successEyebrow)}</p>
                 <h3 className="mt-5 font-display text-[2rem] leading-tight tracking-[-0.01em]">
-                  Thanks — we will be in touch once we are open.
+                  {t(c.successHeading)}
                 </h3>
-                <p className="mt-4 max-w-[40ch] text-graphite">
-                  Nothing is booked yet. We have your details and will contact
-                  you directly when we can offer you a time.
-                </p>
+                <p className="mt-4 max-w-[40ch] text-graphite">{t(c.successBody)}</p>
               </div>
             ) : (
               <form onSubmit={onSubmit} noValidate className="grid gap-9">
                 <div>
                   <label htmlFor="name" className="label mb-3 block">
-                    Name
+                    {t(c.fields.name)}
                   </label>
                   <input
                     id="name"
                     className={FIELD}
-                    placeholder="Matti Virtanen"
+                    placeholder={t(c.placeholders.name)}
                     autoComplete="name"
                     aria-invalid={Boolean(errors.name)}
                     {...register("name")}
@@ -127,12 +120,12 @@ export function ContactForm() {
 
                 <div>
                   <label htmlFor="registration" className="label mb-3 block">
-                    Registration number
+                    {t(c.fields.registration)}
                   </label>
                   <input
                     id="registration"
                     className={`${FIELD} font-mono uppercase`}
-                    placeholder="ABC-123"
+                    placeholder={t(c.placeholders.registration)}
                     aria-invalid={Boolean(errors.registration)}
                     {...register("registration")}
                   />
@@ -141,14 +134,14 @@ export function ContactForm() {
 
                 <div>
                   <label htmlFor="email" className="label mb-3 block">
-                    Email
+                    {t(c.fields.email)}
                   </label>
                   <input
                     id="email"
                     type="email"
                     inputMode="email"
                     className={FIELD}
-                    placeholder="matti@example.fi"
+                    placeholder={t(c.placeholders.email)}
                     autoComplete="email"
                     aria-invalid={Boolean(errors.email)}
                     {...register("email")}
@@ -158,14 +151,14 @@ export function ContactForm() {
 
                 <div>
                   <label htmlFor="phone" className="label mb-3 block">
-                    Mobile number
+                    {t(c.fields.phone)}
                   </label>
                   <input
                     id="phone"
                     type="tel"
                     inputMode="tel"
                     className={`${FIELD} font-mono`}
-                    placeholder="+358 40 123 4567"
+                    placeholder={t(c.placeholders.phone)}
                     autoComplete="tel"
                     aria-invalid={Boolean(errors.phone)}
                     {...register("phone")}
@@ -175,13 +168,13 @@ export function ContactForm() {
 
                 <div>
                   <label htmlFor="message" className="label mb-3 block">
-                    Message
+                    {t(c.fields.message)}
                   </label>
                   <textarea
                     id="message"
                     rows={4}
                     className={`${FIELD} resize-y`}
-                    placeholder="Tell us what your car needs, and let us know a few times that would work for you."
+                    placeholder={t(c.placeholders.message)}
                     aria-invalid={Boolean(errors.message)}
                     {...register("message")}
                   />
@@ -194,19 +187,17 @@ export function ContactForm() {
                     disabled={isSubmitting}
                     className="link-underline font-display text-[1.5rem] tracking-[-0.01em] disabled:opacity-50"
                   >
-                    {isSubmitting ? "Sending…" : "Send booking request →"}
+                    {isSubmitting ? t(c.submitting) : t(c.submit)}
                   </button>
                   {failed && (
                     <p role="alert" className="font-mono text-[0.7rem] text-pine">
-                      That did not go through. Please try again in a moment.
+                      {t(c.failed)}
                     </p>
                   )}
                 </div>
 
                 <p className="text-[0.8rem] leading-relaxed text-graphite">
-                  {deliveryConfigured
-                    ? "Pre-launch form. We will hold your details only to reply to this enquiry — no booking is confirmed yet."
-                    : "Pre-launch form. Delivery is not switched on, so this message is not sent anywhere."}
+                  {deliveryConfigured ? t(c.notice) : t(c.noticeOffline)}
                 </p>
               </form>
             )}

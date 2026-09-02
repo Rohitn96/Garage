@@ -1,43 +1,33 @@
 import { z } from "zod";
+import { CONTENT } from "./content";
+import type { Lang } from "./i18n";
 
 /**
- * Shared by the form and the route handler, so the browser and the server agree
- * on what a valid booking request is.
+ * Built per-language so validation messages match the page.
  *
- * Registration numbers are deliberately loose: Finnish plates come in several
- * formats (ABC-123, new-style, personalised, and imports on foreign plates), and
- * rejecting a customer's real plate is worse than accepting a typo we can query
- * when we call them back.
+ * Registration numbers stay deliberately loose: Finnish plates come in several
+ * formats, plus imports and foreign plates, and rejecting a customer's real
+ * plate is worse than accepting a typo we can query when we call back. The
+ * phone rule is loose for the same reason — enough digits to be dialable.
  */
-export const bookingSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(2, "Please tell us your name.")
-    .max(80, "That name is longer than we can store."),
-  registration: z
-    .string()
-    .trim()
-    .min(2, "Please add your registration number.")
-    .max(20, "That does not look like a registration number."),
-  email: z.email("Please check your email address.").max(120),
-  /*
-   * Finnish mobiles are +358 4x/5x, but plenty of customers will be on foreign
-   * numbers and every formatting habit exists (spaces, dashes, 00 vs +). The
-   * check is deliberately loose — enough digits to be dialable — because
-   * bouncing a real number is worse than accepting a messy one.
-   */
-  phone: z
-    .string()
-    .trim()
-    .min(6, "Please add a mobile number we can reach you on.")
-    .max(28, "That does not look like a phone number.")
-    .regex(/^[+0-9][0-9\s().-]*$/, "Digits, spaces, + ( ) - and . only."),
-  message: z
-    .string()
-    .trim()
-    .min(10, "A sentence or two about the car helps us come back with a useful answer.")
-    .max(2000, "Please keep it under 2000 characters."),
-});
+export function makeBookingSchema(lang: Lang) {
+  const v = CONTENT.validation;
+  return z.object({
+    name: z.string().trim().min(2, v.name[lang]).max(80, v.tooLong[lang]),
+    registration: z
+      .string()
+      .trim()
+      .min(2, v.registration[lang])
+      .max(20, v.tooLong[lang]),
+    email: z.email(v.email[lang]).max(120),
+    phone: z
+      .string()
+      .trim()
+      .min(6, v.phone[lang])
+      .max(28, v.tooLong[lang])
+      .regex(/^[+0-9][0-9\s().-]*$/, v.phoneFormat[lang]),
+    message: z.string().trim().min(10, v.message[lang]).max(2000, v.tooLong[lang]),
+  });
+}
 
-export type BookingRequest = z.infer<typeof bookingSchema>;
+export type BookingRequest = z.infer<ReturnType<typeof makeBookingSchema>>;

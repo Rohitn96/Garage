@@ -9,6 +9,8 @@ import {
   useTransform,
 } from "framer-motion";
 import { SERVICE_GROUPS, type CarRegionId } from "@/data/services";
+import { useT } from "@/lib/i18n";
+import { CONTENT } from "@/lib/content";
 import {
   useIsCompactViewport,
   usePrefersReducedMotion,
@@ -32,17 +34,15 @@ const LAST_REGION = 0.88;
 const REGION_SPAN = (LAST_REGION - FIRST_REGION) / SERVICE_GROUPS.length;
 
 function SectionIntro() {
+  const t = useT();
+  const c = CONTENT.services;
   return (
     <>
-      <p className="label">Services</p>
+      <p className="label">{t(c.eyebrow)}</p>
       <h2 className="mt-8 max-w-[18ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
-        Everything a car needs, <em className="italic text-pine">taken apart.</em>
+        {t(c.headingA)} <em className="italic text-pine">{t(c.headingAccent)}</em>
       </h2>
-      <p className="mt-6 max-w-[52ch] text-graphite">
-        Servicing, diagnostics and repair across the whole vehicle. Standard jobs
-        carry a fixed price; anything that depends on your particular car gets
-        inspected and quoted before we start.
-      </p>
+      <p className="mt-6 max-w-[52ch] text-graphite">{t(c.standfirst)}</p>
     </>
   );
 }
@@ -56,22 +56,23 @@ function SectionIntro() {
  * assistive tech with an empty section.
  */
 function FullCatalogue() {
+  const t = useT();
   return (
     <div className="grid gap-x-12 gap-y-14 md:grid-cols-2">
       {SERVICE_GROUPS.map((group, i) => (
         <section key={group.id} className="rule-above pt-5">
-          <p className="label">{group.title}</p>
+          <p className="label">{t(group.title)}</p>
           <p className="mt-3 max-w-[42ch] text-[0.95rem] leading-relaxed text-graphite">
-            {group.standfirst}
+            {t(group.standfirst)}
           </p>
           <ul className="mt-6 grid gap-3">
             {group.items.map((item) => (
               <li key={item.id} className="border-b border-rule/70 pb-3 last:border-0">
                 <h3 className="font-display text-[1.35rem] leading-snug tracking-[-0.01em]">
-                  {item.name}
+                  {t(item.name)}
                 </h3>
                 <p className="mt-1 text-[0.9rem] leading-relaxed text-graphite">
-                  {item.blurb}
+                  {t(item.blurb)}
                 </p>
               </li>
             ))}
@@ -84,6 +85,7 @@ function FullCatalogue() {
 
 /** The scroll-scrubbed experience: sticky stage, car comes apart, names follow. */
 function ScrollExplorer() {
+  const t = useT();
   const track = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const use3D = useRenders3D();
@@ -181,7 +183,7 @@ function ScrollExplorer() {
                     i === activeIndex ? "text-ink" : "text-graphite/45"
                   }`}
                 >
-                  {group.title}
+                  {t(group.title)}
                 </span>
               </li>
             ))}
