@@ -23,7 +23,7 @@ export function VideoBackdrop({
   src,
   poster,
   eager = false,
-  opacity = 0.55,
+  opacity = 0.70,
   scrim = "left",
 }: {
   src: string;
@@ -70,8 +70,16 @@ export function VideoBackdrop({
     return () => io.disconnect();
   }, [eager, near]);
 
+  /*
+   * No CSS filter here on purpose.
+   *
+   * The desaturation and luma pull are baked into the encode instead. Filtering
+   * a full-bleed <video> in CSS makes the compositor re-filter every frame,
+   * which showed up as a micro-pause on each one. Decode alone composites on
+   * the GPU and plays smoothly. translate3d keeps it on its own layer.
+   */
   const media =
-    "absolute inset-0 h-full w-full object-cover [filter:grayscale(0.35)_brightness(0.62)_contrast(1.06)]";
+    "absolute inset-0 h-full w-full object-cover [transform:translate3d(0,0,0)]";
 
   return (
     <div
@@ -81,7 +89,7 @@ export function VideoBackdrop({
     >
       {mounted && !reduced && near ? (
         <video
-          className={media + " transition-opacity duration-700"}
+          className={media}
           style={{ opacity }}
           src={src}
           poster={poster}
@@ -89,7 +97,7 @@ export function VideoBackdrop({
           muted
           loop
           playsInline
-          preload="metadata"
+          preload={eager ? "auto" : "metadata"}
           disablePictureInPicture
         />
       ) : (
@@ -98,9 +106,9 @@ export function VideoBackdrop({
 
       {scrim === "left" ? (
         /* Text side stays near-black; the video breathes on the open side. */
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,12,12,0.93)_0%,rgba(12,12,12,0.84)_34%,rgba(12,12,12,0.42)_70%,rgba(12,12,12,0.2)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(12,12,12,0.93)_0%,rgba(12,12,12,0.84)_34%,rgba(12,12,12,0.32)_70%,rgba(12,12,12,0.1)_100%)]" />
       ) : (
-        <div className="absolute inset-0 bg-[rgba(12,12,12,0.72)]" />
+        <div className="absolute inset-0 bg-[rgba(12,12,12,0.70)]" />
       )}
       {/* Keeps the section's top and bottom hairlines reading as hairlines. */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#0C0C0C_0%,rgba(12,12,12,0)_18%,rgba(12,12,12,0)_80%,#0C0C0C_100%)]" />

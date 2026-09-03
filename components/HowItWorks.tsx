@@ -11,7 +11,7 @@ export function HowItWorks() {
 
   return (
     <section className="rule-above relative overflow-hidden">
-      <VideoBackdrop src="/videos/process.mp4" poster="/videos/process-poster.jpg" scrim="even" />
+      <VideoBackdrop src="/videos/process.mp4" poster="/videos/process-poster.jpg" scrim="even" opacity={0.56} />
 
       <div className="relative mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <Reveal>
