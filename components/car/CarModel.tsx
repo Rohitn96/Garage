@@ -7,6 +7,7 @@ import { MathUtils, Color, type Group, type Mesh, type MeshStandardMaterial } fr
 import type { MotionValue } from "framer-motion";
 import { CAR_PARTS, type CarPart } from "./carParts";
 import { REGION_ANCHORS, SERVICE_GROUPS, type CarRegionId } from "@/data/services";
+import type { Lang } from "@/lib/i18n";
 import { ServiceNames } from "./ServiceNames";
 
 const HIGHLIGHT = new Color("#35D68A");
@@ -127,7 +128,7 @@ function Part({
  * of a 375px viewport simply falls off it, so phones get the same typography as
  * a block at the foot of the stage instead (see ServiceExplorer).
  */
-function PartLabel({ region }: { region: CarRegionId }) {
+function PartLabel({ region, lang }: { region: CarRegionId; lang: Lang }) {
   const index = SERVICE_GROUPS.findIndex((g) => g.id === region);
   const side = REGION_ANCHORS[region].side;
 
@@ -148,6 +149,7 @@ function PartLabel({ region }: { region: CarRegionId }) {
       >
         <ServiceNames
           group={SERVICE_GROUPS[index]}
+          lang={lang}
           align={side === "left" ? "right" : side === "top" ? "center" : "left"}
         />
       </div>
@@ -159,10 +161,12 @@ export function CarModel({
   explode,
   activeRegion,
   compact = false,
+  lang,
 }: {
   explode: MotionValue<number>;
   activeRegion: CarRegionId | null;
   compact?: boolean;
+  lang: Lang;
 }) {
   const group = useRef<Group>(null);
 
@@ -184,7 +188,7 @@ export function CarModel({
       {CAR_PARTS.map((part) => (
         <Part key={part.id} part={part} explode={explode} activeRegion={activeRegion}>
           {activeRegion && !compact && part.id === anchorPartId ? (
-            <PartLabel region={activeRegion} />
+            <PartLabel region={activeRegion} lang={lang} />
           ) : null}
         </Part>
       ))}

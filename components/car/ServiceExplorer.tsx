@@ -9,7 +9,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { SERVICE_GROUPS, type CarRegionId } from "@/data/services";
-import { useT } from "@/lib/i18n";
+import { useLang, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
 import {
   useIsCompactViewport,
@@ -86,6 +86,7 @@ function FullCatalogue() {
 /** The scroll-scrubbed experience: sticky stage, car comes apart, names follow. */
 function ScrollExplorer() {
   const t = useT();
+  const { lang } = useLang();
   const track = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const use3D = useRenders3D();
@@ -147,6 +148,7 @@ function ScrollExplorer() {
                 explode={explode}
                 activeRegion={activeRegion}
                 compact={compact}
+                lang={lang}
               />
             ) : (
               <div className="flex h-full items-center justify-center px-6">
@@ -165,7 +167,7 @@ function ScrollExplorer() {
               carries the pointing. */}
           {compact && activeGroup && activeIndex !== null && (
             <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10">
-              <ServiceNames group={activeGroup} align="center" />
+              <ServiceNames group={activeGroup} lang={lang} align="center" />
             </div>
           )}
 

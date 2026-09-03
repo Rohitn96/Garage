@@ -5,6 +5,7 @@ import { MathUtils } from "three";
 import type { MotionValue } from "framer-motion";
 import { CarModel } from "./CarModel";
 import type { CarRegionId } from "@/data/services";
+import type { Lang } from "@/lib/i18n";
 
 /**
  * Pulls the camera back and lifts it as the car comes apart, so the exploded
@@ -42,10 +43,13 @@ export function CarScene({
   explode,
   activeRegion,
   compact = false,
+  lang,
 }: {
   explode: MotionValue<number>;
   activeRegion: CarRegionId | null;
   compact?: boolean;
+  /* Passed, not contexted: <Canvas> is a separate reconciler root. */
+  lang: Lang;
 }) {
   return (
     <Canvas
@@ -76,7 +80,7 @@ export function CarScene({
       <pointLight position={[-2, 1.2, 5]} intensity={12} color="#FFF6E6" distance={16} />
 
       <ScrollCamera explode={explode} compact={compact} />
-      <CarModel explode={explode} activeRegion={activeRegion} compact={compact} />
+      <CarModel explode={explode} activeRegion={activeRegion} compact={compact} lang={lang} />
 
       {/*
         Shadow-catcher, not a lit surface.

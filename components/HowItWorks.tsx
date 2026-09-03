@@ -1,6 +1,7 @@
 "use client";
 
 import { Reveal } from "./Reveal";
+import { VideoBackdrop } from "./VideoBackdrop";
 import { useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
 
@@ -9,8 +10,10 @@ export function HowItWorks() {
   const c = CONTENT.process;
 
   return (
-    <section className="rule-above">
-      <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
+    <section className="rule-above relative overflow-hidden">
+      <VideoBackdrop src="/videos/process.mp4" poster="/videos/process-poster.jpg" scrim="even" />
+
+      <div className="relative mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
         <Reveal>
           <p className="label">{t(c.eyebrow)}</p>
           <h2 className="mt-8 font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">

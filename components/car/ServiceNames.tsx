@@ -1,23 +1,24 @@
-"use client";
-
 import type { ServiceGroup } from "@/data/services";
-import { useT } from "@/lib/i18n";
+import { pick, type Lang } from "@/lib/i18n";
 
 /**
  * The service names for one region: a rule, the region title, and the list.
  *
- * Shared by the desktop label (projected from the part inside the canvas) and
- * the phone label (a plain block at the foot of the stage), so both read as the
- * same piece of typography.
+ * Takes `lang` as a prop rather than reading context, because one of its two
+ * callers renders INSIDE the R3F <Canvas>. Canvas runs its own React reconciler
+ * root, so context from the DOM tree does not reach it — the labels silently
+ * fell back to the provider's default and stayed English while the rest of the
+ * page switched. Passing the value down is the fix that cannot regress.
  */
 export function ServiceNames({
   group,
+  lang,
   align = "left",
 }: {
   group: ServiceGroup;
+  lang: Lang;
   align?: "left" | "right" | "center";
 }) {
-  const t = useT();
   const rowAlign =
     align === "right" ? "flex-row-reverse" : align === "center" ? "justify-center" : "";
   const textAlign =
@@ -28,7 +29,7 @@ export function ServiceNames({
       <div className={"mb-2.5 flex items-center gap-2.5 " + rowAlign}>
         <span aria-hidden className="h-px w-6 bg-pine" />
         <span className="font-mono text-[0.66rem] uppercase tracking-label text-pine">
-          {t(group.title)}
+          {pick(group.title, lang)}
         </span>
       </div>
       <ul className={textAlign}>
@@ -37,7 +38,7 @@ export function ServiceNames({
             key={item.id}
             className="font-display text-[1.4rem] leading-[1.3] tracking-[-0.01em] text-ink"
           >
-            {t(item.name)}
+            {pick(item.name, lang)}
           </li>
         ))}
       </ul>

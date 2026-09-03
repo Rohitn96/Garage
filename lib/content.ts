@@ -69,10 +69,10 @@ export const CONTENT = {
       "Independent rates without the dealer overheads — and the number is agreed with you before anything is touched. If we find something else along the way, we stop and ring you first.",
       "Riippumattoman korjaamon hinnat ilman merkkiliikkeen kuluja — ja summa sovitaan kanssasi ennen kuin mihinkään kosketaan. Jos matkan varrella löytyy muuta, pysäytämme työn ja soitamme sinulle ensin.",
     ),
-    b2bHeading: L("Fleets and business customers", "Yritys- ja kalustoasiakkaat"),
+    b2bHeading: L("B2B customers", "B2B-asiakkaat"),
     b2b: L(
-      "We work with businesses as well as private customers — food delivery and rideshare drivers, and companies running a handful of vehicles or a full fleet. Invoicing, agreed rates and servicing scheduled around your operating hours. Get in touch for a fleet quote.",
-      "Palvelemme yksityisasiakkaiden lisäksi yrityksiä — ruokalähettejä ja kyytipalvelujen kuljettajia sekä yrityksiä, joilla on muutama auto tai kokonainen kalusto. Laskutus, sovitut hinnat ja huollot aikataulutettuna toimintanne mukaan. Pyydä kalustotarjous.",
+      "We work with businesses as well as private customers and companies running a handful of vehicles or a full fleet. Invoicing, agreed rates and servicing scheduled around your operating hours. Get in touch for a fleet quote.",
+      "Palvelemme yksityisasiakkaiden lisäksi yrityksiä ja yhtiöitä, joilla on käytössä muutama auto tai kokonainen kalusto. Laskutus, sovitut hinnat ja huollot aikataulutettuna toimintanne mukaan. Pyydä kalustotarjous.",
     ),
     pricesEyebrow: L("Guide prices", "Ohjehinnat"),
     pricesHeading: L("What the common jobs cost.", "Mitä yleisimmät työt maksavat."),

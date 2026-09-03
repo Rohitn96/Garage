@@ -5,3 +5,10 @@ out
 next-env.d.ts
 .wrangler
 tsconfig.tsbuildinfo
+
+# Source video masters (4K, ~67 MB). The compressed, web-sized derivatives in
+# public/videos/ are what ship — these stay local so the repo does not carry
+# tens of megabytes GitHub would warn about. Re-encode with:
+#   ffmpeg -i hero.mp4 -vf scale=1600:-2 -c:v libx264 -crf 32 -preset slow \
+#          -pix_fmt yuv420p -movflags +faststart -an public/videos/hero.mp4
+/*.mp4

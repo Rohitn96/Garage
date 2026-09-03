@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Wordmark } from "./Wordmark";
 import { LanguageToggle } from "./LanguageToggle";
+import { VideoBackdrop } from "./VideoBackdrop";
 import { usePrefersReducedMotion } from "@/lib/useMotionPreference";
 import { useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
@@ -32,8 +33,10 @@ export function Hero() {
         };
 
   return (
-    <header className="min-h-[100svh] px-6 pb-10 pt-8 md:px-10">
-      <div className="mx-auto flex min-h-[calc(100svh-4.5rem)] w-full max-w-page flex-col">
+    <header className="relative min-h-[100svh] overflow-hidden px-6 pb-10 pt-8 md:px-10">
+      <VideoBackdrop src="/videos/hero.mp4" poster="/videos/hero-poster.jpg" eager />
+
+      <div className="relative mx-auto flex min-h-[calc(100svh-4.5rem)] w-full max-w-page flex-col">
         <div className="flex items-baseline justify-between gap-6 border-b border-rule pb-5">
           <Wordmark />
           <div className="flex items-baseline gap-5">
