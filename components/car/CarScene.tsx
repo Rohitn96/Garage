@@ -1,100 +1,136 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import { MathUtils } from "three";
-import type { MotionValue } from "framer-motion";
 import { CarModel } from "./CarModel";
 import type { CarRegionId } from "@/data/services";
-import type { Lang } from "@/lib/i18n";
 
 /**
- * Pulls the camera back and lifts it as the car comes apart, so the exploded
- * spread stays inside frame. Driven by scroll progress, never by time.
- *
- * `compact` frames tighter and higher for a portrait viewport, where the car
- * has width to spare but very little height.
+ * Frames the car, and eases back a little when a system opens up so the
+ * separated parts stay inside the shot. Driven by selection, never by time.
  */
-function ScrollCamera({
-  explode,
-  compact,
-}: {
-  explode: MotionValue<number>;
-  compact: boolean;
-}) {
+function Rig({ open, compact }: { open: boolean; compact: boolean }) {
   const { camera } = useThree();
 
   useFrame((_, delta) => {
-    const e = explode.get();
+    const t = open ? 1 : 0;
     const distance = compact
-      ? MathUtils.lerp(14.5, 19.5, e)
-      : MathUtils.lerp(8.4, 12.6, e);
-    const height = MathUtils.lerp(2.2, 4.4, e);
+      ? MathUtils.lerp(7.6, 9.2, t)
+      : MathUtils.lerp(6.9, 8.3, t);
+    const height = MathUtils.lerp(1.9, 2.9, t);
 
-    camera.position.x = MathUtils.damp(camera.position.x, distance * 0.62, 3, delta);
+    camera.position.x = MathUtils.damp(camera.position.x, distance * 0.66, 3, delta);
     camera.position.y = MathUtils.damp(camera.position.y, height, 3, delta);
-    camera.position.z = MathUtils.damp(camera.position.z, distance * 0.78, 3, delta);
-    camera.lookAt(0, compact ? 0.95 : 0.1, 0);
+    camera.position.z = MathUtils.damp(camera.position.z, distance * 0.75, 3, delta);
+    camera.lookAt(0, compact ? 0.35 : 0.2, 0);
   });
 
   return null;
 }
 
 export function CarScene({
-  explode,
   activeRegion,
+  onSelect,
+  onHover,
   compact = false,
-  lang,
+  running = true,
 }: {
-  explode: MotionValue<number>;
   activeRegion: CarRegionId | null;
+  onSelect: (region: CarRegionId) => void;
+  onHover: (region: CarRegionId | null) => void;
   compact?: boolean;
-  /* Passed, not contexted: <Canvas> is a separate reconciler root. */
-  lang: Lang;
+  /** False when the section is off screen — stops the render loop entirely. */
+  running?: boolean;
 }) {
   return (
     <Canvas
       // Phones render at 1x–1.5x: past that the extra pixels buy nothing on a
       // scene this simple and cost real battery.
       dpr={compact ? [1, 1.5] : [1, 2]}
-      shadows
-      camera={{ position: [6, 2.2, 7.5], fov: 40 }}
+      // No shadow maps. Forty meshes re-rendering a depth pass every frame paid
+      // for a hard sun shadow nobody looked at; ContactShadows below grounds the
+      // car for a fraction of the cost and reads better on a dark floor.
+      shadows={false}
+      // Rendering stops dead when the section scrolls out of view. On a page
+      // this long that is most of the visit.
+      frameloop={running ? "always" : "never"}
+      camera={{ position: [4.6, 1.9, 5.2], fov: 42 }}
       // Transparent canvas: the PAGE is the scene's background, so the two can
-      // never drift apart — no matter what the page ground becomes, gradient
-      // included. Previously the canvas painted its own flat colour and every
-      // ground change risked a visible seam where the two met.
+      // never drift apart no matter what the page ground becomes.
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      onPointerMissed={() => onHover(null)}
     >
+      {/*
+        A procedural environment, not a preset.
 
-      {/* Studio lighting for a pale ground: a broad soft key, a cool sky fill,
-          and a low bounce standing in for light coming back off the floor. */}
-      <ambientLight intensity={0.75} />
-      <hemisphereLight args={["#FFFFFF", "#2A2A2A", 1.1]} />
-      <directionalLight
-        position={[6, 10, 6]}
-        intensity={2.6}
-        castShadow
-        shadow-mapSize={compact ? [512, 512] : [1024, 1024]}
-        shadow-bias={-0.0005}
-      />
-      <directionalLight position={[-8, 5, -4]} intensity={0.85} color="#DCE6E4" />
-      <pointLight position={[-2, 1.2, 5]} intensity={12} color="#FFF6E6" distance={16} />
+        drei's `preset="warehouse"` and friends fetch an HDR from a CDN at
+        runtime, which is a third-party request on every visit and a blank car if
+        it fails. These lightformers build the same job — a bright overhead
+        strip and two side panels — into a 128px cube map, rendered once.
 
-      <ScrollCamera explode={explode} compact={compact} />
-      <CarModel explode={explode} activeRegion={activeRegion} compact={compact} lang={lang} />
+        It matters more than the lights do: every material here is metal, and
+        metal with nothing to reflect renders as flat grey no matter how many
+        lamps are pointed at it. The shell in particular only reads as glass
+        because there is something for it to catch.
+      */}
+      <Environment resolution={128} frames={1}>
+        <Lightformer
+          form="rect"
+          intensity={3.2}
+          position={[0, 5, -1]}
+          rotation={[Math.PI / 2, 0, 0]}
+          scale={[10, 4, 1]}
+          color="#FFFFFF"
+        />
+        <Lightformer
+          form="rect"
+          intensity={1.6}
+          position={[-5, 1.5, 2]}
+          rotation={[0, Math.PI / 2, 0]}
+          scale={[8, 3, 1]}
+          color="#BFD6D2"
+        />
+        <Lightformer
+          form="rect"
+          intensity={1.1}
+          position={[5, 1.5, -2]}
+          rotation={[0, -Math.PI / 2, 0]}
+          scale={[8, 3, 1]}
+          color="#8FB6A4"
+        />
+        <Lightformer
+          form="circle"
+          intensity={2.0}
+          position={[2, 2, 4]}
+          scale={3}
+          color="#FFF4E2"
+        />
+      </Environment>
+
+      <ambientLight intensity={0.35} />
+      {/* One key, for specular definition the environment alone will not give. */}
+      <directionalLight position={[5, 8, 4]} intensity={1.5} />
+
+      <Rig open={activeRegion !== null} compact={compact} />
+
+      <CarModel activeRegion={activeRegion} onSelect={onSelect} onHover={onHover} />
 
       {/*
-        Shadow-catcher, not a lit surface.
-
-        A standard material tinted to the page colour still gets lit, so the
-        floor rendered far brighter than its albedo and left a visible seam where
-        the canvas met the page. shadowMaterial draws nothing but the shadow, so
-        the canvas background IS the ground and the two are the same colour by
-        construction at any lighting level.
+        Grounds the car without a floor plane. A lit surface tinted to the page
+        colour still gets lit, so it rendered brighter than its own albedo and
+        left a visible seam where the canvas met the page; this draws shadow and
+        nothing else, so the page IS the ground at any lighting level.
       */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.56, 0]} receiveShadow>
-        <circleGeometry args={[60, 48]} />
-        <shadowMaterial transparent opacity={0.3} color="#0B0F0D" />
-      </mesh>
+      <ContactShadows
+        position={[0, -0.52, 0]}
+        opacity={0.55}
+        scale={14}
+        blur={2.4}
+        far={2.2}
+        resolution={compact ? 256 : 512}
+        color="#000000"
+      />
     </Canvas>
   );
 }

@@ -1,23 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Wordmark } from "./Wordmark";
-import { LanguageToggle } from "./LanguageToggle";
 import { VideoBackdrop } from "./VideoBackdrop";
 import { usePrefersReducedMotion } from "@/lib/useMotionPreference";
-import { useT } from "@/lib/i18n";
+import { useHref, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
-
-/*
- * Tagline alternatives in the same register, if you want to swap:
- *   1. "Honest work, fair price, back on the road."   <- in use
- *   2. "You'll know the price before we pick up a tool."
- *   3. "Straight answers. Fixed prices. Cars that pass."
- */
 
 export function Hero() {
   const reduced = usePrefersReducedMotion();
   const t = useT();
+  const h = useHref();
   const c = CONTENT.hero;
 
   // Both branches state initial AND animate. usePrefersReducedMotion reports
@@ -33,68 +26,72 @@ export function Hero() {
         };
 
   return (
-    <header className="relative min-h-[100svh] overflow-hidden px-6 pb-10 pt-8 md:px-10">
+    <section className="relative min-h-[100svh] overflow-hidden px-6 pb-10 pt-16 md:px-10 md:pt-[4.5rem]">
       <VideoBackdrop src="/videos/hero.mp4" poster="/videos/hero-poster.jpg" eager />
 
-      <div className="relative mx-auto flex min-h-[calc(100svh-4.5rem)] w-full max-w-page flex-col">
-        <div className="flex items-baseline justify-between gap-6 border-b border-rule pb-5">
-          <Wordmark />
-          <div className="flex items-baseline gap-5">
-            <span className="label hidden sm:inline">{t(CONTENT.nav.location)}</span>
-            <LanguageToggle />
-          </div>
-        </div>
-
-        <div className="flex flex-1 flex-col justify-center py-16 md:py-24">
-          <motion.p {...rise(0)} className="label mb-10">
+      <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-page flex-col">
+        <div className="flex flex-1 flex-col justify-center py-14 md:py-20">
+          <motion.p {...rise(0)} className="label mb-8">
             {t(c.eyebrow)}
           </motion.p>
 
+          {/* Two lines, not three. The old headline spent its whole width on a
+              tagline that said nothing a hundred other garages do not say. */}
           <motion.h1
             {...rise(0.08)}
-            className="max-w-[15ch] font-display text-[clamp(2.5rem,7vw,5.75rem)] font-normal leading-[0.96] tracking-[-0.02em]"
+            className="max-w-[16ch] font-display text-[clamp(2.6rem,7vw,5.5rem)] font-normal leading-[0.96] tracking-[-0.02em]"
           >
             {t(c.headlineA)}
             <br />
-            {t(c.headlineB)}
-            <br />
-            <em className="italic text-pine">{t(c.headlineAccent)}</em>
+            <em className="italic text-accent">{t(c.headlineAccent)}</em>
           </motion.h1>
 
-          <div className="mt-14 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">
+          <div className="mt-12 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">
             <motion.p
               {...rise(0.16)}
-              className="max-w-[46ch] text-[1.0625rem] leading-relaxed text-graphite md:col-span-6 md:col-start-1"
+              className="max-w-[44ch] text-[1.0625rem] leading-relaxed text-graphite md:col-span-6"
             >
               {t(c.standfirst)}
             </motion.p>
 
             <motion.div
               {...rise(0.24)}
-              className="flex items-start gap-8 md:col-span-5 md:col-start-8 md:justify-end"
+              className="flex flex-wrap items-center gap-x-8 gap-y-4 md:col-span-5 md:col-start-8 md:justify-end"
             >
-              <a href="#contact" className="link-underline text-[0.95rem] font-medium">
+              <Link href="#contact" className="btn-accent">
                 {t(c.ctaPrimary)}
-              </a>
-              <a
-                href="#services"
-                className="link-underline text-[0.95rem] font-medium text-graphite"
-              >
+              </Link>
+              <Link href={h("/tesla/")} className="link-underline text-[0.95rem] font-medium">
                 {t(c.ctaSecondary)}
-              </a>
+              </Link>
             </motion.div>
           </div>
         </div>
 
+        {/* Credential strip: the three things a visitor needs to know before
+            they decide whether this page is for them. */}
+        <motion.ul
+          {...rise(0.32)}
+          className="grid gap-y-3 border-t border-rule pt-5 sm:grid-cols-3"
+        >
+          {c.credentials.map((item) => (
+            <li key={item.en} className="flex items-center gap-3">
+              <span aria-hidden className="h-px w-5 shrink-0 bg-accent" />
+              <span className="font-mono text-[0.66rem] uppercase tracking-label text-graphite">
+                {t(item)}
+              </span>
+            </li>
+          ))}
+        </motion.ul>
+
         <a
           href="#services"
-          className="label flex items-center gap-3 border-t border-rule pt-5 transition-colors hover:text-ink"
+          className="label mt-5 flex items-center gap-3 border-t border-rule pt-5 transition-colors hover:text-ink"
         >
           <span>{t(c.scroll)}</span>
           <span aria-hidden className="h-px w-10 bg-rule" />
-          <span>{t(c.scrollHint)}</span>
         </a>
       </div>
-    </header>
+    </section>
   );
 }

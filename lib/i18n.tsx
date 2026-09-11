@@ -1,87 +1,87 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useCallback, useContext, type ReactNode } from "react";
 
 export type Lang = "en" | "fi";
 
 /** A string that exists in both languages. */
 export type Localized = { en: string; fi: string };
 
+export const LANGS: readonly Lang[] = ["en", "fi"] as const;
+
 export function pick(value: Localized, lang: Lang): string {
   return value[lang];
 }
 
-const STORAGE_KEY = "revamp-lang";
+/**
+ * Language comes from the URL, not from storage.
+ *
+ * It used to be a localStorage flag: English was always what the server
+ * rendered, and a returning Finnish visitor got a one-frame swap after mount.
+ * That had three consequences worth stating plainly, because they are the
+ * reason this was rewritten:
+ *
+ *   - a Finnish page could not be linked, shared or bookmarked as Finnish
+ *   - search engines only ever saw the English copy, so a Finnish customer
+ *     searching "Tesla huolto Helsinki" could not find the site at all
+ *   - <html lang> was corrected by an effect, after the markup had already
+ *     claimed the wrong language
+ *
+ * For a garage in Helsinki the Finnish copy is the more commercially important
+ * of the two, so it now has real routes: English at `/`, Finnish under `/fi/`.
+ * Each tree has its own root layout, its own `<html lang>` and its own metadata,
+ * and the two are cross-declared with hreflang.
+ *
+ * There is deliberately no `setLang`. Switching language is navigation.
+ */
+const LanguageContext = createContext<Lang>("en");
 
-type LanguageContextValue = {
+export function LanguageProvider({
+  lang,
+  children,
+}: {
   lang: Lang;
-  setLang: (next: Lang) => void;
-};
+  children: ReactNode;
+}) {
+  return <LanguageContext.Provider value={lang}>{children}</LanguageContext.Provider>;
+}
 
-const LanguageContext = createContext<LanguageContextValue>({
-  lang: "en",
-  setLang: () => {},
-});
+export function useLang(): { lang: Lang } {
+  return { lang: useContext(LanguageContext) };
+}
+
+/** Resolve a Localized value in the active language. */
+export function useT(): (value: Localized) => string {
+  const lang = useContext(LanguageContext);
+  return useCallback((value: Localized) => value[lang], [lang]);
+}
 
 /**
- * Language state for the whole page.
+ * Prefix an internal path for the active language.
  *
- * English is the default and is what the server renders — a static export has no
- * request headers to negotiate against, so guessing from the client and swapping
- * during hydration would mismatch the markup. The stored preference is applied
- * in an effect after mount instead, which is a one-frame swap for returning
- * Finnish visitors and nothing at all for everyone else.
- *
- * The choice is per-browser (localStorage), not per-URL. That means a Finnish
- * page cannot be linked or shared as Finnish, and search engines only ever see
- * the English copy. If either matters later, this needs to become real routing
- * (/fi/…) with a translated <link rel="alternate" hreflang>.
+ * Pass the canonical English path ("/", "/tesla/", "/#pricing"); hash-only links
+ * ("#contact") are returned untouched, because they resolve within whichever
+ * page is already open and are therefore language-correct by construction.
  */
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
-
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === "fi" || stored === "en") setLangState(stored);
-    } catch {
-      // Private mode or blocked storage: English is a fine place to land.
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
-
-  const setLang = useCallback((next: Lang) => {
-    setLangState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // Preference just will not persist; the switch still works this visit.
-    }
-  }, []);
-
-  return (
-    <LanguageContext.Provider value={{ lang, setLang }}>
-      {children}
-    </LanguageContext.Provider>
-  );
+export function useHref(): (path: string) => string {
+  const lang = useContext(LanguageContext);
+  return useCallback((path: string) => localeHref(lang, path), [lang]);
 }
 
-export function useLang(): LanguageContextValue {
-  return useContext(LanguageContext);
+export function localeHref(lang: Lang, path: string): string {
+  if (!path.startsWith("/")) return path;
+  return lang === "fi" ? `/fi${path}` : path;
 }
 
-/** Convenience: resolve a Localized value in the active language. */
-export function useT(): (value: Localized) => string {
-  const { lang } = useLang();
-  return useCallback((value: Localized) => value[lang], [lang]);
+/**
+ * The same page in the other language.
+ *
+ * Used by the language switch, which has to be a link rather than a button: the
+ * whole point of routed languages is that the Finnish page has an address, and a
+ * control that changed state without changing the URL would throw that away.
+ */
+export function swapLangHref(pathname: string, to: Lang): string {
+  const stripped = pathname.replace(/^\/fi(?=\/|$)/, "") || "/";
+  const normalised = stripped.endsWith("/") ? stripped : `${stripped}/`;
+  return to === "fi" ? `/fi${normalised}` : normalised;
 }

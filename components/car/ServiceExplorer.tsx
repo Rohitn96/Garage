@@ -1,224 +1,195 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import {
-  useMotionValue,
-  useMotionValueEvent,
-  useScroll,
-  useTransform,
-} from "framer-motion";
 import { SERVICE_GROUPS, type CarRegionId } from "@/data/services";
-import { useLang, useT } from "@/lib/i18n";
+import { useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
-import {
-  useIsCompactViewport,
-  usePrefersReducedMotion,
-  useRenders3D,
-} from "@/lib/useMotionPreference";
-import { ExplodedDiagram } from "./ExplodedDiagram";
-import { ServiceNames } from "./ServiceNames";
+import { useIsCompactViewport, useRenders3D } from "@/lib/useMotionPreference";
+import { Reveal } from "../Reveal";
 
 // three.js stays out of the initial bundle and never runs on the server.
 const CarScene = dynamic(() => import("./CarScene").then((m) => m.CarScene), {
   ssr: false,
 });
 
-/* --- Scroll timeline ------------------------------------------------------
- * 0.00 - 0.16  car assembled, then comes apart
- * 0.16 - 0.88  one region named at a time, six in sequence
- * 0.88 - 1.00  car reassembles before the next section
- * -------------------------------------------------------------------------*/
-const FIRST_REGION = 0.16;
-const LAST_REGION = 0.88;
-const REGION_SPAN = (LAST_REGION - FIRST_REGION) / SERVICE_GROUPS.length;
-
-function SectionIntro() {
-  const t = useT();
-  const c = CONTENT.services;
-  return (
-    <>
-      <p className="label">{t(c.eyebrow)}</p>
-      <h2 className="mt-8 max-w-[18ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
-        {t(c.headingA)} <em className="italic text-pine">{t(c.headingAccent)}</em>
-      </h2>
-      <p className="mt-6 max-w-[52ch] text-graphite">{t(c.standfirst)}</p>
-    </>
-  );
-}
-
 /**
- * Every group and every service, in document order.
+ * The car section.
  *
- * Rendered visibly on the reduced-motion path, and screen-reader-only inside the
- * scroll experience — where the labels otherwise exist only once a visitor has
- * scrolled to the right offset, which leaves crawlers, no-JS visitors and
- * assistive tech with an empty section.
+ * This used to be a scroll-scrubbed, sticky, 720vh track: roughly half the
+ * page's total height spent naming twenty services, which the visitor could
+ * neither skim nor dwell on — scrolling to read pushed them off the thing they
+ * were reading. It is now one screen, and the visitor chooses.
+ *
+ * The region list IS the control. That removes three things at once: the
+ * scroll-jacking, the floating in-canvas labels that fell off narrow viewports,
+ * and the screen-reader-only duplicate of the whole catalogue that existed
+ * because the labels only rendered at the right scroll offset. Buttons and a
+ * list are accessible by construction, so there is nothing to duplicate.
+ *
+ * No prices here. The explorer names what we do; every figure on the site is in
+ * the pricing section.
  */
-function FullCatalogue() {
+export function ServiceExplorer() {
   const t = useT();
-  return (
-    <div className="grid gap-x-12 gap-y-14 md:grid-cols-2">
-      {SERVICE_GROUPS.map((group, i) => (
-        <section key={group.id} className="rule-above pt-5">
-          <p className="label">{t(group.title)}</p>
-          <p className="mt-3 max-w-[42ch] text-[0.95rem] leading-relaxed text-graphite">
-            {t(group.standfirst)}
-          </p>
-          <ul className="mt-6 grid gap-3">
-            {group.items.map((item) => (
-              <li key={item.id} className="border-b border-rule/70 pb-3 last:border-0">
-                <h3 className="font-display text-[1.35rem] leading-snug tracking-[-0.01em]">
-                  {t(item.name)}
-                </h3>
-                <p className="mt-1 text-[0.9rem] leading-relaxed text-graphite">
-                  {t(item.blurb)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
-  );
-}
-
-/** The scroll-scrubbed experience: sticky stage, car comes apart, names follow. */
-function ScrollExplorer() {
-  const t = useT();
-  const { lang } = useLang();
-  const track = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const c = CONTENT.explorer;
   const use3D = useRenders3D();
   const compact = useIsCompactViewport();
 
-  const { scrollYProgress } = useScroll({
-    target: track,
-    offset: ["start start", "end end"],
-  });
+  const [active, setActive] = useState<CarRegionId | null>(null);
+  const [hovered, setHovered] = useState<CarRegionId | null>(null);
+  const [running, setRunning] = useState(false);
+  const host = useRef<HTMLDivElement>(null);
 
-  const explode = useTransform(
-    scrollYProgress,
-    [0.04, 0.16, LAST_REGION, 0.97],
-    [0, 1, 1, 0],
-  );
+  // The render loop only turns over while the section is on screen. On a page
+  // this long, that is a small fraction of the visit.
+  useEffect(() => {
+    const node = host.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      (entries) => setRunning(entries.some((e) => e.isIntersecting)),
+      { rootMargin: "200px 0px" },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
 
-  useMotionValueEvent(scrollYProgress, "change", (p) => {
-    if (p < 0.12 || p > 0.94) {
-      setActiveIndex(null);
-      return;
-    }
-    const index = Math.floor((p - FIRST_REGION) / REGION_SPAN);
-    setActiveIndex(Math.min(Math.max(index, 0), SERVICE_GROUPS.length - 1));
-  });
+  const toggle = useCallback((id: CarRegionId) => {
+    setActive((current) => (current === id ? null : id));
+  }, []);
 
-  const activeGroup = activeIndex === null ? null : SERVICE_GROUPS[activeIndex];
-  const activeRegion: CarRegionId | null = activeGroup?.id ?? null;
+  // Clicking a part in the scene selects, rather than toggles: a click landing
+  // on the system already open should not close it out from under the pointer.
+  const selectFromScene = useCallback((id: CarRegionId) => setActive(id), []);
 
   return (
     <section id="services" className="rule-above">
-      {/*
-        The accessible copy of this section. The animated stage below is a visual
-        presentation of exactly this content, so it is hidden from assistive tech
-        rather than announced twice.
-      */}
-      <div className="sr-only">
-        <SectionIntro />
-        <FullCatalogue />
-      </div>
+      <div className="section">
+        <Reveal>
+          <p className="label">{t(c.eyebrow)}</p>
+          <h2 className="mt-7 max-w-[16ch] h-section">
+            {t(c.headingA)} <em className="italic text-accent">{t(c.headingAccent)}</em>
+          </h2>
+          <p className="mt-6 max-w-[46ch] text-graphite">{t(c.standfirst)}</p>
+        </Reveal>
 
-      {/* Heading sits in normal flow and scrolls away before the car pins. */}
-      <div aria-hidden className="mx-auto w-full max-w-page px-6 pb-8 pt-24 md:px-10 md:pt-32">
-        <SectionIntro />
-      </div>
-
-      {/*
-        Track length. Phones get a shorter run: six regions at ~65vh each plus
-        lead-in and tail is ~4.7 screens, against ~7.2 on desktop where there is
-        room to let each region breathe. The scroll fractions above are
-        proportional, so they hold at either height.
-      */}
-      <div aria-hidden ref={track} className="relative h-[470vh] md:h-[720vh]">
-        <div className="sticky top-0 h-[100svh] overflow-hidden">
-          {/* Nothing in this stage scrolls: the page is the only scroll track,
-              and the service names are set beside the parts themselves. */}
-          <div className="absolute inset-0">
-            {use3D ? (
-              <CarScene
-                explode={explode}
-                activeRegion={activeRegion}
-                compact={compact}
-                lang={lang}
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center px-6">
-                <ExplodedDiagram
-                  explode={explode}
-                  activeRegion={activeRegion}
-                  className="h-auto w-full max-w-[620px]"
+        <div ref={host} className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* ---- Stage ---- */}
+          <div className="lg:col-span-7">
+            <div
+              aria-hidden
+              className={`relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-rule bg-[#0E0E10] sm:aspect-[16/10] lg:aspect-auto lg:h-[min(64vh,560px)] ${
+                hovered ? "cursor-pointer" : ""
+              }`}
+            >
+              {use3D ? (
+                <CarScene
+                  activeRegion={active}
+                  onSelect={selectFromScene}
+                  onHover={setHovered}
+                  compact={compact}
+                  running={running}
                 />
-              </div>
-            )}
+              ) : (
+                /* Reduced motion, or a device that will drop frames. No canvas
+                   at all — the list beside this is the content, and it is
+                   complete on its own. */
+                <div className="flex h-full items-center justify-center px-8 text-center">
+                  <p className="max-w-[28ch] font-display text-[1.5rem] leading-snug text-graphite">
+                    {t(c.standfirst)}
+                  </p>
+                </div>
+              )}
+
+              {use3D && (
+                <p className="pointer-events-none absolute bottom-4 left-4 font-mono text-[0.62rem] uppercase tracking-label text-graphite/60">
+                  {t(c.hint)}
+                </p>
+              )}
+            </div>
           </div>
 
-          {/* Phone label. The desktop one is projected from the part inside the
-              canvas; at this width that runs off the edge, so the same
-              typography sits at the foot of the stage and the car above it
-              carries the pointing. */}
-          {compact && activeGroup && activeIndex !== null && (
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 px-6 pb-10">
-              <ServiceNames group={activeGroup} lang={lang} align="center" />
-            </div>
-          )}
+          {/* ---- Systems ---- */}
+          <div className="lg:col-span-5">
+            <ul className="border-t border-rule">
+              {SERVICE_GROUPS.map((group, i) => {
+                const open = active === group.id;
+                return (
+                  <li key={group.id} className="border-b border-rule">
+                    <h3>
+                      <button
+                        type="button"
+                        onClick={() => toggle(group.id)}
+                        onMouseEnter={() => setHovered(group.id)}
+                        onMouseLeave={() => setHovered(null)}
+                        aria-expanded={open}
+                        aria-controls={`system-${group.id}`}
+                        className="group flex w-full items-baseline gap-4 py-4 text-left transition-colors"
+                      >
+                        <span
+                          className={`font-mono text-[0.66rem] tabular-nums transition-colors ${
+                            open ? "text-accent" : "text-graphite/50"
+                          }`}
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          className={`flex-1 font-display text-[1.45rem] leading-snug tracking-[-0.01em] transition-colors ${
+                            open ? "text-accent" : "text-ink group-hover:text-accent"
+                          }`}
+                        >
+                          {t(group.title)}
+                        </span>
+                        <span
+                          aria-hidden
+                          className={`mt-2 h-px w-5 shrink-0 transition-all duration-300 ${
+                            open ? "w-8 bg-accent" : "bg-rule group-hover:bg-accent/60"
+                          }`}
+                        />
+                      </button>
+                    </h3>
 
-          {/* Region index — where you are in the sequence. */}
-          <ol className="pointer-events-none absolute left-6 top-8 hidden flex-col gap-2.5 md:left-10 md:flex">
-            {SERVICE_GROUPS.map((group, i) => (
-              <li key={group.id} className="flex items-center gap-3">
-                <span
-                  className={`h-px transition-all duration-500 ${
-                    i === activeIndex ? "w-8 bg-rule" : "w-4 bg-rule"
-                  }`}
-                />
-                <span
-                  className={`font-mono text-[0.66rem] uppercase tracking-label transition-colors duration-500 ${
-                    i === activeIndex ? "text-ink" : "text-graphite/45"
-                  }`}
+                    {/* Kept in the DOM and hidden, so the catalogue is complete
+                        for crawlers and assistive tech without a second copy. */}
+                    <div id={`system-${group.id}`} hidden={!open} className="pb-6 pl-10 pr-2">
+                      <p className="max-w-[40ch] text-[0.9rem] leading-relaxed text-graphite">
+                        {t(group.standfirst)}
+                      </p>
+                      <ul className="mt-5 grid gap-3.5">
+                        {group.items.map((item) => (
+                          <li key={item.id} className="border-l border-rule pl-4">
+                            <p className="font-display text-[1.1rem] leading-snug tracking-[-0.01em]">
+                              {t(item.name)}
+                            </p>
+                            <p className="mt-0.5 text-[0.85rem] leading-relaxed text-graphite">
+                              {t(item.blurb)}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-3">
+              <a href="#pricing" className="link-underline text-[0.92rem] font-medium">
+                {t(c.pricingLink)}
+              </a>
+              {active && (
+                <button
+                  type="button"
+                  onClick={() => setActive(null)}
+                  className="font-mono text-[0.66rem] uppercase tracking-label text-graphite transition-colors hover:text-ink"
                 >
-                  {t(group.title)}
-                </span>
-              </li>
-            ))}
-          </ol>
+                  {t(c.reset)}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
-}
-
-/**
- * Reduced-motion path: no sticky stage, no scroll-jacking, nothing scrubbed.
- * One static exploded diagram and the whole catalogue laid out to be read.
- */
-function StaticExplorer() {
-  const explode = useMotionValue(0.85);
-
-  return (
-    <section id="services" className="rule-above">
-      <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10">
-        <SectionIntro />
-        <ExplodedDiagram
-          explode={explode}
-          activeRegion={null}
-          className="mx-auto my-16 h-auto w-full max-w-[680px]"
-        />
-        <FullCatalogue />
-      </div>
-    </section>
-  );
-}
-
-export function ServiceExplorer() {
-  const reduced = usePrefersReducedMotion();
-  return reduced ? <StaticExplorer /> : <ScrollExplorer />;
 }

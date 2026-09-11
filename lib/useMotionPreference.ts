@@ -29,7 +29,7 @@ export function usePrefersReducedMotion(): boolean {
   return useMediaQuery("(prefers-reduced-motion: reduce)");
 }
 
-/** Phones and small tablets, where we swap WebGL for the flat diagram. */
+/** Phones and small tablets: tighter camera framing and a lower DPR cap. */
 export function useIsCompactViewport(): boolean {
   return useMediaQuery("(max-width: 767px)");
 }
@@ -37,18 +37,20 @@ export function useIsCompactViewport(): boolean {
 /**
  * Decides whether this visitor gets the real WebGL car.
  *
- * Phones now get it too. The flat diagram was a poor substitute for the thing
- * that makes this page worth visiting, and a scene this small (≈34 primitives,
- * no textures, no post-processing) is well within a modern phone's budget —
- * CarScene caps device pixel ratio to keep the fill rate sane.
+ * Phones get it too. A scene this small (≈50 primitives, no textures, no
+ * post-processing and no shadow maps) is well within a modern phone's budget —
+ * CarScene caps device pixel ratio to keep the fill rate sane, and stops the
+ * render loop entirely when the section is off screen.
  *
- * Two ways to fall through to the static diagram:
- *   - reduced motion is requested; a scroll-scrubbed 3D scene is precisely what
- *     that setting opts out of
+ * Two ways to fall through:
+ *   - reduced motion is requested; an idling, animated 3D scene is precisely
+ *     what that setting opts out of
  *   - the device reports very few cores, a decent proxy for "will drop frames"
  *
- * Starts `false` and flips on after mount, so the server-rendered HTML is always
- * the lightweight diagram and the canvas is a progressive enhancement.
+ * Starts `false` and flips on after mount, so the server-rendered HTML never
+ * contains a canvas and the 3D scene is a progressive enhancement. When it
+ * returns false there is no substitute rendering to maintain: the system list
+ * beside the stage is the content, and it is complete on its own.
  */
 export function useRenders3D(): boolean {
   const reduced = usePrefersReducedMotion();

@@ -1,224 +1,271 @@
 import type { Localized } from "@/lib/i18n";
 
 /**
- * Placeholder service catalogue for the Revamp Motors pre-launch site.
+ * The catalogue behind the 3D explorer on the home page.
  *
- * Every price here is INVENTED for the dry run, and NONE of it is rendered:
- * the site currently shows service names only. The figures stay because they are
- * the thing this catalogue exists to hold once the business sets real rates.
+ * NO PRICES LIVE HERE. The explorer names what we do and nothing else; every
+ * figure on the site is in data/pricing.ts and rendered only by the pricing
+ * section. Previously this file carried `priceFrom`/`quoteOnly` fields that
+ * were never rendered while a second, differently-shaped price list was
+ * hardcoded elsewhere — one catalogue, one price list, no contradiction.
  *
- * Turning prices on later: render `priceFrom` / `quoteOnly` in the explorer
- * labels or a dedicated price list, and put a visible "indicative only"
- * disclaimer next to them before any placeholder figure reaches a screen.
+ * Regions are EV-first because the model in the scene is an EV: a battery
+ * skateboard, two drive units and no engine. Combustion work is not hidden —
+ * it has its own door on the home page and its own half of the price list —
+ * but the centrepiece states the specialism rather than contradicting it.
  */
+
+/** Which system separates out of the car when this group is selected. */
+export type CarRegionId =
+  | "battery"
+  | "drive"
+  | "brakes"
+  | "suspension"
+  | "climate"
+  | "wheels";
 
 export type ServiceItem = {
   id: string;
   name: Localized;
   /** One line, customer-facing. Says what they get, not how we do it. */
   blurb: Localized;
-} & (
-  | { quoteOnly?: false; priceFrom: number; unit?: string }
-  | { quoteOnly: true; priceFrom?: never; unit?: never }
-);
-
-/** Which chunk of the car separates when this group is on screen. */
-export type CarRegionId =
-  | "engine"
-  | "brakes"
-  | "wheels"
-  | "climate"
-  | "underbody"
-  | "body";
+};
 
 export type ServiceGroup = {
   id: CarRegionId;
-  /** Shown as the card-stack heading. */
+  /** Two-digit index is rendered from the array position, not stored. */
   title: Localized;
-  /** Shown under the heading — orients the customer to the part in view. */
   standfirst: Localized;
   items: ServiceItem[];
 };
 
 export const SERVICE_GROUPS: ServiceGroup[] = [
   {
-    id: "engine",
-    title: { en: "Engine bay", fi: "Moottoritila" },
-    standfirst: { en: "Routine servicing and the diagnostics that tell you what a warning light actually means.", fi: "Perushuollot ja vianhaku, joka kertoo mitä merkkivalo oikeasti tarkoittaa." },
+    id: "battery",
+    title: { en: "Battery & charging", fi: "Akku ja lataus" },
+    standfirst: {
+      en: "The high-voltage pack under the floor, and the small 12 V battery that strands more cars than it does.",
+      fi: "Lattian alla oleva ajoakku ja pieni 12 V:n akku, joka jättää useamman auton tielle kuin ajoakku.",
+    },
     items: [
       {
-        id: "oil-change",
-        name: { en: "Oil change", fi: "Öljynvaihto" },
-        blurb: { en: "Oil and filter replaced, fluid levels topped up and checked.", fi: "Öljy ja suodatin vaihdetaan, nestetasot täytetään ja tarkastetaan." },
-        priceFrom: 89,
+        id: "hv-health",
+        name: { en: "Battery health report", fi: "Akun kuntoraportti" },
+        blurb: {
+          en: "Capacity and degradation measured and written up, not guessed at.",
+          fi: "Kapasiteetti ja kuluma mitataan ja kirjataan, ei arvata.",
+        },
       },
       {
-        id: "engine-diagnostics",
-        name: { en: "Engine diagnostics", fi: "Moottorin vianhaku" },
-        blurb: { en: "We read the fault codes and tell you what they mean in plain language.", fi: "Luemme vikakoodit ja kerromme selkokielellä, mitä ne tarkoittavat." },
-        priceFrom: 69,
+        id: "lv-battery",
+        name: { en: "12 V battery replacement", fi: "12 V:n apuakun vaihto" },
+        blurb: {
+          en: "The most common reason an EV will not wake up. Same-day fix.",
+          fi: "Yleisin syy siihen ettei sähköauto herää. Korjaus samana päivänä.",
+        },
       },
       {
-        id: "timing-belt",
-        name: { en: "Timing belt or chain", fi: "Jakohihna tai -ketju" },
-        blurb: { en: "Replacement on schedule, before it becomes the expensive kind of problem.", fi: "Vaihto ajallaan, ennen kuin siitä tulee kallis ongelma." },
-        priceFrom: 450,
+        id: "charging",
+        name: { en: "Charge port & onboard charger", fi: "Latausportti ja laturi" },
+        blurb: {
+          en: "Latch, heater and contact faults — including cables that stick in frost.",
+          fi: "Salpa-, lämmitin- ja kontaktiviat — myös pakkasessa kiinni jäävät kaapelit.",
+        },
       },
       {
-        id: "engine-repair",
-        name: { en: "Engine repair", fi: "Moottorin korjaus" },
-        blurb: { en: "Scope and price confirmed after we have the engine in front of us.", fi: "Työn laajuus ja hinta vahvistetaan, kun moottori on edessämme." },
-        quoteOnly: true,
+        id: "coolant",
+        name: { en: "Battery cooling service", fi: "Akun jäähdytyksen huolto" },
+        blurb: {
+          en: "Coolant, pumps and the loop that keeps the pack in its window.",
+          fi: "Neste, pumput ja piiri joka pitää akun oikeassa lämpötilassa.",
+        },
+      },
+    ],
+  },
+  {
+    id: "drive",
+    title: { en: "Drive units", fi: "Voimalinja" },
+    standfirst: {
+      en: "Motors, reduction gears and inverters — front, rear or both.",
+      fi: "Moottorit, alennusvaihteet ja invertterit — edessä, takana tai molemmissa.",
+    },
+    items: [
+      {
+        id: "drive-diag",
+        name: { en: "Drive unit diagnostics", fi: "Voimalinjan vianhaku" },
+        blurb: {
+          en: "Whine, shudder or a power limit traced to the unit that is causing it.",
+          fi: "Vinkuna, tärinä tai tehorajoitus jäljitetään sen aiheuttavaan yksikköön.",
+        },
+      },
+      {
+        id: "gearbox",
+        name: { en: "Reduction gear & axles", fi: "Alennusvaihde ja vetoakselit" },
+        blurb: {
+          en: "Fluid, seals and half-shafts, including the clunk on hard take-off.",
+          fi: "Öljy, tiivisteet ja vetoakselit — myös kolahdus kovassa lähdössä.",
+        },
+      },
+      {
+        id: "hv-cable",
+        name: { en: "HV cabling & connectors", fi: "Suurjännitekaapelit ja liittimet" },
+        blurb: {
+          en: "Isolation faults found properly. Certified high-voltage work.",
+          fi: "Eristysviat löydetään kunnolla. Sertifioitu suurjännitetyö.",
+        },
+      },
+      {
+        id: "engine-too",
+        name: { en: "Petrol & diesel engines", fi: "Bensa- ja dieselmoottorit" },
+        blurb: {
+          en: "Servicing, timing belts and engine repair — we did not stop doing these.",
+          fi: "Huollot, jakohihnat ja moottorikorjaukset — emme lopettaneet näitä.",
+        },
       },
     ],
   },
   {
     id: "brakes",
-    title: { en: "Brakes", fi: "Jarrut" },
-    standfirst: { en: "Priced per axle. We show you the worn parts we take off before anything goes back on.", fi: "Hinta akselia kohden. Näytämme kuluneet osat ennen kuin mitään asennetaan takaisin." },
+    title: { en: "Brakes & regen", fi: "Jarrut ja regen" },
+    standfirst: {
+      en: "Regen does most of the stopping, so the friction brakes corrode instead of wearing out.",
+      fi: "Regen hoitaa suurimman osan jarrutuksesta, joten kitkajarrut ruostuvat sen sijaan että kuluisivat.",
+    },
     items: [
       {
-        id: "brake-pads",
-        name: { en: "Brake pad replacement", fi: "Jarrupalojen vaihto" },
-        blurb: { en: "Pads replaced per axle, with the discs measured while we are in there.", fi: "Palat vaihdetaan akselikohtaisesti ja levyt mitataan samalla." },
-        priceFrom: 150,
+        id: "caliper",
+        name: { en: "Caliper clean & lubricate", fi: "Satuloiden puhdistus ja voitelu" },
+        blurb: {
+          en: "The most useful annual job on any EV driven through a Finnish winter.",
+          fi: "Hyödyllisin vuosihuolto sähköautolle, joka ajaa Suomen talven läpi.",
+        },
       },
       {
-        id: "brake-discs",
-        name: { en: "Brake discs and pads", fi: "Jarrulevyt ja -palat" },
-        blurb: { en: "Discs and pads together per axle — the usual fix once discs are past limit.", fi: "Levyt ja palat akselikohtaisesti — tavallinen korjaus, kun levyt ovat kuluneet loppuun." },
-        priceFrom: 280,
+        id: "discs-pads",
+        name: { en: "Discs & pads", fi: "Levyt ja palat" },
+        blurb: {
+          en: "Replaced per axle, with the old parts shown to you before anything goes on.",
+          fi: "Vaihdetaan akselikohtaisesti, vanhat osat näytetään ennen asennusta.",
+        },
       },
       {
         id: "brake-fluid",
         name: { en: "Brake fluid change", fi: "Jarrunesteen vaihto" },
-        blurb: { en: "Full bleed and fresh fluid. Due every couple of years on most cars.", fi: "Täysi ilmaus ja uusi neste. Useimmissa autoissa parin vuoden välein." },
-        priceFrom: 99,
+        blurb: {
+          en: "Every two years regardless of wear. Moisture does not care how you drive.",
+          fi: "Kahden vuoden välein kulumasta riippumatta. Kosteus ei välitä ajotyylistä.",
+        },
       },
     ],
   },
   {
-    id: "wheels",
-    title: { en: "Tyres and wheels", fi: "Renkaat ja vanteet" },
-    standfirst: { en: "Seasonal changeovers, geometry, and somewhere to keep the set you are not using.", fi: "Kausivaihdot, suuntaukset ja säilytys sille rengassarjalle, joka ei ole käytössä." },
+    id: "suspension",
+    title: { en: "Suspension & steering", fi: "Alusta ja ohjaus" },
+    standfirst: {
+      en: "Heavy cars, bad winter roads. Control arms and bushings are the usual answer.",
+      fi: "Painavia autoja, huonoja talviteitä. Tukivarret ja holkit ovat tavallinen vastaus.",
+    },
     items: [
       {
-        id: "tyre-change",
-        name: { en: "Tyre change, set of four", fi: "Renkaiden vaihto, 4 kpl" },
-        blurb: { en: "Summer to winter and back again, balanced and torqued to spec.", fi: "Kesästä talveen ja takaisin, tasapainotettuna ja momenttiin kiristettynä." },
-        priceFrom: 60,
+        id: "arms",
+        name: { en: "Control arms & bushings", fi: "Tukivarret ja holkit" },
+        blurb: {
+          en: "That knock over expansion joints, sorted one corner at a time.",
+          fi: "Se kolahdus saumakohdissa, korjattuna kulma kerrallaan.",
+        },
       },
       {
-        id: "wheel-alignment",
-        name: { en: "Wheel alignment", fi: "Pyöränsuuntaus" },
-        blurb: { en: "Geometry reset so the car tracks straight and the tyres wear evenly.", fi: "Suuntaus kohdalleen, jotta auto kulkee suoraan ja renkaat kuluvat tasaisesti." },
-        priceFrom: 90,
+        id: "air-susp",
+        name: { en: "Air suspension diagnostics", fi: "Ilmajousituksen vianhaku" },
+        blurb: {
+          en: "Compressor, struts and height sensors on cars that sit down overnight.",
+          fi: "Kompressori, jouset ja korkeusanturit autoissa jotka laskeutuvat yöllä.",
+        },
       },
       {
-        id: "tyre-storage",
-        name: { en: "Tyre storage", fi: "Rengashotelli" },
-        blurb: { en: "Your off-season set kept indoors, cleaned and ready for the swap.", fi: "Kauden ulkopuolinen rengassarja sisäsäilytyksessä, pestynä ja vaihtovalmiina." },
-        priceFrom: 39,
-        unit: "season",
+        id: "chassis",
+        name: { en: "Underbody & corrosion check", fi: "Pohjan ja ruosteen tarkastus" },
+        blurb: {
+          en: "On the lift after salt season, with photos of anything we find.",
+          fi: "Nosturilla suolakauden jälkeen, kuvat kaikesta löydetystä.",
+        },
       },
     ],
   },
   {
     id: "climate",
-    title: { en: "Air conditioning", fi: "Ilmastointi" },
-    standfirst: { en: "The system most people only think about on the first warm week of the year.", fi: "Järjestelmä, jota useimmat muistavat vasta vuoden ensimmäisellä lämpimällä viikolla." },
+    title: { en: "Heat pump & climate", fi: "Lämpöpumppu ja ilmastointi" },
+    standfirst: {
+      en: "In this climate the heat pump is a range component, not a comfort feature.",
+      fi: "Näissä oloissa lämpöpumppu on toimintamatkan osa, ei mukavuusvaruste.",
+    },
     items: [
       {
-        id: "ac-service",
-        name: { en: "AC service and refrigerant top-up", fi: "Ilmastoinnin huolto ja täyttö" },
-        blurb: { en: "System evacuated, recharged and pressure-tested.", fi: "Järjestelmä tyhjennetään, täytetään ja painekoestetaan." },
-        priceFrom: 139,
+        id: "heat-pump",
+        name: { en: "Heat pump diagnostics", fi: "Lämpöpumpun vianhaku" },
+        blurb: {
+          en: "Poor heat or a sudden winter range drop traced to valve, sensor or refrigerant.",
+          fi: "Heikko lämpö tai äkillinen talvimatkan lasku jäljitetään venttiiliin tai anturiin.",
+        },
       },
       {
-        id: "ac-leak",
-        name: { en: "AC leak diagnostics", fi: "Ilmastoinnin vuodonetsintä" },
-        blurb: { en: "We trace where the refrigerant is escaping before selling you a refill.", fi: "Etsimme mistä kylmäaine karkaa ennen kuin myymme sinulle täyttöä." },
-        priceFrom: 79,
+        id: "ac",
+        name: { en: "AC service & recharge", fi: "Ilmastoinnin huolto ja täyttö" },
+        blurb: {
+          en: "Evacuated, recharged and pressure-tested, desiccant renewed.",
+          fi: "Tyhjennys, täyttö ja painekoe, kuivain uusitaan.",
+        },
+      },
+      {
+        id: "filters",
+        name: { en: "Cabin filters", fi: "Raitisilmasuodattimet" },
+        blurb: {
+          en: "Both filters plus the evaporator clean that stops the damp smell.",
+          fi: "Molemmat suodattimet ja höyrystimen puhdistus, joka poistaa kostean hajun.",
+        },
       },
     ],
   },
   {
-    id: "underbody",
-    title: { en: "Chassis and underbody", fi: "Alusta ja pohja" },
-    standfirst: { en: "Suspension, exhaust and everything that takes the worst of a Finnish winter.", fi: "Jousitus, pakoputkisto ja kaikki se, mikä kärsii Suomen talvesta eniten." },
+    id: "wheels",
+    title: { en: "Wheels & tyres", fi: "Renkaat ja vanteet" },
+    standfirst: {
+      en: "Instant torque and two tonnes eat tyres. Rotation on schedule is cheaper than a new set.",
+      fi: "Välitön vääntö ja kaksi tonnia syövät renkaita. Säännöllinen kierto on halvempi kuin uusi sarja.",
+    },
     items: [
       {
-        id: "chassis-inspection",
-        name: { en: "Chassis inspection", fi: "Alustan tarkastus" },
-        blurb: { en: "On the lift, checking corrosion, mounts, bushings and joints.", fi: "Nosturilla: ruoste, kiinnikkeet, holkit ja nivelet tarkastetaan." },
-        priceFrom: 69,
+        id: "seasonal",
+        name: { en: "Seasonal changeover", fi: "Kausivaihto" },
+        blurb: {
+          en: "Summer to winter and back, balanced and torqued to spec.",
+          fi: "Kesästä talveen ja takaisin, tasapainotettuna ja momenttiin kiristettynä.",
+        },
       },
       {
-        id: "suspension-repair",
-        name: { en: "Suspension repair", fi: "Jousituksen korjaus" },
-        blurb: { en: "Shocks, springs, arms and bushings — priced once we know what has gone.", fi: "Iskunvaimentimet, jouset, tukivarret ja holkit — hinta selviää kun vika on tiedossa." },
-        quoteOnly: true,
+        id: "alignment",
+        name: { en: "Four-wheel alignment", fi: "Nelipyöräsuuntaus" },
+        blurb: {
+          en: "After suspension work, and after the first pothole season.",
+          fi: "Alustatöiden jälkeen ja ensimmäisen kuoppakauden jälkeen.",
+        },
       },
       {
-        id: "exhaust-repair",
-        name: { en: "Exhaust repair", fi: "Pakoputken korjaus" },
-        blurb: { en: "Sections, mounts and joints repaired or replaced.", fi: "Osat, kiinnikkeet ja liitokset korjataan tai vaihdetaan." },
-        priceFrom: 90,
-      },
-    ],
-  },
-  {
-    id: "body",
-    title: { en: "Whole car", fi: "Koko auto" },
-    standfirst: { en: "Inspections and electrical work that do not belong to any one corner of the car.", fi: "Tarkastukset ja sähkötyöt, jotka eivät kuulu mihinkään yksittäiseen auton osaan." },
-    items: [
-      {
-        id: "pre-purchase",
-        name: { en: "Pre-purchase inspection", fi: "Ostotarkastus" },
-        blurb: { en: "Before you buy: what it needs now, and what it will need soon.", fi: "Ennen ostoa: mitä auto tarvitsee nyt ja mitä pian." },
-        priceFrom: 119,
+        id: "rotation",
+        name: { en: "Rotation & wear check", fi: "Rengaskierto ja kulumatarkastus" },
+        blurb: {
+          en: "We will tell you honestly when a set has one season left, not three.",
+          fi: "Kerromme rehellisesti kun sarjassa on yksi kausi jäljellä, ei kolme.",
+        },
       },
       {
-        id: "general-diagnostics",
-        name: { en: "General diagnostics", fi: "Yleisvianhaku" },
-        blurb: { en: "Full fault-code scan across the car's systems, with the results explained.", fi: "Kaikkien järjestelmien vikakoodit luetaan ja tulokset selitetään." },
-        priceFrom: 49,
-      },
-      {
-        id: "battery-electrical",
-        name: { en: "Battery and charging check", fi: "Akun ja latauksen tarkastus" },
-        blurb: { en: "Battery health, alternator output and starter draw tested together.", fi: "Akun kunto, laturin tuotto ja käynnistimen virranotto testataan yhdessä." },
-        priceFrom: 45,
-      },
-      {
-        id: "lighting",
-        name: { en: "Headlight and bulb service", fi: "Valojen ja polttimoiden huolto" },
-        blurb: { en: "Bulbs replaced and beam alignment set — a common inspection failure.", fi: "Polttimot vaihdetaan ja valot suunnataan — yleinen katsastuksen hylkäyssyy." },
-        priceFrom: 35,
-      },
-      {
-        id: "inspection-failure",
-        name: { en: "Inspection-failure repair package", fi: "Katsastuskorjaukset" },
-        blurb: { en: "Bring us the failure sheet and we will work through it and re-present the car.", fi: "Tuo hylkäyslappu, niin hoidamme kohdat kuntoon ja viemme auton jälkitarkastukseen." },
-        quoteOnly: true,
+        id: "storage",
+        name: { en: "Tyre storage", fi: "Rengashotelli" },
+        blurb: {
+          en: "Your off-season set kept indoors, cleaned and ready for the swap.",
+          fi: "Kauden ulkopuolinen sarja sisällä, pestynä ja vaihtovalmiina.",
+        },
       },
     ],
   },
 ];
-
-/**
- * Which part each region's price callout hangs off, and which side the card
- * sits on so it stays inside frame. Consumed by both the 3D scene (anchored to
- * the part's mesh, so it tracks through the explode) and the SVG diagram.
- */
-export const REGION_ANCHORS: Record<
-  CarRegionId,
-  { partId: string; side: "left" | "right" | "top"; svgX: number }
-> = {
-  engine: { partId: "engine-block", side: "right", svgX: 80 },
-  brakes: { partId: "disc-rl", side: "left", svgX: 28 },
-  wheels: { partId: "wheel-rl", side: "left", svgX: 30 },
-  climate: { partId: "ac-condenser", side: "right", svgX: 76 },
-  underbody: { partId: "muffler", side: "left", svgX: 22 },
-  body: { partId: "battery", side: "right", svgX: 52 },
-};

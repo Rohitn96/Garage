@@ -1,25 +1,32 @@
 import type { CarRegionId } from "@/data/services";
 
 /**
- * A low-poly car assembled from primitives — no external model, nothing to license.
+ * A low-poly EV assembled from primitives — no external model, nothing to license.
  *
- * Proportioned as a three-box saloon, because that is what makes a silhouette
- * read as "car" rather than "box on wheels":
+ * This replaces the three-box combustion saloon that used to sit here. That car
+ * had an engine block, a timing belt, an exhaust and a muffler, which meant the
+ * centrepiece of a Tesla-first garage's website was an internal combustion
+ * sedan. The silhouette now reads EV at a glance:
  *
- *   - one body mass running up to a beltline at y=0.95, with the bonnet and
- *     rear deck as shallow panels FLUSH with it. Sitting them proud of the body
- *     instead turns the whole thing into a flatbed with boxes on it.
- *   - a narrower greenhouse set back from the nose and inset from the body
- *     sides (1.52 against the body's 1.80), under a roof narrower again (1.40)
- *     for a little tumblehome
- *   - a short rear deck, stubbier than the bonnet
- *   - wheels at the four corners: 0.56 diameter against a 1.40 overall height
- *     (40%), standing proud of the flanks so they read as mounted, not tucked
- *   - a dark recessed arch panel framing each wheel opening
+ *   - a FASTBACK roofline: canopy set back from the nose and falling into a
+ *     short deck, rather than a saloon's three distinct boxes
+ *   - a full-length GLASS ROOF panel, the single most recognisable modern EV cue
+ *   - a SKATEBOARD battery pack spanning the wheelbase under the floor, which is
+ *     the thing that actually makes the packaging look electric
+ *   - two drive units on the axles instead of a block behind the nose
+ *   - a frunk lid at the front, because there is nothing under it
  *
- * The car sits along +X (nose at +X), is ~4.3 long and ~1.8 wide, and rests on
- * y = 0. Every part carries the region it belongs to, so the scroll sequence can
- * push one region out further than the rest and tint it while its prices are up.
+ * The car sits along +X (nose at +X), is ~4.6 long and ~1.9 wide, and rests on
+ * y = 0.
+ *
+ * TWO LAYERS
+ * ----------
+ * `shell` parts are the bodywork: rendered as near-invisible tinted glass with a
+ * drawn edge, so the mechanicals inside are legible without the shell being
+ * removed. `inner` parts are the mechanicals, fully opaque.
+ *
+ * The shell is what makes this work as a cutaway — see CarModel for the depth
+ * ordering that stops the glass from swallowing what is behind it.
  */
 
 export type Vec3 = [number, number, number];
@@ -27,10 +34,15 @@ export type Vec3 = [number, number, number];
 /** "rounded" is a drei RoundedBox — soft edges read as bodywork, hard ones as a crate. */
 export type PartKind = "box" | "rounded" | "cylinder";
 
+/** Shell parts belong to no service region and can never be selected. */
+export type PartLayer = "shell" | "inner";
+
 export type CarPart = {
   id: string;
   kind: PartKind;
-  region: CarRegionId;
+  layer: PartLayer;
+  /** Which service group owns this part. `null` for the shell. */
+  region: CarRegionId | null;
   /** box/rounded: [w, h, d] — cylinder: [radius, height, radialSegments] */
   size: Vec3;
   /** Resting position, i.e. the assembled car. */
@@ -38,237 +50,321 @@ export type CarPart = {
   rotation?: Vec3;
   /** Corner radius for `rounded` parts. Must stay under half the smallest side. */
   radius?: number;
-  /** Unit-ish direction this part travels when the view explodes. */
+  /** Direction and distance this part travels when its region is opened up. */
   blowsTo: Vec3;
   color: string;
   metalness?: number;
   roughness?: number;
-  opacity?: number;
+  /** Self-lit parts: the HV pack reads as live rather than as another grey box. */
+  emissive?: string;
+  emissiveIntensity?: number;
 };
 
-const PAINT = "#2F8C64";
-const PAINT_DARK = "#215C43";
-const TRIM = "#585E58";
-const GLASS = "#1B2A24";
-const METAL = "#C2C7C7";
-/** Darker steel for parts that end up sitting on the pale ground. */
-const UNDER_STEEL = "#8E948E";
-const RUBBER = "#4A4D52";
-const SHADOW = "#1E2B25";
+/* --- Palette -------------------------------------------------------------
+ * Every mechanical part sits in a steel/graphite range on purpose. The accent
+ * is reserved ENTIRELY for the selected region, so highlight is the only thing
+ * on screen that carries colour and selection is unmissable.
+ * -------------------------------------------------------------------------*/
+const GLASS = "#93AEB4";      // shell tint — pale, so it reads against a black ground
+const PACK = "#20262B";       // HV battery: graphite, with a faint glow below
+const PACK_RAIL = "#39423E";  // pack crash structure
+const MOTOR = "#B4BDBE";      // drive unit castings
+const INVERTER = "#69756F";   // power electronics
+const STEEL = "#98A29E";      // struts, shafts
+const SUBFRAME = "#474F4C";   // structural
+const DISC = "#C6CDCB";       // brake discs
+const CALIPER = "#7C8783";    // calipers
+const TYRE = "#191B1C";
+const RIM = "#C2C9C7";
+const HVAC = "#7E8C88";
 
-/** Wheel geometry, referenced by the arches and brake parts so they stay in sync. */
-const WHEEL_R = 0.28;
-const WHEEL_W = 0.26;
+/** Wheel geometry, referenced by arches, brakes and suspension so they stay in sync. */
+const WHEEL_R = 0.33;
+const WHEEL_W = 0.28;
 const AXLE_Y = WHEEL_R; // wheel centre = radius, so the tyre touches the ground
-const TRACK_Z = 0.9;
-const AXLE_X = 1.42;
+const TRACK_Z = 0.86;
+const AXLE_X = 1.45;
 
 export const CAR_PARTS: CarPart[] = [
-  // ---- Underbody --------------------------------------------------------
-  {
-    id: "floorpan",
-    kind: "box",
-    region: "underbody",
-    size: [4.05, 0.1, 1.7],
-    at: [0, 0.31, 0],
-    blowsTo: [0, -0.4, 2.6],
-    color: TRIM,
-    metalness: 0.55,
-    roughness: 0.65,
-  },
-
-  // ---- Main body mass ---------------------------------------------------
+  /* ==== SHELL =========================================================== */
+  // Main body mass, sill to beltline. Long and low.
   {
     id: "body",
     kind: "rounded",
-    region: "body",
-    size: [4.3, 0.6, 1.8],
-    at: [0, 0.65, 0],
-    radius: 0.12,
-    blowsTo: [0, 0.35, 0],
-    color: PAINT,
-    metalness: 0.6,
-    roughness: 0.34,
-  },
-  // Long low bonnet, sitting forward and below the roofline.
-  {
-    id: "bonnet",
-    kind: "rounded",
-    region: "engine",
-    size: [1.56, 0.07, 1.72],
-    at: [1.3, 0.955, 0],
-    radius: 0.03,
-    blowsTo: [1.0, 1.5, 0],
-    color: PAINT,
-    metalness: 0.6,
-    roughness: 0.34,
-  },
-  // Short rear deck — lower than the roof, stubbier than the bonnet.
-  {
-    id: "rear-deck",
-    kind: "rounded",
-    region: "body",
-    size: [1.0, 0.07, 1.72],
-    at: [-1.63, 0.955, 0],
-    radius: 0.03,
-    blowsTo: [-1.3, 1.1, 0],
-    color: PAINT,
-    metalness: 0.6,
-    roughness: 0.34,
-  },
-
-  // ---- Greenhouse -------------------------------------------------------
-  // Window band: inset from the body sides and darker, so the cabin reads as
-  // glass even without a real transmissive material.
-  {
-    id: "cabin",
-    kind: "rounded",
-    region: "body",
-    size: [1.76, 0.34, 1.52],
-    at: [-0.3, 1.13, 0],
-    radius: 0.07,
-    blowsTo: [0, 1.5, 0],
+    layer: "shell",
+    region: null,
+    size: [4.55, 0.66, 1.88],
+    at: [0, 0.63, 0],
+    radius: 0.17,
+    blowsTo: [0, 0.1, 0],
     color: GLASS,
-    metalness: 0.55,
-    roughness: 0.06,
-    opacity: 0.92,
   },
-  // Painted roof panel capping the glass band.
+  // Greenhouse, set back from the nose — the fastback cue.
   {
-    id: "roof",
+    id: "canopy",
     kind: "rounded",
-    region: "body",
-    size: [1.56, 0.1, 1.4],
-    at: [-0.32, 1.35, 0],
-    radius: 0.04,
-    blowsTo: [0, 1.9, 0],
-    color: PAINT,
-    metalness: 0.6,
-    roughness: 0.34,
+    layer: "shell",
+    region: null,
+    size: [2.45, 0.46, 1.62],
+    at: [-0.3, 1.17, 0],
+    radius: 0.19,
+    blowsTo: [0, 0.35, 0],
+    color: GLASS,
+  },
+  // The glass roof. One uninterrupted panel — the EV signature.
+  {
+    id: "glass-roof",
+    kind: "box",
+    layer: "shell",
+    region: null,
+    size: [2.05, 0.045, 1.44],
+    at: [-0.32, 1.41, 0],
+    blowsTo: [0, 0.75, 0],
+    color: GLASS,
+  },
+  // Frunk lid. Lifts and forward, because there is nothing under it.
+  {
+    id: "frunk-lid",
+    kind: "rounded",
+    layer: "shell",
+    region: null,
+    size: [1.05, 0.06, 1.76],
+    at: [1.62, 0.965, 0],
+    radius: 0.025,
+    blowsTo: [0.5, 0.7, 0],
+    color: GLASS,
+  },
+  {
+    id: "boot-lid",
+    kind: "rounded",
+    layer: "shell",
+    region: null,
+    size: [0.8, 0.06, 1.76],
+    at: [-1.88, 0.965, 0],
+    radius: 0.025,
+    blowsTo: [-0.5, 0.6, 0],
+    color: GLASS,
   },
 
-  // ---- Engine bay -------------------------------------------------------
+  /* ==== BATTERY & CHARGING ============================================== */
+  // The skateboard. Spans the wheelbase, sits under the floor, glows faintly.
   {
-    id: "engine-block",
+    id: "hv-pack",
     kind: "rounded",
-    region: "engine",
-    size: [0.86, 0.5, 0.9],
-    at: [1.3, 0.66, 0],
-    radius: 0.06,
-    blowsTo: [1.9, 1.6, 0],
-    color: METAL,
-    metalness: 0.9,
+    layer: "inner",
+    region: "battery",
+    size: [3.35, 0.17, 1.56],
+    at: [0, 0.36, 0],
+    radius: 0.04,
+    blowsTo: [0, -0.62, 0],
+    color: PACK,
+    metalness: 0.4,
+    roughness: 0.55,
+    emissive: "#35D68A",
+    emissiveIntensity: 0.035,
+  },
+  // Side rails: the pack's crash structure, and a visual frame for the glow.
+  {
+    id: "pack-rail-l",
+    kind: "box",
+    layer: "inner",
+    region: "battery",
+    size: [3.35, 0.13, 0.09],
+    at: [0, 0.36, 0.79],
+    blowsTo: [0, -0.62, 0.18],
+    color: PACK_RAIL,
+    metalness: 0.7,
+    roughness: 0.4,
+  },
+  {
+    id: "pack-rail-r",
+    kind: "box",
+    layer: "inner",
+    region: "battery",
+    size: [3.35, 0.13, 0.09],
+    at: [0, 0.36, -0.79],
+    blowsTo: [0, -0.62, -0.18],
+    color: PACK_RAIL,
+    metalness: 0.7,
+    roughness: 0.4,
+  },
+  // The 12 V, in the frunk. Small, unglamorous, strands more cars than the pack.
+  {
+    id: "lv-battery",
+    kind: "box",
+    layer: "inner",
+    region: "battery",
+    size: [0.34, 0.22, 0.3],
+    at: [1.58, 0.72, 0.48],
+    blowsTo: [0.45, 0.6, 0.5],
+    color: "#5E6A64",
+    metalness: 0.35,
+    roughness: 0.6,
+  },
+  // Charge port, rear quarter — where a Tesla actually wears it.
+  {
+    id: "charge-port",
+    kind: "box",
+    layer: "inner",
+    region: "battery",
+    size: [0.1, 0.18, 0.24],
+    at: [-2.06, 0.8, 0.78],
+    blowsTo: [-0.4, 0.35, 0.6],
+    color: "#8E9995",
+    metalness: 0.55,
+    roughness: 0.4,
+  },
+
+  /* ==== DRIVE UNITS ===================================================== */
+  {
+    id: "motor-front",
+    kind: "cylinder",
+    layer: "inner",
+    region: "drive",
+    size: [0.23, 0.52, 20],
+    at: [AXLE_X, 0.47, 0],
+    rotation: [Math.PI / 2, 0, 0],
+    blowsTo: [1.5, 0.95, 0],
+    color: MOTOR,
+    metalness: 0.85,
     roughness: 0.35,
   },
   {
-    id: "battery",
-    kind: "box",
-    region: "body",
-    size: [0.38, 0.26, 0.3],
-    at: [0.92, 0.74, 0.56],
-    blowsTo: [1.0, 1.5, 1.6],
-    color: "#6A736C",
-    metalness: 0.4,
-    roughness: 0.6,
+    id: "motor-rear",
+    kind: "cylinder",
+    layer: "inner",
+    region: "drive",
+    size: [0.27, 0.58, 20],
+    at: [-AXLE_X, 0.47, 0],
+    rotation: [Math.PI / 2, 0, 0],
+    blowsTo: [-1.5, 0.95, 0],
+    color: MOTOR,
+    metalness: 0.85,
+    roughness: 0.35,
   },
   {
-    id: "headlight-l",
-    kind: "box",
-    region: "body",
-    size: [0.12, 0.17, 0.4],
-    at: [2.04, 0.72, 0.56],
-    blowsTo: [2.1, 0.5, 1.2],
-    color: "#D8CFAE",
-    metalness: 0.2,
-    roughness: 0.18,
+    id: "inverter-rear",
+    kind: "rounded",
+    layer: "inner",
+    region: "drive",
+    size: [0.36, 0.26, 0.52],
+    at: [-AXLE_X + 0.05, 0.82, 0],
+    radius: 0.04,
+    blowsTo: [-1.2, 1.6, 0],
+    color: INVERTER,
+    metalness: 0.6,
+    roughness: 0.45,
   },
   {
-    id: "headlight-r",
-    kind: "box",
-    region: "body",
-    size: [0.12, 0.17, 0.4],
-    at: [2.04, 0.72, -0.56],
-    blowsTo: [2.1, 0.5, -1.2],
-    color: "#D8CFAE",
-    metalness: 0.2,
-    roughness: 0.18,
+    id: "inverter-front",
+    kind: "rounded",
+    layer: "inner",
+    region: "drive",
+    size: [0.3, 0.22, 0.44],
+    at: [AXLE_X - 0.06, 0.8, -0.3],
+    radius: 0.04,
+    blowsTo: [1.2, 1.5, -0.7],
+    color: INVERTER,
+    metalness: 0.6,
+    roughness: 0.45,
   },
 
-  // ---- Climate ----------------------------------------------------------
+  /* ==== HEAT PUMP & CLIMATE ============================================= */
+  // Front radiator stack, standing across the nose.
   {
-    id: "ac-condenser",
+    id: "condenser",
     kind: "box",
+    layer: "inner",
     region: "climate",
-    size: [0.14, 0.38, 1.05],
-    at: [1.98, 0.66, 0],
-    blowsTo: [2.4, 1.3, 0],
-    color: "#8D9A93",
+    size: [0.11, 0.42, 1.24],
+    at: [2.12, 0.6, 0],
+    blowsTo: [1.7, 0.95, 0],
+    color: HVAC,
     metalness: 0.75,
     roughness: 0.45,
   },
   {
-    id: "ac-blower",
+    id: "heat-pump",
     kind: "cylinder",
+    layer: "inner",
     region: "climate",
-    size: [0.19, 0.24, 16],
-    at: [0.52, 0.8, 0.4],
+    size: [0.16, 0.3, 18],
+    at: [1.9, 0.62, -0.48],
     rotation: [0, 0, Math.PI / 2],
-    blowsTo: [0.3, 2.0, 1.5],
-    color: "#78857E",
-    metalness: 0.6,
+    blowsTo: [1.3, 1.35, -1.1],
+    color: "#6F7D79",
+    metalness: 0.7,
+    roughness: 0.42,
+  },
+  // The valve block that routes heat between pack, motors and cabin.
+  {
+    id: "octovalve",
+    kind: "rounded",
+    layer: "inner",
+    region: "climate",
+    size: [0.24, 0.24, 0.24],
+    at: [1.72, 0.62, 0.4],
+    radius: 0.04,
+    blowsTo: [1.1, 1.4, 0.95],
+    color: "#8A9793",
+    metalness: 0.65,
+    roughness: 0.4,
+  },
+  {
+    id: "cabin-blower",
+    kind: "cylinder",
+    layer: "inner",
+    region: "climate",
+    size: [0.18, 0.26, 16],
+    at: [0.95, 0.82, 0.42],
+    rotation: [0, 0, Math.PI / 2],
+    blowsTo: [0.5, 1.55, 1.0],
+    color: HVAC,
+    metalness: 0.55,
     roughness: 0.5,
   },
 
-  // ---- Underbody hardware ----------------------------------------------
+  /* ==== SUSPENSION & STEERING (structure) =============================== */
   {
-    id: "exhaust",
-    kind: "cylinder",
-    region: "underbody",
-    size: [0.07, 2.5, 14],
-    at: [-0.5, 0.2, -0.4],
-    rotation: [0, 0, Math.PI / 2],
-    blowsTo: [-0.3, -0.5, 2.9],
-    color: UNDER_STEEL,
-    metalness: 0.85,
-    roughness: 0.42,
+    id: "subframe-front",
+    kind: "box",
+    layer: "inner",
+    region: "suspension",
+    size: [0.42, 0.1, 1.5],
+    at: [AXLE_X, 0.3, 0],
+    blowsTo: [1.2, -0.75, 0],
+    color: SUBFRAME,
+    metalness: 0.6,
+    roughness: 0.6,
   },
   {
-    id: "muffler",
-    kind: "cylinder",
-    region: "underbody",
-    size: [0.16, 0.58, 16],
-    at: [-1.86, 0.22, -0.4],
-    rotation: [0, 0, Math.PI / 2],
-    blowsTo: [-1.3, -0.5, 2.9],
-    color: UNDER_STEEL,
-    metalness: 0.85,
-    roughness: 0.42,
+    id: "subframe-rear",
+    kind: "box",
+    layer: "inner",
+    region: "suspension",
+    size: [0.46, 0.1, 1.5],
+    at: [-AXLE_X, 0.3, 0],
+    blowsTo: [-1.2, -0.75, 0],
+    color: SUBFRAME,
+    metalness: 0.6,
+    roughness: 0.6,
   },
   {
-    id: "suspension-f",
+    id: "steering-rack",
     kind: "cylinder",
-    region: "underbody",
-    size: [0.08, 0.42, 12],
-    at: [AXLE_X, 0.5, 0.58],
-    blowsTo: [1.4, -0.5, 2.4],
-    color: "#C79A55",
-    metalness: 0.5,
-    roughness: 0.55,
-  },
-  {
-    id: "suspension-r",
-    kind: "cylinder",
-    region: "underbody",
-    size: [0.08, 0.42, 12],
-    at: [-AXLE_X, 0.5, -0.58],
-    blowsTo: [-1.4, -0.5, 2.4],
-    color: "#C79A55",
-    metalness: 0.5,
-    roughness: 0.55,
+    layer: "inner",
+    region: "suspension",
+    size: [0.05, 1.3, 12],
+    at: [AXLE_X - 0.3, 0.42, 0],
+    rotation: [Math.PI / 2, 0, 0],
+    blowsTo: [1.4, -0.6, 0],
+    color: STEEL,
+    metalness: 0.8,
+    roughness: 0.4,
   },
 ];
 
-/** The four corners, so wheel/arch/brake parts stay in sync. */
+/** The four corners, so wheel / brake / suspension parts stay in sync. */
 const CORNERS: Array<{ id: string; x: number; z: number }> = [
   { id: "fl", x: AXLE_X, z: TRACK_Z },
   { id: "fr", x: AXLE_X, z: -TRACK_Z },
@@ -279,80 +375,109 @@ const CORNERS: Array<{ id: string; x: number; z: number }> = [
 for (const corner of CORNERS) {
   const outward = Math.sign(corner.z);
 
-  // Dark recessed arch framing the opening, so the wheel reads as mounted into
-  // the body rather than floating beside it. Belongs to the body, and barely
-  // moves — the wheel pulling away from a stationary arch is the point.
+  /* ---- Wheels: furthest out, so everything behind them stays readable ---- */
   CAR_PARTS.push({
-    id: `arch-${corner.id}`,
-    kind: "box",
-    region: "body",
-    size: [WHEEL_R * 2.6, WHEEL_R * 1.85, 0.16],
-    at: [corner.x, AXLE_Y + 0.14, corner.z * 0.95],
-    blowsTo: [0, 0.3, outward * 0.25],
-    color: SHADOW,
-    metalness: 0.3,
-    roughness: 0.85,
-  });
-
-  CAR_PARTS.push({
-    id: `wheel-${corner.id}`,
+    id: `tyre-${corner.id}`,
     kind: "cylinder",
+    layer: "inner",
     region: "wheels",
-    size: [WHEEL_R, WHEEL_W, 22],
+    size: [WHEEL_R, WHEEL_W, 24],
     at: [corner.x, AXLE_Y, corner.z],
     rotation: [Math.PI / 2, 0, 0],
-    // Wheels travel furthest out so the disc behind them stays readable.
-    blowsTo: [corner.x * 0.2, 0.2, outward * 2.6],
-    color: RUBBER,
-    metalness: 0.15,
-    roughness: 0.9,
+    blowsTo: [0, 0.15, outward * 2.3],
+    color: TYRE,
+    metalness: 0.1,
+    roughness: 0.92,
   });
 
-  // Lighter hub face, so a tyre seen head-on still reads as a wheel.
+  // Aero-style face, so a wheel seen head-on still reads as a wheel.
   CAR_PARTS.push({
-    id: `hub-${corner.id}`,
+    id: `rim-${corner.id}`,
     kind: "cylinder",
+    layer: "inner",
     region: "wheels",
-    size: [WHEEL_R * 0.5, WHEEL_W * 1.15, 20],
+    size: [WHEEL_R * 0.64, WHEEL_W * 1.06, 22],
     at: [corner.x, AXLE_Y, corner.z],
     rotation: [Math.PI / 2, 0, 0],
-    blowsTo: [corner.x * 0.2, 0.2, outward * 2.6],
-    color: "#D2D7D5",
-    metalness: 0.8,
-    roughness: 0.35,
+    blowsTo: [0, 0.15, outward * 2.3],
+    color: RIM,
+    metalness: 0.82,
+    roughness: 0.3,
   });
 
+  /* ---- Brakes: sit inboard of the wheel and travel less far --------------- */
   CAR_PARTS.push({
     id: `disc-${corner.id}`,
     kind: "cylinder",
+    layer: "inner",
     region: "brakes",
-    size: [WHEEL_R * 0.68, 0.05, 20],
-    at: [corner.x, AXLE_Y, corner.z * 0.8],
+    size: [WHEEL_R * 0.7, 0.045, 22],
+    at: [corner.x, AXLE_Y, corner.z * 0.86],
     rotation: [Math.PI / 2, 0, 0],
-    blowsTo: [corner.x * 0.2, 0.6, outward * 1.5],
-    color: "#C8CECC",
-    metalness: 0.95,
-    roughness: 0.28,
+    blowsTo: [0, 0.55, outward * 1.35],
+    color: DISC,
+    metalness: 0.9,
+    roughness: 0.3,
   });
 
   CAR_PARTS.push({
     id: `caliper-${corner.id}`,
-    kind: "box",
+    kind: "rounded",
+    layer: "inner",
     region: "brakes",
-    size: [0.12, 0.22, 0.1],
-    at: [corner.x - 0.18, AXLE_Y + 0.14, corner.z * 0.8],
-    blowsTo: [corner.x * 0.2 - 0.5, 0.95, outward * 1.5],
-    color: "#D97A4A",
+    size: [0.13, 0.24, 0.11],
+    at: [corner.x - 0.2, AXLE_Y + 0.15, corner.z * 0.86],
+    radius: 0.03,
+    blowsTo: [-0.45, 0.95, outward * 1.35],
+    color: CALIPER,
     metalness: 0.6,
     roughness: 0.4,
   });
+
+  /* ---- Suspension: strut and lower arm at each corner --------------------- */
+  CAR_PARTS.push({
+    id: `strut-${corner.id}`,
+    kind: "cylinder",
+    layer: "inner",
+    region: "suspension",
+    size: [0.07, 0.5, 14],
+    at: [corner.x, AXLE_Y + 0.32, corner.z * 0.72],
+    blowsTo: [0, 1.1, outward * 1.7],
+    color: STEEL,
+    metalness: 0.75,
+    roughness: 0.4,
+  });
+
+  CAR_PARTS.push({
+    id: `arm-${corner.id}`,
+    kind: "box",
+    layer: "inner",
+    region: "suspension",
+    size: [0.12, 0.07, 0.58],
+    at: [corner.x, AXLE_Y - 0.06, corner.z * 0.6],
+    blowsTo: [0, -0.7, outward * 1.6],
+    color: SUBFRAME,
+    metalness: 0.65,
+    roughness: 0.5,
+  });
+
+  /* ---- Half-shaft from drive unit to hub --------------------------------- */
+  CAR_PARTS.push({
+    id: `shaft-${corner.id}`,
+    kind: "cylinder",
+    layer: "inner",
+    region: "drive",
+    size: [0.045, 0.62, 10],
+    at: [corner.x, AXLE_Y + 0.14, corner.z * 0.5],
+    rotation: [Math.PI / 2, 0, 0],
+    blowsTo: [corner.x > 0 ? 1.5 : -1.5, 0.95, outward * 0.5],
+    color: STEEL,
+    metalness: 0.85,
+    roughness: 0.35,
+  });
 }
 
-/** Unused by the scene, but keeps the proportion intent checkable in one place. */
-export const CAR_METRICS = {
-  wheelDiameter: WHEEL_R * 2,
-  overallHeight: 1.4,
-  get wheelToHeightRatio() {
-    return this.wheelDiameter / this.overallHeight;
-  },
-};
+/** Ids of every shell part, so the renderer can order them last in one check. */
+export const SHELL_PART_IDS = new Set(
+  CAR_PARTS.filter((p) => p.layer === "shell").map((p) => p.id),
+);

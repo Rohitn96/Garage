@@ -14,11 +14,11 @@ const FORMSPREE_ENDPOINT =
 
 /** Underlined field rather than a boxed input — one rule per row, like a form. */
 const FIELD =
-  "w-full border-0 border-b border-rule bg-transparent px-0 pb-2.5 pt-1 text-[1.05rem] text-ink placeholder:text-graphite/45 focus:border-pine focus:outline-none focus:ring-0";
+  "w-full border-0 border-b border-rule bg-transparent px-0 pb-2.5 pt-1 text-[1.05rem] text-ink placeholder:text-graphite/45 focus:border-accent focus:outline-none focus:ring-0";
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="mt-2 font-mono text-[0.7rem] text-pine">{message}</p>;
+  return <p className="mt-2 font-mono text-[0.7rem] text-accent">{message}</p>;
 }
 
 export function ContactForm() {
@@ -62,7 +62,7 @@ export function ContactForm() {
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
             ...values,
-            _subject: `Booking request — ${values.name} (${values.registration})`,
+            _subject: `Booking request — ${values.name} (${values.vehicle})`,
             _language: lang,
           }),
         });
@@ -81,15 +81,14 @@ export function ContactForm() {
 
   return (
     <section id="contact" className="rule-above">
-      <div className="mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32">
+      <div className="section">
         <div className="grid gap-16 md:grid-cols-12">
           <Reveal className="md:col-span-5">
             <p className="label">{t(c.eyebrow)}</p>
-            <h2 className="mt-8 max-w-[12ch] font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.98] tracking-[-0.02em]">
-              {t(c.headingA)} <em className="italic text-pine">{t(c.headingAccent)}</em>
+            <h2 className="mt-7 max-w-[12ch] h-section">
+              {t(c.headingA)} <em className="italic text-accent">{t(c.headingAccent)}</em>
             </h2>
             <p className="mt-6 max-w-[40ch] text-graphite">{t(c.p1)}</p>
-            <p className="mt-4 max-w-[40ch] text-graphite">{t(c.p2)}</p>
           </Reveal>
 
           <Reveal delay={0.08} className="md:col-span-6 md:col-start-7">
@@ -119,17 +118,17 @@ export function ContactForm() {
                 </div>
 
                 <div>
-                  <label htmlFor="registration" className="label mb-3 block">
-                    {t(c.fields.registration)}
+                  <label htmlFor="vehicle" className="label mb-3 block">
+                    {t(c.fields.vehicle)}
                   </label>
                   <input
-                    id="registration"
-                    className={`${FIELD} font-mono uppercase`}
-                    placeholder={t(c.placeholders.registration)}
-                    aria-invalid={Boolean(errors.registration)}
-                    {...register("registration")}
+                    id="vehicle"
+                    className={FIELD}
+                    placeholder={t(c.placeholders.vehicle)}
+                    aria-invalid={Boolean(errors.vehicle)}
+                    {...register("vehicle")}
                   />
-                  <FieldError message={errors.registration?.message} />
+                  <FieldError message={errors.vehicle?.message} />
                 </div>
 
                 <div>
@@ -190,7 +189,7 @@ export function ContactForm() {
                     {isSubmitting ? t(c.submitting) : t(c.submit)}
                   </button>
                   {failed && (
-                    <p role="alert" className="font-mono text-[0.7rem] text-pine">
+                    <p role="alert" className="font-mono text-[0.7rem] text-accent">
                       {t(c.failed)}
                     </p>
                   )}
