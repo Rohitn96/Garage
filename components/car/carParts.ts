@@ -30,6 +30,13 @@ export type GeoKey =
   | "disc"
   | "caliper"
   | "strut"
+  | "seat"
+  | "steeringWheel"
+  | "dashboard"
+  | "hvCables"
+  | "mirror"
+  | "tailBar"
+  | "headBar"
   | "box"
   | "cylinder";
 
@@ -51,10 +58,18 @@ export type CarPart = {
   roughness?: number;
   /** Automotive lacquer. Cheap, and most of why paint looks like paint. */
   clearcoat?: number;
+  /**
+   * Self-lit parts. Defaults to BLACK, deliberately — an earlier version
+   * defaulted every part to a mint emissive, which was invisible on aluminium
+   * and turned the tyres bright green, because rubber's albedo is no larger
+   * than the glow was. Only lamps opt in.
+   */
   emissive?: string;
   emissiveIntensity?: number;
   /** Draw this part's creases as lines. See CarModel for why not everything does. */
   edges?: boolean;
+  /** The part a region's callout hangs off. Exactly one per region. */
+  anchor?: boolean;
 };
 
 /* --- Materials ------------------------------------------------------------
@@ -105,6 +120,7 @@ export const CAR_PARTS: CarPart[] = [
   /* ==== BATTERY & CHARGING ============================================== */
   {
     id: "hv-pack",
+    anchor: true,
     geo: "pack",
     layer: "inner",
     region: "battery",
@@ -131,18 +147,19 @@ export const CAR_PARTS: CarPart[] = [
     geo: "cylinder",
     layer: "inner",
     region: "battery",
-    args: [0.085, 0.085, 0.06, 20],
-    at: [-2.0, 0.8, 0.74],
+    args: [0.07, 0.07, 0.05, 18],
+    at: [-1.98, 0.79, 0.76],
     rotation: [Math.PI / 2, 0, 0],
-    blowsTo: [-0.35, 0.3, 0.55],
-    color: ALLOY,
-    metalness: 0.7,
-    roughness: 0.3,
+    blowsTo: [-0.24, 0.2, 0.42],
+    color: DARK_STEEL,
+    metalness: 0.55,
+    roughness: 0.45,
   },
 
   /* ==== DRIVE UNITS ===================================================== */
   {
     id: "motor-rear",
+    anchor: true,
     geo: "driveUnit",
     layer: "inner",
     region: "drive",
@@ -181,6 +198,7 @@ export const CAR_PARTS: CarPart[] = [
   /* ==== HEAT PUMP & CLIMATE ============================================= */
   {
     id: "condenser",
+    anchor: true,
     geo: "box",
     layer: "inner",
     region: "climate",
@@ -269,7 +287,147 @@ export const CAR_PARTS: CarPart[] = [
     metalness: 0.85,
     roughness: 0.3,
   },
+
+  /* ==== CABIN ============================================================
+   * Belongs to no service group: it never separates, it is just there so the
+   * greenhouse is not an empty box. An unfurnished cabin is the fastest way to
+   * make a car model look like a shell.
+   * ===================================================================== */
+  {
+    id: "dashboard",
+    geo: "dashboard",
+    layer: "inner",
+    region: null,
+    at: [0.74, 0.83, 0],
+    blowsTo: [0, 0, 0],
+    color: "#3A4247",
+    metalness: 0.3,
+    roughness: 0.7,
+  },
+  {
+    id: "steering-wheel",
+    geo: "steeringWheel",
+    layer: "inner",
+    region: null,
+    at: [0.56, 0.87, 0.35],
+    blowsTo: [0, 0, 0],
+    color: "#22282B",
+    metalness: 0.25,
+    roughness: 0.75,
+  },
+  {
+    id: "seat-fl",
+    geo: "seat",
+    layer: "inner",
+    region: null,
+    at: [0.06, 0.53, 0.35],
+    blowsTo: [0, 0, 0],
+    color: "#2C3236",
+    metalness: 0.15,
+    roughness: 0.85,
+  },
+  {
+    id: "seat-fr",
+    geo: "seat",
+    layer: "inner",
+    region: null,
+    at: [0.06, 0.53, -0.35],
+    blowsTo: [0, 0, 0],
+    color: "#2C3236",
+    metalness: 0.15,
+    roughness: 0.85,
+  },
+  {
+    id: "seat-rear",
+    geo: "box",
+    layer: "inner",
+    region: null,
+    args: [0.5, 0.46, 1.3],
+    at: [-1.02, 0.66, 0],
+    blowsTo: [0, 0, 0],
+    color: "#2C3236",
+    metalness: 0.15,
+    roughness: 0.85,
+  },
+
+  /* ==== LAMPS AND MIRRORS ================================================ */
+  {
+    id: "tail-bar",
+    geo: "tailBar",
+    layer: "inner",
+    region: null,
+    at: [-2.3, 0.76, 0],
+    blowsTo: [0, 0, 0],
+    color: "#3A2321",
+    metalness: 0.2,
+    roughness: 0.35,
+    emissive: "#B03A30",
+    emissiveIntensity: 0.3,
+  },
+  {
+    id: "head-bar-l",
+    geo: "headBar",
+    layer: "inner",
+    region: null,
+    at: [2.28, 0.71, 0.52],
+    blowsTo: [0, 0, 0],
+    color: "#8E9AA0",
+    metalness: 0.4,
+    roughness: 0.25,
+    emissive: "#CFE0EC",
+    emissiveIntensity: 0.5,
+  },
+  {
+    id: "head-bar-r",
+    geo: "headBar",
+    layer: "inner",
+    region: null,
+    at: [2.28, 0.71, -0.52],
+    blowsTo: [0, 0, 0],
+    color: "#8E9AA0",
+    metalness: 0.4,
+    roughness: 0.25,
+    emissive: "#CFE0EC",
+    emissiveIntensity: 0.5,
+  },
+  {
+    id: "mirror-l",
+    geo: "mirror",
+    layer: "inner",
+    region: null,
+    at: [0.7, 0.93, 0.84],
+    blowsTo: [0, 0, 0],
+    color: "#6A7479",
+    metalness: 0.6,
+    roughness: 0.35,
+  },
+  {
+    id: "mirror-r",
+    geo: "mirror",
+    layer: "inner",
+    region: null,
+    at: [0.7, 0.93, -0.84],
+    rotation: [0, Math.PI, 0],
+    blowsTo: [0, 0, 0],
+    color: "#6A7479",
+    metalness: 0.6,
+    roughness: 0.35,
+  },
+
+  /* ==== HIGH-VOLTAGE CABLING ============================================= */
+  {
+    id: "hv-cables",
+    geo: "hvCables",
+    layer: "inner",
+    region: "drive",
+    at: [0, 0, 0],
+    blowsTo: [0, 0.28, 0],
+    color: "#B2511F",
+    metalness: 0.1,
+    roughness: 0.72,
+  },
 ];
+
 
 /* --- Corners --------------------------------------------------------------
  * Wheels, brakes and suspension are generated per corner so they stay in sync
@@ -287,6 +445,7 @@ for (const corner of CORNERS) {
 
   CAR_PARTS.push({
     id: `tyre-${corner.id}`,
+    anchor: corner.id === "fl",
     geo: "tyre",
     layer: "inner",
     region: "wheels",
@@ -314,6 +473,7 @@ for (const corner of CORNERS) {
 
   CAR_PARTS.push({
     id: `disc-${corner.id}`,
+    anchor: corner.id === "fl",
     geo: "disc",
     layer: "inner",
     region: "brakes",
@@ -339,6 +499,7 @@ for (const corner of CORNERS) {
 
   CAR_PARTS.push({
     id: `strut-${corner.id}`,
+    anchor: corner.id === "fl",
     geo: "strut",
     layer: "inner",
     region: "suspension",

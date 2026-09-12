@@ -18,11 +18,17 @@ import { CAR_PARTS, type CarPart, type GeoKey } from "./carParts";
 import {
   buildBatteryPack,
   buildCaliper,
+  buildDashboard,
   buildDisc,
   buildDriveUnit,
   buildGreenhouse,
+  buildHvCables,
+  buildLightBar,
   buildLowerBody,
+  buildMirror,
   buildRim,
+  buildSeat,
+  buildSteeringWheel,
   buildStrut,
   buildTyre,
 } from "./evGeometry";
@@ -80,6 +86,13 @@ function useGeometries(): Record<GeoKey, BufferGeometry | null> {
       disc: buildDisc(),
       caliper: buildCaliper(),
       strut: buildStrut(),
+      seat: buildSeat(),
+      steeringWheel: buildSteeringWheel(),
+      dashboard: buildDashboard(),
+      hvCables: buildHvCables(),
+      mirror: buildMirror(),
+      tailBar: buildLightBar(1.3),
+      headBar: buildLightBar(0.46, 0.05),
       // Built per part from `args`, because each one differs.
       box: null,
       cylinder: null,
@@ -164,6 +177,10 @@ function Part({
   return (
     <mesh
       ref={mesh}
+      // The callout overlay finds its anchor by name and projects this mesh's
+      // world position every frame, so the label tracks the part through the
+      // explode without any React work.
+      name={part.anchor && part.region ? `anchor-${part.region}` : undefined}
       geometry={geo}
       position={part.at}
       rotation={part.rotation ?? [0, 0, 0]}
@@ -184,6 +201,9 @@ function Part({
         opacity={isShell ? SHELL_OPACITY : 1}
         depthWrite={!isShell}
         side={FrontSide}
+        // Black by default: only lamps opt into a glow. See CarPart.emissive.
+        emissive={part.emissive ?? "#000000"}
+        emissiveIntensity={part.emissiveIntensity ?? 0}
         envMapIntensity={isShell ? 2.2 : 1.05}
       />
     </mesh>

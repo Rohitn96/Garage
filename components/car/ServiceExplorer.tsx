@@ -7,6 +7,7 @@ import {
   motion,
   useMotionValueEvent,
   useScroll,
+  useSpring,
   useTransform,
 } from "framer-motion";
 import { SERVICE_GROUPS, type CarRegionId } from "@/data/services";
@@ -18,6 +19,7 @@ import {
   useRenders3D,
 } from "@/lib/useMotionPreference";
 import { Reveal } from "../Reveal";
+import type { CalloutRefs } from "./Callout";
 
 // three.js stays out of the initial bundle and never runs on the server.
 const CarScene = dynamic(() => import("./CarScene").then((m) => m.CarScene), {
@@ -30,8 +32,8 @@ const CarScene = dynamic(() => import("./CarScene").then((m) => m.CarScene), {
  * 0.94 – 1.00   back together before the next section
  *
  * Within each system's slice, `openness` ramps over the first 40% and then
- * holds. So the part is not playing an animation the scroll triggered — the
- * scroll IS the movement, and stopping halfway leaves it halfway open.
+ * holds. The part is not playing an animation the scroll triggered — the scroll
+ * IS the movement, and stopping halfway leaves it halfway open.
  * -------------------------------------------------------------------------*/
 const START = 0.1;
 const END = 0.94;
@@ -88,13 +90,25 @@ function ScrollExplorer() {
   const [index, setIndex] = useState<number | null>(null);
   const [running, setRunning] = useState(false);
 
+  // Written every frame by CalloutTracker, never by React.
+  const labelRef = useRef<HTMLDivElement | null>(null);
+  const pathRef = useRef<SVGPathElement | null>(null);
+  const dotRef = useRef<SVGCircleElement | null>(null);
+  const ringRef = useRef<SVGCircleElement | null>(null);
+  const calloutRefs: CalloutRefs = {
+    label: labelRef,
+    path: pathRef,
+    dot: dotRef,
+    ring: ringRef,
+  };
+
   const { scrollYProgress } = useScroll({
     target: track,
     offset: ["start start", "end end"],
   });
 
-  // How far the current system has separated. Held as a MotionValue so the
-  // scene reads it inside useFrame and the scroll causes ZERO React re-renders.
+  // How far the current system has separated. A MotionValue, so the scene reads
+  // it inside useFrame and scrolling causes ZERO React re-renders.
   const openness = useTransform(scrollYProgress, (p) => {
     if (p <= START || p >= END) return 0;
     const local = ((p - START) / SPAN) % 1;
@@ -103,6 +117,7 @@ function ScrollExplorer() {
 
   // One slow, continuous yaw across the whole track.
   const turn = useTransform(scrollYProgress, [0, 1], [-0.5, 1.15]);
+  const bar = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.4 });
 
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     if (p <= START || p >= END) {
@@ -143,13 +158,12 @@ function ScrollExplorer() {
       </div>
 
       {/* Track length: six systems at roughly two-thirds of a screen each, plus
-          a lead-in and a tail. Long enough that each system has a moment;
-          short enough that the section is not the whole page. */}
+          a lead-in and a tail. */}
       <div aria-hidden ref={track} className="relative h-[440vh] md:h-[520vh]">
         <div className="sticky top-0 h-[100svh] overflow-hidden">
-          {/* The canvas yields the right of the stage to the panel, so the car
-              is centred in what is left of it rather than behind the text. */}
-          <div className="absolute inset-x-0 top-0 h-[46svh] md:inset-0 md:left-[11rem] md:right-[25rem] md:h-auto">
+          {/* The car gets the whole stage. There is no side panel to make room
+              for any more — the services are pinned to the part they describe. */}
+          <div className="absolute inset-x-0 top-0 h-[46svh] md:inset-0 md:h-auto">
             {use3D ? (
               <CarScene
                 activeRegion={region}
@@ -157,92 +171,77 @@ function ScrollExplorer() {
                 turn={turn}
                 compact={compact}
                 running={running}
+                calloutRefs={calloutRefs}
               />
             ) : null}
-          </div>
 
-          {/* ---- Progress rail: where you are, and how far is left ---- */}
-          <ol className="pointer-events-none absolute left-6 top-1/2 hidden -translate-y-1/2 flex-col gap-3 md:left-10 md:flex">
-            {SERVICE_GROUPS.map((g, i) => {
-              const on = i === index;
-              return (
-                <li key={g.id} className="flex items-center gap-3">
-                  <span
-                    className={`h-px transition-all duration-500 ${
-                      on ? "w-9 bg-accent" : "w-4 bg-rule"
-                    }`}
-                  />
-                  <span
-                    className={`font-mono text-[0.64rem] uppercase tracking-label transition-colors duration-500 ${
-                      on ? "text-accent" : "text-graphite/40"
-                    }`}
+            {/* ---- Leader line and the point it comes from ---- */}
+            <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
+              <circle
+                ref={ringRef}
+                r="13"
+                className="fill-none stroke-accent/40 opacity-0 transition-opacity duration-300"
+                strokeWidth="1"
+              />
+              <circle
+                ref={dotRef}
+                r="3"
+                className="fill-accent opacity-0 transition-opacity duration-300"
+              />
+              <path
+                ref={pathRef}
+                className="fill-none stroke-accent/55 opacity-0 transition-opacity duration-300"
+                strokeWidth="1"
+              />
+            </svg>
+
+            {/* ---- The callout ---- */}
+            <div
+              ref={labelRef}
+              data-side="right"
+              // Phone: placed by CSS under the stage. Desktop: placed every frame
+              // by CalloutTracker, in whichever margin the part is nearer.
+              className="pointer-events-none absolute left-0 top-[calc(46svh+1.75rem)] w-full px-6 opacity-0 transition-opacity duration-300 data-[side=left]:text-right data-[side=right]:text-left md:top-0 md:w-[16rem] md:px-0 lg:w-[18rem]"
+            >
+              <AnimatePresence mode="wait">
+                {group && (
+                  <motion.div
+                    key={group.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
                   >
-                    {t(g.title)}
-                  </span>
-                </li>
-              );
-            })}
-          </ol>
-
-          {/* ---- The services for the system on screen ---- */}
-          {/* On a phone this is a panel BELOW the car, not a caption over it:
-              floating the text on the stage left the standfirst sitting on the
-              battery pack, and no scrim strong enough to fix that still let you
-              see the car. Desktop keeps the overlay, where there is room. */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[46svh] bg-paper px-6 pt-7 md:bottom-0 md:left-auto md:right-10 md:top-0 md:flex md:w-[24rem] md:items-center md:bg-transparent md:px-0 md:pt-0">
-            {/* A hairline where the stage meets the panel, so the join is drawn
-                rather than accidental. */}
-            <div className="absolute inset-x-6 top-0 h-px bg-rule md:hidden" />
-
-            <AnimatePresence mode="wait">
-              {group && (
-                <motion.div
-                  key={group.id}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.35, ease: [0.22, 0.61, 0.36, 1] }}
-                  className="relative"
-                >
-                  <div className="mb-3 flex items-center gap-3">
-                    <span className="font-mono text-[0.64rem] tabular-nums text-accent">
+                    <p className="font-mono text-[0.62rem] tabular-nums tracking-label text-accent">
                       {String((index ?? 0) + 1).padStart(2, "0")}
                       <span className="text-graphite/50">
                         {" / "}
                         {String(SERVICE_GROUPS.length).padStart(2, "0")}
                       </span>
-                    </span>
-                    <span aria-hidden className="h-px flex-1 bg-rule md:max-w-[3rem]" />
-                  </div>
-
-                  <h3 className="font-display text-[clamp(1.7rem,4.5vw,2.3rem)] leading-tight tracking-[-0.015em]">
-                    {t(group.title)}
-                  </h3>
-                  <p className="mt-2 max-w-[38ch] text-[0.88rem] leading-relaxed text-graphite">
-                    {t(group.standfirst)}
-                  </p>
-
-                  <ul className="mt-5 grid gap-2.5 md:gap-3">
-                    {group.items.map((item, i) => (
-                      <motion.li
-                        key={item.id}
-                        initial={{ opacity: 0, x: -6 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.08 + i * 0.05, duration: 0.3 }}
-                        className="border-l border-accent/35 pl-4"
-                      >
-                        <p className="font-display text-[1.1rem] leading-snug tracking-[-0.01em]">
+                    </p>
+                    <h3 className="mt-1.5 font-display text-[1.55rem] leading-tight tracking-[-0.015em] sm:text-[1.8rem]">
+                      {t(group.title)}
+                    </h3>
+                    <p className="mt-1.5 text-[0.83rem] leading-relaxed text-graphite">
+                      {t(group.standfirst)}
+                    </p>
+                    <ul className="mt-3.5 grid gap-1.5">
+                      {group.items.map((item, i) => (
+                        <motion.li
+                          key={item.id}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.06 + i * 0.045, duration: 0.25 }}
+                          className="font-display text-[1rem] leading-snug tracking-[-0.01em]"
+                        >
                           {t(item.name)}
-                        </p>
-                        <p className="mt-0.5 hidden text-[0.83rem] leading-relaxed text-graphite md:block">
-                          {t(item.blurb)}
-                        </p>
-                      </motion.li>
-                    ))}
-                  </ul>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* ---- Scroll affordance, only before the first system ---- */}
@@ -252,12 +251,17 @@ function ScrollExplorer() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-x-0 top-[calc(46svh+2.5rem)] text-center font-mono text-[0.64rem] uppercase tracking-label text-graphite/70 md:inset-x-auto md:right-10 md:top-1/2 md:w-[24rem] md:-translate-y-1/2 md:text-left"
+                className="pointer-events-none absolute inset-x-0 bottom-16 text-center font-mono text-[0.64rem] uppercase tracking-label text-graphite/70"
               >
                 {t(c.hint)}
               </motion.p>
             )}
           </AnimatePresence>
+
+          {/* ---- Progress: one hairline, filling. Replaces a second list. ---- */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-rule">
+            <motion.div style={{ scaleX: bar }} className="h-full origin-left bg-accent" />
+          </div>
         </div>
       </div>
     </section>

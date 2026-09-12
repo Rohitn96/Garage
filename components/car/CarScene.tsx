@@ -5,6 +5,7 @@ import { ContactShadows, Environment, Lightformer } from "@react-three/drei";
 import { ACESFilmicToneMapping, MathUtils } from "three";
 import type { MotionValue } from "framer-motion";
 import { CarModel } from "./CarModel";
+import { CalloutTracker, type CalloutRefs } from "./Callout";
 import type { CarRegionId } from "@/data/services";
 
 /**
@@ -22,13 +23,13 @@ function Rig({
 
   useFrame((_, delta) => {
     const t = openness.get();
-    const distance = compact ? MathUtils.lerp(7.0, 8.2, t) : MathUtils.lerp(7.2, 8.5, t);
+    const distance = compact ? MathUtils.lerp(9.2, 10.4, t) : MathUtils.lerp(9.4, 10.6, t);
     const height = MathUtils.lerp(1.7, 2.7, t);
 
     camera.position.x = MathUtils.damp(camera.position.x, distance * 0.72, 3, delta);
     camera.position.y = MathUtils.damp(camera.position.y, height, 3, delta);
     camera.position.z = MathUtils.damp(camera.position.z, distance * 0.68, 3, delta);
-    camera.lookAt(0, compact ? 0.2 : 0.16, 0);
+    camera.lookAt(0, compact ? 0.22 : 0.3, 0);
   });
 
   return null;
@@ -40,6 +41,7 @@ export function CarScene({
   turn,
   compact = false,
   running = true,
+  calloutRefs,
 }: {
   activeRegion: CarRegionId | null;
   openness: MotionValue<number>;
@@ -47,6 +49,8 @@ export function CarScene({
   compact?: boolean;
   /** False when the section is off screen — stops the render loop entirely. */
   running?: boolean;
+  /** DOM nodes the callout tracker writes to each frame. */
+  calloutRefs: CalloutRefs;
 }) {
   return (
     <Canvas
@@ -136,6 +140,7 @@ export function CarScene({
 
       <Rig openness={openness} compact={compact} />
       <CarModel activeRegion={activeRegion} openness={openness} turn={turn} />
+      <CalloutTracker region={activeRegion} refs={calloutRefs} compact={compact} />
 
       {/*
         Grounds the car without a floor plane. A lit surface tinted to the page

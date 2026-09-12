@@ -115,6 +115,16 @@ position buffer then turn that flat slab into a body:
 | tumblehome | narrows Z toward the roof, giving the cabin its lean and the body its waist |
 | shoulder crown | a slight barrel through the middle, so the flank catches a moving highlight |
 
+Detail carried by the same merge-once-reuse-four-times approach: tread blocks on
+the tyres, ten-spoke turbine rims with hub and lug bosses, vented brake discs (two
+faces and a ring of vanes), real helical coil springs swept as tubes, seats, a
+dashboard and a raked steering wheel behind the glass, door mirrors, front and rear
+light bars, and orange high-voltage cable runs from the pack to both drive units.
+
+The HV cable colour is not a styling choice: HV cable is orange by international
+convention so nobody grabs it by accident, and on a cutaway it is the most legible
+"this is an EV and working on it takes certification" signal available.
+
 Tyres are lathes, not cylinders — a cylinder has a hard 90° edge where tread meets
 sidewall, and the shoulder radius is exactly where the highlight sits. Rims, the battery
 pack, drive units, discs and calipers are each merged into one geometry, so four wheels
@@ -126,10 +136,35 @@ from stops being coplanar and every internal seam becomes an "edge". No threshol
 separates those seams from real creases, because near the nose the taper makes them just
 as steep.
 
+### Callouts
+
+**The services are pinned to the part they describe**, with a leader line, a marker ring
+and a dot on the part itself. A panel off to one side was built first and removed: it
+made the visitor read in two places at once and quietly became the thing they looked at
+instead of the car.
+
+The label sits in the MARGIN, not floating beside the part. Offsetting it a fixed
+distance from the anchor was tried and it constantly landed on the bodywork — the part
+it points at is by definition in the middle of the car. Technical illustration settled
+this a century ago: labels go in the clear space at the edge of the plate and a leader
+crosses the drawing. So the label takes whichever margin the part is nearer, the text
+hugs the side the line arrives from, and the leader attaches beside the title rather
+than at the block's corner.
+
+`CalloutTracker` runs inside the Canvas and touches no React state: every frame it
+projects the anchor mesh's world position to screen pixels and writes `transform` and a
+path `d` straight to the DOM. A label tracking a moving part at 60fps costs zero
+re-renders; React runs six times across the whole section, when the region changes.
+
+On a phone the label is placed by CSS beneath the stage and the leader runs down into
+it. A car is wide, and in portrait no camera distance both fills the screen and keeps
+the car whole — so the phone gets a landscape-ish stage of its own, and the line
+crossing the boundary is what keeps picture and text one object.
+
 ### Interaction
 
-**One continuous scroll.** The track is ~520vh; the car and the service panel are driven
-by the same scroll value. Within each system's slice `openness` ramps over the first 40%
+**One continuous scroll.** The track is ~520vh; the car and the callout are driven by
+the same scroll value. Within each system's slice `openness` ramps over the first 40%
 and then holds, so the scroll IS the movement — stop halfway and the part sits halfway
 out. The whole car also yaws slowly across the entire track, which is what makes six
 systems read as one move instead of six events.
@@ -138,6 +173,10 @@ Clicking was tried and removed: a click is more effort than a scroll for somethi
 are reading top to bottom, and it meant the visitor had to decide what to open before
 they knew what was inside. The earlier 720vh version failed for the opposite reason —
 it was so long that scrolling to read pushed you off the thing you were reading.
+
+Orientation is one filling hairline at the foot of the stage. A second list of system
+names was there and went: the callout already says which system this is and how many
+are left.
 
 Because the visible content is scroll-dependent again, the full catalogue is also
 rendered `sr-only` in document order, and the stage is `aria-hidden`. Screen readers,

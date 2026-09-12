@@ -1,11 +1,15 @@
 import {
   BoxGeometry,
   BufferGeometry,
+  CatmullRomCurve3,
   CylinderGeometry,
   ExtrudeGeometry,
   LatheGeometry,
   Shape,
+  TorusGeometry,
+  TubeGeometry,
   Vector2,
+  Vector3,
 } from "three";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
@@ -224,7 +228,23 @@ export function buildTyre(): BufferGeometry {
     new Vector2(0.245, hw),
     new Vector2(0.205, hw - 0.01),
   ];
-  const geo = new LatheGeometry(profile, 40);
+  const carcass = new LatheGeometry(profile, 44);
+  const parts: BufferGeometry[] = [carcass];
+
+  // Tread blocks. Merged once and reused on all four corners, and they do more
+  // for the silhouette than anything else on the wheel: a smooth torus reads as
+  // a doughnut, a broken one reads as a tyre.
+  const blocks = 30;
+  for (let i = 0; i < blocks; i++) {
+    const a = (i / blocks) * Math.PI * 2;
+    const block = new BoxGeometry(0.05, 0.018, wheelW * 0.6);
+    // Alternate either side of the centre line, like a real tread pattern.
+    block.translate(0, (i % 2 ? 1 : -1) * wheelW * 0.17, wheelR - 0.004);
+    block.rotateX(a);
+    parts.push(block);
+  }
+
+  const geo = mergeGeometries(parts, false)!;
   geo.rotateX(Math.PI / 2); // lay the axis along Z
   return geo;
 }
@@ -252,13 +272,27 @@ export function buildRim(): BufferGeometry {
   lip.translate(0, wheelW * 0.40, 0);
   parts.push(lip);
 
-  // Five pockets pressed into the face.
+  // Ten turbine spokes, each raked slightly so the face has depth rather than
+  // reading as a printed disc.
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    const spoke = new BoxGeometry(0.034, 0.028, 0.125);
+    spoke.rotateX(0.2);
+    spoke.translate(0, wheelW * 0.47, 0.118);
+    spoke.rotateY(a);
+    parts.push(spoke);
+  }
+
+  // Hub cap and five lug bosses: the detail the eye checks for on a wheel.
+  const hub = new CylinderGeometry(0.056, 0.052, 0.032, 20);
+  hub.translate(0, wheelW * 0.5, 0);
+  parts.push(hub);
   for (let i = 0; i < 5; i++) {
     const a = (i / 5) * Math.PI * 2;
-    const pocket = new BoxGeometry(0.052, 0.02, 0.112);
-    pocket.translate(0, wheelW * 0.47, 0.113);
-    pocket.rotateY(a);
-    parts.push(pocket);
+    const lug = new CylinderGeometry(0.013, 0.013, 0.022, 10);
+    lug.translate(0.08, wheelW * 0.5, 0);
+    lug.rotateY(a);
+    parts.push(lug);
   }
 
   const merged = mergeGeometries(parts, false)!;
@@ -327,14 +361,41 @@ export function buildDriveUnit(scale = 1): BufferGeometry {
   return merged;
 }
 
-/** Brake disc with a hat and a vented edge hint. */
+/**
+ * Vented brake disc: two friction faces with a ring of vanes between them.
+ *
+ * Replaces a solid puck. The vanes only show at the rim — which is exactly where
+ * the eye goes once the wheel has been pulled away from the car, so it is the
+ * cheapest detail on the model per unit of attention it receives.
+ */
 export function buildDisc(): BufferGeometry {
   const parts: BufferGeometry[] = [];
-  const face = new CylinderGeometry(0.24, 0.24, 0.024, 32);
-  parts.push(face);
-  const hat = new CylinderGeometry(0.105, 0.105, 0.06, 24);
-  hat.translate(0, 0.03, 0);
+  const R = 0.24;
+
+  for (const y of [-0.018, 0.018]) {
+    const face = new CylinderGeometry(R, R, 0.013, 36);
+    face.translate(0, y, 0);
+    parts.push(face);
+  }
+  for (let i = 0; i < 30; i++) {
+    const a = (i / 30) * Math.PI * 2;
+    const vane = new BoxGeometry(0.055, 0.024, 0.013);
+    vane.translate(R - 0.05, 0, 0);
+    vane.rotateY(a);
+    parts.push(vane);
+  }
+
+  const hat = new CylinderGeometry(0.1, 0.094, 0.08, 24);
+  hat.translate(0, 0.052, 0);
   parts.push(hat);
+  for (let i = 0; i < 5; i++) {
+    const a = (i / 5) * Math.PI * 2;
+    const stud = new CylinderGeometry(0.012, 0.012, 0.03, 8);
+    stud.translate(0.062, 0.08, 0);
+    stud.rotateY(a);
+    parts.push(stud);
+  }
+
   const merged = mergeGeometries(parts, false)!;
   merged.rotateX(Math.PI / 2);
   return merged;
@@ -353,10 +414,28 @@ export function buildCaliper(): BufferGeometry {
   return mergeGeometries(parts, false)!;
 }
 
-/** Strut: coil spring suggested by a tapered body, plus the damper rod. */
+/**
+ * Strut: a real helical coil, the damper rod and a top mount.
+ *
+ * The coil is a tube swept along a helix rather than a tapered cylinder. It is
+ * six turns of trigonometry and it is the difference between "a suspension
+ * component" and "a peg" — a spring is the one part on a car that everybody can
+ * identify on sight, so faking it is immediately obvious.
+ */
 export function buildStrut(): BufferGeometry {
   const parts: BufferGeometry[] = [];
-  const spring = new CylinderGeometry(0.072, 0.08, 0.3, 18);
+
+  const turns = 6;
+  const coilR = 0.072;
+  const coilH = 0.3;
+  const steps = turns * 16;
+  const pts: Vector3[] = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const a = t * turns * Math.PI * 2;
+    pts.push(new Vector3(Math.cos(a) * coilR, -coilH / 2 + t * coilH, Math.sin(a) * coilR));
+  }
+  const spring = new TubeGeometry(new CatmullRomCurve3(pts), steps, 0.0135, 8, false);
   parts.push(spring);
   const rod = new CylinderGeometry(0.026, 0.026, 0.28, 14);
   rod.translate(0, 0.26, 0);
@@ -365,4 +444,112 @@ export function buildStrut(): BufferGeometry {
   top.translate(0, 0.4, 0);
   parts.push(top);
   return mergeGeometries(parts, false)!;
+}
+
+/* --- Cabin ----------------------------------------------------------------
+ * Seats and a wheel, seen through the glass.
+ *
+ * An empty greenhouse is the single thing that most makes a car model read as a
+ * shell. You cannot see much through tinted glass, and that is the point: the
+ * eye only needs the suggestion of an interior to stop reading the cabin as a
+ * void.
+ * -------------------------------------------------------------------------*/
+export function buildSeat(): BufferGeometry {
+  const parts: BufferGeometry[] = [];
+  const base = new BoxGeometry(0.44, 0.1, 0.44);
+  parts.push(base);
+  const back = new BoxGeometry(0.13, 0.56, 0.42);
+  back.rotateZ(-0.17);
+  back.translate(-0.21, 0.3, 0);
+  parts.push(back);
+  const rest = new BoxGeometry(0.12, 0.15, 0.26);
+  rest.translate(-0.29, 0.62, 0);
+  parts.push(rest);
+  return mergeGeometries(parts, false)!;
+}
+
+export function buildSteeringWheel(): BufferGeometry {
+  const parts: BufferGeometry[] = [];
+  const rim = new TorusGeometry(0.15, 0.018, 10, 30);
+  parts.push(rim);
+  const hub = new CylinderGeometry(0.048, 0.048, 0.04, 16);
+  hub.rotateX(Math.PI / 2);
+  parts.push(hub);
+  for (const a of [-0.65, 0.65, Math.PI]) {
+    const spoke = new BoxGeometry(0.11, 0.022, 0.028);
+    spoke.translate(0.055, 0, 0);
+    spoke.rotateZ(a);
+    parts.push(spoke);
+  }
+  const geo = mergeGeometries(parts, false)!;
+  geo.rotateY(Math.PI / 2);
+  geo.rotateZ(-0.52); // raked, like a real column
+  return geo;
+}
+
+/** Dashboard and centre screen, so the front of the cabin is not hollow. */
+export function buildDashboard(): BufferGeometry {
+  const parts: BufferGeometry[] = [];
+  const binnacle = new BoxGeometry(0.3, 0.11, 1.42);
+  parts.push(binnacle);
+  const screen = new BoxGeometry(0.02, 0.19, 0.32);
+  screen.rotateZ(0.06);
+  screen.translate(-0.13, 0.02, 0.02);
+  parts.push(screen);
+  return mergeGeometries(parts, false)!;
+}
+
+/**
+ * High-voltage cable runs, pack to drive units.
+ *
+ * Orange is not a styling choice here: HV cable is orange by international
+ * convention, specifically so that nobody grabs it by accident. On a cutaway it
+ * is the most legible "this is an EV, and working on it takes certification"
+ * signal available — which is exactly the claim the page beside it makes.
+ */
+export function buildHvCables(): BufferGeometry {
+  const runs: Vector3[][] = [
+    [
+      new Vector3(-0.95, 0.44, 0.24),
+      new Vector3(-1.18, 0.54, 0.28),
+      new Vector3(-1.36, 0.56, 0.15),
+      new Vector3(-1.42, 0.5, 0.03),
+    ],
+    [
+      new Vector3(0.95, 0.44, -0.22),
+      new Vector3(1.18, 0.54, -0.26),
+      new Vector3(1.36, 0.54, -0.13),
+      new Vector3(1.42, 0.48, -0.02),
+    ],
+    [
+      new Vector3(-1.0, 0.46, -0.22),
+      new Vector3(-1.24, 0.6, -0.22),
+      new Vector3(-1.38, 0.68, -0.09),
+    ],
+    [
+      new Vector3(1.5, 0.5, 0.3),
+      new Vector3(1.72, 0.62, 0.4),
+      new Vector3(1.86, 0.6, 0.3),
+    ],
+  ];
+  const parts = runs.map(
+    (pts) => new TubeGeometry(new CatmullRomCurve3(pts), 30, 0.021, 8, false),
+  );
+  return mergeGeometries(parts, false)!;
+}
+
+/** Door mirror: stalk plus housing. Small, and badly missed when absent. */
+export function buildMirror(): BufferGeometry {
+  const parts: BufferGeometry[] = [];
+  const stalk = new BoxGeometry(0.05, 0.028, 0.075);
+  parts.push(stalk);
+  const housing = new BoxGeometry(0.145, 0.075, 0.055);
+  housing.translate(0.015, 0.026, 0.08);
+  parts.push(housing);
+  return mergeGeometries(parts, false)!;
+}
+
+/** A width-spanning light bar: the strip every modern EV wears at the back. */
+export function buildLightBar(width: number, depth = 0.035): BufferGeometry {
+  return new BoxGeometry(depth, 0.05, width);
 }
