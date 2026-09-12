@@ -14,17 +14,27 @@ import type { CarRegionId } from "@/data/services";
  */
 function Rig({
   openness,
+  progress,
   compact,
 }: {
   openness: MotionValue<number>;
+  progress: MotionValue<number>;
   compact: boolean;
 }) {
   const { camera } = useThree();
 
   useFrame((_, delta) => {
     const t = openness.get();
-    const distance = compact ? MathUtils.lerp(9.2, 10.4, t) : MathUtils.lerp(9.4, 10.6, t);
-    const height = MathUtils.lerp(1.7, 2.7, t);
+    const p = progress.get();
+    // The phone frames the assembled car tight, then gives back more room than
+    // desktop does as a system opens: at this size a separated part reaches the
+    // edge of a 390px stage long before it would on a 1440px one.
+    const distance = compact ? MathUtils.lerp(7.8, 9.6, t) : MathUtils.lerp(9.4, 10.6, t);
+    // The eye line also travels: up over the first half of the track and back
+    // down over the second. Combined with the yaw it means no two systems are
+    // seen from the same place, which is most of what stops an exploded view
+    // reading as parts twitching in and out of a static picture.
+    const height = MathUtils.lerp(1.7, 2.7, t) + Math.sin(p * Math.PI * 2) * 0.45;
 
     camera.position.x = MathUtils.damp(camera.position.x, distance * 0.72, 3, delta);
     camera.position.y = MathUtils.damp(camera.position.y, height, 3, delta);
@@ -42,10 +52,13 @@ export function CarScene({
   compact = false,
   running = true,
   calloutRefs,
+  progress,
 }: {
   activeRegion: CarRegionId | null;
   openness: MotionValue<number>;
   turn: MotionValue<number>;
+  /** Raw scroll progress through the track, for the camera arc. */
+  progress: MotionValue<number>;
   compact?: boolean;
   /** False when the section is off screen — stops the render loop entirely. */
   running?: boolean;
@@ -138,7 +151,7 @@ export function CarScene({
       {/* One key, for the specular definition an environment alone will not give. */}
       <directionalLight position={[5, 7, 4]} intensity={1.1} />
 
-      <Rig openness={openness} compact={compact} />
+      <Rig openness={openness} progress={progress} compact={compact} />
       <CarModel activeRegion={activeRegion} openness={openness} turn={turn} />
       <CalloutTracker region={activeRegion} refs={calloutRefs} compact={compact} />
 

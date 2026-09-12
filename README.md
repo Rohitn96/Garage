@@ -163,8 +163,20 @@ crossing the boundary is what keeps picture and text one object.
 
 ### Interaction
 
-**One continuous scroll.** The track is ~520vh; the car and the callout are driven by
-the same scroll value. Within each system's slice `openness` ramps over the first 40%
+**One continuous scroll.** The track is 560vh on desktop and **640vh on a phone**; the
+car and the callout are driven by the same scroll value.
+
+The phone track is the longer of the two on purpose. At 440vh each system got about
+73vh, which is inside a single thumb flick — a part could separate and close again
+between two frames of anyone's attention, and systems read as skipped. More scroll per
+system is the only fix; nothing about the animation was wrong.
+
+**The car turns about three quarters of a revolution across the track**, roughly 50
+degrees per system, and the camera's eye line rises over the first half and falls over
+the second. An earlier version turned 95 degrees in total, which meant every system
+arrived at almost the same angle as the last and the only thing that ever moved was a
+part sliding out and back. Yaw plus a travelling eye line is what stops an exploded
+view reading as parts twitching in and out of a static picture. Within each system's slice `openness` ramps over the first 40%
 and then holds, so the scroll IS the movement — stop halfway and the part sits halfway
 out. The whole car also yaws slowly across the entire track, which is what makes six
 systems read as one move instead of six events.
@@ -228,6 +240,13 @@ the content and is complete on its own, which is why the old static SVG diagram
   128px cube map, rendered once. It matters — every material here is metal, and metal
   with nothing to reflect renders flat grey no matter how many lamps you point at it.
 - DPR capped at 1.5 on phones.
+
+### Phone framing
+
+The stage is `52svh` of canvas with the label beneath it. The camera frames the
+assembled car tight and then gives back more room than desktop does as a system opens
+(7.8 to 9.6, against 9.4 to 10.6): at this size a separated part reaches the edge of a
+390px stage long before it would on a 1440px one.
 
 ## S3XY
 

@@ -38,7 +38,7 @@ const CarScene = dynamic(() => import("./CarScene").then((m) => m.CarScene), {
 const START = 0.1;
 const END = 0.94;
 const SPAN = (END - START) / SERVICE_GROUPS.length;
-const RAMP = 0.4;
+const RAMP = 0.32;
 
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const smooth = (t: number) => t * t * (3 - 2 * t);
@@ -115,8 +115,12 @@ function ScrollExplorer() {
     return smooth(clamp01(local / RAMP));
   });
 
-  // One slow, continuous yaw across the whole track.
-  const turn = useTransform(scrollYProgress, [0, 1], [-0.5, 1.15]);
+  // Yaw: roughly three quarters of a turn across the track, about 50 degrees
+  // per system. The earlier 95 degrees total meant each system arrived at
+  // nearly the same angle as the last, so the only thing that ever moved was a
+  // part sliding out and back. Now the car is genuinely turning under you and
+  // every system is presented from its own side.
+  const turn = useTransform(scrollYProgress, [0, 1], [-0.45, 4.9]);
   const bar = useSpring(scrollYProgress, { stiffness: 220, damping: 40, mass: 0.4 });
 
   useMotionValueEvent(scrollYProgress, "change", (p) => {
@@ -159,15 +163,16 @@ function ScrollExplorer() {
 
       {/* Track length: six systems at roughly two-thirds of a screen each, plus
           a lead-in and a tail. */}
-      <div aria-hidden ref={track} className="relative h-[440vh] md:h-[520vh]">
+      <div aria-hidden ref={track} className="relative h-[640vh] md:h-[560vh]">
         <div className="sticky top-0 h-[100svh] overflow-hidden">
           {/* The car gets the whole stage. There is no side panel to make room
               for any more — the services are pinned to the part they describe. */}
-          <div className="absolute inset-x-0 top-0 h-[46svh] md:inset-0 md:h-auto">
+          <div className="absolute inset-x-0 top-0 h-[52svh] md:inset-0 md:h-auto">
             {use3D ? (
               <CarScene
                 activeRegion={region}
                 openness={openness}
+                progress={scrollYProgress}
                 turn={turn}
                 compact={compact}
                 running={running}
@@ -227,7 +232,7 @@ function ScrollExplorer() {
               data-side="right"
               // Phone: placed by CSS under the stage. Desktop: placed every frame
               // by CalloutTracker, in whichever margin the part is nearer.
-              className="pointer-events-none absolute left-0 top-[calc(46svh+1.75rem)] w-full px-6 opacity-0 transition-opacity duration-300 data-[side=left]:text-right data-[side=right]:text-left md:top-0 md:w-[16rem] md:px-0 lg:w-[18rem]"
+              className="pointer-events-none absolute left-0 top-[calc(52svh+1.5rem)] w-full px-6 opacity-0 transition-opacity duration-300 data-[side=left]:text-right data-[side=right]:text-left md:top-0 md:w-[16rem] md:px-0 lg:w-[18rem]"
             >
               <AnimatePresence mode="wait">
                 {group && (

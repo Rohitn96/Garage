@@ -139,7 +139,7 @@ export function CarModel({
     const open = openness.get();
 
     if (group.current) {
-      group.current.rotation.y = MathUtils.damp(group.current.rotation.y, turn.get(), 4, dt);
+      group.current.rotation.y = MathUtils.damp(group.current.rotation.y, turn.get(), 5, dt);
       // A breath of vertical float, small enough to read as "live", not motion.
       group.current.position.y = -0.62 + Math.sin(state.clock.elapsedTime * 0.55) * 0.012;
     }
@@ -155,7 +155,7 @@ export function CarModel({
       // The system on screen separates by exactly as much as the scroll has
       // travelled through its own stretch of the track — so the movement IS the
       // scroll, not an animation the scroll happens to trigger.
-      spread.current[i] = MathUtils.damp(spread.current[i], focused ? open : 0, 7, dt);
+      spread.current[i] = MathUtils.damp(spread.current[i], focused ? open : 0, 9, dt);
       glow.current[i] = MathUtils.damp(glow.current[i], focused ? 1 : 0, 6, dt);
 
       const s = spread.current[i];
