@@ -62,10 +62,10 @@ export function Nav() {
     >
       <nav
         aria-label={t(c.menu)}
-        className="mx-auto flex h-16 w-full max-w-page items-center justify-between gap-6 px-6 md:h-[4.5rem] md:px-10"
+        className="mx-auto flex h-[4.6rem] w-full max-w-page items-center justify-between gap-6 px-6 md:h-[5.2rem] md:px-10"
       >
         <Link href={h("/")} aria-label={t(c.backHome)} className="shrink-0">
-          <Wordmark className="text-[1.5rem] md:text-[1.7rem]" />
+          <Wordmark className="text-[1.85rem] md:text-[2.1rem]" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

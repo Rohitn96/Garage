@@ -2,89 +2,131 @@
 
 import { useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Edges, RoundedBox } from "@react-three/drei";
 import {
-  MathUtils,
+  BoxGeometry,
   Color,
+  CylinderGeometry,
   FrontSide,
+  MathUtils,
+  type BufferGeometry,
   type Group,
   type Mesh,
-  type MeshStandardMaterial,
+  type MeshPhysicalMaterial,
 } from "three";
-import { CAR_PARTS, type CarPart } from "./carParts";
+import type { MotionValue } from "framer-motion";
+import { CAR_PARTS, type CarPart, type GeoKey } from "./carParts";
+import {
+  buildBatteryPack,
+  buildCaliper,
+  buildDisc,
+  buildDriveUnit,
+  buildGreenhouse,
+  buildLowerBody,
+  buildRim,
+  buildStrut,
+  buildTyre,
+} from "./evGeometry";
 import type { CarRegionId } from "@/data/services";
 
 /**
- * The selected system is NOT painted with the accent.
+ * Focus and recession are both multiplicative. See the frame loop for why.
  *
- * Tinting toward `#35D68A` was tried and looks wrong for a reason worth writing
- * down: three.js lerps colour in LINEAR space, where the accent is an order of
- * magnitude brighter than a near-black graphite part, so even a 30% blend
- * resolves to vivid green and the battery pack rendered as a slab of neon
- * plastic. Selection is already carried by three stronger signals — the part
- * moves, everything else recedes, and the list entry opens — so the mechanicals
- * keep their true colour and the scene reads as a technical cutaway instead of
- * a toy. The accent stays where it means something: the interface.
+ * Nothing is ever tinted with the accent, and nothing is self-lit. Both were
+ * tried. A default mint emissive on every part looked harmless at 0.05 until it
+ * landed on a tyre: rubber's albedo is about 0.05 too, so the glow was not a
+ * highlight on the tyre, it WAS the tyre, and every focused wheel turned bright
+ * green. Focus is carried by three things that cannot misfire like that — the
+ * part moves, everything else washes back, and the panel names it.
  */
-/** Focused parts lift slightly toward light, keeping their own hue. */
-const LIFT = new Color("#DCE4E2");
-/** Unselected mechanicals recede toward this rather than going translucent. */
-const WASH = new Color("#14181A");
 
 /* --- Shell -----------------------------------------------------------------
- * The bodywork is drawn as tinted glass with a lit edge, so the mechanicals
- * inside stay legible without the shell being taken off.
+ * The bodywork is drawn as tinted lacquer you can see through, so the
+ * mechanicals inside stay legible without the body being taken off.
  *
  * Two things make this work and both are easy to get wrong:
  *
  *   depthWrite={false} — a transparent surface that writes depth occludes
  *   whatever is drawn after it, regardless of its own opacity. With depth
- *   writing on, the near side of the shell silently swallows half the car.
+ *   writing on, the near flank silently swallows half the car.
  *
- *   renderOrder — transparent surfaces composite in draw order, so the shell
- *   has to be drawn AFTER every opaque part. Without it the shell is blended
- *   against whatever happened to be behind it at the time, and parts flicker in
- *   and out as the car turns.
+ *   renderOrder — transparent surfaces composite in draw order, so the shell has
+ *   to be drawn AFTER every opaque part. Without it the shell blends against
+ *   whatever happened to be behind it, and parts flicker as the car turns.
  *
- * FrontSide, not DoubleSide: with both faces drawn, the far wall of the shell
- * blends over the near one and the whole body turns milky.
+ * FrontSide, not DoubleSide: with both faces drawn, the far flank blends over
+ * the near one and the whole body turns milky.
+ *
+ * No drawn edges. Outlining the shell was tried and abandoned: lofting bends the
+ * extrusion's flat side caps into curved surfaces, so the fan of triangles they
+ * were built from stops being coplanar and EVERY internal seam becomes an
+ * "edge". No threshold separates those seams from the real creases, because
+ * near the nose the taper makes them just as steep. The surface carries the
+ * form on its own.
  * -------------------------------------------------------------------------*/
-const SHELL_OPACITY = 0.18;
-/** With a system open, the shell steps further back so the parts read clearly. */
-const SHELL_OPACITY_OPEN = 0.11;
-const EDGE_COLOR = "#5A6C6A";
-const EDGE_COLOR_OPEN = "#3C4846";
+const SHELL_OPACITY = 0.3;
+/** With a system open the shell steps back so the parts read clearly. */
+const SHELL_OPACITY_OPEN = 0.13;
+
+/** Geometry is built once per page and shared by every part that uses it. */
+function useGeometries(): Record<GeoKey, BufferGeometry | null> {
+  return useMemo(
+    () => ({
+      lowerBody: buildLowerBody(),
+      greenhouse: buildGreenhouse(),
+      tyre: buildTyre(),
+      rim: buildRim(),
+      pack: buildBatteryPack(),
+      driveUnit: buildDriveUnit(),
+      disc: buildDisc(),
+      caliper: buildCaliper(),
+      strut: buildStrut(),
+      // Built per part from `args`, because each one differs.
+      box: null,
+      cylinder: null,
+    }),
+    [],
+  );
+}
 
 function Part({
   part,
+  geometry,
   activeRegion,
-  onSelect,
-  onHover,
+  openness,
 }: {
   part: CarPart;
+  geometry: BufferGeometry | null;
   activeRegion: CarRegionId | null;
-  onSelect: (region: CarRegionId) => void;
-  onHover: (region: CarRegionId | null) => void;
+  /** 0 = assembled, 1 = the active system fully separated. */
+  openness: MotionValue<number>;
 }) {
   const mesh = useRef<Mesh>(null);
-  const material = useRef<MeshStandardMaterial>(null);
+  const material = useRef<MeshPhysicalMaterial>(null);
   const baseColor = useMemo(() => new Color(part.color), [part.color]);
 
-  // Damped per-part, so a fast click-through does not snap parts across screen.
   const spread = useRef(0);
   const glow = useRef(0);
 
   const isShell = part.layer === "shell";
-  const baseEmissive = part.emissiveIntensity ?? 0;
+
+  const geo = useMemo(() => {
+    if (geometry) return geometry;
+    const a = part.args ?? [];
+    return part.geo === "cylinder"
+      ? new CylinderGeometry(a[0], a[1], a[2], a[3] ?? 16)
+      : new BoxGeometry(a[0], a[1], a[2]);
+  }, [geometry, part.args, part.geo]);
 
   useFrame((_, delta) => {
     if (!mesh.current) return;
 
     const focused = !isShell && activeRegion === part.region;
-    // Only the selected system separates. Everything else holds position, so
-    // cause and effect stay obvious — one click, one thing moves.
-    spread.current = MathUtils.damp(spread.current, focused ? 1 : 0, 5, delta);
-    glow.current = MathUtils.damp(glow.current, focused ? 1 : 0, 5, delta);
+    // The system on screen separates by exactly as much as the scroll has
+    // travelled through its own stretch of the track — so the movement is the
+    // scroll, not an animation the scroll happens to trigger.
+    const target = focused ? openness.get() : 0;
+    spread.current = MathUtils.damp(spread.current, target, 7, delta);
+    glow.current = MathUtils.damp(glow.current, focused ? 1 : 0, 6, delta);
 
     mesh.current.position.set(
       part.at[0] + part.blowsTo[0] * spread.current,
@@ -99,7 +141,7 @@ function Part({
       mat.opacity = MathUtils.damp(
         mat.opacity,
         activeRegion ? SHELL_OPACITY_OPEN : SHELL_OPACITY,
-        4,
+        5,
         delta,
       );
       return;
@@ -108,137 +150,79 @@ function Part({
     // Unselected parts recede by washing toward the ground colour, NOT by going
     // translucent — dropping opacity turns the mechanicals into ghost glass and
     // lets far parts sort through near ones.
+    // Scale the part's own colour rather than blending toward a light or a dark.
+    // Blending is the wrong operation here: three.js works in LINEAR space, so
+    // lerping a near-black tyre 20% toward white does not tint it slightly, it
+    // roughly triples its luminance and the wheel turns white. Multiplying
+    // brightens every material by the same proportion and preserves its hue,
+    // which is what "this one is lit, those are not" actually looks like.
     const dim = activeRegion && !focused ? 1 - glow.current : 0;
-    mat.color.lerpColors(baseColor, LIFT, glow.current * 0.16).lerp(WASH, dim * 0.6);
-
-    if (part.emissive) {
-      mat.emissiveIntensity = baseEmissive + glow.current * 0.05;
-    } else {
-      // A trace of self-lighting so a focused part does not sink into the floor.
-      mat.emissiveIntensity = glow.current * 0.04;
-    }
+    const k = (1 + glow.current * 0.5) * (1 - dim * 0.72);
+    mat.color.copy(baseColor).multiplyScalar(k);
   });
 
-  const interactive = !isShell && part.region !== null;
-  const handlers = interactive
-    ? {
-        onClick: (event: { stopPropagation: () => void }) => {
-          event.stopPropagation();
-          onSelect(part.region as CarRegionId);
-        },
-        onPointerOver: (event: { stopPropagation: () => void }) => {
-          event.stopPropagation();
-          onHover(part.region as CarRegionId);
-        },
-        onPointerOut: () => onHover(null),
-      }
-    : {};
-
-  const materialNode = (
-    <meshStandardMaterial
-      ref={material}
-      color={part.color}
-      metalness={isShell ? 0.2 : (part.metalness ?? 0.5)}
-      roughness={isShell ? 0.08 : (part.roughness ?? 0.5)}
-      transparent={isShell}
-      opacity={isShell ? SHELL_OPACITY : 1}
-      depthWrite={!isShell}
-      side={FrontSide}
-      emissive={part.emissive ?? "#35D68A"}
-      emissiveIntensity={part.emissiveIntensity ?? 0}
-    />
-  );
-
-  const edges = isShell ? (
-    <Edges
-      threshold={18}
-      lineWidth={1}
-      color={activeRegion ? EDGE_COLOR_OPEN : EDGE_COLOR}
-      transparent
-      opacity={0.85}
-    />
-  ) : null;
-
-  const common = {
-    ref: mesh as never,
-    position: part.at,
-    rotation: part.rotation ?? ([0, 0, 0] as const),
-    // Opaque mechanicals cast and receive; the glass shell does neither, or it
-    // would throw a shadow of a body panel across the parts it is meant to reveal.
-    castShadow: !isShell,
-    receiveShadow: !isShell,
-    renderOrder: isShell ? 10 : 0,
-    // The shell must not intercept clicks meant for the parts behind it.
-    ...(isShell ? { raycast: () => null } : {}),
-    ...handlers,
-  };
-
-  if (part.kind === "rounded") {
-    return (
-      <RoundedBox {...common} args={part.size} radius={part.radius ?? 0.06} smoothness={3}>
-        {materialNode}
-        {edges}
-      </RoundedBox>
-    );
-  }
-
   return (
-    <mesh {...common}>
-      {part.kind === "box" ? (
-        <boxGeometry args={part.size} />
-      ) : (
-        <cylinderGeometry args={[part.size[0], part.size[0], part.size[1], part.size[2]]} />
-      )}
-      {materialNode}
-      {edges}
+    <mesh
+      ref={mesh}
+      geometry={geo}
+      position={part.at}
+      rotation={part.rotation ?? [0, 0, 0]}
+      scale={part.scale ?? 1}
+      // The glass shell casts nothing, or it would throw a shadow of a body
+      // panel across the parts it exists to reveal.
+      castShadow={!isShell}
+      renderOrder={isShell ? 10 : 0}
+    >
+      <meshPhysicalMaterial
+        ref={material}
+        color={part.color}
+        metalness={part.metalness ?? 0.6}
+        roughness={part.roughness ?? 0.4}
+        clearcoat={part.clearcoat ?? 0}
+        clearcoatRoughness={0.06}
+        transparent={isShell}
+        opacity={isShell ? SHELL_OPACITY : 1}
+        depthWrite={!isShell}
+        side={FrontSide}
+        envMapIntensity={isShell ? 2.2 : 1.05}
+      />
     </mesh>
   );
 }
 
 export function CarModel({
   activeRegion,
-  onSelect,
-  onHover,
+  openness,
+  turn,
 }: {
   activeRegion: CarRegionId | null;
-  onSelect: (region: CarRegionId) => void;
-  onHover: (region: CarRegionId | null) => void;
+  openness: MotionValue<number>;
+  /** Scroll-driven yaw, in radians. */
+  turn: MotionValue<number>;
 }) {
   const group = useRef<Group>(null);
-  const spin = useRef(0);
+  const geometries = useGeometries();
 
   useFrame((state, delta) => {
     if (!group.current) return;
 
-    if (activeRegion) {
-      // Settle to a three-quarter view, where a separated system is most legible.
-      group.current.rotation.y = MathUtils.damp(group.current.rotation.y, 0.62, 3, delta);
-      spin.current = group.current.rotation.y;
-    } else {
-      // Idle: a slow turn, picked up from wherever the settle left off so the
-      // car never jumps when a system is closed.
-      spin.current += delta * 0.16;
-      group.current.rotation.y = MathUtils.damp(
-        group.current.rotation.y,
-        spin.current,
-        3,
-        delta,
-      );
-    }
+    // The whole car turns with the scroll, so the section reads as one
+    // continuous move rather than six separate events.
+    group.current.rotation.y = MathUtils.damp(group.current.rotation.y, turn.get(), 4, delta);
 
-    // A breath of vertical float. Small enough to read as "live", not as motion.
-    group.current.position.y = -0.5 + Math.sin(state.clock.elapsedTime * 0.6) * 0.015;
+    // A breath of vertical float, small enough to read as "live", not as motion.
+    group.current.position.y = -0.62 + Math.sin(state.clock.elapsedTime * 0.55) * 0.012;
   });
 
   return (
-    <group ref={group} position={[0, -0.5, 0]}>
+    <group ref={group} position={[0, -0.62, 0]}>
       {CAR_PARTS.map((part) => (
         <Part
           key={part.id}
           part={part}
+          geometry={geometries[part.geo]}
           activeRegion={activeRegion}
-          onSelect={onSelect}
-          onHover={onHover}
+          openness={openness}
         />
       ))}
     </group>

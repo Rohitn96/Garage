@@ -8,9 +8,7 @@ export function TeslaPage() {
   return (
     <>
       <TeslaServices />
-      {/* Only the Tesla half of the price list — the general table stays on the
-          home page, where the visitor who needs it is already looking. */}
-      <Pricing only="tesla" />
+      <Pricing />
       <ContactForm />
       <Footer />
     </>

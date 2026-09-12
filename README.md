@@ -103,17 +103,45 @@ shell off. Two things make that work, and both are easy to get wrong:
 `FrontSide`, not `DoubleSide`: with both faces drawn the far wall of the shell blends
 over the near one and the body turns milky.
 
+### Geometry
+
+The body is a single extruded **silhouette** — drawn the way you would sketch a car in
+side view, wheel arches included — not a pile of primitives. Three passes over the
+position buffer then turn that flat slab into a body:
+
+| pass | what it does |
+|---|---|
+| plan taper | narrows Z toward both bumpers, so the extrusion stops reading end-on as a slab |
+| tumblehome | narrows Z toward the roof, giving the cabin its lean and the body its waist |
+| shoulder crown | a slight barrel through the middle, so the flank catches a moving highlight |
+
+Tyres are lathes, not cylinders — a cylinder has a hard 90° edge where tread meets
+sidewall, and the shoulder radius is exactly where the highlight sits. Rims, the battery
+pack, drive units, discs and calipers are each merged into one geometry, so four wheels
+are four draw calls rather than forty.
+
+**No drawn edges.** Outlining the shell was tried and abandoned: lofting bends the
+extrusion's flat side caps into curved surfaces, so the fan of triangles they were built
+from stops being coplanar and every internal seam becomes an "edge". No threshold
+separates those seams from real creases, because near the nose the taper makes them just
+as steep.
+
 ### Interaction
 
-Click a system in the list, or click the part itself in the scene. Only the selected
-system separates, so cause and effect stay obvious. Selecting also fades the shell
-further back and washes every other part toward the ground colour.
+**One continuous scroll.** The track is ~520vh; the car and the service panel are driven
+by the same scroll value. Within each system's slice `openness` ramps over the first 40%
+and then holds, so the scroll IS the movement — stop halfway and the part sits halfway
+out. The whole car also yaws slowly across the entire track, which is what makes six
+systems read as one move instead of six events.
 
-This replaced a **720vh scroll-scrubbed sticky track** — roughly half the page's height
-spent naming twenty services that the visitor could neither skim nor dwell on, because
-scrolling to read pushed them off the thing they were reading. Deleting it also deleted
-the in-canvas floating labels (they fell off narrow viewports) and the `sr-only`
-duplicate of the whole catalogue (buttons and a list are accessible by construction).
+Clicking was tried and removed: a click is more effort than a scroll for something you
+are reading top to bottom, and it meant the visitor had to decide what to open before
+they knew what was inside. The earlier 720vh version failed for the opposite reason —
+it was so long that scrolling to read pushed you off the thing you were reading.
+
+Because the visible content is scroll-dependent again, the full catalogue is also
+rendered `sr-only` in document order, and the stage is `aria-hidden`. Screen readers,
+crawlers and no-JS visitors get everything; nothing is announced twice.
 
 `prefers-reduced-motion` or fewer than 4 cores gets no canvas at all — see
 [lib/useMotionPreference.ts](lib/useMotionPreference.ts). The list beside the stage is
@@ -151,11 +179,13 @@ on the service catalogue, and a hardcoded five-row array inside the trust sectio
 the page quoted a Tesla package in one breath and listed twenty unpriced services in
 the next.
 
-⚠️ **The figures are placeholders.** Five rows carried over from the old trust section
-(inspection 120 €, Tesla packages 290–330 €, filters/oil/tyres 80 €, AC 150–200 €,
-labour 80 €/hr); everything else is invented to complete the table. Replace before
-launch. The "indicative only" disclaimer renders directly under the figures and must
-stay there.
+Deliberately **five rows and generic**. A grouped, tabbed, forty-row table was built
+here and pulled: before the shop has traded a day, a long price list is a long list of
+numbers nobody has tested, and every row is a promise. The detailed version goes back in
+when there are real rates behind it.
+
+⚠️ The five are still indicative. The "indicative only" disclaimer renders directly
+under them and must stay there.
 
 ## Contact form
 
@@ -170,6 +200,31 @@ exactly the wrong moment.
 
 Formspree rejects posts with no Origin header; browsers always send one, curl does not,
 so test with `-H "Origin: https://revampmotors.fi"` or it will look broken when it is not.
+
+## Hero video
+
+`public/videos/hero.mp4` is the file that ships. The 4K master in the repo root is
+gitignored — **editing the master changes nothing until it is re-encoded**, which is how
+a new hero sat unused for a while.
+
+```bash
+GRADE="eq=saturation=0.30:contrast=1.10:brightness=0.012,colorbalance=rs=-0.03:rm=-0.05:bm=0.06:bh=0.04,gradfun=strength=1.2:radius=16"
+
+ffmpeg -i hero.mp4 -vf "scale=1600:-2:flags=lanczos,$GRADE"   -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p -movflags +faststart -an   public/videos/hero.mp4
+
+ffmpeg -ss 11 -i hero.mp4 -vframes 1 -vf "scale=1600:-2,$GRADE" -q:v 6   public/videos/hero-poster.jpg
+```
+
+Three decisions in that grade, all driven by the footage being a night street in fog:
+
+- **saturation 0.30.** The source is heavily sodium-orange, which fights the mint accent.
+  Pulled almost to monochrome it becomes atmosphere instead of a competing colour.
+- **CRF 27, not 32.** Dark gradients band badly; `gradfun` debands and the lower CRF
+  stops the fog turning into steps. It still lands at ~600 kB for 20s — dark footage
+  compresses well.
+- **No luma pull.** The old encode darkened the footage because the source was bright.
+  This one is already dark, so the scrims in `VideoBackdrop` came down instead
+  (opacity 1, and the left scrim from 0.93 to 0.90 falling to 0.05).
 
 ## Design
 
@@ -218,8 +273,6 @@ words and the metadata must not contradict that.
 - Prices — see above.
 - The seniority claim in [components/Why.tsx](components/Why.tsx) is unquantified
   because no credentials, dates or headcount have been supplied.
-- **The hero video is a combustion engine bay.** It is the last thing on the site still
-  arguing against the positioning; reshoot or recut against an EV.
 - **"First week of October" is deliberately not a specific date.** If a day is fixed,
   set it in `lib/content.ts` (`hero.eyebrow`, `contact.p1`, `footer.opening`) and
   consider adding `openingHoursSpecification` at the same time.

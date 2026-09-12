@@ -55,10 +55,10 @@ export const CONTENT = {
     headingA: L("An EV,", "Sähköauto,"),
     headingAccent: L("opened up.", "avattuna."),
     standfirst: L(
-      "Pick a system to see what sits inside it and what we do there.",
-      "Valitse järjestelmä nähdäksesi mitä sen sisällä on ja mitä teemme siellä.",
+      "Keep scrolling. The car comes apart one system at a time, and we tell you what we do inside each.",
+      "Jatka vierimistä. Auto purkautuu järjestelmä kerrallaan, ja kerromme mitä teemme kunkin sisällä.",
     ),
-    hint: L("Select a system", "Valitse järjestelmä"),
+    hint: L("Scroll to take it apart", "Vieritä ja pura auto osiin"),
     reset: L("Show the whole car", "Näytä koko auto"),
     pricingLink: L("See what it costs", "Katso hinnasto"),
   },
