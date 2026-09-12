@@ -175,6 +175,32 @@ function ScrollExplorer() {
               />
             ) : null}
 
+            {/* ---- The six systems, so you can see what is coming ---- */}
+            {/* Clears the fixed nav: the stage is pinned to the top of the viewport,
+                so anything at the top of it sits underneath the bar. */}
+            <ol className="pointer-events-none absolute left-11 top-[6.5rem] hidden md:block">
+              {SERVICE_GROUPS.map((g, i) => {
+                const on = i === index;
+                const done = index !== null && i < index;
+                return (
+                  <li key={g.id} className="flex items-center gap-3 py-[0.28rem]">
+                    <span
+                      className={`h-px shrink-0 transition-all duration-500 ${
+                        on ? "w-7 bg-accent" : done ? "w-4 bg-accent/40" : "w-4 bg-rule"
+                      }`}
+                    />
+                    <span
+                      className={`font-mono text-[0.63rem] uppercase tracking-label transition-colors duration-500 ${
+                        on ? "text-accent" : done ? "text-graphite/70" : "text-graphite/35"
+                      }`}
+                    >
+                      {t(g.title)}
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+
             {/* ---- Leader line and the point it comes from ---- */}
             <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
               <circle

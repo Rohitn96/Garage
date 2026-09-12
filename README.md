@@ -174,9 +174,39 @@ are reading top to bottom, and it meant the visitor had to decide what to open b
 they knew what was inside. The earlier 720vh version failed for the opposite reason —
 it was so long that scrolling to read pushed you off the thing you were reading.
 
-Orientation is one filling hairline at the foot of the stage. A second list of system
-names was there and went: the callout already says which system this is and how many
-are left.
+Orientation is the six headings in the top-left corner — done ones marked, the current
+one in accent — plus a filling hairline at the foot of the stage. The list sits at
+`top-[6.5rem]` to clear the fixed nav, and left-margin callouts are floored below it so
+the two never collide.
+
+### Why it stopped being laggy
+
+Three things, in order of how much they cost:
+
+- **A forced layout on every frame.** `CalloutTracker` read `offsetWidth`/`offsetHeight`
+  inside the render loop, so the browser had to flush style and layout synchronously
+  60 times a second and could never batch. The box only changes when the region or the
+  stage size changes, so it is measured exactly then. `LayoutDuration` and
+  `RecalcStyleDuration` are now **0.00 ms/frame** (measured over a scripted scroll via
+  CDP `Performance.getMetrics`); main-thread cost is 2.58 ms/frame.
+- **Sixty `useFrame` subscriptions.** Every part owned one. They are now a single loop
+  over flat arrays in `CarModel` — identical work per part, one subscriber.
+- **`MeshPhysicalMaterial` on all sixty parts.** Clearcoat compiles a heavier fragment
+  shader and only two parts have paint. The mechanicals use `MeshStandardMaterial`; the
+  shell keeps physical. DPR is capped at 1.75 and ContactShadows dropped to 320px,
+  which matters because the transparent shell means the whole car silhouette is drawn
+  twice.
+
+`delta` is also clamped to 50 ms in the frame loop: a GC pause or a tab regaining focus
+otherwise makes `damp` overshoot and the car snaps.
+
+### The callout picks a side with hysteresis
+
+`ax < width / 2` looks correct and is not. The battery pack's anchor is at the centre of
+the car, so it projects within a few pixels of the centre of the screen and the scroll
+yaw walks it back and forth across the line — the first system's label had two
+positions. The anchor now has to pass 0.4 or 0.6 of the width before the label moves,
+and the choice resets only when the region does.
 
 Because the visible content is scroll-dependent again, the full catalogue is also
 rendered `sr-only` in document order, and the stage is `aria-hidden`. Screen readers,

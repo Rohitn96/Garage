@@ -54,7 +54,7 @@ export function CarScene({
 }) {
   return (
     <Canvas
-      dpr={compact ? [1, 1.75] : [1, 2]}
+      dpr={compact ? [1, 1.5] : [1, 1.75]}
       // No shadow maps: fifty meshes re-rendering a depth pass every frame paid
       // for a hard sun shadow nobody looked at. ContactShadows below grounds the
       // car for a fraction of the cost and reads better on a dark floor.
@@ -154,7 +154,7 @@ export function CarScene({
         scale={13}
         blur={2.1}
         far={2}
-        resolution={compact ? 256 : 512}
+        resolution={compact ? 200 : 320}
         color="#000000"
       />
     </Canvas>

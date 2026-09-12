@@ -11,10 +11,10 @@ import {
   type BufferGeometry,
   type Group,
   type Mesh,
-  type MeshPhysicalMaterial,
+  type MeshStandardMaterial,
 } from "three";
 import type { MotionValue } from "framer-motion";
-import { CAR_PARTS, type CarPart, type GeoKey } from "./carParts";
+import { CAR_PARTS, type GeoKey } from "./carParts";
 import {
   buildBatteryPack,
   buildCaliper,
@@ -33,17 +33,6 @@ import {
   buildTyre,
 } from "./evGeometry";
 import type { CarRegionId } from "@/data/services";
-
-/**
- * Focus and recession are both multiplicative. See the frame loop for why.
- *
- * Nothing is ever tinted with the accent, and nothing is self-lit. Both were
- * tried. A default mint emissive on every part looked harmless at 0.05 until it
- * landed on a tyre: rubber's albedo is about 0.05 too, so the glow was not a
- * highlight on the tyre, it WAS the tyre, and every focused wheel turned bright
- * green. Focus is carried by three things that cannot misfire like that — the
- * part moves, everything else washes back, and the panel names it.
- */
 
 /* --- Shell -----------------------------------------------------------------
  * The bodywork is drawn as tinted lacquer you can see through, so the
@@ -65,9 +54,8 @@ import type { CarRegionId } from "@/data/services";
  * No drawn edges. Outlining the shell was tried and abandoned: lofting bends the
  * extrusion's flat side caps into curved surfaces, so the fan of triangles they
  * were built from stops being coplanar and EVERY internal seam becomes an
- * "edge". No threshold separates those seams from the real creases, because
- * near the nose the taper makes them just as steep. The surface carries the
- * form on its own.
+ * "edge". No threshold separates those seams from the real creases, because near
+ * the nose the taper makes them just as steep.
  * -------------------------------------------------------------------------*/
 const SHELL_OPACITY = 0.3;
 /** With a system open the shell steps back so the parts read clearly. */
@@ -101,115 +89,6 @@ function useGeometries(): Record<GeoKey, BufferGeometry | null> {
   );
 }
 
-function Part({
-  part,
-  geometry,
-  activeRegion,
-  openness,
-}: {
-  part: CarPart;
-  geometry: BufferGeometry | null;
-  activeRegion: CarRegionId | null;
-  /** 0 = assembled, 1 = the active system fully separated. */
-  openness: MotionValue<number>;
-}) {
-  const mesh = useRef<Mesh>(null);
-  const material = useRef<MeshPhysicalMaterial>(null);
-  const baseColor = useMemo(() => new Color(part.color), [part.color]);
-
-  const spread = useRef(0);
-  const glow = useRef(0);
-
-  const isShell = part.layer === "shell";
-
-  const geo = useMemo(() => {
-    if (geometry) return geometry;
-    const a = part.args ?? [];
-    return part.geo === "cylinder"
-      ? new CylinderGeometry(a[0], a[1], a[2], a[3] ?? 16)
-      : new BoxGeometry(a[0], a[1], a[2]);
-  }, [geometry, part.args, part.geo]);
-
-  useFrame((_, delta) => {
-    if (!mesh.current) return;
-
-    const focused = !isShell && activeRegion === part.region;
-    // The system on screen separates by exactly as much as the scroll has
-    // travelled through its own stretch of the track — so the movement is the
-    // scroll, not an animation the scroll happens to trigger.
-    const target = focused ? openness.get() : 0;
-    spread.current = MathUtils.damp(spread.current, target, 7, delta);
-    glow.current = MathUtils.damp(glow.current, focused ? 1 : 0, 6, delta);
-
-    mesh.current.position.set(
-      part.at[0] + part.blowsTo[0] * spread.current,
-      part.at[1] + part.blowsTo[1] * spread.current,
-      part.at[2] + part.blowsTo[2] * spread.current,
-    );
-
-    const mat = material.current;
-    if (!mat) return;
-
-    if (isShell) {
-      mat.opacity = MathUtils.damp(
-        mat.opacity,
-        activeRegion ? SHELL_OPACITY_OPEN : SHELL_OPACITY,
-        5,
-        delta,
-      );
-      return;
-    }
-
-    // Unselected parts recede by washing toward the ground colour, NOT by going
-    // translucent — dropping opacity turns the mechanicals into ghost glass and
-    // lets far parts sort through near ones.
-    // Scale the part's own colour rather than blending toward a light or a dark.
-    // Blending is the wrong operation here: three.js works in LINEAR space, so
-    // lerping a near-black tyre 20% toward white does not tint it slightly, it
-    // roughly triples its luminance and the wheel turns white. Multiplying
-    // brightens every material by the same proportion and preserves its hue,
-    // which is what "this one is lit, those are not" actually looks like.
-    const dim = activeRegion && !focused ? 1 - glow.current : 0;
-    const k = (1 + glow.current * 0.5) * (1 - dim * 0.72);
-    mat.color.copy(baseColor).multiplyScalar(k);
-  });
-
-  return (
-    <mesh
-      ref={mesh}
-      // The callout overlay finds its anchor by name and projects this mesh's
-      // world position every frame, so the label tracks the part through the
-      // explode without any React work.
-      name={part.anchor && part.region ? `anchor-${part.region}` : undefined}
-      geometry={geo}
-      position={part.at}
-      rotation={part.rotation ?? [0, 0, 0]}
-      scale={part.scale ?? 1}
-      // The glass shell casts nothing, or it would throw a shadow of a body
-      // panel across the parts it exists to reveal.
-      castShadow={!isShell}
-      renderOrder={isShell ? 10 : 0}
-    >
-      <meshPhysicalMaterial
-        ref={material}
-        color={part.color}
-        metalness={part.metalness ?? 0.6}
-        roughness={part.roughness ?? 0.4}
-        clearcoat={part.clearcoat ?? 0}
-        clearcoatRoughness={0.06}
-        transparent={isShell}
-        opacity={isShell ? SHELL_OPACITY : 1}
-        depthWrite={!isShell}
-        side={FrontSide}
-        // Black by default: only lamps opt into a glow. See CarPart.emissive.
-        emissive={part.emissive ?? "#000000"}
-        emissiveIntensity={part.emissiveIntensity ?? 0}
-        envMapIntensity={isShell ? 2.2 : 1.05}
-      />
-    </mesh>
-  );
-}
-
 export function CarModel({
   activeRegion,
   openness,
@@ -223,28 +102,153 @@ export function CarModel({
   const group = useRef<Group>(null);
   const geometries = useGeometries();
 
+  const meshes = useRef<(Mesh | null)[]>([]);
+  const materials = useRef<(MeshStandardMaterial | null)[]>([]);
+
+  /*
+   * Per-part animation state, held in plain arrays.
+   *
+   * Each part used to own its own useFrame. Sixty subscriptions meant sixty
+   * closures invoked per frame, each with its own scope and its own damp calls,
+   * and R3F walking its subscriber list sixty times. Consolidating to ONE loop
+   * over flat arrays is the single biggest per-frame saving in the scene, and
+   * it costs nothing in readability — the work per part is identical.
+   */
+  const spread = useRef<Float32Array>(new Float32Array(CAR_PARTS.length));
+  const glow = useRef<Float32Array>(new Float32Array(CAR_PARTS.length));
+  const baseColors = useMemo(() => CAR_PARTS.map((p) => new Color(p.color)), []);
+
+  // Per-part geometry for the generic box/cylinder fallbacks.
+  const fallbacks = useMemo(
+    () =>
+      CAR_PARTS.map((part) => {
+        const shared = geometries[part.geo];
+        if (shared) return shared;
+        const a = part.args ?? [];
+        return part.geo === "cylinder"
+          ? new CylinderGeometry(a[0], a[1], a[2], a[3] ?? 16)
+          : new BoxGeometry(a[0], a[1], a[2]);
+      }),
+    [geometries],
+  );
+
   useFrame((state, delta) => {
-    if (!group.current) return;
+    // Clamp: a long frame (a tab regaining focus, a GC pause) otherwise makes
+    // damp overshoot and the whole car snaps.
+    const dt = Math.min(delta, 0.05);
+    const open = openness.get();
 
-    // The whole car turns with the scroll, so the section reads as one
-    // continuous move rather than six separate events.
-    group.current.rotation.y = MathUtils.damp(group.current.rotation.y, turn.get(), 4, delta);
+    if (group.current) {
+      group.current.rotation.y = MathUtils.damp(group.current.rotation.y, turn.get(), 4, dt);
+      // A breath of vertical float, small enough to read as "live", not motion.
+      group.current.position.y = -0.62 + Math.sin(state.clock.elapsedTime * 0.55) * 0.012;
+    }
 
-    // A breath of vertical float, small enough to read as "live", not as motion.
-    group.current.position.y = -0.62 + Math.sin(state.clock.elapsedTime * 0.55) * 0.012;
+    for (let i = 0; i < CAR_PARTS.length; i++) {
+      const part = CAR_PARTS[i];
+      const mesh = meshes.current[i];
+      if (!mesh) continue;
+
+      const isShell = part.layer === "shell";
+      const focused = !isShell && activeRegion !== null && activeRegion === part.region;
+
+      // The system on screen separates by exactly as much as the scroll has
+      // travelled through its own stretch of the track — so the movement IS the
+      // scroll, not an animation the scroll happens to trigger.
+      spread.current[i] = MathUtils.damp(spread.current[i], focused ? open : 0, 7, dt);
+      glow.current[i] = MathUtils.damp(glow.current[i], focused ? 1 : 0, 6, dt);
+
+      const s = spread.current[i];
+      mesh.position.set(
+        part.at[0] + part.blowsTo[0] * s,
+        part.at[1] + part.blowsTo[1] * s,
+        part.at[2] + part.blowsTo[2] * s,
+      );
+
+      const mat = materials.current[i];
+      if (!mat) continue;
+
+      if (isShell) {
+        mat.opacity = MathUtils.damp(
+          mat.opacity,
+          activeRegion ? SHELL_OPACITY_OPEN : SHELL_OPACITY,
+          5,
+          dt,
+        );
+        continue;
+      }
+
+      // Scale the part's own colour rather than blending toward a light or a
+      // dark. Blending is the wrong operation: three.js works in LINEAR space,
+      // so lerping a near-black tyre 20% toward white does not tint it slightly,
+      // it roughly triples its luminance and the wheel turns white. Multiplying
+      // brightens every material by the same proportion and preserves its hue.
+      const g = glow.current[i];
+      const dim = activeRegion && !focused ? 1 - g : 0;
+      const k = (1 + g * 0.5) * (1 - dim * 0.72);
+      mat.color.copy(baseColors[i]).multiplyScalar(k);
+    }
   });
 
   return (
     <group ref={group} position={[0, -0.62, 0]}>
-      {CAR_PARTS.map((part) => (
-        <Part
-          key={part.id}
-          part={part}
-          geometry={geometries[part.geo]}
-          activeRegion={activeRegion}
-          openness={openness}
-        />
-      ))}
+      {CAR_PARTS.map((part, i) => {
+        const isShell = part.layer === "shell";
+        return (
+          <mesh
+            key={part.id}
+            ref={(m) => {
+              meshes.current[i] = m;
+            }}
+            // The callout overlay finds its anchor by name and projects this
+            // mesh's world position every frame, so the label tracks the part
+            // through the explode without any React work.
+            name={part.anchor && part.region ? `anchor-${part.region}` : undefined}
+            geometry={fallbacks[i]}
+            position={part.at}
+            rotation={part.rotation ?? [0, 0, 0]}
+            scale={part.scale ?? 1}
+            renderOrder={isShell ? 10 : 0}
+          >
+            {isShell ? (
+              // Clearcoat only where there is paint. MeshPhysicalMaterial
+              // compiles a heavier shader than standard, and it was on all sixty
+              // parts for the sake of two.
+              <meshPhysicalMaterial
+                ref={(m) => {
+                  materials.current[i] = m;
+                }}
+                color={part.color}
+                metalness={part.metalness ?? 0.6}
+                roughness={part.roughness ?? 0.4}
+                clearcoat={part.clearcoat ?? 0}
+                clearcoatRoughness={0.06}
+                transparent
+                opacity={SHELL_OPACITY}
+                depthWrite={false}
+                side={FrontSide}
+                envMapIntensity={2.2}
+              />
+            ) : (
+              <meshStandardMaterial
+                ref={(m) => {
+                  materials.current[i] = m;
+                }}
+                color={part.color}
+                metalness={part.metalness ?? 0.6}
+                roughness={part.roughness ?? 0.4}
+                side={FrontSide}
+                // Black by default: only lamps opt into a glow. An earlier
+                // version defaulted every part to mint, which was invisible on
+                // aluminium and turned the tyres bright green.
+                emissive={part.emissive ?? "#000000"}
+                emissiveIntensity={part.emissiveIntensity ?? 0}
+                envMapIntensity={1.05}
+              />
+            )}
+          </mesh>
+        );
+      })}
     </group>
   );
 }
