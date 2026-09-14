@@ -16,17 +16,21 @@ const PATHS = [
   { path: "/tesla/", priority: 0.9 },
 ];
 
+/*
+ * No `lastModified`. It used to be `new Date()`, which stamped every URL as
+ * changed on every deploy — Google checks lastmod against the page, finds it
+ * unreliable, and then ignores it for the whole site. Leaving it out is honest;
+ * add a real per-page date only if one is tracked.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const lastModified = new Date();
-
   return PATHS.flatMap(({ path, priority }) => {
     const en = `${SITE_URL}${path}`;
     const fi = `${SITE_URL}/fi${path}`;
     const languages = { en, fi, "x-default": en };
 
     return [
-      { url: en, lastModified, changeFrequency: "monthly" as const, priority, alternates: { languages } },
-      { url: fi, lastModified, changeFrequency: "monthly" as const, priority, alternates: { languages } },
+      { url: en, changeFrequency: "monthly" as const, priority, alternates: { languages } },
+      { url: fi, changeFrequency: "monthly" as const, priority, alternates: { languages } },
     ];
   });
 }

@@ -1,0 +1,11 @@
+# Cloudflare static-assets redirects. Copied into out/ by `next build`.
+# https://developers.cloudflare.com/workers/static-assets/redirects/
+#
+# Without these, the asset server's own slash handling answers /tesla with a
+# 307 — a TEMPORARY redirect, which tells Google to keep the slashless URL
+# around. Every page lives at its trailing-slash URL (trailingSlash: true), so
+# say so permanently.
+
+/tesla     /tesla/     301
+/fi        /fi/        301
+/fi/tesla  /fi/tesla/  301

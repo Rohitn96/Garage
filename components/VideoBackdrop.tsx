@@ -101,7 +101,17 @@ export function VideoBackdrop({
           disablePictureInPicture
         />
       ) : (
-        <img src={poster} alt="" className={media} style={{ opacity }} />
+        // `lazy` below the fold: without it React emits a <link rel=preload> for
+        // every server-rendered <img>, so the process poster was fetched on load
+        // alongside the hero's. The hero poster stays eager — it is on screen.
+        <img
+          src={poster}
+          alt=""
+          className={media}
+          style={{ opacity }}
+          loading={eager ? undefined : "lazy"}
+          decoding="async"
+        />
       )}
 
       {scrim === "left" ? (

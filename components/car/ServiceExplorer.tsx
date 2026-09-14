@@ -89,6 +89,7 @@ function ScrollExplorer() {
   const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState<number | null>(null);
   const [running, setRunning] = useState(false);
+  const [armed, setArmed] = useState(false);
 
   // Written every frame by CalloutTracker, never by React.
   const labelRef = useRef<HTMLDivElement | null>(null);
@@ -143,6 +144,30 @@ function ScrollExplorer() {
     return () => io.disconnect();
   }, []);
 
+  /*
+   * three.js is not fetched until the visitor scrolls, or the track is already
+   * close (a reload part-way down, a /#pricing link). The stage sits a full
+   * screen below the hero, so nobody can see it on load — but mounting the
+   * canvas straight after hydration put ~1.2 s of three.js parse and shader
+   * compile on a throttled phone's main thread before anyone had touched the
+   * page. The first scroll gives it the whole hero's worth of head start.
+   */
+  useEffect(() => {
+    if (armed) return;
+    const node = track.current;
+    const arm = () => setArmed(true);
+    window.addEventListener("scroll", arm, { passive: true, once: true });
+    const io = new IntersectionObserver(
+      (entries) => entries.some((e) => e.isIntersecting) && arm(),
+      { rootMargin: "25% 0px" },
+    );
+    if (node) io.observe(node);
+    return () => {
+      window.removeEventListener("scroll", arm);
+      io.disconnect();
+    };
+  }, [armed]);
+
   const group = index === null ? null : SERVICE_GROUPS[index];
   const region: CarRegionId | null = group?.id ?? null;
 
@@ -168,7 +193,7 @@ function ScrollExplorer() {
           {/* The car gets the whole stage. There is no side panel to make room
               for any more — the services are pinned to the part they describe. */}
           <div className="absolute inset-x-0 top-0 h-[52svh] md:inset-0 md:h-auto">
-            {use3D ? (
+            {use3D && armed ? (
               <CarScene
                 activeRegion={region}
                 openness={openness}

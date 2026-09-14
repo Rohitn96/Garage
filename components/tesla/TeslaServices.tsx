@@ -39,7 +39,9 @@ export function TeslaServices() {
       {/* ---- Hero ---- */}
       <section className="px-6 pb-8 pt-28 md:px-10 md:pt-36">
         <div className="mx-auto w-full max-w-page">
-          <Reveal>
+          {/* CSS entrance, not <Reveal>: this is the page's LCP, and Framer's
+              server-rendered opacity:0 held it back until hydration. */}
+          <div className="rise">
             <p className="label">{t(TESLA_COPY.eyebrow)}</p>
             <h1 className="mt-7 max-w-[14ch] font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.96] tracking-[-0.02em]">
               {t(TESLA_COPY.headlineA)}{" "}
@@ -48,7 +50,7 @@ export function TeslaServices() {
             <p className="mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed text-graphite">
               {t(TESLA_COPY.standfirst)}
             </p>
-          </Reveal>
+          </div>
 
           <div className="mt-14">
             <ModelPicker selected={model} onSelect={setModel} />

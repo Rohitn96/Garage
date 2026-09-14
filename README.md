@@ -32,7 +32,11 @@ otherwise a second Worker is created.
 ## Stack
 
 Next.js 15 (App Router) · TypeScript · Tailwind · React Three Fiber · Framer Motion ·
-React Hook Form + Zod. Framer Motion is the **only** animation driver — no GSAP.
+React Hook Form + Zod. Framer Motion drives every animation — no GSAP — with one
+exception: the **above-the-fold hero entrances** are the CSS `.rise` class in
+[app/globals.css](app/globals.css). Framer writes `opacity:0` into the server HTML, which
+held the hero (the page's Largest Contentful Paint) invisible until hydration. See
+*Performance and indexing* below.
 
 ## Structure
 
@@ -344,9 +348,13 @@ invented number there is worse than none, because Google publishes it.
 ## Structured data
 
 [components/StructuredData.tsx](components/StructuredData.tsx) emits schema.org
-`AutoRepair`: name, address, email, area served, price range, business ID. This is what
-puts a one-location garage in the local pack with a map pin instead of a plain blue
-link, and it is the highest-leverage SEO change available now that the address is real.
+`AutoRepair`: name, address, email, image, area served, price range, business ID. It tells
+a crawler the site and the business are one entity.
+
+It does **not** put the shop in the map pack — that comes from a Google Business
+Profile, never from markup. When the profile exists, add its Maps URL as `hasMap` and
+the shop's own social profiles as `sameAs`; that also separates this shop from the
+unrelated Revamp Motors Ltd in Birmingham, which currently owns searches for the name.
 
 Omitted on purpose, because Google will publish whatever is there: `telephone`,
 `openingHoursSpecification` (no hours agreed yet) and `geo` (derived from the postal
@@ -377,6 +385,50 @@ plus a generated [robots.txt](app/robots.ts) (`Allow: /`) and
 
 All four pages are indexable in both languages, with `hreflang` alternates and an
 `x-default` pointing at English.
+
+### Performance and indexing
+
+Measured with Lighthouse (mobile, 3 runs each, same local server) on `/fi/`:
+
+| | before | after |
+|---|---|---|
+| Performance | 49 | 78 |
+| Largest Contentful Paint | 5.8 s | 3.5 s |
+| Total Blocking Time | 2.3 s | 0.45 s |
+| Bytes on load | 1,268 KB | 954 KB |
+
+What changed, and why each one matters:
+
+- **Nothing ships invisible.** Framer's `initial={{ opacity: 0 }}` is serialised into the
+  HTML, so all 25 text blocks were transparent until hydration — to link previews, to
+  crawlers that do not run JS, and as the LCP. The hero now uses CSS `.rise`, and
+  [Reveal](components/Reveal.tsx) renders visible and hides a block only if it starts
+  below the fold (decided in a layout effect, before paint).
+- **three.js waits for the first scroll** ([ServiceExplorer](components/car/ServiceExplorer.tsx)).
+  It was parsed straight after hydration, ~1.2 s of main thread on a phone, for a stage a
+  full screen below the hero.
+- **Below-fold posters are `loading="lazy"`**, which stops React emitting a preload for them.
+- **Share cards**: `/og.png` and `/fi/og.png`, rendered at build from `lib/content.ts` by
+  [lib/ogImage.tsx](lib/ogImage.tsx) with the site's own fonts (in `assets/og`). Route
+  handlers, not `opengraph-image.tsx` — inside route groups that convention exports a
+  file with no extension, and the Tesla pages' own `openGraph` dropped the inherited image.
+- **Titles** get a `%s — Revamp Motors` template; titles already naming the brand are
+  used as-is.
+- **Sitemap** has no `lastmod`. It was `new Date()`, i.e. "everything changed" on every
+  deploy, which teaches Google to ignore the field.
+- **[public/_headers](public/_headers)**: `X-Robots-Tag: noindex` on the
+  `*.workers.dev` copy of the site and on the RSC `index.txt` payloads.
+- **[public/_redirects](public/_redirects)**: `301` for `/tesla`, `/fi`, `/fi/tesla`.
+  Cloudflare's own slash handling answered with a temporary `307`.
+
+**Not fixable from the repo** (Cloudflare dashboard): `http://` is served with a 200
+instead of redirecting to https ("Always Use HTTPS" + HSTS), and `www.revampmotors.fi`
+has no DNS record.
+
+### Building inside OneDrive
+
+If `next build` fails with `EINVAL: invalid argument, readlink … .next\…`, delete `.next`
+and build again. OneDrive's placeholder files break Next's cache on repeat builds.
 
 ## Note on TypeScript
 

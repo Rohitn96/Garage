@@ -1,0 +1,20 @@
+# Cloudflare static-assets headers. Copied into out/ by `next build`.
+# https://developers.cloudflare.com/workers/static-assets/headers/
+
+# The Worker also answers on garage.<account>.workers.dev (wrangler.jsonc has
+# workers_dev: true), which is a full duplicate of the site on a second host.
+# Keep that copy out of the index; revampmotors.fi is the only one that counts.
+https://:project.:subdomain.workers.dev/*
+  X-Robots-Tag: noindex
+
+# React Server Component payloads from the static export. The client fetches
+# them on navigation (…/index.txt?_rsc=…), so crawlers discover and request
+# them too. They are raw data, not pages.
+/index.txt
+  X-Robots-Tag: noindex
+/tesla/index.txt
+  X-Robots-Tag: noindex
+/fi/index.txt
+  X-Robots-Tag: noindex
+/fi/tesla/index.txt
+  X-Robots-Tag: noindex

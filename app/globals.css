@@ -67,6 +67,33 @@
   }
 }
 
+/*
+ * Above-the-fold entrance, in CSS rather than Framer Motion.
+ *
+ * Framer's `initial` is serialised into the server HTML as `opacity:0`, so the
+ * hero copy stayed invisible until the JS bundle had downloaded, parsed and
+ * hydrated. The hero paragraph is the page's Largest Contentful Paint, which
+ * put LCP at 6.7 s on a throttled phone. A CSS animation starts on first paint
+ * with no JS at all. Stagger with an inline `animation-delay`.
+ *
+ * Below-the-fold reveals stay in Framer (components/Reveal.tsx): they are not
+ * LCP candidates and they need `whileInView`.
+ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -77,5 +104,9 @@
   }
   html {
     scroll-behavior: auto;
+  }
+  /* No animation at all, rather than a 0.01ms one that still waits out its delay. */
+  .rise {
+    animation: none;
   }
 }

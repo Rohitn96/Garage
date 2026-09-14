@@ -3,6 +3,7 @@ import { Instrument_Serif, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google
 import type { ReactNode } from "react";
 import { LanguageProvider, type Lang } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
+import { OG_SIZE, ogAlt, ogImagePath } from "@/lib/og";
 import { Nav } from "./Nav";
 import { StructuredData } from "./StructuredData";
 
@@ -116,8 +117,11 @@ function build(lang: Lang, copy: Record<Lang, Copy>, path: string): Metadata {
   const enPath = path;
   const fiPath = `/fi${path}`;
   const c = copy[lang];
+  // A title that already names the brand is used as-is; any other gets the
+  // "— Revamp Motors" template from BASE_METADATA.
+  const title = c.title.includes("Revamp Motors") ? { absolute: c.title } : c.title;
   return {
-    title: c.title,
+    title,
     description: c.description,
     alternates: {
       canonical: lang === "fi" ? fiPath : enPath,
@@ -131,13 +135,19 @@ function build(lang: Lang, copy: Record<Lang, Copy>, path: string): Metadata {
       locale: OG_LOCALE[lang],
       alternateLocale: OG_LOCALE[lang === "fi" ? "en" : "fi"],
       type: "website",
+      images: [{ url: ogImagePath(lang), ...OG_SIZE, alt: ogAlt(lang), type: "image/png" }],
     },
+    // Title, description and image are inherited from openGraph.
+    twitter: { card: "summary_large_image" },
   };
 }
 
 /** Shared by both root layouts: the parts that never vary by page. */
 export const BASE_METADATA: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // The Tesla pages' titles did not carry the brand, so a search result for
+  // them read "Tesla-huolto Helsingissä" with no name attached.
+  title: { default: "Revamp Motors", template: "%s — Revamp Motors" },
   // The site was `noindex` through pre-launch. It is open to crawlers now, in
   // both languages.
   robots: {

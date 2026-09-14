@@ -1,14 +1,20 @@
 import { BUSINESS } from "@/lib/business";
 import { SITE_URL } from "@/lib/site";
 import type { Lang } from "@/lib/i18n";
+import { ogImagePath } from "@/lib/og";
 
 /**
  * schema.org `AutoRepair` for the shop.
  *
- * Worth having now that there is a permanent street address and the site is open
- * to crawlers: this is what puts a garage in the local pack with an address and a
- * map pin, rather than as a plain blue link. It is the highest-leverage SEO
- * change available to a business with one location.
+ * What this does: tells a crawler, unambiguously, that the site belongs to a
+ * garage at this address with this business ID, so the site and the business
+ * are understood as one entity.
+ *
+ * What it does NOT do: put the shop in the map pack. That comes from a Google
+ * Business Profile, not from markup — without a profile no amount of JSON-LD
+ * produces a map pin. Once the profile exists, add its Maps URL as `hasMap` and
+ * the shop's social profiles as `sameAs`; that is what ties the two together
+ * (and separates this shop from the unrelated Revamp Motors Ltd in the UK).
  *
  * Emitted per language so the description matches the page it sits on, sharing
  * one `@id` — that tells a crawler these are the same business described twice,
@@ -54,8 +60,12 @@ export function StructuredData({ lang }: { lang: Lang }) {
     "@id": `${SITE_URL}/#shop`,
     name: BUSINESS.name,
     url: lang === "fi" ? `${SITE_URL}/fi/` : `${SITE_URL}/`,
+    // Google's LocalBusiness guidelines ask for an image. The share card is the
+    // only branded raster the site has; swap in a photo of the shop when there is one.
+    // (`inLanguage` used to be here; it is not a property of AutoRepair and
+    // validators flag it.)
+    image: `${SITE_URL}${ogImagePath(lang)}`,
     email: BUSINESS.email,
-    inLanguage: lang === "fi" ? "fi-FI" : "en-FI",
     description: DESCRIPTION[lang],
     address: {
       "@type": "PostalAddress",
