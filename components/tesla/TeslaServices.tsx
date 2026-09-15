@@ -45,7 +45,7 @@ export function TeslaServices() {
             <p className="label">{t(TESLA_COPY.eyebrow)}</p>
             <h1 className="mt-7 max-w-[14ch] font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.96] tracking-[-0.02em]">
               {t(TESLA_COPY.headlineA)}{" "}
-              <em className="italic text-accent">{t(TESLA_COPY.headlineAccent)}</em>
+              <span className="text-accent">{t(TESLA_COPY.headlineAccent)}</span>
             </h1>
             <p className="mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed text-graphite">
               {t(TESLA_COPY.standfirst)}
@@ -65,7 +65,7 @@ export function TeslaServices() {
             <p className="label">{t(TESLA_COPY.servicesEyebrow)}</p>
             <h2 className="mt-7 max-w-[18ch] h-section">
               {t(TESLA_COPY.servicesHeadingA)}{" "}
-              <em className="italic text-accent">{t(TESLA_COPY.servicesHeadingAccent)}</em>
+              <span className="text-accent">{t(TESLA_COPY.servicesHeadingAccent)}</span>
             </h2>
           </Reveal>
 
@@ -113,7 +113,7 @@ export function TeslaServices() {
               <p className="label">{t(TESLA_COPY.winterEyebrow)}</p>
               <h2 className="mt-7 max-w-[12ch] h-section">
                 {t(TESLA_COPY.winterHeadingA)}{" "}
-                <em className="italic text-accent">{t(TESLA_COPY.winterHeadingAccent)}</em>
+                <span className="text-accent">{t(TESLA_COPY.winterHeadingAccent)}</span>
               </h2>
             </Reveal>
             <Reveal delay={0.06} className="md:col-span-6 md:col-start-7">
@@ -148,7 +148,7 @@ export function TeslaServices() {
             <p className="label">{t(TESLA_COPY.faqEyebrow)}</p>
             <h2 className="mt-7 max-w-[16ch] h-section">
               {t(TESLA_COPY.faqHeadingA)}{" "}
-              <em className="italic text-accent">{t(TESLA_COPY.faqHeadingAccent)}</em>
+              <span className="text-accent">{t(TESLA_COPY.faqHeadingAccent)}</span>
             </h2>
           </Reveal>
 

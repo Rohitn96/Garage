@@ -15,7 +15,7 @@ import { Footer } from "@/components/Footer";
  * seven screens of scrolling to reach. Trust and process come after the
  * commercial facts, not before them.
  *
- * The Finnish page at /fi/ renders this same body; only the language context
+ * The English page at /en/ renders this same body; only the language context
  * and the metadata differ.
  */
 export function HomePage() {

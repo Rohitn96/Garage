@@ -59,7 +59,7 @@ export function StructuredData({ lang }: { lang: Lang }) {
     "@type": "AutoRepair",
     "@id": `${SITE_URL}/#shop`,
     name: BUSINESS.name,
-    url: lang === "fi" ? `${SITE_URL}/fi/` : `${SITE_URL}/`,
+    url: lang === "en" ? `${SITE_URL}/en/` : `${SITE_URL}/`,
     // Google's LocalBusiness guidelines ask for an image. The share card is the
     // only branded raster the site has; swap in a photo of the shop when there is one.
     // (`inLanguage` used to be here; it is not a property of AutoRepair and

@@ -15,9 +15,10 @@ import { OG_SIZE } from "@/lib/og";
  *
  * Fonts are the site's own (Instrument Serif, IBM Plex Mono, both OFL), as
  * .woff latin subsets in assets/og: the renderer cannot read woff2, and the
- * latin subset is the one that carries ä and ö.
+ * latin subset is the one that carries ä and ö. Upright only — the site has no
+ * italic any more, so the accent is colour alone.
  *
- * Served by the route handlers at app/(en)/og.png and app/(fi)/fi/og.png; the
+ * Served by the route handlers at app/(fi)/og.png and app/(en)/en/og.png; the
  * paths, size and alt text live in lib/og.ts.
  */
 const PAPER = "#0B0B0C";
@@ -29,9 +30,8 @@ const ACCENT = "#35D68A";
 const font = (file: string) => readFile(join(process.cwd(), "assets/og", file));
 
 export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
-  const [serif, serifItalic, mono] = await Promise.all([
+  const [serif, mono] = await Promise.all([
     font("InstrumentSerif-Regular.woff"),
-    font("InstrumentSerif-Italic.woff"),
     font("IBMPlexMono-Medium.woff"),
   ]);
   const h = CONTENT.hero;
@@ -60,7 +60,7 @@ export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", fontSize: 52, letterSpacing: "-0.015em" }}>
-            Revamp&nbsp;<span style={{ fontStyle: "italic", color: ACCENT }}>Motors</span>
+            Revamp&nbsp;<span style={{ color: ACCENT }}>Motors</span>
           </div>
           <div style={label}>{CONTENT.nav.location[lang]}</div>
         </div>
@@ -75,7 +75,7 @@ export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
           }}
         >
           <span>{h.headlineA[lang]}</span>
-          <span style={{ fontStyle: "italic", color: ACCENT }}>{h.headlineAccent[lang]}</span>
+          <span style={{ color: ACCENT }}>{h.headlineAccent[lang]}</span>
         </div>
 
         <div
@@ -111,7 +111,6 @@ export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
       ...OG_SIZE,
       fonts: [
         { name: "Instrument Serif", data: serif, style: "normal", weight: 400 },
-        { name: "Instrument Serif", data: serifItalic, style: "italic", weight: 400 },
         { name: "Plex Mono", data: mono, style: "normal", weight: 500 },
       ],
     },

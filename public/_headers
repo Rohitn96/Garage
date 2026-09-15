@@ -14,7 +14,7 @@ https://:project.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
 /tesla/index.txt
   X-Robots-Tag: noindex
-/fi/index.txt
+/en/index.txt
   X-Robots-Tag: noindex
-/fi/tesla/index.txt
+/en/tesla/index.txt
   X-Robots-Tag: noindex

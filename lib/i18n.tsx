@@ -59,9 +59,14 @@ export function useT(): (value: Localized) => string {
 /**
  * Prefix an internal path for the active language.
  *
- * Pass the canonical English path ("/", "/tesla/", "/#pricing"); hash-only links
+ * Pass the bare path ("/", "/tesla/", "/#pricing"); hash-only links
  * ("#contact") are returned untouched, because they resolve within whichever
  * page is already open and are therefore language-correct by construction.
+ *
+ * FINNISH IS THE UNPREFIXED LANGUAGE. The shop is in Helsinki and its customers
+ * search in Finnish, so Finnish holds `/` and English sits under `/en/`. Every
+ * link anyone shares, and every bit of ranking authority that follows, lands on
+ * the Finnish page rather than on a translation of it.
  */
 export function useHref(): (path: string) => string {
   const lang = useContext(LanguageContext);
@@ -70,7 +75,7 @@ export function useHref(): (path: string) => string {
 
 export function localeHref(lang: Lang, path: string): string {
   if (!path.startsWith("/")) return path;
-  return lang === "fi" ? `/fi${path}` : path;
+  return lang === "en" ? `/en${path}` : path;
 }
 
 /**
@@ -81,7 +86,7 @@ export function localeHref(lang: Lang, path: string): string {
  * control that changed state without changing the URL would throw that away.
  */
 export function swapLangHref(pathname: string, to: Lang): string {
-  const stripped = pathname.replace(/^\/fi(?=\/|$)/, "") || "/";
+  const stripped = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
   const normalised = stripped.endsWith("/") ? stripped : `${stripped}/`;
-  return to === "fi" ? `/fi${normalised}` : normalised;
+  return to === "en" ? `/en${normalised}` : normalised;
 }

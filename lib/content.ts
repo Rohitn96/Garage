@@ -31,16 +31,16 @@ export const CONTENT = {
 
   hero: {
     eyebrow: L(
-      "Opening the first week of October · Helsinki",
-      "Avaamme lokakuun ensimmäisellä viikolla · Helsinki",
+      "Tesla & EV specialists · Tattarisuo, Helsinki",
+      "Tesla- ja sähköautohuolto · Tattarisuo, Helsinki",
     ),
     headlineA: L("Tesla specialists.", "Tesla-asiantuntijat."),
     headlineAccent: L("Every other car too.", "Ja kaikki muutkin autot."),
     standfirst: L(
-      "An independent garage in Tattarisuo, serving the whole Helsinki region. Deep on EVs, fully equipped for engine cars. You get the price before we pick up a tool.",
-      "Riippumaton korjaamo Tattarisuossa, koko pääkaupunkiseudun palveluksessa. Vahva osaaminen sähköautoista, täydet valmiudet polttomoottoreihin. Saat hinnan ennen kuin tartumme työkaluun.",
+      "An independent garage in Tattarisuo, Helsinki, serving the whole capital region. Deep on EVs, fully equipped for engine cars. You get the price before we pick up a tool.",
+      "Riippumaton korjaamo Tattarisuolla Helsingissä, koko pääkaupunkiseudun palveluksessa. Vahva osaaminen sähköautoista, täydet valmiudet polttomoottoreihin. Saat hinnan ennen kuin tartumme työkaluun.",
     ),
-    ctaPrimary: L("Book opening week", "Varaa avausviikolle"),
+    ctaPrimary: L("Book a slot", "Varaa aika"),
     ctaSecondary: L("Tesla service", "Tesla-huolto"),
     credentials: [
       L("Tesla & EV specialists", "Tesla- ja sähköauto-osaaminen"),
@@ -183,8 +183,8 @@ export const CONTENT = {
     headingA: L("Tell us about", "Kerro meille"),
     headingAccent: L("the car.", "autostasi."),
     p1: L(
-      "We open the first week of October. Send your details now and we will hold you a slot for opening week — we reply within 3 to 12 hours.",
-      "Avaamme lokakuun ensimmäisellä viikolla. Lähetä tietosi nyt, niin varaamme sinulle ajan avausviikolle — vastaamme 3–12 tunnin kuluessa.",
+      "Tell us what the car needs and we will come back with a time and a price. We reply within 3 to 12 hours.",
+      "Kerro mitä auto tarvitsee, niin palaamme ajankohdan ja hinnan kanssa. Vastaamme 3–12 tunnin kuluessa.",
     ),
     fields: {
       name: L("Name", "Nimi"),
@@ -223,8 +223,8 @@ export const CONTENT = {
       "Kiitos — vahvistamme aikasi.",
     ),
     successBody: L(
-      "We have your details and will come back with a time in opening week. Nothing is charged until the work is agreed.",
-      "Tietosi ovat meillä, ja palaamme avausviikon ajankohdalla. Mitään ei veloiteta ennen kuin työstä on sovittu.",
+      "We have your details and will come back with a time. Nothing is charged until the work is agreed.",
+      "Tietosi ovat meillä, ja palaamme ajankohdan kanssa. Mitään ei veloiteta ennen kuin työstä on sovittu.",
     ),
   },
 
@@ -239,9 +239,11 @@ export const CONTENT = {
     companyId: L("Company ID", "Y-tunnus"),
     phoneTba: L("[Phone TBA]", "[Puhelin tulossa]"),
     opening: L(
-      "Opening the first week of October. Taking bookings now.",
-      "Avaamme lokakuun ensimmäisellä viikolla. Otamme varauksia jo vastaan.",
+      "Kytkintie 38, Tattarisuo, Helsinki. Taking bookings now.",
+      "Kytkintie 38, Tattarisuo, Helsinki. Otamme varauksia vastaan.",
     ),
+    /** Used with the opening date, in place of `opening`. See lib/business.ts. */
+    bookings: L("Taking bookings now.", "Otamme varauksia vastaan."),
     independent: L(
       "Independent workshop. Not affiliated with, endorsed by, or an authorised agent of Tesla, Inc. Tesla, Model S, Model 3, Model X and Model Y are trademarks of Tesla, Inc.",
       "Riippumaton korjaamo. Ei sidoksissa Tesla, Inc:iin eikä sen valtuuttama edustaja. Tesla, Model S, Model 3, Model X ja Model Y ovat Tesla, Inc:n tavaramerkkejä.",

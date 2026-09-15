@@ -4,7 +4,7 @@ import "../globals.css";
 import { BASE_METADATA, RootShell } from "@/components/RootShell";
 
 /**
- * Root layout for the ENGLISH tree, served at `/`.
+ * Root layout for the ENGLISH tree, served at `/en/`.
  *
  * There are two root layouts, one per language (see app/(fi)). That is what
  * allows `<html lang>` and the metadata to be correct in the markup the server

@@ -8,7 +8,7 @@ import type { Lang } from "@/lib/i18n";
 export const OG_SIZE = { width: 1200, height: 630 };
 
 /**
- * Where each card is served: app/(en)/og.png and app/(fi)/fi/og.png.
+ * Where each card is served: app/(fi)/og.png and app/(en)/en/og.png.
  *
  * Route handlers rather than the `opengraph-image.tsx` convention, for two
  * reasons found in the export: inside route groups that convention emits a
@@ -16,7 +16,7 @@ export const OG_SIZE = { width: 1200, height: 630 };
  * and a page that sets its own `openGraph` silently drops the inherited image —
  * both Tesla pages lost it.
  */
-export const ogImagePath = (lang: Lang) => (lang === "fi" ? "/fi/og.png" : "/og.png");
+export const ogImagePath = (lang: Lang) => (lang === "en" ? "/en/og.png" : "/og.png");
 
 export function ogAlt(lang: Lang): string {
   const h = CONTENT.hero;

@@ -1,8 +1,11 @@
 # Revamp Motors
 
 Two-page site for **Revamp Motors** — an independent Tesla / EV specialist that also
-does general repair, at Kytkintie 38, 00770 Helsinki (Tattarisuo), **opening the
-first week of October**.
+does general repair, at Kytkintie 38, 00770 Helsinki (Tattarisuo).
+
+Finnish at `/`, English at `/en/`. The site is **live and indexable**; the pre-launch
+copy and the `noindex` are gone. An opening date is published only if `OPENING_DATE` is
+set — see *Opening date* below.
 
 ⚠️ **Every price on the site is still a placeholder.** See *Prices* below.
 
@@ -41,11 +44,17 @@ held the hero (the page's Largest Contentful Paint) invisible until hydration. S
 ## Structure
 
 ```
-/            Hero → 3D explorer → the fork → pricing → why → process → contact
-/tesla/      S3XY picker → filtered services → Finnish winter → FAQ → Tesla prices → contact
-/fi/         the same, in Finnish
-/fi/tesla/
+/            FINNISH home: hero → 3D explorer → the fork → pricing → why → process → contact
+/tesla/      FINNISH Tesla page: S3XY picker → filtered services → winter → FAQ → prices
+/en/         the same, in English
+/en/tesla/
 ```
+
+**Finnish holds the root.** English moved to `/en/` once the site went live: the shop is
+in Helsinki and its customers search in Finnish, so every shared link and every bit of
+ranking authority should land on the Finnish page rather than on a translation of it.
+`x-default` points at the Finnish home for the same reason. The old `/fi/…` URLs `301`
+to the new ones in [public/_redirects](public/_redirects).
 
 [components/Nav.tsx](components/Nav.tsx) is fixed and shared. Its links are absolute
 (`/#pricing`, not `#pricing`) so the same bar works from `/tesla/`, and every one is
@@ -53,7 +62,7 @@ run through `useHref()` so it lands in the right language tree.
 
 ## Language
 
-**Finnish is a route, not a setting.** English at `/`, Finnish under `/fi/`.
+**Finnish is a route, not a setting.** Finnish at `/`, English under `/en/`.
 
 It used to be a `localStorage` flag: English was always what the server rendered, and a
 returning Finnish visitor got a one-frame swap after mount. Three consequences, which
@@ -65,10 +74,10 @@ are why it was rewritten:
 - `<html lang>` was corrected by an effect, after the markup had claimed English
 
 For a garage in Helsinki the Finnish copy is the more commercially important of the
-two, so each language now has its own root layout (`app/(en)` and `app/(fi)`), its own
-`<html lang>`, its own `<title>`/description, and the two are cross-declared with
-`hreflang` in both the page head and the sitemap — that is what stops them competing
-with each other in the index.
+two, so each language has its own root layout (`app/(fi)` serves `/`, `app/(en)` serves
+`/en/`), its own `<html lang>`, its own `<title>`/description, and the two are
+cross-declared with `hreflang` in both the page head and the sitemap — that is what
+stops them competing with each other in the index.
 
 There is deliberately no `setLang`. The EN/FI control is a pair of links, because
 switching language is navigation; a control that changed state without changing the URL
@@ -332,6 +341,10 @@ mechanical part is steel or graphite, so the accent *is* the selection indicator
 Instrument Serif for display, IBM Plex Sans for text, IBM Plex Mono for labels and
 numbers. Strict grid, hairline rules, numbered sections, no gradients.
 
+**No italics anywhere.** The accent used to be a mint italic against upright ink, which
+put two type styles in every headline. The accent is now colour alone, one style — so
+the italic face is no longer downloaded either.
+
 ## Business facts
 
 All of it lives in [lib/business.ts](lib/business.ts) — address, email, company ID —
@@ -361,17 +374,40 @@ Omitted on purpose, because Google will publish whatever is there: `telephone`,
 address anyway). Nothing in it is Tesla-owned — the footer disclaims affiliation in
 words and the metadata must not contradict that.
 
+## Analytics
+
+[lib/site.ts](lib/site.ts) carries `CF_BEACON_TOKEN`, the Cloudflare Web Analytics site
+token. **Until it is set, the Cloudflare dashboard shows no visits from anywhere** — Web
+Analytics is a real-user beacon, and there was no beacon on the page. Paste the token
+from Cloudflare → Analytics & Logs → Web Analytics, or set
+`NEXT_PUBLIC_CF_BEACON_TOKEN` in the Cloudflare **build** settings (a static export
+inlines env vars at build time, so setting it anywhere else does nothing).
+
+The server-side view — requests and countries, no beacon needed — is a different screen:
+the zone's Analytics & Logs → Traffic. Note that static-asset requests do not invoke
+Worker code, so the Worker's own Metrics tab is not where this traffic shows up.
+
+Cloudflare Web Analytics is cookieless and stores no personal data, so it needs no
+consent banner. A Google Analytics tag would need one under the Finnish rules.
+
+## Opening date
+
+[lib/business.ts](lib/business.ts) has `OPENING_DATE`. Set it to an ISO date and the hero
+eyebrow and the footer both announce it, in both languages ("Avaamme 5. lokakuuta" /
+"Opening 5 October"); set it to `null` on opening day and those lines become the plain
+trading version. It is the only place a date is written.
+
 ## Known placeholders
 
-- **Phone is `[Phone TBA]`.** Address, email and company ID are real.
+- **Phone is `[Phone TBA]`.** Address, email and company ID are real. A live garage
+  with no number loses calls, and Google Business Profile wants one — this is the most
+  valuable placeholder left.
 - **No opening hours anywhere.** Add them to `business.ts` and the structured data
   together when they are set.
 - Prices — see above.
 - The seniority claim in [components/Why.tsx](components/Why.tsx) is unquantified
   because no credentials, dates or headcount have been supplied.
-- **"First week of October" is deliberately not a specific date.** If a day is fixed,
-  set it in `lib/content.ts` (`hero.eyebrow`, `contact.p1`, `footer.opening`) and
-  consider adding `openingHoursSpecification` at the same time.
+- **No opening date is published.** Set `OPENING_DATE` in `lib/business.ts` (see above).
 - `SITE_URL` in [lib/site.ts](lib/site.ts) is `https://revampmotors.fi` — change it if
   the domain differs, since robots.txt, the sitemap and every canonical URL derive from it.
 

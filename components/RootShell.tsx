@@ -2,17 +2,18 @@ import type { Metadata } from "next";
 import { Instrument_Serif, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { LanguageProvider, type Lang } from "@/lib/i18n";
-import { SITE_URL } from "@/lib/site";
+import { CF_BEACON_TOKEN, SITE_URL } from "@/lib/site";
 import { OG_SIZE, ogAlt, ogImagePath } from "@/lib/og";
 import { Nav } from "./Nav";
 import { StructuredData } from "./StructuredData";
 
 // Serif display against a technical grotesque: the serif carries the voice,
 // the Plex family carries the engineering.
+// Upright only. The italic was the accent style across the site and has been
+// dropped, so shipping the italic face downloaded a second font nothing used.
 const display = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
-  style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
@@ -58,6 +59,15 @@ export function RootShell({ lang, children }: { lang: Lang; children: ReactNode 
           <Nav />
           <main id="main">{children}</main>
           <StructuredData lang={lang} />
+          {/* Cloudflare Web Analytics. Without this the dashboard has no visits
+              to show; see lib/site.ts. Renders nothing until a token is set. */}
+          {CF_BEACON_TOKEN ? (
+            <script
+              defer
+              src="https://static.cloudflareinsights.com/beacon.min.js"
+              data-cf-beacon={JSON.stringify({ token: CF_BEACON_TOKEN })}
+            />
+          ) : null}
         </LanguageProvider>
       </body>
     </html>
@@ -70,17 +80,17 @@ type Copy = { title: string; description: string; ogTitle: string; ogDescription
 
 const HOME: Record<Lang, Copy> = {
   en: {
-    title: "Revamp Motors — Tesla & EV specialists in Helsinki",
+    title: "Revamp Motors — Tesla & EV garage in Helsinki, Finland",
     description:
-      "Independent Tesla and EV specialists in Tattarisuo, Helsinki — and a full general garage for petrol, diesel and hybrid cars. Opening the first week of October. Price agreed before the work starts.",
-    ogTitle: "Revamp Motors — Tesla & EV specialists in Helsinki",
+      "Independent Tesla and EV specialists in Tattarisuo, Helsinki, Finland — and a full general garage for petrol, diesel and hybrid cars. Price agreed before the work starts.",
+    ogTitle: "Revamp Motors — Tesla & EV garage in Helsinki, Finland",
     ogDescription:
       "Independent Tesla and EV servicing in Tattarisuo, Helsinki. Every other car, too.",
   },
   fi: {
     title: "Revamp Motors — Tesla- ja sähköautohuolto Helsingissä",
     description:
-      "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä — ja täyden palvelun korjaamo bensa-, diesel- ja hybridiautoille. Avaamme lokakuun ensimmäisellä viikolla. Hinta sovitaan ennen työn aloitusta.",
+      "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä — ja täyden palvelun korjaamo bensa-, diesel- ja hybridiautoille. Hinta sovitaan ennen työn aloitusta. Y-tunnus 3651428-1.",
     ogTitle: "Revamp Motors — Tesla- ja sähköautohuolto Helsingissä",
     ogDescription:
       "Riippumatonta Tesla- ja sähköautohuoltoa Tattarisuolla, Helsingissä. Myös kaikki muut autot.",
@@ -89,10 +99,10 @@ const HOME: Record<Lang, Copy> = {
 
 const TESLA: Record<Lang, Copy> = {
   en: {
-    title: "Tesla servicing in Helsinki",
+    title: "Tesla servicing in Helsinki, Finland",
     description:
-      "Independent Tesla servicing in Tattarisuo, Helsinki. Model S, 3, X and Y — battery health, drive units, brakes and regen, suspension, heat pump. Warranty-safe, at independent prices.",
-    ogTitle: "Tesla servicing in Helsinki — Revamp Motors",
+      "Independent Tesla servicing in Tattarisuo, Helsinki, Finland. Model S, 3, X and Y — battery health, drive units, brakes and regen, suspension, heat pump. Warranty-safe, at independent prices.",
+    ogTitle: "Tesla servicing in Helsinki, Finland — Revamp Motors",
     ogDescription: "Model S, 3, X and Y. Independent Tesla servicing in Helsinki.",
   },
   fi: {
@@ -114,8 +124,9 @@ const OG_LOCALE: Record<Lang, string> = { en: "en_FI", fi: "fi_FI" };
  * the searcher. Without it the two trees compete with each other in the index.
  */
 function build(lang: Lang, copy: Record<Lang, Copy>, path: string): Metadata {
-  const enPath = path;
-  const fiPath = `/fi${path}`;
+  // Finnish holds the bare path; English is prefixed. See lib/i18n.tsx.
+  const fiPath = path;
+  const enPath = `/en${path}`;
   const c = copy[lang];
   // A title that already names the brand is used as-is; any other gets the
   // "— Revamp Motors" template from BASE_METADATA.
@@ -125,7 +136,9 @@ function build(lang: Lang, copy: Record<Lang, Copy>, path: string): Metadata {
     description: c.description,
     alternates: {
       canonical: lang === "fi" ? fiPath : enPath,
-      languages: { en: enPath, fi: fiPath, "x-default": enPath },
+      // x-default is the Finnish page: this is a Helsinki garage, so Finnish is
+      // what a searcher with no matching language should be given.
+      languages: { fi: fiPath, en: enPath, "x-default": fiPath },
     },
     openGraph: {
       title: c.ogTitle,
@@ -148,8 +161,7 @@ export const BASE_METADATA: Metadata = {
   // The Tesla pages' titles did not carry the brand, so a search result for
   // them read "Tesla-huolto Helsingissä" with no name attached.
   title: { default: "Revamp Motors", template: "%s — Revamp Motors" },
-  // The site was `noindex` through pre-launch. It is open to crawlers now, in
-  // both languages.
+  // Open to crawlers in both languages.
   robots: {
     index: true,
     follow: true,

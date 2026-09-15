@@ -25,7 +25,7 @@ export function Pricing() {
           <Reveal className="md:col-span-5">
             <p className="label">{t(c.eyebrow)}</p>
             <h2 className="mt-7 max-w-[12ch] h-section">
-              {t(c.headingA)} <em className="italic text-accent">{t(c.headingAccent)}</em>
+              {t(c.headingA)} <span className="text-accent">{t(c.headingAccent)}</span>
             </h2>
             <p className="mt-7 max-w-[38ch] text-[1.02rem] leading-relaxed text-graphite">
               {t(c.standfirst)}

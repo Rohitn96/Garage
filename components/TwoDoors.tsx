@@ -39,7 +39,7 @@ export function TwoDoors() {
         <Reveal>
           <p className="label">{t(c.eyebrow)}</p>
           <h2 className="mt-7 max-w-[16ch] h-section">
-            {t(c.headingA)} <em className="italic text-accent">{t(c.headingAccent)}</em>
+            {t(c.headingA)} <span className="text-accent">{t(c.headingAccent)}</span>
           </h2>
         </Reveal>
 

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { VideoBackdrop } from "./VideoBackdrop";
-import { useHref, useT } from "@/lib/i18n";
+import { useHref, useLang, useT } from "@/lib/i18n";
+import { openingNote } from "@/lib/business";
 import { CONTENT } from "@/lib/content";
 
 /**
@@ -16,7 +17,10 @@ const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
 export function Hero() {
   const t = useT();
   const h = useHref();
+  const { lang } = useLang();
   const c = CONTENT.hero;
+  // Before opening day this leads with the date; after it, with what the shop is.
+  const opening = openingNote(lang);
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden px-6 pb-10 pt-16 md:px-10 md:pt-[4.5rem]">
@@ -24,7 +28,9 @@ export function Hero() {
 
       <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-page flex-col">
         <div className="flex flex-1 flex-col justify-center py-14 md:py-20">
-          <p className="rise label mb-8">{t(c.eyebrow)}</p>
+          <p className="rise label mb-8">
+            {opening ? `${opening} · ${t(CONTENT.nav.location)}` : t(c.eyebrow)}
+          </p>
 
           {/* Two lines, not three. The old headline spent its whole width on a
               tagline that said nothing a hundred other garages do not say. */}
@@ -34,7 +40,7 @@ export function Hero() {
           >
             {t(c.headlineA)}
             <br />
-            <em className="italic text-accent">{t(c.headlineAccent)}</em>
+            <span className="text-accent">{t(c.headlineAccent)}</span>
           </h1>
 
           <div className="mt-12 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">

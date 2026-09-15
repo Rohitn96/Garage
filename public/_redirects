@@ -1,11 +1,19 @@
 # Cloudflare static-assets redirects. Copied into out/ by `next build`.
 # https://developers.cloudflare.com/workers/static-assets/redirects/
 #
-# Without these, the asset server's own slash handling answers /tesla with a
-# 307 — a TEMPORARY redirect, which tells Google to keep the slashless URL
-# around. Every page lives at its trailing-slash URL (trailingSlash: true), so
-# say so permanently.
+# 1. Finnish moved from /fi/ to the site root, English from / to /en/. These
+#    keep every already-shared Finnish link working, permanently, so the move
+#    costs nothing. Order matters: the first match wins.
+/fi/tesla/   /tesla/     301
+/fi/tesla    /tesla/     301
+/fi/og.png   /og.png     301
+/fi/         /           301
+/fi          /           301
 
-/tesla     /tesla/     301
-/fi        /fi/        301
-/fi/tesla  /fi/tesla/  301
+# 2. Without these, the asset server's own slash handling answers /tesla with a
+#    307 — a TEMPORARY redirect, which tells Google to keep the slashless URL
+#    around. Every page lives at its trailing-slash URL (trailingSlash: true),
+#    so say so permanently.
+/tesla       /tesla/     301
+/en          /en/        301
+/en/tesla    /en/tesla/  301

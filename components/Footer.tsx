@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { Wordmark } from "./Wordmark";
-import { useHref, useT } from "@/lib/i18n";
+import { useHref, useLang, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
-import { ADDRESS_LINE, BUSINESS } from "@/lib/business";
+import { ADDRESS_LINE, BUSINESS, openingNote } from "@/lib/business";
 
 export function Footer() {
   const t = useT();
   const h = useHref();
+  const { lang } = useLang();
+  const opening = openingNote(lang);
   const c = CONTENT.footer;
   const n = CONTENT.nav;
 
@@ -78,7 +80,7 @@ export function Footer() {
         </p>
 
         <div className="mt-6 flex flex-col gap-2 text-[0.78rem] text-graphite sm:flex-row sm:items-center sm:justify-between">
-          <p>{t(c.opening)}</p>
+          <p>{opening ? `${opening}. ${t(c.bookings)}` : t(c.opening)}</p>
           <p className="font-mono">© {new Date().getFullYear()}</p>
         </div>
       </div>

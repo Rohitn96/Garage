@@ -4,10 +4,10 @@ import { SITE_URL } from "@/lib/site";
 /**
  * Emitted as a static /sitemap.xml at build time.
  *
- * Every page is listed in both languages, and each entry declares the other via
- * `alternates.languages`. That is what stops the English and Finnish trees from
- * competing with each other in the index: without it Google sees four URLs and
- * has to guess which are translations and which are duplicates.
+ * Every page is listed in both languages — Finnish at the root, English under
+ * /en/ — and each entry declares the other via `alternates.languages`. That is
+ * what stops the two trees competing in the index: without it Google sees four
+ * URLs and has to guess which are translations and which are duplicates.
  */
 export const dynamic = "force-static";
 
@@ -24,13 +24,13 @@ const PATHS = [
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return PATHS.flatMap(({ path, priority }) => {
-    const en = `${SITE_URL}${path}`;
-    const fi = `${SITE_URL}/fi${path}`;
-    const languages = { en, fi, "x-default": en };
+    const fi = `${SITE_URL}${path}`;
+    const en = `${SITE_URL}/en${path}`;
+    const languages = { fi, en, "x-default": fi };
 
     return [
-      { url: en, changeFrequency: "monthly" as const, priority, alternates: { languages } },
       { url: fi, changeFrequency: "monthly" as const, priority, alternates: { languages } },
+      { url: en, changeFrequency: "monthly" as const, priority, alternates: { languages } },
     ];
   });
 }

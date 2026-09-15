@@ -26,5 +26,35 @@ export const BUSINESS = {
   phone: null as string | null,
 } as const;
 
+/**
+ * The day the shop opens, as an ISO date — or null once it is simply trading.
+ *
+ * ONE LINE CHANGES THE WHOLE SITE. Set it and the hero eyebrow and the footer
+ * both announce the date, in Finnish and in English; set it back to null on
+ * opening day and every one of those lines quietly becomes the plain
+ * "we are here, book a slot" version. Nothing else has to be edited, which is
+ * the point: the old copy said "the first week of October" in five places and
+ * in two languages.
+ */
+export const OPENING_DATE: string | null = null;
+
+/**
+ * "Avaamme 6. lokakuuta" / "Opening 6 October", or null when there is no date.
+ *
+ * Formatted in UTC on purpose: a date-only string parsed in a local timezone
+ * behind UTC lands on the previous day, which would advertise the wrong one.
+ */
+export function openingNote(lang: "en" | "fi"): string | null {
+  if (!OPENING_DATE) return null;
+  const when = new Date(`${OPENING_DATE}T12:00:00Z`);
+  if (Number.isNaN(when.getTime())) return null;
+  const day = new Intl.DateTimeFormat(lang === "fi" ? "fi-FI" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  }).format(when);
+  return lang === "fi" ? `Avaamme ${day}` : `Opening ${day}`;
+}
+
 /** One-line postal address, as it should read on screen. */
 export const ADDRESS_LINE = `${BUSINESS.street}, ${BUSINESS.postalCode} ${BUSINESS.city}`;

@@ -392,7 +392,7 @@ export const TESLA_COPY = {
   headlineAccent: L("letter.", "kirjaimesi."),
   standfirst: L(
     "Independent Tesla servicing in Tattarisuo, Helsinki — at independent prices. Choose your model and we will show you what it actually needs.",
-    "Riippumatonta Tesla-huoltoa Tattarisuossa, Helsingissä — riippumattomin hinnoin. Valitse mallisi, niin näytämme mitä se oikeasti tarvitsee.",
+    "Riippumatonta Tesla-huoltoa Tattarisuolla Helsingissä — riippumattomin hinnoin. Valitse mallisi, niin näytämme mitä se oikeasti tarvitsee.",
   ),
   allModels: L("All models", "Kaikki mallit"),
   showingFor: L("Showing work for", "Näytetään työt mallille"),

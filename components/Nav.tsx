@@ -70,9 +70,9 @@ export function Nav() {
 
         <div className="hidden items-center gap-8 md:flex">
           {LINKS.map((link) => {
-            // Matches /tesla/ and /fi/tesla/ alike.
+            // Matches /tesla/ and /en/tesla/ alike.
             const current =
-              link.href.startsWith("/tesla") && /^\/(fi\/)?tesla(\/|$)/.test(pathname ?? "");
+              link.href.startsWith("/tesla") && /^\/(en\/)?tesla(\/|$)/.test(pathname ?? "");
             return (
               <Link
                 key={link.key}
