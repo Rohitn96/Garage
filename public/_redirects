@@ -17,3 +17,10 @@
 /tesla       /tesla/     301
 /en          /en/        301
 /en/tesla    /en/tesla/  301
+
+# 3. Google Search Console's verification file has to answer at its EXACT URL.
+#    The asset server's html_handling drops ".html" and sends a 307 to the
+#    extensionless path, and a verification file behind a redirect is not worth
+#    risking. Status 200 here is a rewrite, not a redirect: the exact URL serves
+#    the file's bytes. Keep this rule as long as the property is verified.
+/googlef5fb86be7b72c0c2.html  /googlef5fb86be7b72c0c2  200
