@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Wordmark } from "./Wordmark";
 import { useHref, useLang, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
-import { ADDRESS_LINE, BUSINESS, openingNote } from "@/lib/business";
+import { addressLine, BUSINESS, openingNote } from "@/lib/business";
 
 export function Footer() {
   const t = useT();
@@ -15,7 +15,7 @@ export function Footer() {
   const n = CONTENT.nav;
 
   const details = [
-    { label: t(c.address), value: ADDRESS_LINE },
+    { label: t(c.address), value: addressLine(lang) },
     { label: t(c.phone), value: t(c.phoneTba) },
     {
       label: t(c.email),

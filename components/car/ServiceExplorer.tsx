@@ -10,7 +10,11 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { SERVICE_GROUPS, type CarRegionId } from "@/data/services";
+import {
+  SERVICE_GROUPS,
+  type CarRegionId,
+  type ServiceGroup,
+} from "@/data/services";
 import { useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
 import {
@@ -171,6 +175,16 @@ function ScrollExplorer() {
   const group = index === null ? null : SERVICE_GROUPS[index];
   const region: CarRegionId | null = group?.id ?? null;
 
+  /*
+   * At both ends of the track there is no system, and the tracker fades the
+   * whole callout out over 300ms. Dropping the content the moment `index` goes
+   * null made it disappear mid-fade; the last system is held on screen instead,
+   * behind an opacity that is already on its way to zero.
+   */
+  const held = useRef<{ group: ServiceGroup; index: number } | null>(null);
+  if (group && index !== null) held.current = { group, index };
+  const shown = group && index !== null ? { group, index } : held.current;
+
   return (
     <section id="services" className="rule-above">
       {/* The accessible copy. The stage below is a visual presentation of exactly
@@ -186,18 +200,23 @@ function ScrollExplorer() {
         </Reveal>
       </div>
 
-      {/* Track length: one system per ~107vh of scroll on a phone and ~93vh on
+      {/* Track length: one system per ~107vh of scroll on a phone and ~80vh on
           a desktop, plus the lead-in and tail that START and END reserve.
           Derived from the group count rather than hardcoded, so a system held
           back — the climate one is, until the F-gas certificate is in hand —
-          shortens the track instead of stretching the systems that remain. */}
+          shortens the track instead of stretching the systems that remain.
+
+          Desktop gets the shorter figure because the input is different, not
+          because the stage is. A thumb flick carries most of a system at once;
+          a wheel moves in ~100px steps, so 93vh was about nine clicks per
+          system and the section read as a page that would not let go. */}
       <div
         aria-hidden
         ref={track}
         style={
           {
             "--track": `${SERVICE_GROUPS.length * 107}vh`,
-            "--track-md": `${SERVICE_GROUPS.length * 93}vh`,
+            "--track-md": `${SERVICE_GROUPS.length * 80}vh`,
           } as CSSProperties
         }
         className="relative h-[var(--track)] md:h-[var(--track-md)]"
@@ -227,13 +246,18 @@ function ScrollExplorer() {
                 const done = index !== null && i < index;
                 return (
                   <li key={g.id} className="flex items-center gap-3 py-[0.28rem]">
+                    {/* 200ms, not 500. The class flips in the same commit as the
+                        callout text, but a half-second colour fade meant the
+                        PAINTED highlight still sat on the previous system while
+                        the label had already moved on — the same desync the
+                        callout used to have, one step further down. */}
                     <span
-                      className={`h-px shrink-0 transition-all duration-500 ${
+                      className={`h-px shrink-0 transition-all duration-200 ${
                         on ? "w-7 bg-accent" : done ? "w-4 bg-accent/40" : "w-4 bg-rule"
                       }`}
                     />
                     <span
-                      className={`font-mono text-[0.63rem] uppercase tracking-label transition-colors duration-500 ${
+                      className={`font-mono text-[0.63rem] uppercase tracking-label transition-colors duration-200 ${
                         on ? "text-accent" : done ? "text-graphite/70" : "text-graphite/35"
                       }`}
                     >
@@ -272,44 +296,58 @@ function ScrollExplorer() {
               // by CalloutTracker, in whichever margin the part is nearer.
               className="pointer-events-none absolute left-0 top-[calc(52svh+1.5rem)] w-full px-6 opacity-0 transition-opacity duration-300 data-[side=left]:text-right data-[side=right]:text-left md:top-0 md:w-[16rem] md:px-0 lg:w-[18rem]"
             >
-              <AnimatePresence mode="wait">
-                {group && (
-                  <motion.div
-                    key={group.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.3, ease: [0.22, 0.61, 0.36, 1] }}
-                  >
-                    <p className="font-mono text-[0.62rem] tabular-nums tracking-label text-accent">
-                      {String((index ?? 0) + 1).padStart(2, "0")}
-                      <span className="text-graphite/50">
-                        {" / "}
-                        {String(SERVICE_GROUPS.length).padStart(2, "0")}
-                      </span>
-                    </p>
-                    <h3 className="mt-1.5 font-display text-[1.55rem] leading-tight tracking-[-0.015em] sm:text-[1.8rem]">
-                      {t(group.title)}
-                    </h3>
-                    <p className="mt-1.5 text-[0.83rem] leading-relaxed text-graphite">
-                      {t(group.standfirst)}
-                    </p>
-                    <ul className="mt-3.5 grid gap-1.5">
-                      {group.items.map((item, i) => (
-                        <motion.li
-                          key={item.id}
-                          initial={{ opacity: 0, y: 4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.06 + i * 0.045, duration: 0.25 }}
-                          className="font-display text-[1rem] leading-snug tracking-[-0.01em]"
-                        >
-                          {t(item.name)}
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/*
+                  No AnimatePresence here, deliberately.
+
+                  It was `mode="wait"`, which holds the incoming system until the
+                  outgoing one has finished leaving: 300ms of the OLD name on
+                  screen, then 300ms fading the new one in, and the item stagger
+                  after that. The leader line, ring and dot are written every
+                  frame by CalloutTracker, so for a third of a second the label
+                  read "Brakes & regen" while the line pointed at the battery —
+                  and on a desktop wheel, where a system can pass in half a
+                  second, it never caught up at all.
+
+                  Keying the block swaps the text in the same commit that moves
+                  the highlight. Nothing fades out: the wrapper's own opacity,
+                  driven by the tracker, handles the ends of the track. */}
+              {shown && (
+                <motion.div
+                  key={shown.group.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.18, ease: [0.22, 0.61, 0.36, 1] }}
+                >
+                  <p className="font-mono text-[0.62rem] tabular-nums tracking-label text-accent">
+                    {String(shown.index + 1).padStart(2, "0")}
+                    <span className="text-graphite/50">
+                      {" / "}
+                      {String(SERVICE_GROUPS.length).padStart(2, "0")}
+                    </span>
+                  </p>
+                  <h3 className="mt-1.5 font-display text-[1.55rem] leading-tight tracking-[-0.015em] sm:text-[1.8rem]">
+                    {t(shown.group.title)}
+                  </h3>
+                  <p className="mt-1.5 text-[0.83rem] leading-relaxed text-graphite">
+                    {t(shown.group.standfirst)}
+                  </p>
+                  <ul className="mt-3.5 grid gap-1.5">
+                    {shown.group.items.map((item, i) => (
+                      <motion.li
+                        key={item.id}
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        // Short enough that the whole block is readable inside a
+                        // fifth of a second; a system can pass in half of one.
+                        transition={{ delay: 0.03 + i * 0.025, duration: 0.16 }}
+                        className="font-display text-[1rem] leading-snug tracking-[-0.01em]"
+                      >
+                        {t(item.name)}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
             </div>
           </div>
 

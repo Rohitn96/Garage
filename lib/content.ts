@@ -258,8 +258,8 @@ export const CONTENT = {
     companyId: L("Company ID", "Y-tunnus"),
     phoneTba: L("[Phone TBA]", "[Puhelin tulossa]"),
     opening: L(
-      "Kytkintie 38, Tattarisuo, Helsinki. Taking bookings now.",
-      "Kytkintie 38, Tattarisuo, Helsinki. Otamme varauksia vastaan.",
+      "Hall 3, Kytkintie 38, Tattarisuo, Helsinki. Taking bookings now.",
+      "Halli 3, Kytkintie 38, Tattarisuo, Helsinki. Otamme varauksia vastaan.",
     ),
     /** Used with the opening date, in place of `opening`. See lib/business.ts. */
     bookings: L("Taking bookings now.", "Otamme varauksia vastaan."),

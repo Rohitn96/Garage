@@ -14,6 +14,14 @@
 export const BUSINESS = {
   name: "Revamp Motors",
   street: "Kytkintie 38",
+  /**
+   * The unit on the site. Kytkintie 38 is a yard of several halls, so the hall
+   * number is the difference between a customer finding the door and driving
+   * around the block — it leads the address line rather than trailing it.
+   * Localised because it is a word, not a number: a Finnish visitor is looking
+   * for a sign that says HALLI.
+   */
+  unit: { en: "Hall 3", fi: "Halli 3" },
   postalCode: "00770",
   city: "Helsinki",
   /** The industrial district; the local name people actually navigate by. */
@@ -79,5 +87,12 @@ export function openingNote(lang: "en" | "fi"): string | null {
   return lang === "fi" ? `Avaamme ${day}` : `Opening ${day}`;
 }
 
-/** One-line postal address, as it should read on screen. */
-export const ADDRESS_LINE = `${BUSINESS.street}, ${BUSINESS.postalCode} ${BUSINESS.city}`;
+/** One-line postal address, as it should read on screen, in one language. */
+export function addressLine(lang: "en" | "fi"): string {
+  return `${BUSINESS.unit[lang]}, ${BUSINESS.street}, ${BUSINESS.postalCode} ${BUSINESS.city}`;
+}
+
+/** Street and unit only — the `streetAddress` half of a postal address. */
+export function streetAddress(lang: "en" | "fi"): string {
+  return `${BUSINESS.unit[lang]}, ${BUSINESS.street}`;
+}

@@ -16,6 +16,13 @@ export type CalloutRefs = {
 /** The heading list holds the top-left corner; left labels start below it. */
 const LEFT_MARGIN_FLOOR = 248;
 
+/**
+ * The nav is fixed and takes a ground once the page has moved, so a label free
+ * to sit at y=22 slid underneath it and lost its first line. Right-margin
+ * labels start below the bar instead.
+ */
+const RIGHT_MARGIN_FLOOR = 104;
+
 /* --- Side switching --------------------------------------------------------
  * Which margin the label takes is decided with HYSTERESIS, not a midpoint test.
  *
@@ -146,7 +153,7 @@ export function CalloutTracker({
     // crosses the drawing to reach them.
     const { w: lw, h: lh } = box.current;
     const lx = onLeft ? 44 : size.width - lw - 44;
-    const floor = onLeft ? LEFT_MARGIN_FLOOR : 22;
+    const floor = onLeft ? LEFT_MARGIN_FLOOR : RIGHT_MARGIN_FLOOR;
     const ceiling = Math.max(size.height - lh - 44, floor);
     const ly = Math.min(Math.max(ay - lh * 0.42, floor), ceiling);
 

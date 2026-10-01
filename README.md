@@ -1,7 +1,8 @@
 # Revamp Motors
 
 Two-page site for **Revamp Motors** — an independent Tesla / EV specialist that also
-does general repair, at Kytkintie 38, 00770 Helsinki (Tattarisuo).
+does general repair, at Hall 3, Kytkintie 38, 00770 Helsinki (Tattarisuo). The hall
+number is part of the address everywhere it appears — the yard has several.
 
 Finnish at `/`, English at `/en/`. The site is **live and indexable**; the pre-launch
 copy and the `noindex` are gone. An opening date is published only if `OPENING_DATE` is
@@ -177,17 +178,19 @@ crossing the boundary is what keeps picture and text one object.
 
 ### Interaction
 
-**One continuous scroll.** The track is measured per system — 93vh each on desktop,
+**One continuous scroll.** The track is measured per system — 80vh each on desktop,
 **107vh each on a phone** — and multiplied by however many systems `SERVICE_GROUPS`
 contains, so holding one back shortens the track instead of stretching the rest. With
 the climate system held back for licensing (`AC_LICENSED`, lib/business.ts) that is
-five systems: 465vh and 535vh. The car and the callout are driven by the same scroll
+five systems: 400vh and 535vh. The car and the callout are driven by the same scroll
 value.
 
-The phone track is the longer of the two on purpose. At 440vh each system got about
-73vh, which is inside a single thumb flick — a part could separate and close again
-between two frames of anyone's attention, and systems read as skipped. More scroll per
-system is the only fix; nothing about the animation was wrong.
+The phone gets MORE scroll per system than the desktop, which looks backwards and is
+not: the input differs, not the stage. At 73vh a system fitted inside a single thumb
+flick — a part could separate and close again between two frames of anyone's attention,
+and systems read as skipped. A wheel has the opposite problem: it moves in ~100px steps,
+so 93vh was about nine clicks to get through one system and the section read as a page
+that would not let go. 107vh for a thumb, 80vh for a wheel.
 
 **The car turns about three quarters of a revolution across the track**, roughly 50
 degrees per system, and the camera's eye line rises over the first half and falls over

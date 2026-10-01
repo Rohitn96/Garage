@@ -1,4 +1,4 @@
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, streetAddress } from "@/lib/business";
 import { SITE_URL } from "@/lib/site";
 import type { Lang } from "@/lib/i18n";
 import { ogImagePath } from "@/lib/og";
@@ -79,7 +79,7 @@ export function StructuredData({ lang }: { lang: Lang }) {
     description: DESCRIPTION[lang],
     address: {
       "@type": "PostalAddress",
-      streetAddress: BUSINESS.street,
+      streetAddress: streetAddress(lang),
       postalCode: BUSINESS.postalCode,
       addressLocality: BUSINESS.city,
       addressCountry: BUSINESS.country,
