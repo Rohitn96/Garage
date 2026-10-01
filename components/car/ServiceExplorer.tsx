@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import {
   AnimatePresence,
@@ -28,7 +28,7 @@ const CarScene = dynamic(() => import("./CarScene").then((m) => m.CarScene), {
 
 /* --- Timeline --------------------------------------------------------------
  * 0.00 – 0.10   the whole car, turning into view
- * 0.10 – 0.94   six systems, one after another
+ * 0.10 – 0.94   every system in SERVICE_GROUPS, one after another
  * 0.94 – 1.00   back together before the next section
  *
  * Within each system's slice, `openness` ramps over the first 40% and then
@@ -186,9 +186,22 @@ function ScrollExplorer() {
         </Reveal>
       </div>
 
-      {/* Track length: six systems at roughly two-thirds of a screen each, plus
-          a lead-in and a tail. */}
-      <div aria-hidden ref={track} className="relative h-[640vh] md:h-[560vh]">
+      {/* Track length: one system per ~107vh of scroll on a phone and ~93vh on
+          a desktop, plus the lead-in and tail that START and END reserve.
+          Derived from the group count rather than hardcoded, so a system held
+          back — the climate one is, until the F-gas certificate is in hand —
+          shortens the track instead of stretching the systems that remain. */}
+      <div
+        aria-hidden
+        ref={track}
+        style={
+          {
+            "--track": `${SERVICE_GROUPS.length * 107}vh`,
+            "--track-md": `${SERVICE_GROUPS.length * 93}vh`,
+          } as CSSProperties
+        }
+        className="relative h-[var(--track)] md:h-[var(--track-md)]"
+      >
         <div className="sticky top-0 h-[100svh] overflow-hidden">
           {/* The car gets the whole stage. There is no side panel to make room
               for any more — the services are pinned to the part they describe. */}
@@ -205,7 +218,7 @@ function ScrollExplorer() {
               />
             ) : null}
 
-            {/* ---- The six systems, so you can see what is coming ---- */}
+            {/* ---- The systems, so you can see what is coming ---- */}
             {/* Clears the fixed nav: the stage is pinned to the top of the viewport,
                 so anything at the top of it sits underneath the bar. */}
             <ol className="pointer-events-none absolute left-11 top-[6.5rem] hidden md:block">

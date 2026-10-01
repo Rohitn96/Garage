@@ -43,7 +43,7 @@ export function LanguageToggle({ className = "" }: { className?: string }) {
               href={swapLangHref(pathname, option.code)}
               hrefLang={option.code}
               aria-label={option.aria}
-              aria-current={current ? "true" : undefined}
+              aria-current={current ? "page" : undefined}
               className={`font-mono text-[0.68rem] uppercase tracking-label transition-colors ${
                 current ? "text-accent" : "text-graphite hover:text-ink"
               }`}

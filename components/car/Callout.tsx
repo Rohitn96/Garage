@@ -37,7 +37,7 @@ const FLIP_TO_RIGHT = 0.6;
  * Nothing here goes through React. Every frame this projects the anchor mesh's
  * world position to screen pixels and writes `transform` and a path `d`
  * straight to the DOM, so a label that tracks a moving part at 60fps costs no
- * re-renders at all. React runs only when the region changes — six times across
+ * re-renders at all. React runs only when the region changes — once per system
  * the whole section.
  */
 export function CalloutTracker({

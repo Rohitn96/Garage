@@ -1,3 +1,4 @@
+import { AC_LICENSED } from "@/lib/business";
 import type { Localized } from "@/lib/i18n";
 
 /**
@@ -25,7 +26,7 @@ export type PriceRow = {
 
 const L = (en: string, fi: string): Localized => ({ en, fi });
 
-export const PRICES: PriceRow[] = [
+const ALL_PRICES: PriceRow[] = [
   {
     id: "inspection",
     service: L("Comprehensive vehicle inspection", "Auton kuntotarkastus"),
@@ -55,3 +56,11 @@ export const PRICES: PriceRow[] = [
     price: "80 € / hr",
   },
 ];
+
+/**
+ * The AC row is held back until the F-gas certificate is in hand; see
+ * AC_LICENSED in lib/business.ts.
+ */
+export const PRICES: PriceRow[] = ALL_PRICES.filter(
+  (row) => AC_LICENSED || row.id !== "ac",
+);

@@ -16,9 +16,18 @@ const FORMSPREE_ENDPOINT =
 const FIELD =
   "w-full border-0 border-b border-rule bg-transparent px-0 pb-2.5 pt-1 text-[1.05rem] text-ink placeholder:text-graphite/45 focus:border-accent focus:outline-none focus:ring-0";
 
-function FieldError({ message }: { message?: string }) {
+/**
+ * The message is tied to its input with `aria-describedby` (see `describe`
+ * below). Without that a screen reader announces the field as invalid and then
+ * has nothing to say about why — the message is on screen but unreachable.
+ */
+function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
-  return <p className="mt-2 font-mono text-[0.7rem] text-accent">{message}</p>;
+  return (
+    <p id={id} className="mt-2 font-mono text-[0.7rem] text-accent">
+      {message}
+    </p>
+  );
 }
 
 export function ContactForm() {
@@ -79,6 +88,10 @@ export function ContactForm() {
 
   const deliveryConfigured = Boolean(FORMSPREE_ENDPOINT);
 
+  /** Points an input at its own error message, and only while there is one. */
+  const describe = (field: keyof BookingRequest) =>
+    errors[field] ? `${field}-error` : undefined;
+
   return (
     <section id="contact" className="rule-above">
       <div className="section">
@@ -112,9 +125,10 @@ export function ContactForm() {
                     placeholder={t(c.placeholders.name)}
                     autoComplete="name"
                     aria-invalid={Boolean(errors.name)}
+                    aria-describedby={describe("name")}
                     {...register("name")}
                   />
-                  <FieldError message={errors.name?.message} />
+                  <FieldError id="name-error" message={errors.name?.message} />
                 </div>
 
                 <div>
@@ -126,9 +140,10 @@ export function ContactForm() {
                     className={FIELD}
                     placeholder={t(c.placeholders.vehicle)}
                     aria-invalid={Boolean(errors.vehicle)}
+                    aria-describedby={describe("vehicle")}
                     {...register("vehicle")}
                   />
-                  <FieldError message={errors.vehicle?.message} />
+                  <FieldError id="vehicle-error" message={errors.vehicle?.message} />
                 </div>
 
                 <div>
@@ -143,9 +158,10 @@ export function ContactForm() {
                     placeholder={t(c.placeholders.email)}
                     autoComplete="email"
                     aria-invalid={Boolean(errors.email)}
+                    aria-describedby={describe("email")}
                     {...register("email")}
                   />
-                  <FieldError message={errors.email?.message} />
+                  <FieldError id="email-error" message={errors.email?.message} />
                 </div>
 
                 <div>
@@ -160,9 +176,10 @@ export function ContactForm() {
                     placeholder={t(c.placeholders.phone)}
                     autoComplete="tel"
                     aria-invalid={Boolean(errors.phone)}
+                    aria-describedby={describe("phone")}
                     {...register("phone")}
                   />
-                  <FieldError message={errors.phone?.message} />
+                  <FieldError id="phone-error" message={errors.phone?.message} />
                 </div>
 
                 <div>
@@ -175,9 +192,10 @@ export function ContactForm() {
                     className={`${FIELD} resize-y`}
                     placeholder={t(c.placeholders.message)}
                     aria-invalid={Boolean(errors.message)}
+                    aria-describedby={describe("message")}
                     {...register("message")}
                   />
-                  <FieldError message={errors.message?.message} />
+                  <FieldError id="message-error" message={errors.message?.message} />
                 </div>
 
                 <div className="flex flex-wrap items-center gap-x-8 gap-y-3">

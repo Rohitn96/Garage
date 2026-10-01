@@ -1,3 +1,4 @@
+import { AC_LICENSED } from "@/lib/business";
 import type { Localized } from "@/lib/i18n";
 
 /**
@@ -67,7 +68,7 @@ export type TeslaServiceGroup = {
   items: TeslaService[];
 };
 
-export const TESLA_SERVICES: TeslaServiceGroup[] = [
+const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
   {
     id: "battery",
     title: L("Battery & charging", "Akku ja lataus"),
@@ -319,6 +320,14 @@ export const TESLA_SERVICES: TeslaServiceGroup[] = [
   },
 ];
 
+/**
+ * The climate group is held back until the F-gas certificate is in hand; see
+ * AC_LICENSED in lib/business.ts.
+ */
+export const TESLA_SERVICES: TeslaServiceGroup[] = ALL_TESLA_SERVICES.filter(
+  (group) => AC_LICENSED || group.id !== "climate",
+);
+
 /** Winter is the Tesla owner's real problem here, so it gets its own block. */
 export const WINTER_POINTS: Array<{ title: Localized; body: Localized }> = [
   {
@@ -330,10 +339,18 @@ export const WINTER_POINTS: Array<{ title: Localized; body: Localized }> = [
   },
   {
     title: L("Range, honestly", "Toimintamatka, rehellisesti"),
-    body: L(
-      "Expect 20–35 % less between December and February. If yours dropped further or suddenly, that is a heat pump or sensor fault and we can find it.",
-      "Odota 20–35 % vähemmän joulu–helmikuussa. Jos sinun romahti enemmän tai yhtäkkiä, kyse on lämpöpumpun tai anturin viasta, ja löydämme sen.",
-    ),
+    // Naming the heat pump as something we trace is a claim on refrigerant
+    // work, so it waits for the certificate with the rest of it. The advice
+    // itself is true either way. See AC_LICENSED in lib/business.ts.
+    body: AC_LICENSED
+      ? L(
+          "Expect 20–35 % less between December and February. If yours dropped further or suddenly, that is a heat pump or sensor fault and we can find it.",
+          "Odota 20–35 % vähemmän joulu–helmikuussa. Jos sinun romahti enemmän tai yhtäkkiä, kyse on lämpöpumpun tai anturin viasta, ja löydämme sen.",
+        )
+      : L(
+          "Expect 20–35 % less between December and February. A bigger drop, or a sudden one, is a fault rather than the season — worth measuring before you guess at it.",
+          "Odota 20–35 % vähemmän joulu–helmikuussa. Suurempi tai äkillinen romahdus on vika eikä vuodenaika — se kannattaa mitata ennen kuin arvailet.",
+        ),
   },
   {
     title: L("Preconditioning", "Esilämmitys"),

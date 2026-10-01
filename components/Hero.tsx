@@ -33,7 +33,10 @@ export function Hero() {
           </p>
 
           {/* Two lines, not three. The old headline spent its whole width on a
-              tagline that said nothing a hundred other garages do not say. */}
+              tagline that said nothing a hundred other garages do not say.
+              It now states the general trade and the tag below carries the
+              specialism, which is the right way round for a shop that takes in
+              every make and every fuel. */}
           <h1
             style={delay(80)}
             className="rise max-w-[16ch] font-display text-[clamp(2.6rem,7vw,5.5rem)] font-normal leading-[0.96] tracking-[-0.02em]"
@@ -42,6 +45,17 @@ export function Hero() {
             <br />
             <span className="text-accent">{t(c.headlineAccent)}</span>
           </h1>
+
+          {/* The specialism as a tag, not as the opening claim. Hairline box and
+              one accent mark — the same vocabulary as the credential strip, so it
+              reads as metadata about the shop rather than a second headline. */}
+          <p
+            style={delay(120)}
+            className="rise mt-7 flex items-center gap-2.5 self-start rounded-sm border border-rule px-3 py-1.5 font-mono text-[0.66rem] uppercase tracking-label text-ink"
+          >
+            <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+            {t(c.specialty)}
+          </p>
 
           <div className="mt-12 grid gap-10 border-t border-rule pt-8 md:grid-cols-12">
             <p

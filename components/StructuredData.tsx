@@ -31,25 +31,35 @@ import { ogImagePath } from "@/lib/og";
  * either; the disclaimer in the footer says so in words, and this says nothing
  * that contradicts it.
  */
+/**
+ * Leads with the general trade, as the page metadata does. A crawler reading
+ * "Tesla and EV specialists" first drew the same wrong conclusion a visitor did:
+ * that a petrol or diesel car was somebody else's job.
+ */
 const DESCRIPTION: Record<Lang, string> = {
-  en: "Independent Tesla and EV specialists in Tattarisuo, Helsinki, and a full general garage for petrol, diesel and hybrid cars.",
-  fi: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä, sekä täyden palvelun korjaamo bensa-, diesel- ja hybridiautoille.",
+  en: "Independent full-service garage in Tattarisuo, Helsinki for all makes and fuel types — petrol, diesel, hybrid and electric — with Tesla and EV work as its specialty.",
+  fi: "Riippumaton täyden palvelun autokorjaamo Tattarisuolla, Helsingissä kaikille merkeille ja käyttövoimille — bensa, diesel, hybridi ja sähkö — erikoisalanaan Tesla ja sähköautot.",
 };
 
+/** General work first, specialism after — the same order as everything else. */
 const KNOWS_ABOUT: Record<Lang, string[]> = {
   en: [
+    "Car servicing and repair",
+    "Petrol and diesel engine repair",
+    "Brake and suspension repair",
+    "Vehicle inspection repairs",
     "Tesla servicing",
     "Electric vehicle repair",
     "High-voltage battery diagnostics",
-    "Brake and suspension repair",
-    "Vehicle inspection repairs",
   ],
   fi: [
+    "Autohuolto ja korjaus",
+    "Bensa- ja dieselmoottorien korjaus",
+    "Jarru- ja alustakorjaukset",
+    "Katsastuskorjaukset",
     "Tesla-huolto",
     "Sähköauton korjaus",
     "Ajoakun diagnostiikka",
-    "Jarru- ja alustakorjaukset",
-    "Katsastuskorjaukset",
   ],
 };
 

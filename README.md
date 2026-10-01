@@ -167,7 +167,8 @@ than at the block's corner.
 `CalloutTracker` runs inside the Canvas and touches no React state: every frame it
 projects the anchor mesh's world position to screen pixels and writes `transform` and a
 path `d` straight to the DOM. A label tracking a moving part at 60fps costs zero
-re-renders; React runs six times across the whole section, when the region changes.
+re-renders; React runs once per system across the whole section, when the region
+changes.
 
 On a phone the label is placed by CSS beneath the stage and the leader runs down into
 it. A car is wide, and in portrait no camera distance both fills the screen and keeps
@@ -176,8 +177,12 @@ crossing the boundary is what keeps picture and text one object.
 
 ### Interaction
 
-**One continuous scroll.** The track is 560vh on desktop and **640vh on a phone**; the
-car and the callout are driven by the same scroll value.
+**One continuous scroll.** The track is measured per system — 93vh each on desktop,
+**107vh each on a phone** — and multiplied by however many systems `SERVICE_GROUPS`
+contains, so holding one back shortens the track instead of stretching the rest. With
+the climate system held back for licensing (`AC_LICENSED`, lib/business.ts) that is
+five systems: 465vh and 535vh. The car and the callout are driven by the same scroll
+value.
 
 The phone track is the longer of the two on purpose. At 440vh each system got about
 73vh, which is inside a single thumb flick — a part could separate and close again
@@ -191,15 +196,15 @@ arrived at almost the same angle as the last and the only thing that ever moved 
 part sliding out and back. Yaw plus a travelling eye line is what stops an exploded
 view reading as parts twitching in and out of a static picture. Within each system's slice `openness` ramps over the first 40%
 and then holds, so the scroll IS the movement — stop halfway and the part sits halfway
-out. The whole car also yaws slowly across the entire track, which is what makes six
-systems read as one move instead of six events.
+out. The whole car also yaws slowly across the entire track, which is what makes the
+systems read as one move instead of a series of events.
 
 Clicking was tried and removed: a click is more effort than a scroll for something you
 are reading top to bottom, and it meant the visitor had to decide what to open before
 they knew what was inside. The earlier 720vh version failed for the opposite reason —
 it was so long that scrolling to read pushed you off the thing you were reading.
 
-Orientation is the six headings in the top-left corner — done ones marked, the current
+Orientation is the system headings in the top-left corner — done ones marked, the current
 one in accent — plus a filling hairline at the foot of the stage. The list sits at
 `top-[6.5rem]` to clear the fixed nav, and left-margin callouts are floored below it so
 the two never collide.
@@ -287,6 +292,37 @@ when there are real rates behind it.
 
 ⚠️ The five are still indicative. The "indicative only" disclaimer renders directly
 under them and must stay there.
+
+**Four of the five show today.** The AC service row is held back with the rest of the
+refrigerant work until the F-gas certificate is in hand — one switch, `AC_LICENSED` in
+[lib/business.ts](lib/business.ts), controls it and every other mention of AC on the
+site. See *Air conditioning* below.
+
+## Air conditioning
+
+**Hidden until licensed.** Opening a refrigerant circuit — car AC, and the heat pump
+that shares it on an EV — needs an F-gas qualification (Tukes kylmäainepätevyys). Until
+the certificate is in hand the site does not offer that work anywhere, and that is
+enforced at the source rather than by editing copy page by page:
+
+```ts
+// lib/business.ts
+export const AC_LICENSED = false;
+```
+
+Set it to `true` and the work comes back in one commit: the *Heat pump & climate* system
+in the home explorer, the AC row in the price list, the climate group on the Tesla page,
+"AC" / "ilmastointi" in the two-doors copy, "heat pump" in the Tesla page's meta
+description, and the heat-pump answer in the winter notes.
+
+The explorer's track length is derived from `SERVICE_GROUPS.length`, so hiding a system
+shortens the scroll instead of stretching the ones that remain. The climate PARTS stay
+in the 3D car either way — they are part of the car; with no group pointing at them they
+simply never separate out.
+
+⚠️ The cabin-filter items live inside the climate group, so they are hidden with it even
+though they need no licence. If those should stay on sale, move them into another group
+rather than turning the flag on.
 
 ## Contact form
 

@@ -1,3 +1,4 @@
+import { AC_LICENSED } from "./business";
 import type { Localized } from "./i18n";
 
 /**
@@ -31,20 +32,27 @@ export const CONTENT = {
 
   hero: {
     eyebrow: L(
-      "Tesla & EV specialists · Tattarisuo, Helsinki",
-      "Tesla- ja sähköautohuolto · Tattarisuo, Helsinki",
+      "Independent garage · Tattarisuo, Helsinki",
+      "Riippumaton autokorjaamo · Tattarisuo, Helsinki",
     ),
-    headlineA: L("Tesla specialists.", "Tesla-asiantuntijat."),
-    headlineAccent: L("Every other car too.", "Ja kaikki muutkin autot."),
+    // Each line has to clear the h1's 16ch measure or the headline runs to
+    // three lines — which "Täyden palvelun korjaamo" did in Finnish. The
+    // Finnish line makes the same claim in fewer characters; "full service"
+    // itself is carried by the metadata and by the statement above the two
+    // doors.
+    headlineA: L("A full-service garage", "Yksi korjaamo,"),
+    headlineAccent: L("for every car.", "kaikki autot."),
+    /** The specialism, named beside the headline rather than in place of it. */
+    specialty: L("Specialty: Tesla & EV", "Erikoisala: Tesla ja sähköautot"),
     standfirst: L(
-      "An independent garage in Tattarisuo, Helsinki, serving the whole capital region. Deep on EVs, fully equipped for engine cars. You get the price before we pick up a tool.",
-      "Riippumaton korjaamo Tattarisuolla Helsingissä, koko pääkaupunkiseudun palveluksessa. Vahva osaaminen sähköautoista, täydet valmiudet polttomoottoreihin. Saat hinnan ennen kuin tartumme työkaluun.",
+      "An independent garage in Tattarisuo, Helsinki, serving the whole capital region. Every make and every fuel — petrol, diesel, hybrid, electric. You get the price before we pick up a tool.",
+      "Riippumaton korjaamo Tattarisuolla Helsingissä, koko pääkaupunkiseudun palveluksessa. Kaikki merkit ja käyttövoimat — bensa, diesel, hybridi, sähkö. Saat hinnan ennen kuin tartumme työkaluun.",
     ),
     ctaPrimary: L("Book a slot", "Varaa aika"),
     ctaSecondary: L("Tesla service", "Tesla-huolto"),
     credentials: [
-      L("Tesla & EV specialists", "Tesla- ja sähköauto-osaaminen"),
       L("All makes serviced", "Kaikki merkit"),
+      L("Tesla & EV specialists", "Tesla- ja sähköauto-osaaminen"),
       L("Price agreed first", "Hinta sovitaan ensin"),
     ],
     scroll: L("Look inside", "Katso sisään"),
@@ -52,14 +60,15 @@ export const CONTENT = {
 
   explorer: {
     eyebrow: L("What we work on", "Mitä huollamme"),
-    headingA: L("An EV,", "Sähköauto,"),
+    // Make-agnostic on purpose: the systems below — brakes, tyres, chassis —
+    // are the same job on any car. The model in the scene happens to be an EV.
+    headingA: L("Your car,", "Auto,"),
     headingAccent: L("opened up.", "avattuna."),
     standfirst: L(
       "Keep scrolling. The car comes apart one system at a time, and we tell you what we do inside each.",
       "Jatka vierimistä. Auto purkautuu järjestelmä kerrallaan, ja kerromme mitä teemme kunkin sisällä.",
     ),
     hint: L("Scroll to take it apart", "Vieritä ja pura auto osiin"),
-    reset: L("Show the whole car", "Näytä koko auto"),
     pricingLink: L("See what it costs", "Katso hinnasto"),
   },
 
@@ -67,6 +76,15 @@ export const CONTENT = {
     eyebrow: L("Two ways in", "Kaksi reittiä"),
     headingA: L("Find your", "Löydä"),
     headingAccent: L("side of the shop.", "oma puolesi korjaamosta."),
+    /**
+     * The positioning, said once in plain words rather than left to be inferred
+     * from which card is listed first. Both halves of the shop are real work;
+     * the specialism is one of them, not the gate to the other.
+     */
+    standfirst: L(
+      "Revamp Motors is a full-service garage for every make and every fuel — petrol, diesel, hybrid and electric. Tesla and EVs are our specialty, not the only thing we do.",
+      "Revamp Motors on täyden palvelun korjaamo kaikille merkeille ja käyttövoimille — bensa, diesel, hybridi ja sähkö. Tesla ja sähköautot ovat erikoisalamme, eivät ainoa työmme.",
+    ),
     tesla: {
       kicker: L("Our specialism", "Erikoisalamme"),
       title: L("Tesla & electric", "Tesla ja sähköautot"),
@@ -77,11 +95,15 @@ export const CONTENT = {
       cta: L("Tesla servicing", "Tesla-huolto"),
     },
     general: {
-      kicker: L("Everything else", "Kaikki muu"),
+      // Not "everything else": that framing read as the leftover after the
+      // specialism, which is not what a petrol or diesel owner is being offered.
+      kicker: L("Our everyday work", "Jokapäiväinen työmme"),
       title: L("Petrol, diesel, hybrid", "Bensa, diesel, hybridi"),
+      // AC drops out of the list until the F-gas certificate is in hand, and
+      // comes back with it. See AC_LICENSED in lib/business.ts.
       body: L(
-        "Servicing, timing belts, brakes, exhausts, AC, tyres and inspection-failure repairs. Most cars on Finnish roads still run on an engine and we are just as exacting about them.",
-        "Huollot, jakohihnat, jarrut, pakoputkistot, ilmastointi, renkaat ja katsastuskorjaukset. Valtaosa Suomen teillä liikkuvista autoista käy yhä polttomoottorilla, ja teemme ne yhtä tarkasti.",
+        `Servicing, timing belts, brakes, exhausts, ${AC_LICENSED ? "AC, " : ""}tyres and inspection-failure repairs. Most cars on Finnish roads still run on an engine and we are just as exacting about them.`,
+        `Huollot, jakohihnat, jarrut, pakoputkistot, ${AC_LICENSED ? "ilmastointi, " : ""}renkaat ja katsastuskorjaukset. Valtaosa Suomen teillä liikkuvista autoista käy yhä polttomoottorilla, ja teemme ne yhtä tarkasti.`,
       ),
       cta: L("See pricing", "Katso hinnasto"),
     },
@@ -95,14 +117,11 @@ export const CONTENT = {
       "Indicative prices for the jobs we are asked for most. Your car is inspected and quoted before anything is touched — and if we find something else, we stop and ring you.",
       "Ohjehinnat yleisimmin kysytyille töille. Auto tarkastetaan ja hinnoitellaan ennen kuin mihinkään kosketaan — ja jos löydämme muuta, pysäytämme työn ja soitamme.",
     ),
-    tabs: {
-      tesla: L("Tesla & EV", "Tesla ja sähköautot"),
-      general: L("All vehicles", "Kaikki autot"),
-    },
-    quoteOnly: L("On inspection", "Tarkastuksen jälkeen"),
-    from: L("from", "alk."),
-    labour: L("Labour", "Tuntiveloitus"),
-    labourRate: L("80 € / hr", "80 € / h"),
+    // The tab labels, "from"/"on inspection" markers and the standalone labour
+    // rate that used to live here went with the grouped table this section
+    // replaced (see components/Pricing.tsx). Every figure now comes from
+    // data/pricing.ts, so nothing rendered them and they shipped to the browser
+    // in both languages regardless.
     disclaimer: L(
       "Indicative only. Prices are estimates for a typical car and vary with model, parts and condition. Fleet, rideshare and food-delivery vehicles have their own rates — ask for a quote.",
       "Vain ohjeellinen. Hinnat ovat arvioita tyypilliselle autolle ja vaihtelevat mallin, osien ja kunnon mukaan. Kalusto-, kyytipalvelu- ja ruokalähettiautoilla on omat hintansa — pyydä tarjous.",

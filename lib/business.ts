@@ -27,6 +27,29 @@ export const BUSINESS = {
 } as const;
 
 /**
+ * Whether the shop may advertise refrigerant work: air conditioning, and the
+ * heat pump that shares its circuit on an EV.
+ *
+ * Opening a refrigerant circuit needs an F-gas qualification (Tukes
+ * kylmäainepätevyys) and the certificate is not in hand yet. Advertising a job
+ * you are not licensed to do is not a copy problem, so it is switched off at
+ * the source rather than edited out page by page.
+ *
+ * ONE LINE BRINGS IT BACK. Set this to true and the work reappears everywhere
+ * it belongs:
+ *   - the "Heat pump & climate" system in the home page car explorer
+ *   - the AC service row in the price list
+ *   - the same group on the Tesla page
+ *   - "AC" / "ilmastointi" in the two-doors copy (lib/content.ts) and "heat
+ *     pump" in the Tesla page's meta description (components/RootShell.tsx)
+ *   - the heat-pump answer in the Tesla page's winter notes (data/tesla.ts)
+ *
+ * The climate parts stay in the 3D car either way — they are part of the car.
+ * With no group pointing at them they simply never separate out.
+ */
+export const AC_LICENSED = false;
+
+/**
  * The day the shop opens, as an ISO date — or null once it is simply trading.
  *
  * ONE LINE CHANGES THE WHOLE SITE. Set it and the hero eyebrow and the footer

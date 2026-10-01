@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import type { ReactNode } from "react";
+import { AC_LICENSED } from "@/lib/business";
 import { LanguageProvider, type Lang } from "@/lib/i18n";
 import { CF_BEACON_TOKEN, SITE_URL } from "@/lib/site";
 import { OG_SIZE, ogAlt, ogImagePath } from "@/lib/og";
@@ -78,37 +79,50 @@ export function RootShell({ lang, children }: { lang: Lang; children: ReactNode 
 
 type Copy = { title: string; description: string; ogTitle: string; ogDescription: string };
 
+/**
+ * The home page leads with the general trade and names the specialism second.
+ *
+ * It used to be the other way round — "Tesla & EV garage in Helsinki" — which
+ * described the smaller half of the work and told a petrol or diesel owner, in
+ * the one line they see in a search result, that the site was not for them.
+ * Tesla and EV keywords are not lost: /tesla/ is the page that should own them
+ * (see TESLA below), and the specialism is named in both the title and the
+ * description here.
+ */
 const HOME: Record<Lang, Copy> = {
   en: {
-    title: "Revamp Motors — Tesla & EV garage in Helsinki, Finland",
+    title: "Revamp Motors — Helsinki car garage, all makes, Tesla & EV specialty",
     description:
-      "Independent Tesla and EV specialists in Tattarisuo, Helsinki, Finland — and a full general garage for petrol, diesel and hybrid cars. Price agreed before the work starts.",
-    ogTitle: "Revamp Motors — Tesla & EV garage in Helsinki, Finland",
+      "Independent full-service garage in Tattarisuo, Helsinki, Finland — every make and every fuel, petrol, diesel, hybrid and electric. Tesla and EV work is our specialty, not our only trade. Price agreed before the work starts.",
+    ogTitle: "Revamp Motors — Helsinki car garage, all makes, Tesla & EV specialty",
     ogDescription:
-      "Independent Tesla and EV servicing in Tattarisuo, Helsinki. Every other car, too.",
+      "A full-service garage in Tattarisuo, Helsinki for every make and every fuel. Tesla and EV work is our specialty.",
   },
   fi: {
-    title: "Revamp Motors — Tesla- ja sähköautohuolto Helsingissä",
+    title: "Revamp Motors — autokorjaamo Helsingissä, erikoisalana Tesla",
     description:
-      "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä — ja täyden palvelun korjaamo bensa-, diesel- ja hybridiautoille. Hinta sovitaan ennen työn aloitusta. Y-tunnus 3651428-1.",
-    ogTitle: "Revamp Motors — Tesla- ja sähköautohuolto Helsingissä",
+      "Riippumaton täyden palvelun autokorjaamo Tattarisuolla, Helsingissä — kaikki merkit ja käyttövoimat: bensa, diesel, hybridi ja sähkö. Erikoisalanamme Tesla ja sähköautot. Hinta sovitaan ennen työn aloitusta. Y-tunnus 3651428-1.",
+    ogTitle: "Revamp Motors — autokorjaamo Helsingissä, erikoisalana Tesla",
     ogDescription:
-      "Riippumatonta Tesla- ja sähköautohuoltoa Tattarisuolla, Helsingissä. Myös kaikki muut autot.",
+      "Täyden palvelun autokorjaamo Tattarisuolla, Helsingissä — kaikille merkeille ja käyttövoimille. Erikoisalanamme Tesla ja sähköautot.",
   },
 };
 
+/**
+ * The systems named here have to be ones we can actually book in. The heat pump
+ * is refrigerant work, so it is listed only while AC_LICENSED says we may do it
+ * — see lib/business.ts.
+ */
 const TESLA: Record<Lang, Copy> = {
   en: {
     title: "Tesla servicing in Helsinki, Finland",
-    description:
-      "Independent Tesla servicing in Tattarisuo, Helsinki, Finland. Model S, 3, X and Y — battery health, drive units, brakes and regen, suspension, heat pump. Warranty-safe, at independent prices.",
+    description: `Independent Tesla servicing in Tattarisuo, Helsinki, Finland. Model S, 3, X and Y — battery health, drive units, brakes and regen, suspension${AC_LICENSED ? ", heat pump" : ", 12 V battery"}. Warranty-safe, at independent prices.`,
     ogTitle: "Tesla servicing in Helsinki, Finland — Revamp Motors",
     ogDescription: "Model S, 3, X and Y. Independent Tesla servicing in Helsinki.",
   },
   fi: {
     title: "Tesla-huolto Helsingissä",
-    description:
-      "Riippumatonta Tesla-huoltoa Tattarisuolla, Helsingissä. Model S, 3, X ja Y — akun kunto, voimalinja, jarrut ja regen, alusta, lämpöpumppu. Takuu säilyy, riippumattomin hinnoin.",
+    description: `Riippumatonta Tesla-huoltoa Tattarisuolla, Helsingissä. Model S, 3, X ja Y — akun kunto, voimalinja, jarrut ja regen, alusta${AC_LICENSED ? ", lämpöpumppu" : ", 12 V:n apuakku"}. Takuu säilyy, riippumattomin hinnoin.`,
     ogTitle: "Tesla-huolto Helsingissä — Revamp Motors",
     ogDescription: "Model S, 3, X ja Y. Riippumatonta Tesla-huoltoa Helsingissä.",
   },

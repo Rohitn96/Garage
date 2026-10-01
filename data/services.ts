@@ -1,3 +1,4 @@
+import { AC_LICENSED } from "@/lib/business";
 import type { Localized } from "@/lib/i18n";
 
 /**
@@ -9,10 +10,12 @@ import type { Localized } from "@/lib/i18n";
  * were never rendered while a second, differently-shaped price list was
  * hardcoded elsewhere — one catalogue, one price list, no contradiction.
  *
- * Regions are EV-first because the model in the scene is an EV: a battery
- * skateboard, two drive units and no engine. Combustion work is not hidden —
- * it has its own door on the home page and its own half of the price list —
- * but the centrepiece states the specialism rather than contradicting it.
+ * Regions follow the model in the scene, which is an EV: a battery skateboard,
+ * two drive units and no engine. Most of what separates out of it — brakes,
+ * suspension, climate, wheels — is the same job on any car, which is why the
+ * section is headed "Your car, opened up" and not "An EV, opened up". Engine
+ * work is named inside the drive-unit group as well as having its own door on
+ * the home page and its own half of the price list.
  */
 
 /** Which system separates out of the car when this group is selected. */
@@ -39,7 +42,7 @@ export type ServiceGroup = {
   items: ServiceItem[];
 };
 
-export const SERVICE_GROUPS: ServiceGroup[] = [
+const ALL_SERVICE_GROUPS: ServiceGroup[] = [
   {
     id: "battery",
     title: { en: "Battery & charging", fi: "Akku ja lataus" },
@@ -269,3 +272,15 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     ],
   },
 ];
+
+/**
+ * What the explorer actually walks through.
+ *
+ * The climate system is held back until the F-gas certificate is in hand; see
+ * AC_LICENSED in lib/business.ts. The stage reads its length from this array —
+ * track height, the system list, the "02 / 05" counter — so a hidden system
+ * costs nothing and changes no pacing.
+ */
+export const SERVICE_GROUPS: ServiceGroup[] = ALL_SERVICE_GROUPS.filter(
+  (group) => AC_LICENSED || group.id !== "climate",
+);
