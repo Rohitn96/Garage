@@ -7,9 +7,10 @@
  *
  * Everything here is VERIFIED, not placeholder: the company ID resolves against
  * the PRH open-data register to Revamp Motors, osakeyhtiö, registered
- * 2026-08-31. `phone` is deliberately null rather than a fake number — an
+ * 2026-08-31. `phone` was null through pre-launch for the same reason: an
  * invented phone number in structured data is worse than no phone number,
- * because Google will publish it.
+ * because Google will publish whatever is here. Setting it back to null hides
+ * it again everywhere, footer and schema both.
  */
 export const BUSINESS = {
   name: "Revamp Motors",
@@ -31,7 +32,19 @@ export const BUSINESS = {
   companyId: "3651428-1",
   /** Registration date, per PRH. Not the opening date. */
   founded: "2026-08-31",
-  phone: null as string | null,
+  /**
+   * E.164, which is the form `tel:` links and schema.org want. Null hides the
+   * phone from the footer and from the structured data in one edit.
+   */
+  phone: "+358458656683" as string | null,
+  /** The same number grouped for reading. Never used as an href. */
+  phoneDisplay: "+358 45 865 6683",
+  /**
+   * The shop's pin. Tattarisuo is a yard of identical halls off a service road,
+   * so an address a visitor has to retype into their own maps app is a worse
+   * answer than a link that opens it on the right door.
+   */
+  mapsUrl: "https://maps.app.goo.gl/ymn8vnducX7tqAai7",
 } as const;
 
 /**

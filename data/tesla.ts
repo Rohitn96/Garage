@@ -82,7 +82,7 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
         name: L("HV battery health report", "Ajoakun kuntoraportti"),
         blurb: L(
           "Capacity, cell balance and degradation, written up so you can show a buyer.",
-          "Kapasiteetti, kennotasapaino ja kuluma kirjallisena — voit näyttää sen ostajalle.",
+          "Kapasiteetti, kennotasapaino ja kuluma kirjallisena. Voit näyttää sen ostajalle.",
         ),
         models: ALL,
       },
@@ -99,8 +99,8 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
         id: "charge-port",
         name: L("Charge port & onboard charger", "Latausportti ja laturi"),
         blurb: L(
-          "Latch, heater and contact faults — the reason a cable will not release in winter.",
-          "Salpa-, lämmitin- ja kontaktiviat — syy siihen miksi kaapeli ei irtoa talvella.",
+          "Latch, heater and contact faults: the reason a cable will not release in winter.",
+          "Salpa-, lämmitin- ja kontaktiviat: syy siihen, miksi kaapeli ei irtoa talvella.",
         ),
         models: ALL,
       },
@@ -127,8 +127,8 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
         id: "drive-diag",
         name: L("Drive unit diagnostics", "Voimalinjan vianhaku"),
         blurb: L(
-          "Whine, shudder or a power limit — we find which unit and why before quoting.",
-          "Vinkuna, tärinä tai tehorajoitus — selvitämme minkä yksikön ja miksi ennen tarjousta.",
+          "Whine, shudder or a power limit. We find which unit and why before quoting.",
+          "Vinkuna, tärinä tai tehorajoitus. Selvitämme minkä yksikön ja miksi ennen tarjousta.",
         ),
         models: ALL,
       },
@@ -137,7 +137,7 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
         name: L("Reduction gear & axle service", "Alennusvaihde ja vetoakselit"),
         blurb: L(
           "Fluid, seals and half-shafts, including the clunk on hard take-off.",
-          "Öljy, tiivisteet ja vetoakselit — myös se kolahdus kovassa lähdössä.",
+          "Öljy, tiivisteet ja vetoakselit, myös se kolahdus kovassa lähdössä.",
         ),
         models: ALL,
       },
@@ -156,8 +156,8 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
     id: "brakes",
     title: L("Brakes & regen", "Jarrut ja regen"),
     standfirst: L(
-      "Regen means the friction brakes barely get used — which is exactly why they seize here.",
-      "Regen tarkoittaa, ettei kitkajarruja juuri käytetä — siksi ne juuri täällä jumittuvat.",
+      "Regen means the friction brakes barely get used, which is exactly why they seize here.",
+      "Regen tarkoittaa, ettei kitkajarruja juuri käytetä, ja siksi ne juuri täällä jumittuvat.",
     ),
     items: [
       {
@@ -173,8 +173,8 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
         id: "brake-fluid",
         name: L("Brake fluid change", "Jarrunesteen vaihto"),
         blurb: L(
-          "Every two years regardless of pad wear — moisture does not care how little you brake.",
-          "Kahden vuoden välein palojen kulumasta riippumatta — kosteus ei välitä jarrutustyylistäsi.",
+          "Every two years regardless of pad wear. Moisture does not care how little you brake.",
+          "Kahden vuoden välein palojen kulumasta riippumatta. Kosteus ei välitä jarrutustyylistäsi.",
         ),
         models: ALL,
       },
@@ -183,7 +183,7 @@ const ALL_TESLA_SERVICES: TeslaServiceGroup[] = [
         name: L("Discs & pads", "Levyt ja palat"),
         blurb: L(
           "Replaced per axle when corrosion, not wear, has finished them off.",
-          "Vaihdetaan akselikohtaisesti kun ruoste — ei kuluma — on vienyt ne.",
+          "Vaihdetaan akselikohtaisesti, kun ruoste, ei kuluma, on vienyt ne.",
         ),
         models: ALL,
       },
@@ -348,8 +348,8 @@ export const WINTER_POINTS: Array<{ title: Localized; body: Localized }> = [
           "Odota 20–35 % vähemmän joulu–helmikuussa. Jos sinun romahti enemmän tai yhtäkkiä, kyse on lämpöpumpun tai anturin viasta, ja löydämme sen.",
         )
       : L(
-          "Expect 20–35 % less between December and February. A bigger drop, or a sudden one, is a fault rather than the season — worth measuring before you guess at it.",
-          "Odota 20–35 % vähemmän joulu–helmikuussa. Suurempi tai äkillinen romahdus on vika eikä vuodenaika — se kannattaa mitata ennen kuin arvailet.",
+          "Expect 20–35 % less between December and February. A bigger drop, or a sudden one, is a fault rather than the season, and worth measuring before you guess at it.",
+          "Odota 20–35 % vähemmän joulu–helmikuussa. Suurempi tai äkillinen romahdus on vika eikä vuodenaika, ja se kannattaa mitata ennen kuin arvailet.",
         ),
   },
   {
@@ -390,15 +390,15 @@ export const TESLA_FAQ: Array<{ q: Localized; a: Localized }> = [
   {
     q: L("Can you do software or firmware faults?", "Hoidatteko ohjelmisto- ja firmware-vikoja?"),
     a: L(
-      "We diagnose them and tell you exactly what is wrong. Firmware itself is Tesla's to push, but a great many faults blamed on software turn out to be a sensor, a connector or the 12 V — and those we fix.",
-      "Diagnosoimme ne ja kerromme tarkalleen mikä on vialla. Firmware on Teslan asia, mutta hyvin moni ohjelmiston syyksi luettu vika onkin anturi, liitin tai 12 V — ja ne korjaamme.",
+      "We diagnose them and tell you exactly what is wrong. Firmware itself is Tesla's to push, but a great many faults blamed on software turn out to be a sensor, a connector or the 12 V, and those we fix.",
+      "Diagnosoimme ne ja kerromme tarkalleen mikä on vialla. Firmware on Teslan asia, mutta hyvin moni ohjelmiston syyksi luettu vika onkin anturi, liitin tai 12 V, ja ne korjaamme.",
     ),
   },
   {
     q: L("Do you work on other EVs?", "Huollatteko muita sähköautoja?"),
     a: L(
-      "Yes — Polestar, Volkswagen ID, Kia, Hyundai, BMW i and the rest. Tesla is where our depth is, but the high-voltage discipline is the same across all of them.",
-      "Kyllä — Polestar, Volkswagen ID, Kia, Hyundai, BMW i ja muut. Tesla on syvin osaamisemme, mutta suurjänniteosaaminen on sama kaikissa.",
+      "Yes: Polestar, Volkswagen ID, Kia, Hyundai, BMW i and the rest. Tesla is where our depth is, but the high-voltage discipline is the same across all of them.",
+      "Kyllä: Polestar, Volkswagen ID, Kia, Hyundai, BMW i ja muut. Tesla on syvin osaamisemme, mutta suurjänniteosaaminen on sama kaikissa.",
     ),
   },
 ];
@@ -408,8 +408,8 @@ export const TESLA_COPY = {
   headlineA: L("Pick your", "Valitse"),
   headlineAccent: L("letter.", "kirjaimesi."),
   standfirst: L(
-    "Independent Tesla servicing in Tattarisuo, Helsinki — at independent prices. Choose your model and we will show you what it actually needs.",
-    "Riippumatonta Tesla-huoltoa Tattarisuolla Helsingissä — riippumattomin hinnoin. Valitse mallisi, niin näytämme mitä se oikeasti tarvitsee.",
+    "Independent Tesla servicing in Tattarisuo, Helsinki, at independent prices. Choose your model and we will show you what it actually needs.",
+    "Riippumatonta Tesla-huoltoa Tattarisuolla Helsingissä, riippumattomin hinnoin. Valitse mallisi, niin näytämme mitä se oikeasti tarvitsee.",
   ),
   allModels: L("All models", "Kaikki mallit"),
   showingFor: L("Showing work for", "Näytetään työt mallille"),

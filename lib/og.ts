@@ -20,5 +20,5 @@ export const ogImagePath = (lang: Lang) => (lang === "en" ? "/en/og.png" : "/og.
 
 export function ogAlt(lang: Lang): string {
   const h = CONTENT.hero;
-  return `Revamp Motors — ${h.headlineA[lang]} ${h.headlineAccent[lang]}`;
+  return `Revamp Motors: ${h.headlineA[lang]} ${h.headlineAccent[lang]}`;
 }

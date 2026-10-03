@@ -71,8 +71,8 @@ const ALL_SERVICE_GROUPS: ServiceGroup[] = [
         id: "charging",
         name: { en: "Charge port & onboard charger", fi: "Latausportti ja laturi" },
         blurb: {
-          en: "Latch, heater and contact faults — including cables that stick in frost.",
-          fi: "Salpa-, lämmitin- ja kontaktiviat — myös pakkasessa kiinni jäävät kaapelit.",
+          en: "Latch, heater and contact faults, including cables that stick in frost.",
+          fi: "Salpa-, lämmitin- ja kontaktiviat, myös pakkasessa kiinni jäävät kaapelit.",
         },
       },
       {
@@ -89,8 +89,8 @@ const ALL_SERVICE_GROUPS: ServiceGroup[] = [
     id: "drive",
     title: { en: "Drive units", fi: "Voimalinja" },
     standfirst: {
-      en: "Motors, reduction gears and inverters — front, rear or both.",
-      fi: "Moottorit, alennusvaihteet ja invertterit — edessä, takana tai molemmissa.",
+      en: "Motors, reduction gears and inverters. Front, rear or both.",
+      fi: "Moottorit, alennusvaihteet ja invertterit. Edessä, takana tai molemmissa.",
     },
     items: [
       {
@@ -106,7 +106,7 @@ const ALL_SERVICE_GROUPS: ServiceGroup[] = [
         name: { en: "Reduction gear & axles", fi: "Alennusvaihde ja vetoakselit" },
         blurb: {
           en: "Fluid, seals and half-shafts, including the clunk on hard take-off.",
-          fi: "Öljy, tiivisteet ja vetoakselit — myös kolahdus kovassa lähdössä.",
+          fi: "Öljy, tiivisteet ja vetoakselit, myös kolahdus kovassa lähdössä.",
         },
       },
       {
@@ -121,8 +121,8 @@ const ALL_SERVICE_GROUPS: ServiceGroup[] = [
         id: "engine-too",
         name: { en: "Petrol & diesel engines", fi: "Bensa- ja dieselmoottorit" },
         blurb: {
-          en: "Servicing, timing belts and engine repair — we did not stop doing these.",
-          fi: "Huollot, jakohihnat ja moottorikorjaukset — emme lopettaneet näitä.",
+          en: "Servicing, timing belts and engine repair. We did not stop doing these.",
+          fi: "Huollot, jakohihnat ja moottorikorjaukset. Emme lopettaneet näitä.",
         },
       },
     ],

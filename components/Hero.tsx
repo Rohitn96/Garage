@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { VideoBackdrop } from "./VideoBackdrop";
 import { useHref, useLang, useT } from "@/lib/i18n";
-import { openingNote } from "@/lib/business";
+import { BUSINESS, openingNote } from "@/lib/business";
 import { CONTENT } from "@/lib/content";
 
 /**
@@ -28,8 +28,20 @@ export function Hero() {
 
       <div className="relative mx-auto flex min-h-[calc(100svh-6rem)] w-full max-w-page flex-col">
         <div className="flex flex-1 flex-col justify-center py-14 md:py-20">
+          {/* The location half is a link to the shop's pin. Tattarisuo is an
+              industrial yard, so "where exactly" is a real question, and the
+              line that answers it is the one to make clickable. */}
           <p className="rise label mb-8">
-            {opening ? `${opening} · ${t(CONTENT.nav.location)}` : t(c.eyebrow)}
+            {opening ?? t(c.eyebrow)}{" "}
+            <span aria-hidden>·</span>{" "}
+            <a
+              href={BUSINESS.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-underline text-graphite hover:text-ink"
+            >
+              {t(CONTENT.nav.location)}
+            </a>
           </p>
 
           {/* Two lines, not three. The old headline spent its whole width on a

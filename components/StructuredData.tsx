@@ -12,9 +12,10 @@ import { ogImagePath } from "@/lib/og";
  *
  * What it does NOT do: put the shop in the map pack. That comes from a Google
  * Business Profile, not from markup — without a profile no amount of JSON-LD
- * produces a map pin. Once the profile exists, add its Maps URL as `hasMap` and
- * the shop's social profiles as `sameAs`; that is what ties the two together
- * (and separates this shop from the unrelated Revamp Motors Ltd in the UK).
+ * produces a map pin. `hasMap` now carries the shop's Maps URL, which ties the
+ * markup to that listing; add the shop's social profiles as `sameAs` when there
+ * are any (and that is what separates this shop from the unrelated Revamp
+ * Motors Ltd in the UK).
  *
  * Emitted per language so the description matches the page it sits on, sharing
  * one `@id` — that tells a crawler these are the same business described twice,
@@ -37,8 +38,8 @@ import { ogImagePath } from "@/lib/og";
  * that a petrol or diesel car was somebody else's job.
  */
 const DESCRIPTION: Record<Lang, string> = {
-  en: "Independent full-service garage in Tattarisuo, Helsinki for all makes and fuel types — petrol, diesel, hybrid and electric — with Tesla and EV work as its specialty.",
-  fi: "Riippumaton täyden palvelun autokorjaamo Tattarisuolla, Helsingissä kaikille merkeille ja käyttövoimille — bensa, diesel, hybridi ja sähkö — erikoisalanaan Tesla ja sähköautot.",
+  en: "Independent full-service garage in Tattarisuo, Helsinki for all makes and fuel types: petrol, diesel, hybrid and electric. Tesla and EV work is its specialty.",
+  fi: "Riippumaton täyden palvelun autokorjaamo Tattarisuolla, Helsingissä kaikille merkeille ja käyttövoimille: bensa, diesel, hybridi ja sähkö. Erikoisalanaan Tesla ja sähköautot.",
 };
 
 /** General work first, specialism after — the same order as everything else. */
@@ -91,6 +92,7 @@ export function StructuredData({ lang }: { lang: Lang }) {
       "@type": "AdministrativeArea",
       name: lang === "fi" ? "Pääkaupunkiseutu" : "Greater Helsinki",
     },
+    hasMap: BUSINESS.mapsUrl,
     knowsAbout: KNOWS_ABOUT[lang],
     priceRange: "€€",
     currenciesAccepted: "EUR",

@@ -91,20 +91,20 @@ type Copy = { title: string; description: string; ogTitle: string; ogDescription
  */
 const HOME: Record<Lang, Copy> = {
   en: {
-    title: "Revamp Motors — Helsinki car garage, all makes, Tesla & EV specialty",
+    title: "Revamp Motors · Helsinki car garage, all makes, Tesla & EV specialty",
     description:
-      "Independent full-service garage in Tattarisuo, Helsinki, Finland — every make and every fuel, petrol, diesel, hybrid and electric. Tesla and EV work is our specialty, not our only trade. Price agreed before the work starts.",
-    ogTitle: "Revamp Motors — Helsinki car garage, all makes, Tesla & EV specialty",
+      "Independent full-service garage in Tattarisuo, Helsinki, Finland. Every make and every fuel: petrol, diesel, hybrid and electric. Tesla and EV work is our specialty, not our only trade. Price agreed before the work starts.",
+    ogTitle: "Revamp Motors · Helsinki car garage, all makes, Tesla & EV specialty",
     ogDescription:
       "A full-service garage in Tattarisuo, Helsinki for every make and every fuel. Tesla and EV work is our specialty.",
   },
   fi: {
-    title: "Revamp Motors — autokorjaamo Helsingissä, erikoisalana Tesla",
+    title: "Revamp Motors · autokorjaamo Helsingissä, erikoisalana Tesla",
     description:
-      "Riippumaton täyden palvelun autokorjaamo Tattarisuolla, Helsingissä — kaikki merkit ja käyttövoimat: bensa, diesel, hybridi ja sähkö. Erikoisalanamme Tesla ja sähköautot. Hinta sovitaan ennen työn aloitusta. Y-tunnus 3651428-1.",
-    ogTitle: "Revamp Motors — autokorjaamo Helsingissä, erikoisalana Tesla",
+      "Riippumaton täyden palvelun autokorjaamo Tattarisuolla, Helsingissä. Kaikki merkit ja käyttövoimat: bensa, diesel, hybridi ja sähkö. Erikoisalanamme Tesla ja sähköautot. Hinta sovitaan ennen työn aloitusta. Y-tunnus 3651428-1.",
+    ogTitle: "Revamp Motors · autokorjaamo Helsingissä, erikoisalana Tesla",
     ogDescription:
-      "Täyden palvelun autokorjaamo Tattarisuolla, Helsingissä — kaikille merkeille ja käyttövoimille. Erikoisalanamme Tesla ja sähköautot.",
+      "Täyden palvelun autokorjaamo Tattarisuolla, Helsingissä, kaikille merkeille ja käyttövoimille. Erikoisalanamme Tesla ja sähköautot.",
   },
 };
 
@@ -116,14 +116,14 @@ const HOME: Record<Lang, Copy> = {
 const TESLA: Record<Lang, Copy> = {
   en: {
     title: "Tesla servicing in Helsinki, Finland",
-    description: `Independent Tesla servicing in Tattarisuo, Helsinki, Finland. Model S, 3, X and Y — battery health, drive units, brakes and regen, suspension${AC_LICENSED ? ", heat pump" : ", 12 V battery"}. Warranty-safe, at independent prices.`,
-    ogTitle: "Tesla servicing in Helsinki, Finland — Revamp Motors",
+    description: `Independent Tesla servicing in Tattarisuo, Helsinki, Finland. Model S, 3, X and Y: battery health, drive units, brakes and regen, suspension${AC_LICENSED ? ", heat pump" : ", 12 V battery"}. Warranty-safe, at independent prices.`,
+    ogTitle: "Tesla servicing in Helsinki, Finland · Revamp Motors",
     ogDescription: "Model S, 3, X and Y. Independent Tesla servicing in Helsinki.",
   },
   fi: {
     title: "Tesla-huolto Helsingissä",
-    description: `Riippumatonta Tesla-huoltoa Tattarisuolla, Helsingissä. Model S, 3, X ja Y — akun kunto, voimalinja, jarrut ja regen, alusta${AC_LICENSED ? ", lämpöpumppu" : ", 12 V:n apuakku"}. Takuu säilyy, riippumattomin hinnoin.`,
-    ogTitle: "Tesla-huolto Helsingissä — Revamp Motors",
+    description: `Riippumatonta Tesla-huoltoa Tattarisuolla, Helsingissä. Model S, 3, X ja Y: akun kunto, voimalinja, jarrut ja regen, alusta${AC_LICENSED ? ", lämpöpumppu" : ", 12 V:n apuakku"}. Takuu säilyy, riippumattomin hinnoin.`,
+    ogTitle: "Tesla-huolto Helsingissä · Revamp Motors",
     ogDescription: "Model S, 3, X ja Y. Riippumatonta Tesla-huoltoa Helsingissä.",
   },
 };
@@ -143,7 +143,7 @@ function build(lang: Lang, copy: Record<Lang, Copy>, path: string): Metadata {
   const enPath = `/en${path}`;
   const c = copy[lang];
   // A title that already names the brand is used as-is; any other gets the
-  // "— Revamp Motors" template from BASE_METADATA.
+  // "· Revamp Motors" template from BASE_METADATA.
   const title = c.title.includes("Revamp Motors") ? { absolute: c.title } : c.title;
   return {
     title,
@@ -173,8 +173,10 @@ function build(lang: Lang, copy: Record<Lang, Copy>, path: string): Metadata {
 export const BASE_METADATA: Metadata = {
   metadataBase: new URL(SITE_URL),
   // The Tesla pages' titles did not carry the brand, so a search result for
-  // them read "Tesla-huolto Helsingissä" with no name attached.
-  title: { default: "Revamp Motors", template: "%s — Revamp Motors" },
+  // them read "Tesla-huolto Helsingissä" with no name attached. The separator is
+  // the middot the hero eyebrow and the share card use; there are no dashes in
+  // the site's copy.
+  title: { default: "Revamp Motors", template: "%s · Revamp Motors" },
   // Open to crawlers in both languages.
   robots: {
     index: true,

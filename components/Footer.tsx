@@ -15,8 +15,21 @@ export function Footer() {
   const n = CONTENT.nav;
 
   const details = [
-    { label: t(c.address), value: addressLine(lang) },
-    { label: t(c.phone), value: t(c.phoneTba) },
+    {
+      label: t(c.address),
+      value: addressLine(lang),
+      // Opens the shop's pin rather than making someone retype the address.
+      href: BUSINESS.mapsUrl,
+      external: true,
+    },
+    // Falls back to the placeholder if the number is ever taken out again.
+    BUSINESS.phone
+      ? {
+          label: t(c.phone),
+          value: BUSINESS.phoneDisplay,
+          href: `tel:${BUSINESS.phone}`,
+        }
+      : { label: t(c.phone), value: t(c.phoneTba) },
     {
       label: t(c.email),
       value: BUSINESS.email,
@@ -61,7 +74,13 @@ export function Footer() {
                 <dt className="label">{detail.label}</dt>
                 <dd className="mt-2 break-words text-[0.95rem]">
                   {detail.href ? (
-                    <a href={detail.href} className="link-underline">
+                    <a
+                      href={detail.href}
+                      className="link-underline"
+                      {...("external" in detail && detail.external
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                    >
                       {detail.value}
                     </a>
                   ) : (

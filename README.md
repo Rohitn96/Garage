@@ -384,18 +384,41 @@ numbers. Strict grid, hairline rules, numbered sections, no gradients.
 put two type styles in every headline. The accent is now colour alone, one style — so
 the italic face is no longer downloaded either.
 
+## Copy: no em dashes
+
+There are none in anything the site serves, in either language: not in the body copy,
+not in the service blurbs, not in the titles, descriptions, share cards, alt text or
+JSON-LD. Sentences that had one were recast with a colon, a comma or a full stop rather
+than having the character deleted under them.
+
+Metadata separates the brand from the description with the middot the hero eyebrow and
+the share card already use (`Revamp Motors · autokorjaamo Helsingissä`), including the
+`%s · Revamp Motors` title template in `BASE_METADATA`.
+
+En dashes survive in number ranges, where they are the correct character and read as
+"to": `290–330 €`, `20–35 %`, `3–12 tunnin`, `joulu–helmikuussa`.
+
+Check with `grep -o '—' out/**/*.html | wc -l` after a build. It should print 0.
+
 ## Business facts
 
-All of it lives in [lib/business.ts](lib/business.ts) — address, email, company ID —
-and the footer and the structured data both read from there. One line to change when
-the phone number lands.
+All of it lives in [lib/business.ts](lib/business.ts): address, hall number, phone,
+email, company ID and the Maps pin. The footer, the hero eyebrow and the structured
+data all read from there, so each fact has exactly one place to change.
 
 The company ID resolves against the PRH open-data register to Revamp Motors,
 osakeyhtiö, registered 2026-08-31.
 
-`phone` is deliberately `null` rather than a fake number. It is rendered as
-`[Phone TBA]` in the footer and **omitted entirely** from the structured data — an
-invented number there is worse than none, because Google publishes it.
+`phone` holds E.164 (`+358458656683`), which is what `tel:` links and schema.org want;
+`phoneDisplay` is the same number grouped for reading. Setting `phone` back to `null`
+hides it in both places at once, the footer falling back to `[Phone TBA]` and the
+structured data omitting `telephone` entirely. Through pre-launch it was null for
+exactly that reason: an invented number in markup is worse than none, because Google
+publishes it.
+
+`mapsUrl` is the shop's pin. It is linked twice: the location half of the hero eyebrow,
+and the address in the footer. Tattarisuo is a yard of identical halls off a service
+road, so an address a visitor has to retype is a worse answer than a link.
 
 ## Structured data
 
@@ -404,9 +427,10 @@ invented number there is worse than none, because Google publishes it.
 a crawler the site and the business are one entity.
 
 It does **not** put the shop in the map pack — that comes from a Google Business
-Profile, never from markup. When the profile exists, add its Maps URL as `hasMap` and
-the shop's own social profiles as `sameAs`; that also separates this shop from the
-unrelated Revamp Motors Ltd in Birmingham, which currently owns searches for the name.
+Profile, never from markup. `hasMap` carries the shop's Maps URL, which ties the markup
+to that pin; add the shop's own social profiles as `sameAs` when there are any, since
+that is what separates this shop from the unrelated Revamp Motors Ltd in Birmingham,
+which currently owns searches for the name.
 
 Omitted on purpose, because Google will publish whatever is there: `telephone`,
 `openingHoursSpecification` (no hours agreed yet) and `geo` (derived from the postal

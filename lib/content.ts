@@ -27,14 +27,16 @@ export const CONTENT = {
     menu: L("Menu", "Valikko"),
     close: L("Close", "Sulje"),
     location: L("Tattarisuo, Helsinki", "Tattarisuo, Helsinki"),
-    backHome: L("Revamp Motors — home", "Revamp Motors — etusivu"),
+    backHome: L("Revamp Motors, home", "Revamp Motors, etusivu"),
   },
 
   hero: {
-    eyebrow: L(
-      "Independent garage · Tattarisuo, Helsinki",
-      "Riippumaton autokorjaamo · Tattarisuo, Helsinki",
-    ),
+    /**
+     * The lead half of the eyebrow only. The location follows it in the markup,
+     * as a link to the shop's pin, and the opening date replaces this line
+     * while one is set. See components/Hero.tsx.
+     */
+    eyebrow: L("Independent garage", "Riippumaton autokorjaamo"),
     // Each line has to clear the h1's 16ch measure or the headline runs to
     // three lines — which "Täyden palvelun korjaamo" did in Finnish. The
     // Finnish line makes the same claim in fewer characters; "full service"
@@ -45,8 +47,8 @@ export const CONTENT = {
     /** The specialism, named beside the headline rather than in place of it. */
     specialty: L("Specialty: Tesla & EV", "Erikoisala: Tesla ja sähköautot"),
     standfirst: L(
-      "An independent garage in Tattarisuo, Helsinki, serving the whole capital region. Every make and every fuel — petrol, diesel, hybrid, electric. You get the price before we pick up a tool.",
-      "Riippumaton korjaamo Tattarisuolla Helsingissä, koko pääkaupunkiseudun palveluksessa. Kaikki merkit ja käyttövoimat — bensa, diesel, hybridi, sähkö. Saat hinnan ennen kuin tartumme työkaluun.",
+      "An independent garage in Tattarisuo, Helsinki, serving the whole capital region. Every make and every fuel: petrol, diesel, hybrid, electric. You get the price before we pick up a tool.",
+      "Riippumaton korjaamo Tattarisuolla Helsingissä, koko pääkaupunkiseudun palveluksessa. Kaikki merkit ja käyttövoimat: bensa, diesel, hybridi, sähkö. Saat hinnan ennen kuin tartumme työkaluun.",
     ),
     ctaPrimary: L("Book a slot", "Varaa aika"),
     ctaSecondary: L("Tesla service", "Tesla-huolto"),
@@ -82,8 +84,8 @@ export const CONTENT = {
      * the specialism is one of them, not the gate to the other.
      */
     standfirst: L(
-      "Revamp Motors is a full-service garage for every make and every fuel — petrol, diesel, hybrid and electric. Tesla and EVs are our specialty, not the only thing we do.",
-      "Revamp Motors on täyden palvelun korjaamo kaikille merkeille ja käyttövoimille — bensa, diesel, hybridi ja sähkö. Tesla ja sähköautot ovat erikoisalamme, eivät ainoa työmme.",
+      "Revamp Motors is a full-service garage for every make and every fuel: petrol, diesel, hybrid and electric. Tesla and EVs are our specialty, not the only thing we do.",
+      "Revamp Motors on täyden palvelun korjaamo kaikille merkeille ja käyttövoimille: bensa, diesel, hybridi ja sähkö. Tesla ja sähköautot ovat erikoisalamme, eivät ainoa työmme.",
     ),
     tesla: {
       kicker: L("Our specialism", "Erikoisalamme"),
@@ -114,8 +116,8 @@ export const CONTENT = {
     headingA: L("The number,", "Hinta,"),
     headingAccent: L("before the work.", "ennen työtä."),
     standfirst: L(
-      "Indicative prices for the jobs we are asked for most. Your car is inspected and quoted before anything is touched — and if we find something else, we stop and ring you.",
-      "Ohjehinnat yleisimmin kysytyille töille. Auto tarkastetaan ja hinnoitellaan ennen kuin mihinkään kosketaan — ja jos löydämme muuta, pysäytämme työn ja soitamme.",
+      "Indicative prices for the jobs we are asked for most. Your car is inspected and quoted before anything is touched. If we find something else, we stop and ring you.",
+      "Ohjehinnat yleisimmin kysytyille töille. Auto tarkastetaan ja hinnoitellaan ennen kuin mihinkään kosketaan. Jos löydämme muuta, pysäytämme työn ja soitamme.",
     ),
     // The tab labels, "from"/"on inspection" markers and the standalone labour
     // rate that used to live here went with the grouped table this section
@@ -123,8 +125,8 @@ export const CONTENT = {
     // data/pricing.ts, so nothing rendered them and they shipped to the browser
     // in both languages regardless.
     disclaimer: L(
-      "Indicative only. Prices are estimates for a typical car and vary with model, parts and condition. Fleet, rideshare and food-delivery vehicles have their own rates — ask for a quote.",
-      "Vain ohjeellinen. Hinnat ovat arvioita tyypilliselle autolle ja vaihtelevat mallin, osien ja kunnon mukaan. Kalusto-, kyytipalvelu- ja ruokalähettiautoilla on omat hintansa — pyydä tarjous.",
+      "Indicative only. Prices are estimates for a typical car and vary with model, parts and condition. Fleet, rideshare and food-delivery vehicles have their own rates. Ask for a quote.",
+      "Vain ohjeellinen. Hinnat ovat arvioita tyypilliselle autolle ja vaihtelevat mallin, osien ja kunnon mukaan. Kalusto-, kyytipalvelu- ja ruokalähettiautoilla on omat hintansa. Pyydä tarjous.",
     ),
   },
 
@@ -133,8 +135,8 @@ export const CONTENT = {
     headingA: L("Built by mechanics,", "Mekaanikkojen rakentama,"),
     headingAccent: L("tuned for what comes next.", "viritetty tulevaan."),
     standfirst: L(
-      "Years in the trade, and real depth in the shift to electric — battery and drivetrain diagnostics, and the software-side quirks general garages have not caught up on.",
-      "Vuosia alalla ja aitoa osaamista sähköistymisestä — akku- ja voimalinjadiagnostiikka sekä ne ohjelmisto-oudot, joihin yleiskorjaamot eivät ole ehtineet.",
+      "Years in the trade, and real depth in the shift to electric: battery and drivetrain diagnostics, and the software-side quirks general garages have not caught up on.",
+      "Vuosia alalla ja aitoa osaamista sähköistymisestä: akku- ja voimalinjadiagnostiikka sekä ne ohjelmisto-oudot, joihin yleiskorjaamot eivät ole ehtineet.",
     ),
     points: [
       {
@@ -169,8 +171,8 @@ export const CONTENT = {
       {
         title: L("Tell us what is wrong", "Kerro mikä on vialla"),
         body: L(
-          "A noise, a warning light, a failed inspection — or just a service.",
-          "Ääni, merkkivalo, hylätty katsastus — tai pelkkä huolto.",
+          "A noise, a warning light, a failed inspection, or just a service.",
+          "Ääni, merkkivalo, hylätty katsastus tai pelkkä huolto.",
         ),
       },
       {
@@ -214,7 +216,7 @@ export const CONTENT = {
     },
     placeholders: {
       name: L("Matti Virtanen", "Matti Virtanen"),
-      vehicle: L("Tesla Model 3, 2021 — or ABC-123", "Tesla Model 3, 2021 — tai ABC-123"),
+      vehicle: L("Tesla Model 3, 2021 or ABC-123", "Tesla Model 3, 2021 tai ABC-123"),
       email: L("matti@example.fi", "matti@example.fi"),
       phone: L("+358 40 123 4567", "+358 40 123 4567"),
       message: L(
@@ -238,8 +240,8 @@ export const CONTENT = {
     ),
     successEyebrow: L("Received", "Vastaanotettu"),
     successHeading: L(
-      "Thanks — we will confirm your slot.",
-      "Kiitos — vahvistamme aikasi.",
+      "Thanks. We will confirm your slot.",
+      "Kiitos. Vahvistamme aikasi.",
     ),
     successBody: L(
       "We have your details and will come back with a time. Nothing is charged until the work is agreed.",
