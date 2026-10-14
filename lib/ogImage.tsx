@@ -21,11 +21,11 @@ import { OG_SIZE } from "@/lib/og";
  * Served by the route handlers at app/(fi)/og.png and app/(en)/en/og.png; the
  * paths, size and alt text live in lib/og.ts.
  */
-const PAPER = "#0B0B0C";
-const INK = "#EFEDE8";
-const GRAPHITE = "#94948E";
-const RULE = "#26262A";
-const ACCENT = "#35D68A";
+const PAPER = "#14181B";
+const INK = "#F2F0EB";
+const GRAPHITE = "#959594";
+const RULE = "#2C3032";
+const ACCENT = "#FF5A1F";
 
 const font = (file: string) => readFile(join(process.cwd(), "assets/og", file));
 

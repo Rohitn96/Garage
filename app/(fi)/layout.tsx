@@ -7,7 +7,7 @@ import { BASE_METADATA, RootShell } from "@/components/RootShell";
 export const metadata: Metadata = BASE_METADATA;
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B0C",
+  themeColor: "#14181B",
   colorScheme: "dark",
 };
 

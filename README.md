@@ -46,7 +46,7 @@ held the hero (the page's Largest Contentful Paint) invisible until hydration. S
 
 ```
 /            FINNISH home: hero → 3D explorer → the fork → pricing → why → process → contact
-/tesla/      FINNISH Tesla page: S3XY picker → filtered services → winter → FAQ → prices
+/tesla/      FINNISH Tesla page: S3XY picker → filtered services → FAQ → prices
 /en/         the same, in English
 /en/tesla/
 ```
@@ -277,6 +277,14 @@ the list to the selected letter — Model 3 and Y get control arms, S and X get 
 suspension. The joke is why it is memorable; it earns its place because owners
 genuinely identify by letter, so four letters beat a dropdown.
 
+**Keep the copy on that page plain.** It was twice this length and read as if it had
+been lifted from a Tesla forum: Octovalve, Superbottle, HEPA, falcon-wing door travel
+resets, a block of winter range percentages, block exemption law. It described the
+marque rather than the shop, none of it was a job a customer would ring up and ask for
+by name, and no claim in it had been earned yet. What is left is the work itself, in the
+words an owner would use: a name, one line saying what it is, nothing more. The "Finnish
+winter" block went entirely; the FAQ is three questions, answered in a line each.
+
 ## Prices
 
 **One table, one place**: [data/pricing.ts](data/pricing.ts), rendered only by
@@ -287,6 +295,11 @@ Previously prices lived in two places with two shapes — unrendered `priceFrom`
 on the service catalogue, and a hardcoded five-row array inside the trust section — so
 the page quoted a Tesla package in one breath and listed twenty unpriced services in
 the next.
+
+**Dearest first.** The list sorts on the largest number printed in each row, read back
+out of the price string rather than stored a second time, so editing a price reorders
+the list and a `sortBy` field cannot go stale. The sort is stable, which keeps the
+hourly rate below the fixed-price job it ties with.
 
 Deliberately **five rows and generic**. A grouped, tabbed, forty-row table was built
 here and pulled: before the shop has traded a day, a long price list is a long list of
@@ -316,7 +329,7 @@ export const AC_LICENSED = false;
 Set it to `true` and the work comes back in one commit: the *Heat pump & climate* system
 in the home explorer, the AC row in the price list, the climate group on the Tesla page,
 "AC" / "ilmastointi" in the two-doors copy, "heat pump" in the Tesla page's meta
-description, and the heat-pump answer in the winter notes.
+description.
 
 The explorer's track length is derived from `SERVICE_GROUPS.length`, so hiding a system
 shortens the scroll instead of stretching the ones that remain. The climate PARTS stay
@@ -368,14 +381,30 @@ Three decisions in that grade, all driven by the footage being a night street in
 
 ## Design
 
-Dark editorial / Swiss: matte black ground (`#0B0B0C`), warm off-white ink, and **one**
-accent — electric mint `#35D68A`.
+Dark editorial / Swiss, in **three brand colours and nothing else**:
 
-The palette previously ran an orange (`#D97F1F`) on every hairline against that mint and
-a green car: three hues competing for the same job. Rules are structure, not decoration,
-so they now sit barely above the ground (`#26262A`) and the accent is the only colour on
-the site that means anything. In the 3D scene that discipline is load-bearing — every
-mechanical part is steel or graphite, so the accent *is* the selection indicator.
+| | | |
+|---|---|---|
+| charcoal | `#14181B` | the ground |
+| cream | `#F2F0EB` | the ink |
+| orange | `#FF5A1F` | the accent, and the only colour that means anything |
+
+Every other value in [tailwind.config.ts](tailwind.config.ts) is one of those three
+mixed into the charcoal at a fixed opacity, written beside it: `panel` is cream at 5%,
+`rule` at 11%, `ruleStrong` at 22%, `graphite` at 58%; `accent.dim` is orange at 45% and
+`accent.wash` at 12%. Recompute rather than eyeballing a replacement, and the palette
+stays three colours deep however many tints the layout needs.
+
+Contrast on the ground: cream 15.7:1, graphite 6.0:1, orange 5.7:1, and charcoal on an
+orange button 5.7:1. All clear AA.
+
+The palette lives in five places, and all five have to move together: the Tailwind
+config, `lib/ogImage.tsx` (the share card renders its own copy), the scrim gradients in
+`VideoBackdrop`, `app/icon.svg`, and `themeColor` in both root layouts.
+
+Rules are structure, not decoration, so they sit barely above the ground. In the 3D
+scene that discipline is load-bearing — every mechanical part is steel or graphite, so
+the accent *is* the selection indicator.
 
 Instrument Serif for display, IBM Plex Sans for text, IBM Plex Mono for labels and
 numbers. Strict grid, hairline rules, numbered sections, no gradients.

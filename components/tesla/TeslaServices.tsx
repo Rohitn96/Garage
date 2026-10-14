@@ -7,7 +7,6 @@ import {
   TESLA_COPY,
   TESLA_FAQ,
   TESLA_SERVICES,
-  WINTER_POINTS,
   type TeslaModel,
 } from "@/data/tesla";
 import { useT } from "@/lib/i18n";
@@ -102,42 +101,6 @@ export function TeslaServices() {
           <Link href="#pricing" className="link-underline mt-14 inline-block text-[0.95rem] font-medium">
             {t(TESLA_COPY.pricingLink)}
           </Link>
-        </div>
-      </section>
-
-      {/* ---- Finnish winter ---- */}
-      <section className="rule-above">
-        <div className="section">
-          <div className="grid gap-x-12 gap-y-8 md:grid-cols-12">
-            <Reveal className="md:col-span-5">
-              <p className="label">{t(TESLA_COPY.winterEyebrow)}</p>
-              <h2 className="mt-7 max-w-[12ch] h-section">
-                {t(TESLA_COPY.winterHeadingA)}{" "}
-                <span className="text-accent">{t(TESLA_COPY.winterHeadingAccent)}</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={0.06} className="md:col-span-6 md:col-start-7">
-              <p className="max-w-[44ch] text-[1.02rem] leading-relaxed text-graphite">
-                {t(TESLA_COPY.winterStandfirst)}
-              </p>
-            </Reveal>
-          </div>
-
-          <ol className="mt-16 grid gap-x-12 gap-y-10 sm:grid-cols-2">
-            {WINTER_POINTS.map((point, i) => (
-              <Reveal key={point.title.en} delay={i * 0.06}>
-                <li className="rule-above pt-5">
-                  <span className="label">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="mt-4 font-display text-[1.45rem] leading-tight tracking-[-0.01em]">
-                    {t(point.title)}
-                  </h3>
-                  <p className="mt-2.5 max-w-[44ch] text-[0.93rem] leading-relaxed text-graphite">
-                    {t(point.body)}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
         </div>
       </section>
 

@@ -116,12 +116,12 @@ export function VideoBackdrop({
 
       {scrim === "left" ? (
         /* Text side stays near-black; the video breathes on the open side. */
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,11,12,0.90)_0%,rgba(11,11,12,0.68)_30%,rgba(11,11,12,0.22)_62%,rgba(11,11,12,0.05)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,24,27,0.90)_0%,rgba(20,24,27,0.68)_30%,rgba(20,24,27,0.22)_62%,rgba(20,24,27,0.05)_100%)]" />
       ) : (
-        <div className="absolute inset-0 bg-[rgba(11,11,12,0.55)]" />
+        <div className="absolute inset-0 bg-[rgba(20,24,27,0.55)]" />
       )}
       {/* Keeps the section's top and bottom hairlines reading as hairlines. */}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,#0B0B0C_0%,rgba(11,11,12,0)_18%,rgba(11,11,12,0)_80%,#0B0B0C_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,#14181B_0%,rgba(20,24,27,0)_18%,rgba(20,24,27,0)_80%,#14181B_100%)]" />
     </div>
   );
 }

@@ -58,9 +58,29 @@ const ALL_PRICES: PriceRow[] = [
 ];
 
 /**
- * The AC row is held back until the F-gas certificate is in hand; see
- * AC_LICENSED in lib/business.ts.
+ * The figure a row is sorted by: the largest number printed in it.
+ *
+ * Prices are pre-formatted strings because ranges and per-hour rates are not
+ * single numbers, so the order has to be read back out of them rather than
+ * stored twice. Reading it means a price can be edited in one place and the
+ * list reorders itself; a second `sortBy` field would quietly go stale the
+ * first time someone changed a number without noticing it.
+ *
+ * "290-330 EUR" sorts on 330, "80 EUR / hr" on 80.
+ */
+const magnitude = (price: string): number => {
+  const figures = price.match(/\d+/g);
+  return figures ? Math.max(...figures.map(Number)) : 0;
+};
+
+/**
+ * Dearest first, and the AC row is held back until the F-gas certificate is in
+ * hand (see AC_LICENSED in lib/business.ts).
+ *
+ * The sort is stable, so rows that print the same figure keep the order they
+ * are written in above: the hourly rate stays below the fixed-price job it ties
+ * with, which is where a rate belongs.
  */
 export const PRICES: PriceRow[] = ALL_PRICES.filter(
   (row) => AC_LICENSED || row.id !== "ac",
-);
+).sort((a, b) => magnitude(b.price) - magnitude(a.price));

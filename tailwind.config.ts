@@ -3,26 +3,35 @@ import type { Config } from "tailwindcss";
 /**
  * One ground, one ink, one accent.
  *
- * The previous palette ran an orange (#D97F1F) on every hairline against an
- * emerald accent and a green car — three hues competing for the same job.
- * Rules are structure, not decoration: they now sit barely above the ground and
- * the accent is the only colour that ever means anything.
+ * Three brand colours, and NOTHING else is invented:
+ *
+ *   charcoal  #14181B   the ground
+ *   cream     #F2F0EB   the ink
+ *   orange    #FF5A1F   the accent, and the only colour that ever means anything
+ *
+ * Every other value below is one of those three mixed into the charcoal at a
+ * fixed opacity, so the palette stays three colours deep however many tints the
+ * layout needs. The percentage is written beside each one; recompute rather than
+ * eyeballing a replacement.
+ *
+ * Contrast on the charcoal ground: cream 15.7:1, graphite 6.0:1, orange 5.7:1,
+ * and charcoal on an orange button 5.7:1. All clear AA.
  */
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        paper: "#0B0B0C",     // ground
-        panel: "#141416",     // one step up, for insets and sticky chrome
-        ink: "#EFEDE8",       // warm off-white
-        graphite: "#94948E",  // secondary text
-        rule: "#26262A",      // hairlines — structure, not accent
-        ruleStrong: "#3A3A40", // hover / active hairline
+        paper: "#14181B",      // charcoal: the ground
+        panel: "#1F2325",      // cream 5%, for insets and sticky chrome
+        ink: "#F2F0EB",        // cream: the ink
+        graphite: "#959594",   // cream 58%, secondary text
+        rule: "#2C3032",       // cream 11% — structure, not accent
+        ruleStrong: "#454849", // cream 22%, hover / active hairline
         accent: {
-          DEFAULT: "#35D68A", // electric mint: the only colour with meaning
-          dim: "#1E7A4E",     // accent at rest, for rules and inactive marks
-          wash: "#0F241B",    // accent ground for the rare filled surface
+          DEFAULT: "#FF5A1F", // orange: the only colour with meaning
+          dim: "#7E361D",     // orange 45%, at rest, for rules and inactive marks
+          wash: "#30201B",    // orange 12%, ground for the rare filled surface
         },
       },
       fontFamily: {

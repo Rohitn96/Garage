@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { makeBookingSchema, type BookingRequest } from "@/lib/bookingSchema";
+import { BUSINESS } from "@/lib/business";
 import { useLang, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
 import { Reveal } from "./Reveal";
@@ -102,6 +103,20 @@ export function ContactForm() {
               {t(c.headingA)} <span className="text-accent">{t(c.headingAccent)}</span>
             </h2>
             <p className="mt-6 max-w-[40ch] text-graphite">{t(c.p1)}</p>
+
+            {/* The form answers "book me in"; the number answers "my car is on
+                the drive and will not move". Both belong on this screen. */}
+            {BUSINESS.phone ? (
+              <p className="mt-8 border-t border-rule pt-6">
+                <span className="label block">{t(c.callLabel)}</span>
+                <a
+                  href={`tel:${BUSINESS.phone}`}
+                  className="link-underline mt-3 inline-block font-display text-[1.6rem] tracking-[-0.01em]"
+                >
+                  {BUSINESS.phoneDisplay}
+                </a>
+              </p>
+            ) : null}
           </Reveal>
 
           <Reveal delay={0.08} className="md:col-span-6 md:col-start-7">

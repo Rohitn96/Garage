@@ -207,6 +207,8 @@ export const CONTENT = {
       "Tell us what the car needs and we will come back with a time and a price. We reply within 3 to 12 hours.",
       "Kerro mitä auto tarvitsee, niin palaamme ajankohdan ja hinnan kanssa. Vastaamme 3–12 tunnin kuluessa.",
     ),
+    /** Sits above the form: a form is not an answer when the car is undrivable. */
+    callLabel: L("Or call", "Tai soita"),
     fields: {
       name: L("Name", "Nimi"),
       vehicle: L("Car", "Auto"),
