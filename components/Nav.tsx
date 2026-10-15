@@ -60,14 +60,31 @@ export function Nav() {
           : "border-b border-transparent"
       }`}
     >
+      {/*
+        The bar is tall at the top of a page and condenses once you move.
+
+        Over the hero there is nothing to compete with, so the logo gets the
+        room to read as the shop's mark rather than as chrome; by the time the
+        page is scrolling it is navigation again, and takes the smaller size it
+        had before. The bar is `fixed`, so neither state moves the page.
+      */}
       <nav
         aria-label={t(c.menu)}
-        className="mx-auto flex h-[4.6rem] w-full max-w-page items-center justify-between gap-6 px-6 md:h-[5.2rem] md:px-10"
+        className={`mx-auto flex w-full max-w-page items-center justify-between gap-6 px-6 transition-[height] duration-300 md:px-10 ${
+          scrolled || open ? "h-[4.6rem] md:h-[5.2rem]" : "h-[5.6rem] md:h-[7rem]"
+        }`}
       >
         <Link href={h("/")} aria-label={t(c.backHome)} className="shrink-0">
           {/* Sized by height so the bar's rhythm holds; the link is already
-              named, so the image itself is not announced a second time. */}
-          <Wordmark alt="" priority className="h-10 md:h-12" />
+              named, so the image itself is not announced a second time.
+              Reduced motion flattens the transition in app/globals.css. */}
+          <Wordmark
+            alt=""
+            priority
+            className={`transition-[height] duration-300 ${
+              scrolled || open ? "h-10 md:h-12" : "h-14 md:h-20"
+            }`}
+          />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

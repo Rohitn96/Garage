@@ -386,9 +386,18 @@ renders `public/logo/revamp-motors.png`: the stacked lockup, cream and orange on
 transparency, trimmed to its own bounding box and resized to 1000px wide, which is
 about double the largest place it appears.
 
-Callers size it by HEIGHT and the width follows: `h-10 md:h-12` in the nav, `h-14` in
-the footer. It needs no plate behind it, because the artwork's cream (`#F3F2EE`) and
-orange (`#FF5A20`) are within a shade of the site's own.
+Callers size it by HEIGHT and the width follows: `h-14` in the footer, and in the nav
+whichever of two sizes the scroll position calls for. It needs no plate behind it,
+because the artwork's cream (`#F3F2EE`) and orange (`#FF5A20`) are within a shade of
+the site's own.
+
+**The bar condenses on scroll.** At the top of a page it is 5.6rem/7rem tall with the
+logo at `h-14 md:h-20`; past 24px of scroll it takes the 4.6rem/5.2rem bar and
+`h-10 md:h-12` logo it had before, at the same moment it takes its ground and hairline.
+Over the hero there is nothing for the mark to compete with, so it gets the room; by
+the time the page is moving it is navigation again. The header is `fixed`, so neither
+state shifts the page, and `prefers-reduced-motion` flattens the transition through the
+blanket rule in [app/globals.css](app/globals.css).
 
 The share card draws the same file, inlined as a data URI at build time
 ([lib/ogImage.tsx](lib/ogImage.tsx)) — the renderer has no origin to fetch a relative
