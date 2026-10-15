@@ -379,6 +379,46 @@ Three decisions in that grade, all driven by the footage being a night street in
   This one is already dark, so the scrims in `VideoBackdrop` came down instead
   (opacity 1, and the left scrim from 0.93 to 0.90 falling to 0.05).
 
+## Logo
+
+The supplied artwork, not type. [components/Wordmark.tsx](components/Wordmark.tsx)
+renders `public/logo/revamp-motors.png`: the stacked lockup, cream and orange on
+transparency, trimmed to its own bounding box and resized to 1000px wide, which is
+about double the largest place it appears.
+
+Callers size it by HEIGHT and the width follows: `h-10 md:h-12` in the nav, `h-14` in
+the footer. It needs no plate behind it, because the artwork's cream (`#F3F2EE`) and
+orange (`#FF5A20`) are within a shade of the site's own.
+
+The share card draws the same file, inlined as a data URI at build time
+([lib/ogImage.tsx](lib/ogImage.tsx)) — the renderer has no origin to fetch a relative
+path from, and reading the same asset means the card cannot show an older mark than
+the page does.
+
+### Icons
+
+The arrow on a charcoal square, cropped from the same artwork. The arrow is the one
+part of the lockup that stands alone: the A's legs touch the V, so the whole letter
+cannot be cut out cleanly.
+
+| file | what reads it |
+|---|---|
+| `app/icon.png` (512) | browser tab, general fallback |
+| `app/favicon.ico` (16→256, six sizes) | Windows taskbar pins, desktop shortcuts, older bookmarks |
+| `app/apple-icon.png` (180) | iOS home screen |
+| `public/icons/icon-192.png`, `icon-512.png` | the manifest, for installs |
+| `public/icons/icon-maskable-512.png` | the same, where the OS crops to its own shape |
+
+**A tab icon is not a taskbar icon.** A single 512px PNG is enough for the tab and
+nothing else: pinning asks [app/manifest.ts](app/manifest.ts) for an icon, and Windows
+reads `favicon.ico`. With neither, a pin falls back to a downscaled favicon or a
+generic page glyph. The ICO carries six sizes, each drawn with its own padding and
+corner radius so the arrow still reads at 16px, and the maskable copy fills the square
+because a transparent-cornered icon gets a white plate behind it when the OS crops it.
+
+Source files live outside the repo. To regenerate from a new master, trim the alpha
+bounding box, resize to 1000px wide for the lockup, and crop the arrow for the icons.
+
 ## Design
 
 Dark editorial / Swiss, in **three brand colours and nothing else**:
@@ -400,7 +440,8 @@ orange button 5.7:1. All clear AA.
 
 The palette lives in five places, and all five have to move together: the Tailwind
 config, `lib/ogImage.tsx` (the share card renders its own copy), the scrim gradients in
-`VideoBackdrop`, `app/icon.svg`, and `themeColor` in both root layouts.
+`VideoBackdrop`, the icons in `app/` (regenerated from the logo), and `themeColor`
+in both root layouts.
 
 Rules are structure, not decoration, so they sit barely above the ground. In the 3D
 scene that discipline is load-bearing — every mechanical part is steel or graphite, so
@@ -438,12 +479,23 @@ data all read from there, so each fact has exactly one place to change.
 The company ID resolves against the PRH open-data register to Revamp Motors,
 osakeyhtiö, registered 2026-08-31.
 
-`phone` holds E.164 (`+358458656683`), which is what `tel:` links and schema.org want;
+`phone` holds E.164 (`+358458656683`), which is what schema.org and a `tel:` link want;
 `phoneDisplay` is the same number grouped for reading. Setting `phone` back to `null`
-hides it in both places at once, the footer falling back to `[Phone TBA]` and the
-structured data omitting `telephone` entirely. Through pre-launch it was null for
-exactly that reason: an invented number in markup is worse than none, because Google
-publishes it.
+hides it everywhere at once, and the structured data omits `telephone` entirely. Through
+pre-launch it was null for exactly that reason: an invented number in markup is worse
+than none, because Google publishes it.
+
+**WhatsApp only, for now.** The number is shown, but nothing on the page invites a
+call: there is no "call us" and no `tel:` link, and both places that carry the number —
+the contact section and the footer row, which is labelled WhatsApp rather than Phone —
+open a chat instead. `WHATSAPP_URL` is derived from `phone` rather than stored, since
+wa.me wants the same digits with the punctuation taken out, so the two cannot drift
+apart. The structured data still declares `telephone`, which is the number's honest
+description; pull it if calls should not be offered there either.
+
+The one place "call" still appears is the promise that WE ring YOU before doing work
+you did not approve, in the pricing standfirst and the process steps. That is outbound
+and stays.
 
 `mapsUrl` is the shop's pin. It is linked twice: the location half of the hero eyebrow,
 and the address in the footer. Tattarisuo is a yard of identical halls off a service

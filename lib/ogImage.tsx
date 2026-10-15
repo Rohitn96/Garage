@@ -29,10 +29,24 @@ const ACCENT = "#FF5A1F";
 
 const font = (file: string) => readFile(join(process.cwd(), "assets/og", file));
 
+/**
+ * The logo, inlined as a data URI.
+ *
+ * The renderer has no origin to fetch a relative path from, and the build has
+ * no server to serve one, so the bytes go in directly. It is the same file the
+ * site uses, read from public/ at build time, so the card cannot end up showing
+ * an older mark than the page.
+ */
+const logoDataUri = async () => {
+  const bytes = await readFile(join(process.cwd(), "public/logo/revamp-motors.png"));
+  return `data:image/png;base64,${bytes.toString("base64")}`;
+};
+
 export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
-  const [serif, mono] = await Promise.all([
+  const [serif, mono, logo] = await Promise.all([
     font("InstrumentSerif-Regular.woff"),
     font("IBMPlexMono-Medium.woff"),
+    logoDataUri(),
   ]);
   const h = CONTENT.hero;
   const label = {
@@ -59,9 +73,8 @@ export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", fontSize: 52, letterSpacing: "-0.015em" }}>
-            Revamp&nbsp;<span style={{ color: ACCENT }}>Motors</span>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logo} width={246} height={111} alt="" />
           <div style={label}>{CONTENT.nav.location[lang]}</div>
         </div>
 

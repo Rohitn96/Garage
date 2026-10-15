@@ -207,8 +207,13 @@ export const CONTENT = {
       "Tell us what the car needs and we will come back with a time and a price. We reply within 3 to 12 hours.",
       "Kerro mitä auto tarvitsee, niin palaamme ajankohdan ja hinnan kanssa. Vastaamme 3–12 tunnin kuluessa.",
     ),
-    /** Sits above the form: a form is not an answer when the car is undrivable. */
-    callLabel: L("Or call", "Tai soita"),
+    /**
+     * WhatsApp only, deliberately. The line is not being advertised for calls
+     * yet, so nothing on the page invites one: no "call us", no number set as a
+     * dial link. The same number is reachable the moment that changes.
+     */
+    whatsappLabel: L("Or message us", "Tai lähetä viesti"),
+    whatsapp: L("WhatsApp", "WhatsApp"),
     fields: {
       name: L("Name", "Nimi"),
       vehicle: L("Car", "Auto"),
@@ -257,10 +262,12 @@ export const CONTENT = {
       "Rehellistä työtä, reilu hinta, takaisin tielle.",
     ),
     address: L("Address", "Osoite"),
-    phone: L("Phone", "Puhelin"),
     email: L("Email", "Sähköposti"),
     companyId: L("Company ID", "Y-tunnus"),
-    phoneTba: L("[Phone TBA]", "[Puhelin tulossa]"),
+    /** Shown in place of the number if the line is ever taken out again. */
+    phoneTba: L("[Coming soon]", "[Tulossa]"),
+    /** The footer labels the row by the channel, not by the hardware. */
+    whatsapp: L("WhatsApp", "WhatsApp"),
     opening: L(
       "Hall 3, Kytkintie 38, Tattarisuo, Helsinki. Taking bookings now.",
       "Halli 3, Kytkintie 38, Tattarisuo, Helsinki. Otamme varauksia vastaan.",

@@ -65,7 +65,9 @@ export function Nav() {
         className="mx-auto flex h-[4.6rem] w-full max-w-page items-center justify-between gap-6 px-6 md:h-[5.2rem] md:px-10"
       >
         <Link href={h("/")} aria-label={t(c.backHome)} className="shrink-0">
-          <Wordmark className="text-[1.85rem] md:text-[2.1rem]" />
+          {/* Sized by height so the bar's rhythm holds; the link is already
+              named, so the image itself is not announced a second time. */}
+          <Wordmark alt="" priority className="h-10 md:h-12" />
         </Link>
 
         <div className="hidden items-center gap-8 md:flex">

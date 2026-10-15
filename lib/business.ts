@@ -63,7 +63,6 @@ export const BUSINESS = {
  *   - the same group on the Tesla page
  *   - "AC" / "ilmastointi" in the two-doors copy (lib/content.ts) and "heat
  *     pump" in the Tesla page's meta description (components/RootShell.tsx)
- *   - the heat-pump answer in the Tesla page's winter notes (data/tesla.ts)
  *
  * The climate parts stay in the 3D car either way — they are part of the car.
  * With no group pointing at them they simply never separate out.
@@ -109,3 +108,18 @@ export function addressLine(lang: "en" | "fi"): string {
 export function streetAddress(lang: "en" | "fi"): string {
   return `${BUSINESS.unit[lang]}, ${BUSINESS.street}`;
 }
+
+/**
+ * The shop's WhatsApp, which is the same line as the phone.
+ *
+ * Derived rather than stored, so the number cannot end up right in one place
+ * and wrong in the other: wa.me wants bare digits with no plus and no spaces,
+ * which is exactly `phone` with the punctuation taken out. Null when there is
+ * no number, and every WhatsApp link on the site disappears with it.
+ *
+ * No prefilled `?text=`: it would have to be written in two languages, and a
+ * message the shop did not write is worse than an empty thread.
+ */
+export const WHATSAPP_URL: string | null = BUSINESS.phone
+  ? `https://wa.me/${BUSINESS.phone.replace(/\D/g, "")}`
+  : null;

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { makeBookingSchema, type BookingRequest } from "@/lib/bookingSchema";
-import { BUSINESS } from "@/lib/business";
+import { BUSINESS, WHATSAPP_URL } from "@/lib/business";
 import { useLang, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
 import { Reveal } from "./Reveal";
@@ -104,17 +104,26 @@ export function ContactForm() {
             </h2>
             <p className="mt-6 max-w-[40ch] text-graphite">{t(c.p1)}</p>
 
-            {/* The form answers "book me in"; the number answers "my car is on
-                the drive and will not move". Both belong on this screen. */}
-            {BUSINESS.phone ? (
+            {/* The form answers "book me in". WhatsApp answers "here is a photo
+                of the warning light, what is this?" — which is how most people
+                start a conversation about a car. The number is shown because it
+                is how you find the shop in your contacts, but it opens a chat:
+                nothing here invites a call. */}
+            {WHATSAPP_URL ? (
               <p className="mt-8 border-t border-rule pt-6">
-                <span className="label block">{t(c.callLabel)}</span>
+                <span className="label block">{t(c.whatsappLabel)}</span>
                 <a
-                  href={`tel:${BUSINESS.phone}`}
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="link-underline mt-3 inline-block font-display text-[1.6rem] tracking-[-0.01em]"
                 >
                   {BUSINESS.phoneDisplay}
                 </a>
+                <span className="mt-3 flex w-fit items-center gap-2.5 font-mono text-[0.66rem] uppercase tracking-label text-graphite">
+                  <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  {t(c.whatsapp)}
+                </span>
               </p>
             ) : null}
           </Reveal>

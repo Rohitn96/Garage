@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Wordmark } from "./Wordmark";
 import { useHref, useLang, useT } from "@/lib/i18n";
 import { CONTENT } from "@/lib/content";
-import { addressLine, BUSINESS, openingNote } from "@/lib/business";
+import { addressLine, BUSINESS, openingNote, WHATSAPP_URL } from "@/lib/business";
 
 export function Footer() {
   const t = useT();
@@ -22,14 +22,16 @@ export function Footer() {
       href: BUSINESS.mapsUrl,
       external: true,
     },
-    // Falls back to the placeholder if the number is ever taken out again.
-    BUSINESS.phone
+    // WhatsApp, not a phone row: the number is shown, but it opens a chat
+    // rather than a call, because calls are not being invited yet.
+    WHATSAPP_URL
       ? {
-          label: t(c.phone),
+          label: t(c.whatsapp),
           value: BUSINESS.phoneDisplay,
-          href: `tel:${BUSINESS.phone}`,
+          href: WHATSAPP_URL,
+          external: true,
         }
-      : { label: t(c.phone), value: t(c.phoneTba) },
+      : { label: t(c.whatsapp), value: t(c.phoneTba) },
     {
       label: t(c.email),
       value: BUSINESS.email,
@@ -50,7 +52,7 @@ export function Footer() {
       <div className="mx-auto w-full max-w-page px-6 py-16 md:px-10">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Wordmark />
+            <Wordmark className="h-14" />
             <p className="mt-4 max-w-[24ch] font-display text-[1.4rem] leading-tight tracking-[-0.01em]">
               {t(c.tagline)}
             </p>
