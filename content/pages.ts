@@ -178,8 +178,8 @@ export const WEEKEND_PAGE: Record<
         a: "Kyllä. Viikonloppuisin huollamme myös muita sähköautoja ja teemme muiden autojen perustöitä.",
       },
       {
-        q: "Voinko yhdistää viikonloppuhuoltoon ilmaisen diagnostiikan?",
-        a: "Teslan avajaistarjouksen aikana kyllä. Valitse varauslomakkeella ajankohdaksi viikonloppu.",
+        q: "Voinko varata Tesla-diagnostiikan viikonlopuksi?",
+        a: "Kyllä. Valitse varauslomakkeella diagnostiikka ja ajankohdaksi viikonloppu.",
       },
     ],
     cta: "Varaa viikonloppu",
@@ -231,8 +231,8 @@ export const WEEKEND_PAGE: Record<
         a: "No. At weekends we also service other EVs and do basic work on other cars.",
       },
       {
-        q: "Can I combine weekend service with the free diagnosis?",
-        a: "Yes, while the Tesla launch offer runs. Choose the weekend as your preferred timing on the booking form.",
+        q: "Can I book a Tesla diagnosis for the weekend?",
+        a: "Yes. Choose diagnosis on the booking form and the weekend as your preferred timing.",
       },
     ],
     cta: "Book a weekend",

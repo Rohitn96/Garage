@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"tests/*.test.ts\"",
+    "test:expiry": "node scripts/test-offer-expiry.mjs && npm run build",
     "wordcount": "node scripts/wordcount.ts",
     "verify": "node scripts/verify.mjs",
     "open-items": "node scripts/open-items.mjs",

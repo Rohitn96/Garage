@@ -40,7 +40,7 @@ function runHead(nowIso: string, hash = "") {
   const removed: string[] = [];
   let replacedWith: string | null = null;
   let onReady: (() => void) | null = null;
-  const schema = { parentNode: { removeChild: () => removed.push("offer-schema") } };
+  const schema = { setAttribute: (k: string, v: string) => removed.push(`${k}=${v}`) };
   const ctx = {
     Date: { now: () => Date.parse(nowIso), parse: Date.parse },
     URLSearchParams,
@@ -65,10 +65,10 @@ test("head script marks the offer live before the end", () => {
   assert.deepEqual(r.removed, []);
 });
 
-test("head script ends the offer and removes the Offer schema after the end", () => {
+test("head script ends the offer and disables the Offer schema after the end", () => {
   const r = runHead("2027-01-01T00:00:01+02:00");
   assert.equal(r.attrs["data-offer"], "ended");
-  assert.deepEqual(r.removed, ["offer-schema"]);
+  assert.deepEqual(r.removed, ["type=text/plain"]);
 });
 
 test("head script defaults to dark when the OS has no light preference", () => {

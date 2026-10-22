@@ -1,5 +1,5 @@
 /**
- * One JSON-LD block. `offer` marks blocks the head script removes once the
+ * One JSON-LD block. `offer` marks blocks the head script disables once the
  * launch offer has ended (see lib/offer.ts). The payload is built from local
  * constants only, never from user input.
  */
