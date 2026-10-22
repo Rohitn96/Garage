@@ -118,9 +118,9 @@ const tracked = execSync("git ls-files", { encoding: "utf8" })
   .filter((f) => [".ts", ".tsx", ".mjs", ".js", ".cjs", ".css", ".md", ".json", ".jsonc", ".txt", ".html", ""].includes(extname(f)) || f.startsWith("public/_"));
 for (const file of tracked) {
   const text = readFileSync(file, "utf8");
-  if (/[–—]/.test(text)) fail(`em or en dash in ${file}`);
+  if (/[\u2013\u2014]/.test(text)) fail(`em or en dash in ${file}`);
 }
-for (const [path, html] of pages) if (/[–—]/.test(html)) fail(`em or en dash in built page ${path}`);
+for (const [path, html] of pages) if (/[\u2013\u2014]/.test(html)) fail(`em or en dash in built page ${path}`);
 
 console.log(`verify: ${pages.size} pages, ${listed.size} sitemap URLs, ${blocks} JSON-LD blocks, ${tracked.length} source files`);
 if (problems.length) {
