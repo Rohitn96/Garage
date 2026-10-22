@@ -18,9 +18,15 @@ import { JsonLd } from "./JsonLd";
  * next/font self-hosts them and sizes the fallbacks to match, so swapping in
  * the web font does not move the layout.
  */
-const display = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-display", display: "swap" });
-const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-sans", display: "swap" });
-const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "swap" });
+// `optional`, not `swap`: a late swap re-lays out the largest text on the page,
+// which on a slow phone is both a visible shift and a later LCP. If a face is
+// not ready by first paint, the size-matched fallback stays for this view and
+// the web font is used from cache on the next. One static display weight
+// (every heading is set heavy) rather than the variable file, to keep the
+// bytes down; the label face is small text and is not preloaded.
+const display = Archivo({ subsets: ["latin"], weight: ["800"], variable: "--font-display", display: "optional" });
+const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-sans", display: "optional" });
+const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "optional", preload: false });
 
 const BEACON = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN || SITE.analyticsToken;
 

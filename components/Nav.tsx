@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { LanguageToggle } from "./LanguageToggle";
@@ -63,7 +63,7 @@ export function Nav() {
     <header className="sticky top-0 z-50 border-b border-rule bg-ground/95 backdrop-blur supports-[backdrop-filter]:bg-ground/85">
       <nav aria-label={t.mainNav} className="wrap flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
         <Link href={pathOf("home", lang)} aria-label={`Revamp Motors, ${ROUTE_NAMES[lang].home}`} className="shrink-0">
-          <Logo alt="" priority className="h-7 sm:h-8 lg:h-9" />
+          <Logo alt="" className="h-7 sm:h-8 lg:h-9" />
         </Link>
 
         <ul className="hidden items-center gap-5 xl:gap-7 lg:flex">

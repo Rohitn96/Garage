@@ -102,7 +102,7 @@ export const UI = {
     offer: {
       tag: "Avajaistarjous",
       banner: "Ilmainen diagnostiikka Teslalle 31.12.2026 asti. Ei sitoumusta.",
-      more: "Lue lisää",
+      more: "Tarjouksen ehdot",
       badge: "Ilmainen 31.12.2026 asti",
       ended: "Avajaistarjous päättyi 31.12.2026.",
     },
@@ -185,7 +185,7 @@ export const UI = {
     offer: {
       tag: "Launch offer",
       banner: "Free diagnosis for Tesla until 31 December 2026. No obligation.",
-      more: "Read more",
+      more: "Offer details",
       badge: "Free until 31.12.2026",
       ended: "The launch offer ended on 31 December 2026.",
     },

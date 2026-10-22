@@ -120,11 +120,6 @@
     overflow-wrap: break-word;
     hyphens: manual;
   }
-
-  p,
-  li {
-    text-wrap: pretty;
-  }
 }
 
 @layer components {
@@ -279,6 +274,19 @@
 /* ==========================================================================
    Theme specific assets
    ========================================================================== */
+.logo {
+  background: url("/logo/revamp-motors-dark.webp") left center / contain no-repeat;
+}
+:root[data-theme="light"] .logo {
+  background-image: url("/logo/revamp-motors-light.webp");
+}
+@media print {
+  .logo {
+    background-image: url("/logo/revamp-motors-light.webp");
+    print-color-adjust: exact;
+  }
+}
+
 .logo-for-light {
   display: none;
 }

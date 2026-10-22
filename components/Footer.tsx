@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import { SITE, type Lang } from "@/site.config";
 import { addressLine, hoursRows, TEL_HREF, WHATSAPP_URL } from "@/lib/business";
 import { pathOf, type RouteId } from "@/lib/routes";

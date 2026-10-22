@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { Lang } from "@/site.config";
 import { BLOG_POSTS, pathOf, type BlogPostId } from "@/lib/routes";
 import { blogPostingSchema } from "@/lib/schema";

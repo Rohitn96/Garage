@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import { SITE, type Lang } from "@/site.config";
 import { addressLine, TEL_HREF, WHATSAPP_URL } from "@/lib/business";
 import { contactHref } from "@/lib/links";
@@ -9,7 +9,7 @@ import { UI } from "@/content/ui";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { VideoPanel } from "@/components/VideoPanel";
-import { BookingSection } from "@/components/BookingForm";
+import { LazyBookingSection as BookingSection } from "@/components/Lazy";
 import { CtaPanel } from "@/components/blocks/Cta";
 import { PageHero, Section, SectionHeading } from "@/components/blocks/Section";
 import { ItemGrid, Steps } from "@/components/blocks/Steps";

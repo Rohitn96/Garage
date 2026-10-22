@@ -8,7 +8,7 @@ export function Steps({ items }: { items: TitledItem[] }) {
         <li key={step.title} className="flex flex-col bg-ground p-6">
           <span className="font-mono text-step--1 text-accent">
             {String(i + 1).padStart(2, "0")}
-            <span className="text-faint"> / {String(items.length).padStart(2, "0")}</span>
+            <span className="text-muted"> / {String(items.length).padStart(2, "0")}</span>
           </span>
           <h3 className="mt-6 text-step-1 font-bold">{step.title}</h3>
           <p className="mt-3 text-step--1 leading-relaxed text-muted">{step.body}</p>

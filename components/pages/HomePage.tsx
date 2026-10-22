@@ -1,11 +1,11 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { Lang } from "@/site.config";
 import { pathOf } from "@/lib/routes";
 import { HOME } from "@/content/home";
 import { UI } from "@/content/ui";
 import { faqPreview } from "@/content/faq";
 import { serviceGroups } from "@/data/services";
-import { ServiceExplorer } from "@/components/car/ServiceExplorer";
+import { LazyServiceExplorer as ServiceExplorer } from "@/components/Lazy";
 import { VideoPanel } from "@/components/VideoPanel";
 import { OfferSwitch } from "@/components/OfferSwitch";
 import { CtaButtons, CtaPanel } from "@/components/blocks/Cta";

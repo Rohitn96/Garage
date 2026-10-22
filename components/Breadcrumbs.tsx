@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { Lang } from "@/site.config";
 import { pathOf, trail, type RouteId } from "@/lib/routes";
 import { ROUTE_NAMES, UI } from "@/content/ui";

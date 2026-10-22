@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { CSSProperties } from "react";
 import type { Lang } from "@/site.config";
 import { pathOf, type RouteId } from "@/lib/routes";
@@ -97,7 +97,7 @@ export function ScanPanel({
         {rows.map((row) => (
           <li key={row.id} className="flex items-center justify-between gap-4 border-b border-rule px-5 py-3 last:border-b-0">
             <span className="flex min-w-0 items-center gap-3">
-              <span className="whitespace-nowrap font-mono text-step--2 text-faint">{row.code}</span>
+              <span className="whitespace-nowrap font-mono text-step--2 text-muted">{row.code}</span>
               <span className="truncate text-step--1">{row.name}</span>
             </span>
             <span

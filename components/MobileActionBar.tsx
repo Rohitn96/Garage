@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/Link";
 import type { Lang } from "@/site.config";
 import { TEL_HREF, WHATSAPP_URL } from "@/lib/business";
 import { contactHref } from "@/lib/links";
