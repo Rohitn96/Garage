@@ -1,109 +1,116 @@
-"use client";
-
 import Link from "next/link";
-import { Wordmark } from "./Wordmark";
-import { useHref, useLang, useT } from "@/lib/i18n";
-import { CONTENT } from "@/lib/content";
-import { addressLine, BUSINESS, openingNote, WHATSAPP_URL } from "@/lib/business";
+import { SITE, type Lang } from "@/site.config";
+import { addressLine, hoursRows, TEL_HREF, WHATSAPP_URL } from "@/lib/business";
+import { pathOf, type RouteId } from "@/lib/routes";
+import { ROUTE_NAMES, UI } from "@/content/ui";
+import { Logo } from "./Logo";
 
-export function Footer() {
-  const t = useT();
-  const h = useHref();
-  const { lang } = useLang();
-  const opening = openingNote(lang);
-  const c = CONTENT.footer;
-  const n = CONTENT.nav;
+const SERVICES: RouteId[] = [
+  "svc-battery",
+  "svc-powertrain",
+  "svc-brakes",
+  "svc-suspension",
+  "svc-tyres",
+  "svc-electrical",
+  "svc-climate",
+  "battery-report",
+  "offer",
+];
 
-  const details = [
-    {
-      label: t(c.address),
-      value: addressLine(lang),
-      // Opens the shop's pin rather than making someone retype the address.
-      href: BUSINESS.mapsUrl,
-      external: true,
-    },
-    // WhatsApp, not a phone row: the number is shown, but it opens a chat
-    // rather than a call, because calls are not being invited yet.
-    WHATSAPP_URL
-      ? {
-          label: t(c.whatsapp),
-          value: BUSINESS.phoneDisplay,
-          href: WHATSAPP_URL,
-          external: true,
-        }
-      : { label: t(c.whatsapp), value: t(c.phoneTba) },
-    {
-      label: t(c.email),
-      value: BUSINESS.email,
-      href: `mailto:${BUSINESS.email}`,
-    },
-    { label: t(c.companyId), value: BUSINESS.companyId },
-  ];
+const PAGES: RouteId[] = ["tesla", "ev", "other", "weekend", "faq", "blog", "about", "contact", "privacy"];
 
-  const links = [
-    { href: h("/tesla/"), label: t(n.tesla) },
-    { href: h("/#services"), label: t(n.services) },
-    { href: h("/#pricing"), label: t(n.pricing) },
-    { href: h("/#contact"), label: t(n.contact) },
-  ];
+export function Footer({ lang }: { lang: Lang }) {
+  const t = UI[lang];
+  const names = ROUTE_NAMES[lang];
+  const b = SITE.business;
+  const hours = hoursRows(lang);
+  const heading = "label mb-4 block";
+  const linkClass = "inline-flex min-h-[32px] items-center text-step--1 text-muted transition-colors duration-1 hover:text-ink";
 
   return (
-    <footer className="rule-above">
-      <div className="mx-auto w-full max-w-page px-6 py-16 md:px-10">
+    <footer className="border-t border-rule bg-surface">
+      <div className="wrap py-14 md:py-20">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-4">
-            <Wordmark className="h-14" />
-            <p className="mt-4 max-w-[24ch] font-display text-[1.4rem] leading-tight tracking-[-0.01em]">
-              {t(c.tagline)}
-            </p>
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="font-mono text-[0.66rem] uppercase tracking-label text-graphite transition-colors hover:text-accent"
-                  >
-                    {link.label}
+            <Logo className="h-9" />
+            <p className="mt-5 max-w-[34ch] text-step--1 text-muted">{t.footer.tagline}</p>
+            <dl className="mt-8 grid gap-1 text-step--1">
+              <dt className="label">{t.hours.title}</dt>
+              {hours.rows.map((row) => (
+                <dd key={row.label} className="text-ink">
+                  <span className="text-muted">{row.label}: </span>
+                  {row.value}
+                </dd>
+              ))}
+            </dl>
+          </div>
+
+          <nav aria-label={t.footer.services} className="md:col-span-3">
+            <span className={heading}>{t.footer.services}</span>
+            <ul>
+              {SERVICES.map((id) => (
+                <li key={id}>
+                  <Link href={pathOf(id, lang)} className={linkClass}>
+                    {names[id]}
                   </Link>
                 </li>
               ))}
             </ul>
+          </nav>
+
+          <nav aria-label={t.footer.pages} className="md:col-span-2">
+            <span className={heading}>{t.footer.pages}</span>
+            <ul>
+              {PAGES.map((id) => (
+                <li key={id}>
+                  <Link href={pathOf(id, lang)} className={linkClass}>
+                    {names[id]}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="md:col-span-3">
+            <span className={heading}>{t.footer.contact}</span>
+            <address className="grid gap-4 text-step--1 not-italic">
+              <p>
+                <span className="block text-muted">{t.footer.address}</span>
+                <a href={b.mapsUrl} target="_blank" rel="noopener noreferrer" className="link">
+                  {addressLine(lang)}
+                </a>
+                <span className="block text-muted">{b.district}</span>
+              </p>
+              <p>
+                <span className="block text-muted">{t.footer.phone}</span>
+                <a href={TEL_HREF} className="link">
+                  {b.phoneDisplay}
+                </a>
+                <span className="text-muted"> · </span>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="link">
+                  WhatsApp
+                </a>
+              </p>
+              <p>
+                <span className="block text-muted">{t.footer.email}</span>
+                <a href={`mailto:${b.email}`} className="link break-all">
+                  {b.email}
+                </a>
+              </p>
+              <p>
+                <span className="block text-muted">{t.footer.companyId}</span>
+                {b.companyId}
+              </p>
+            </address>
           </div>
-
-          <dl className="grid gap-x-10 gap-y-8 sm:grid-cols-2 md:col-span-7 md:col-start-6">
-            {details.map((detail) => (
-              <div key={detail.label} className="min-w-0 rule-above pt-4">
-                <dt className="label">{detail.label}</dt>
-                <dd className="mt-2 break-words text-[0.95rem]">
-                  {detail.href ? (
-                    <a
-                      href={detail.href}
-                      className="link-underline"
-                      {...("external" in detail && detail.external
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                    >
-                      {detail.value}
-                    </a>
-                  ) : (
-                    detail.value
-                  )}
-                </dd>
-              </div>
-            ))}
-          </dl>
         </div>
 
-        {/* An independent shop naming a marque has to say plainly that it is not
-            that marque. This is the line that keeps "Tesla specialists" honest. */}
-        <p className="mt-14 max-w-[80ch] border-t border-rule pt-5 text-[0.75rem] leading-relaxed text-graphite/80">
-          {t(c.independent)}
+        <p className="mt-14 max-w-[90ch] border-t border-rule pt-6 text-step--2 leading-relaxed text-muted">
+          {t.footer.independent}
         </p>
-
-        <div className="mt-6 flex flex-col gap-2 text-[0.78rem] text-graphite sm:flex-row sm:items-center sm:justify-between">
-          <p>{opening ? `${opening}. ${t(c.bookings)}` : t(c.opening)}</p>
-          <p className="font-mono">© {new Date().getFullYear()}</p>
-        </div>
+        <p className="mt-3 font-mono text-step--2 text-muted">
+          © {new Date().getFullYear()} {b.name} · {t.footer.companyId} {b.companyId}
+        </p>
       </div>
     </footer>
   );

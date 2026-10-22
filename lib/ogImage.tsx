@@ -1,61 +1,31 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { CONTENT } from "@/lib/content";
-import type { Lang } from "@/lib/i18n";
-import { OG_SIZE } from "@/lib/og";
+import type { Lang } from "@/site.config";
+import { HOME } from "@/content/home";
+import { OG_SIZE } from "./og";
 
 /**
- * The social share card, rendered to a PNG once at build time.
- *
- * The site had no `og:image`, so a link pasted into Facebook, WhatsApp or
- * LinkedIn — which is how a local garage actually gets passed around — showed
- * a bare title with no picture. Every string here is read from lib/content.ts,
- * so the card cannot drift from the page it describes.
- *
- * Fonts are the site's own (Instrument Serif, IBM Plex Mono, both OFL), as
- * .woff latin subsets in assets/og: the renderer cannot read woff2, and the
- * latin subset is the one that carries ä and ö. Upright only — the site has no
- * italic any more, so the accent is colour alone.
- *
- * Served by the route handlers at app/(fi)/og.png and app/(en)/en/og.png; the
- * paths, size and alt text live in lib/og.ts.
+ * The social share card, rendered to a PNG once at build time. Strings come
+ * from content/home.ts and the logo from public/logo, so the card cannot drift
+ * from the site. IBM Plex Mono only: the renderer cannot read the variable
+ * display font, and a mono face suits the diagnostic look.
  */
-const PAPER = "#14181B";
-const INK = "#F2F0EB";
-const GRAPHITE = "#959594";
-const RULE = "#2C3032";
+const GROUND = "#0C0E10";
+const INK = "#ECEEF0";
+const MUTED = "#9AA1A8";
+const RULE = "#272C31";
 const ACCENT = "#FF5A1F";
 
-const font = (file: string) => readFile(join(process.cwd(), "assets/og", file));
-
-/**
- * The logo, inlined as a data URI.
- *
- * The renderer has no origin to fetch a relative path from, and the build has
- * no server to serve one, so the bytes go in directly. It is the same file the
- * site uses, read from public/ at build time, so the card cannot end up showing
- * an older mark than the page.
- */
-const logoDataUri = async () => {
-  const bytes = await readFile(join(process.cwd(), "public/logo/revamp-motors.png"));
-  return `data:image/png;base64,${bytes.toString("base64")}`;
-};
+const asset = (...parts: string[]) => readFile(join(process.cwd(), ...parts));
 
 export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
-  const [serif, mono, logo] = await Promise.all([
-    font("InstrumentSerif-Regular.woff"),
-    font("IBMPlexMono-Medium.woff"),
-    logoDataUri(),
+  const [mono, logo] = await Promise.all([
+    asset("assets/og", "IBMPlexMono-Medium.woff"),
+    asset("public/logo", "revamp-motors-dark.png"),
   ]);
-  const h = CONTENT.hero;
-  const label = {
-    fontFamily: "Plex Mono",
-    fontSize: 20,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase" as const,
-    color: GRAPHITE,
-  };
+  const h = HOME[lang].hero;
+  const grid = `linear-gradient(${RULE} 1px, transparent 1px), linear-gradient(90deg, ${RULE} 1px, transparent 1px)`;
 
   return new ImageResponse(
     (
@@ -66,66 +36,37 @@ export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "64px 80px",
-          background: PAPER,
+          padding: "64px 72px",
+          background: GROUND,
+          backgroundImage: grid,
+          backgroundSize: "48px 48px",
           color: INK,
-          fontFamily: "Instrument Serif",
+          fontFamily: "Plex Mono",
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logo} width={246} height={111} alt="" />
-          <div style={label}>{CONTENT.nav.location[lang]}</div>
+          <img src={`data:image/png;base64,${logo.toString("base64")}`} width={340} height={80} alt="" />
+          <div style={{ fontSize: 20, letterSpacing: "0.12em", textTransform: "uppercase", color: MUTED }}>Tattarisuo, Helsinki</div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            fontSize: 96,
-            lineHeight: 0.98,
-            letterSpacing: "-0.02em",
-          }}
-        >
-          <span>{h.headlineA[lang]}</span>
-          <span style={{ color: ACCENT }}>{h.headlineAccent[lang]}</span>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <div style={{ display: "flex", fontSize: 22, letterSpacing: "0.12em", textTransform: "uppercase", color: ACCENT }}>
+            SYS 01 / 07
+          </div>
+          <div style={{ display: "flex", fontSize: 68, lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: 980 }}>{h.h1.replace(/­/g, "")}</div>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            gap: 36,
-            borderTop: `1px solid ${RULE}`,
-            paddingTop: 26,
-          }}
-        >
-          {/* Smaller than the top label: the Finnish credentials run ~30% longer. */}
-          {h.credentials.map((item) => (
-            <div
-              key={item.en}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                flexShrink: 0,
-                ...label,
-                fontSize: 17,
-                letterSpacing: "0.12em",
-              }}
-            >
-              <div style={{ width: 22, height: 2, background: ACCENT }} />
-              {item[lang]}
+        <div style={{ display: "flex", gap: 32, borderTop: `1px solid ${RULE}`, paddingTop: 24 }}>
+          {h.facts.map((fact) => (
+            <div key={fact} style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 18, letterSpacing: "0.08em", textTransform: "uppercase", color: MUTED }}>
+              <div style={{ width: 10, height: 10, borderRadius: 10, background: ACCENT }} />
+              {fact}
             </div>
           ))}
         </div>
       </div>
     ),
-    {
-      ...OG_SIZE,
-      fonts: [
-        { name: "Instrument Serif", data: serif, style: "normal", weight: 400 },
-        { name: "Plex Mono", data: mono, style: "normal", weight: 500 },
-      ],
-    },
+    { ...OG_SIZE, fonts: [{ name: "Plex Mono", data: mono, style: "normal", weight: 500 }] },
   );
 }

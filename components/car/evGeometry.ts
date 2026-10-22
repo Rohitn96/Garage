@@ -18,7 +18,7 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
  *
  * The previous model was boxes and cylinders, and it read as a toy for a reason
  * that has nothing to do with polygon count: a car is not made of boxes. It has
- * ONE continuous side silhouette — a nose that drops, a windscreen that rakes
+ * ONE continuous side silhouette, a nose that drops, a windscreen that rakes
  * into a roof, a fastback that falls to a short deck, and wheel openings cut
  * into it. Stacking rectangles can approximate the volume but never the line.
  *
@@ -68,11 +68,11 @@ const smooth = (v: number) => {
 };
 
 type ShapeOpts = {
-  /** How much narrower the nose gets, 0–1. */
+  /** How much narrower the nose gets, 0 to 1. */
   noseTaper: number;
-  /** How much narrower the tail gets, 0–1. */
+  /** How much narrower the tail gets, 0 to 1. */
   tailTaper: number;
-  /** How much narrower the top gets (tumblehome), 0–1. */
+  /** How much narrower the top gets (tumblehome), 0 to 1. */
   tumblehome: number;
   /** Y at which tumblehome starts. */
   tumbleFrom: number;
@@ -85,7 +85,7 @@ type ShapeOpts = {
 /**
  * Turn a flat extrusion into a body: taper in plan, lean in section.
  *
- * Runs over the position buffer once, before normals are computed — doing it
+ * Runs over the position buffer once, before normals are computed, doing it
  * after would leave the lighting describing the slab the geometry no longer is.
  */
 function loft(geo: BufferGeometry, o: ShapeOpts): BufferGeometry {
@@ -364,7 +364,7 @@ export function buildDriveUnit(scale = 1): BufferGeometry {
 /**
  * Vented brake disc: two friction faces with a ring of vanes between them.
  *
- * Replaces a solid puck. The vanes only show at the rim — which is exactly where
+ * Replaces a solid puck. The vanes only show at the rim, which is exactly where
  * the eye goes once the wheel has been pulled away from the car, so it is the
  * cheapest detail on the model per unit of attention it receives.
  */
@@ -419,7 +419,7 @@ export function buildCaliper(): BufferGeometry {
  *
  * The coil is a tube swept along a helix rather than a tapered cylinder. It is
  * six turns of trigonometry and it is the difference between "a suspension
- * component" and "a peg" — a spring is the one part on a car that everybody can
+ * component" and "a peg", a spring is the one part on a car that everybody can
  * identify on sight, so faking it is immediately obvious.
  */
 export function buildStrut(): BufferGeometry {
@@ -505,7 +505,7 @@ export function buildDashboard(): BufferGeometry {
  * Orange is not a styling choice here: HV cable is orange by international
  * convention, specifically so that nobody grabs it by accident. On a cutaway it
  * is the most legible "this is an EV, and working on it takes certification"
- * signal available — which is exactly the claim the page beside it makes.
+ * signal available, which is exactly the claim the page beside it makes.
  */
 export function buildHvCables(): BufferGeometry {
   const runs: Vector3[][] = [

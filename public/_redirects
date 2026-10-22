@@ -1,26 +1,19 @@
-# Cloudflare static-assets redirects. Copied into out/ by `next build`.
-# https://developers.cloudflare.com/workers/static-assets/redirects/
-#
-# 1. Finnish moved from /fi/ to the site root, English from / to /en/. These
-#    keep every already-shared Finnish link working, permanently, so the move
-#    costs nothing. Order matters: the first match wins.
+# Cloudflare static-assets redirects. Copied into out/ by `next build`, then
+# extended by scripts/postbuild.mjs with a 301 from the slashless form of every
+# page. https://developers.cloudflare.com/workers/static-assets/redirects/
+# The first matching rule wins.
+
+# 1. Finnish moved from /fi/ to the root. Keep old shared links working.
 /fi/tesla/   /tesla/     301
 /fi/tesla    /tesla/     301
 /fi/og.png   /og.png     301
 /fi/         /           301
 /fi          /           301
 
-# 2. Without these, the asset server's own slash handling answers /tesla with a
-#    307 — a TEMPORARY redirect, which tells Google to keep the slashless URL
-#    around. Every page lives at its trailing-slash URL (trailingSlash: true),
-#    so say so permanently.
-/tesla       /tesla/     301
-/en          /en/        301
-/en/tesla    /en/tesla/  301
+# 2. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
+#    redirected here: browsers never send the fragment. The head script in
+#    lib/offer.ts sends them to the contact page instead.
 
-# 3. Google Search Console's verification file has to answer at its EXACT URL.
-#    The asset server's html_handling drops ".html" and sends a 307 to the
-#    extensionless path, and a verification file behind a redirect is not worth
-#    risking. Status 200 here is a rewrite, not a redirect: the exact URL serves
-#    the file's bytes. Keep this rule as long as the property is verified.
+# 3. Google Search Console's verification file must answer at its exact URL.
+#    Status 200 is a rewrite, not a redirect. Keep while the property is verified.
 /googlef5fb86be7b72c0c2.html  /googlef5fb86be7b72c0c2  200

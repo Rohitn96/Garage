@@ -1,46 +1,59 @@
 import type { Config } from "tailwindcss";
 
 /**
- * One ground, one ink, one accent.
- *
- * Three brand colours, and NOTHING else is invented:
- *
- *   charcoal  #14181B   the ground
- *   cream     #F2F0EB   the ink
- *   orange    #FF5A1F   the accent, and the only colour that ever means anything
- *
- * Every other value below is one of those three mixed into the charcoal at a
- * fixed opacity, so the palette stays three colours deep however many tints the
- * layout needs. The percentage is written beside each one; recompute rather than
- * eyeballing a replacement.
- *
- * Contrast on the charcoal ground: cream 15.7:1, graphite 6.0:1, orange 5.7:1,
- * and charcoal on an orange button 5.7:1. All clear AA.
+ * Tailwind reads the design tokens in app/globals.css. No colour, size or
+ * duration is written here directly: each one is a CSS variable with a dark
+ * and a light value, so a component styled once works in both themes.
  */
+const token = (name: string) => `rgb(var(--${name}) / <alpha-value>)`;
+
 const config: Config = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./content/**/*.ts", "./lib/**/*.{ts,tsx}"],
+  darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
-        paper: "#14181B",      // charcoal: the ground
-        panel: "#1F2325",      // cream 5%, for insets and sticky chrome
-        ink: "#F2F0EB",        // cream: the ink
-        graphite: "#959594",   // cream 58%, secondary text
-        rule: "#2C3032",       // cream 11% — structure, not accent
-        ruleStrong: "#454849", // cream 22%, hover / active hairline
-        accent: {
-          DEFAULT: "#FF5A1F", // orange: the only colour with meaning
-          dim: "#7E361D",     // orange 45%, at rest, for rules and inactive marks
-          wash: "#30201B",    // orange 12%, ground for the rare filled surface
-        },
+        ground: token("ground"),
+        surface: token("surface"),
+        raised: token("raised"),
+        ink: token("ink"),
+        muted: token("muted"),
+        faint: token("faint"),
+        rule: token("rule"),
+        ruleStrong: token("rule-strong"),
+        accent: token("accent"),
+        onAccent: token("on-accent"),
+        ok: token("ok"),
       },
       fontFamily: {
-        display: ["var(--font-display)", "Georgia", "serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
-      maxWidth: { page: "1240px" },
-      letterSpacing: { label: "0.14em" },
+      fontSize: {
+        "step--2": ["var(--step--2)", { lineHeight: "1.4" }],
+        "step--1": ["var(--step--1)", { lineHeight: "1.5" }],
+        "step-0": ["var(--step-0)", { lineHeight: "1.65" }],
+        "step-1": ["var(--step-1)", { lineHeight: "1.35" }],
+        "step-2": ["var(--step-2)", { lineHeight: "1.2" }],
+        "step-3": ["var(--step-3)", { lineHeight: "1.08" }],
+        "step-4": ["var(--step-4)", { lineHeight: "1.02" }],
+        "step-5": ["var(--step-5)", { lineHeight: "0.98" }],
+      },
+      borderRadius: {
+        sm: "var(--radius-sm)",
+        DEFAULT: "var(--radius)",
+        md: "var(--radius)",
+        lg: "var(--radius-lg)",
+      },
+      transitionDuration: {
+        1: "var(--dur-1)",
+        2: "var(--dur-2)",
+        3: "var(--dur-3)",
+      },
+      transitionTimingFunction: { out: "var(--ease-out)" },
+      maxWidth: { page: "1240px", prose: "68ch" },
+      letterSpacing: { label: "0.12em" },
     },
   },
   plugins: [],

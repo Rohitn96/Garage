@@ -2,96 +2,311 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   Design tokens
+   Colours are RGB channel triplets so Tailwind can apply opacity to them.
+   Dark is the default; light overrides it. The theme is set on <html> by the
+   head script before first paint (lib/offer.ts), so there is no flash.
+   Contrast (normal text, AA needs 4.5:1):
+     dark   ink 16.9, muted 7.4, accent 6.2, on-accent on accent 6.2
+     light  ink 17.6, muted 6.3, accent 4.7, on-accent on accent 5.1
+   ========================================================================== */
+:root {
+  --ground: 12 14 16;
+  --surface: 20 23 26;
+  --raised: 28 32 36;
+  --ink: 236 238 240;
+  --muted: 154 161 168;
+  --faint: 98 105 112;
+  --rule: 39 44 49;
+  --rule-strong: 62 69 76;
+  --accent: 255 90 31;
+  --on-accent: 12 14 16;
+  --ok: 63 185 128;
+  --grid-alpha: 0.045;
+  color-scheme: dark;
+
+  /* Type scale: fluid between 360 px and 1240 px viewports. */
+  --step--2: 0.75rem;
+  --step--1: 0.875rem;
+  --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --step-1: clamp(1.15rem, 1.07rem + 0.4vw, 1.375rem);
+  --step-2: clamp(1.4rem, 1.22rem + 0.8vw, 1.875rem);
+  --step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.75rem);
+  --step-4: clamp(2.1rem, 1.55rem + 2.6vw, 3.75rem);
+  --step-5: clamp(2.1rem, 1.5rem + 3.2vw, 4.25rem);
+
+  /* Spacing follows Tailwind's 4 px scale; these are the section rhythms. */
+  --space-section: clamp(4rem, 3rem + 4vw, 7rem);
+  --gutter: 1rem;
+
+  --radius-sm: 2px;
+  --radius: 6px;
+  --radius-lg: 12px;
+
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 420ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root[data-theme="light"] {
+  --ground: 243 244 245;
+  --surface: 255 255 255;
+  --raised: 233 235 238;
+  --ink: 15 17 19;
+  --muted: 84 91 99;
+  --faint: 150 157 164;
+  --rule: 215 219 224;
+  --rule-strong: 178 185 192;
+  --accent: 201 58 11;
+  --on-accent: 255 255 255;
+  --ok: 22 122 74;
+  --grid-alpha: 0.06;
+  color-scheme: light;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2.5rem;
+  }
+}
+
 @layer base {
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
-    /* Anchored sections clear the sticky nav instead of hiding under it. */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 5.5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
-    font-size: 17px;
-    line-height: 1.6;
+    @apply bg-ground font-sans text-step-0 text-ink antialiased;
+  }
+
+  /* The mobile action bar is fixed to the bottom; this keeps it off content. */
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
   }
 
   ::selection {
-    @apply bg-accent text-paper;
+    @apply bg-accent text-onAccent;
   }
 
   :focus-visible {
-    @apply outline-none ring-1 ring-accent ring-offset-4 ring-offset-paper;
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 112;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+    hyphens: manual;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
   }
 }
 
 @layer components {
-  /* Small uppercase mono label — the page's one recurring signal for metadata. */
-  .label {
-    @apply font-mono text-[0.68rem] uppercase tracking-label text-graphite;
+  .wrap {
+    @apply mx-auto w-full max-w-page;
+    padding-inline: var(--gutter);
   }
 
-  /* Section divider. Swiss editorial staple. */
-  .rule-above {
-    @apply border-t border-rule;
-  }
-
-  /* Standard section shell: one page width, one rhythm, everywhere. */
   .section {
-    @apply mx-auto w-full max-w-page px-6 py-24 md:px-10 md:py-32;
+    padding-block: var(--space-section);
   }
 
-  /* Display heading at section level — one size ramp for the whole site. */
-  .h-section {
-    @apply font-display text-[clamp(2.2rem,5.5vw,4rem)] leading-[0.98] tracking-[-0.02em];
+  .label {
+    @apply font-mono text-step--2 uppercase tracking-label text-muted;
   }
 
-  /* Text link with a rule that retracts on hover, instead of a pill button. */
-  .link-underline {
-    @apply relative inline-block pb-1 text-ink no-underline;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    background-size: 100% 1px;
-    transition: background-size 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  .h1 {
+    @apply text-step-5 font-extrabold;
   }
-  .link-underline:hover {
-    background-size: 0% 1px;
+  .h2 {
+    @apply text-step-4 font-bold;
+  }
+  .h3 {
+    @apply text-step-2 font-bold;
   }
 
-  /* The one filled control on the site: the booking CTA. */
-  .btn-accent {
-    @apply inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2
-           font-mono text-[0.7rem] uppercase tracking-label text-paper
-           transition-colors hover:bg-ink;
+  .lead {
+    @apply text-step-1 leading-relaxed text-muted;
+  }
+
+  /* Buttons. Every control is at least 44 px tall for touch. */
+  .btn {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded px-5 py-2.5 font-mono text-step--1 font-medium uppercase tracking-[0.08em] transition-colors duration-2 ease-out;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-onAccent hover:bg-ink hover:text-ground;
+  }
+  .btn-secondary {
+    @apply btn border border-ruleStrong text-ink hover:border-ink;
+  }
+  .btn-ghost {
+    @apply btn px-0 text-ink underline decoration-ruleStrong underline-offset-[6px] hover:decoration-accent;
+  }
+
+  .card {
+    @apply rounded border border-rule bg-surface;
+  }
+
+  .link {
+    @apply text-ink underline decoration-ruleStrong decoration-1 underline-offset-4 transition-colors duration-1 hover:decoration-accent;
+  }
+
+  /* Status chip, the diagnostic state vocabulary: OK, CHECK, SCAN. */
+  .chip {
+    @apply inline-flex items-center gap-2 rounded-sm border border-rule px-2 py-1 font-mono text-step--2 uppercase tracking-label text-muted;
+  }
+  .chip::before {
+    content: "";
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-current;
+  }
+  .chip-ok {
+    @apply text-ok;
+  }
+  .chip-accent {
+    @apply text-accent;
+  }
+
+  /* Blueprint grid. Structure, drawn faintly enough to never compete with text. */
+  .blueprint {
+    background-image:
+      linear-gradient(rgb(var(--ink) / var(--grid-alpha)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--ink) / var(--grid-alpha)) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+  }
+
+  /* Crosshair corner marks, like registration marks on a drawing. */
+  .corners {
+    position: relative;
+  }
+  .corners::before,
+  .corners::after {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: rgb(var(--accent));
+    pointer-events: none;
+  }
+  .corners::before {
+    top: -1px;
+    left: -1px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+  .corners::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+
+  /* Long-form content: service pages, model pages, blog. */
+  .prose-tech {
+    @apply max-w-prose text-step-0 leading-[1.7] text-ink;
+  }
+  .prose-tech > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-tech h2 {
+    @apply mt-12 text-step-3 font-bold;
+  }
+  .prose-tech h3 {
+    @apply mt-8 text-step-1 font-bold;
+  }
+  .prose-tech p {
+    @apply text-ink/90;
+  }
+  .prose-tech ul {
+    @apply grid gap-2;
+  }
+  .prose-tech ul > li {
+    @apply relative pl-6;
+  }
+  .prose-tech ul > li::before {
+    content: "";
+    @apply absolute left-0 top-[0.8em] h-px w-3 bg-accent;
+  }
+  .prose-tech a {
+    @apply link;
+  }
+  .prose-tech .note {
+    @apply rounded border-l-2 border-accent bg-surface px-4 py-3 text-step--1 text-muted;
+  }
+
+  /* FAQ disclosure. Native details/summary: works without JS. */
+  .faq summary {
+    @apply flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-step-1 font-semibold;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: "+";
+    @apply font-mono text-step-1 font-normal text-accent transition-transform duration-2;
+  }
+  .faq details[open] summary::after {
+    transform: rotate(45deg);
   }
 }
 
-/*
- * Above-the-fold entrance, in CSS rather than Framer Motion.
- *
- * Framer's `initial` is serialised into the server HTML as `opacity:0`, so the
- * hero copy stayed invisible until the JS bundle had downloaded, parsed and
- * hydrated. The hero paragraph is the page's Largest Contentful Paint, which
- * put LCP at 6.7 s on a throttled phone. A CSS animation starts on first paint
- * with no JS at all. Stagger with an inline `animation-delay`.
- *
- * Below-the-fold reveals stay in Framer (components/Reveal.tsx): they are not
- * LCP candidates and they need `whileInView`.
- */
-@keyframes rise {
+/* ==========================================================================
+   Theme specific assets
+   ========================================================================== */
+.logo-for-light {
+  display: none;
+}
+:root[data-theme="light"] .logo-for-light {
+  display: block;
+}
+:root[data-theme="light"] .logo-for-dark {
+  display: none;
+}
+
+/* ==========================================================================
+   Offer state. Both variants ship; the head script picks one before paint.
+   ========================================================================== */
+:root[data-offer="ended"] [data-offer-variant="live"],
+:root[data-offer="live"] [data-offer-variant="ended"] {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Motion
+   ========================================================================== */
+@keyframes scan {
   from {
-    opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(0);
   }
   to {
-    opacity: 1;
-    transform: none;
+    transform: translateY(var(--scan-distance, 100%));
   }
-}
-
-.rise {
-  animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -101,12 +316,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  html {
-    scroll-behavior: auto;
-  }
-  /* No animation at all, rather than a 0.01ms one that still waits out its delay. */
-  .rise {
-    animation: none;
   }
 }

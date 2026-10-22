@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { HomePage } from "@/components/pages/HomePage";
-import { homeMetadata } from "@/components/RootShell";
+import { renderRoute, routeMetadata } from "@/components/pages/render";
 
-export const metadata: Metadata = homeMetadata("fi");
+export const metadata: Metadata = routeMetadata("home", "fi");
 
 export default function Page() {
-  return <HomePage />;
+  return renderRoute("home", "fi");
 }

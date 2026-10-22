@@ -60,7 +60,7 @@ export function CarScene({
   /** Raw scroll progress through the track, for the camera arc. */
   progress: MotionValue<number>;
   compact?: boolean;
-  /** False when the section is off screen — stops the render loop entirely. */
+  /** False when the section is off screen, stops the render loop entirely. */
   running?: boolean;
   /** DOM nodes the callout tracker writes to each frame. */
   calloutRefs: CalloutRefs;
@@ -87,7 +87,7 @@ export function CarScene({
         A procedural studio, not a downloaded HDR.
 
         drei's `preset="warehouse"` and friends fetch an HDR from a CDN at
-        runtime — a third-party request on every visit, and a black car if it
+        runtime, a third-party request on every visit, and a black car if it
         fails. These lightformers build the same thing into a 256px cube map,
         rendered once.
 
@@ -116,7 +116,7 @@ export function CarScene({
           scale={[8, 2.5, 1]}
           color="#DCE8F0"
         />
-        {/* The flank light. Tall, near horizon level, on the camera side — this
+        {/* The flank light. Tall, near horizon level, on the camera side, this
             is what draws the long highlight down the side of the body, and it
             does more for realism than any amount of overhead intensity. */}
         <Lightformer

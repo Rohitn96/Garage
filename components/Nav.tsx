@@ -3,47 +3,38 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Wordmark } from "./Wordmark";
+import { Logo } from "./Logo";
 import { LanguageToggle } from "./LanguageToggle";
-import { useHref, useT } from "@/lib/i18n";
-import { CONTENT } from "@/lib/content";
+import { ThemeToggle } from "./ThemeToggle";
+import { OfferSwitch } from "./OfferSwitch";
+import { useLang } from "@/lib/i18n";
+import { pathOf, routeByPath, trail, type RouteId } from "@/lib/routes";
+import { contactHref } from "@/lib/links";
+import { ROUTE_NAMES, UI } from "@/content/ui";
 
-/**
- * The site had no navigation at all. On a page fifteen viewport-heights tall
- * that left two hero links and a scroll hint as the entire wayfinding system —
- * once a visitor was past the fold there was no route to the prices or the
- * phone number except scrolling and hoping.
- *
- * Links are absolute (`/#pricing`, not `#pricing`) so the same bar works from
- * the Tesla page, where those sections do not exist.
- *
- * It is transparent over the hero and takes a ground and a hairline once the
- * page has moved, so it never competes with the headline but is always there.
- */
-const LINKS = [
-  { href: "/tesla/", key: "tesla" as const },
-  { href: "/#services", key: "services" as const },
-  { href: "/#pricing", key: "pricing" as const },
-  { href: "/#contact", key: "contact" as const },
+const LINKS: Array<{ id: RouteId; key: keyof (typeof UI)["fi"]["nav"] }> = [
+  { id: "tesla", key: "tesla" },
+  { id: "ev", key: "ev" },
+  { id: "other", key: "other" },
+  { id: "weekend", key: "weekend" },
+  { id: "blog", key: "blog" },
+  { id: "contact", key: "contact" },
 ];
 
+/**
+ * Sticky, solid bar. The persistent call to action reads "Free diagnosis"
+ * while the launch offer runs and "Request a quote" after it, with no rebuild.
+ */
 export function Nav() {
-  const t = useT();
-  const h = useHref();
-  const c = CONTENT.nav;
-  const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
+  const lang = useLang();
+  const t = UI[lang];
+  const pathname = usePathname() ?? "/";
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Which top-level section the current page sits in, for aria-current.
+  const here = routeByPath(pathname);
+  const section = here ? trail(here.id)[1] ?? here.id : null;
 
-  // Route changes close the sheet; so does Escape, which is the only way out
-  // for a keyboard user once it is open.
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
     if (!open) return;
@@ -52,100 +43,95 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open
-          ? "border-b border-rule bg-paper/90 backdrop-blur-md"
-          : "border-b border-transparent"
-      }`}
-    >
-      {/*
-        The bar is tall at the top of a page and condenses once you move.
+  const cta = (
+    <OfferSwitch
+      as="span"
+      live={
+        <Link href={contactHref(lang, "diagnosis")} className="btn-primary">
+          {t.cta.freeDiagnosis}
+        </Link>
+      }
+      ended={
+        <Link href={contactHref(lang, "quote")} className="btn-primary">
+          {t.cta.requestQuote}
+        </Link>
+      }
+    />
+  );
 
-        Over the hero there is nothing to compete with, so the logo gets the
-        room to read as the shop's mark rather than as chrome; by the time the
-        page is scrolling it is navigation again, and takes the smaller size it
-        had before. The bar is `fixed`, so neither state moves the page.
-      */}
-      <nav
-        aria-label={t(c.menu)}
-        className={`mx-auto flex w-full max-w-page items-center justify-between gap-6 px-6 transition-[height] duration-300 md:px-10 ${
-          scrolled || open ? "h-[4.6rem] md:h-[5.2rem]" : "h-[5.6rem] md:h-[7rem]"
-        }`}
-      >
-        <Link href={h("/")} aria-label={t(c.backHome)} className="shrink-0">
-          {/* Sized by height so the bar's rhythm holds; the link is already
-              named, so the image itself is not announced a second time.
-              Reduced motion flattens the transition in app/globals.css. */}
-          <Wordmark
-            alt=""
-            priority
-            className={`transition-[height] duration-300 ${
-              scrolled || open ? "h-10 md:h-12" : "h-14 md:h-20"
-            }`}
-          />
+  return (
+    <header className="sticky top-0 z-50 border-b border-rule bg-ground/95 backdrop-blur supports-[backdrop-filter]:bg-ground/85">
+      <nav aria-label={t.mainNav} className="wrap flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
+        <Link href={pathOf("home", lang)} aria-label={`Revamp Motors, ${ROUTE_NAMES[lang].home}`} className="shrink-0">
+          <Logo alt="" priority className="h-7 sm:h-8 lg:h-9" />
         </Link>
 
-        <div className="hidden items-center gap-8 md:flex">
+        <ul className="hidden items-center gap-5 xl:gap-7 lg:flex">
           {LINKS.map((link) => {
-            // Matches /tesla/ and /en/tesla/ alike.
-            const current =
-              link.href.startsWith("/tesla") && /^\/(en\/)?tesla(\/|$)/.test(pathname ?? "");
+            const current = section === link.id;
             return (
-              <Link
-                key={link.key}
-                href={h(link.href)}
-                aria-current={current ? "page" : undefined}
-                className={`font-mono text-[0.7rem] uppercase tracking-label transition-colors hover:text-accent ${
-                  current ? "text-accent" : "text-graphite"
-                }`}
-              >
-                {t(c[link.key])}
-              </Link>
+              <li key={link.id}>
+                <Link
+                  href={pathOf(link.id, lang)}
+                  aria-current={current ? "page" : undefined}
+                  className={`inline-flex min-h-[44px] items-center text-step--1 font-medium transition-colors duration-1 hover:text-accent ${
+                    current ? "text-accent" : "text-ink"
+                  }`}
+                >
+                  {t.nav[link.key]}
+                </Link>
+              </li>
             );
           })}
+        </ul>
+
+        <div className="hidden items-center gap-2 lg:flex">
           <LanguageToggle />
-          <Link href={h("/#contact")} className="btn-accent">
-            {t(c.book)}
-          </Link>
+          <ThemeToggle />
+          <span className="ml-2">{cta}</span>
         </div>
 
-        <div className="flex items-center gap-5 md:hidden">
-          <LanguageToggle />
+        <div className="flex items-center gap-1 lg:hidden">
+          <ThemeToggle />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
-            aria-controls="mobile-nav"
-            className="font-mono text-[0.7rem] uppercase tracking-label text-ink"
+            aria-controls="mobile-menu"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded px-3 font-mono text-step--2 uppercase tracking-label text-ink"
           >
-            {open ? t(c.close) : t(c.menu)}
+            <span aria-hidden className="grid gap-1">
+              <span className={`block h-px w-4 bg-current transition-transform duration-2 ${open ? "translate-y-[2.5px] rotate-45" : ""}`} />
+              <span className={`block h-px w-4 bg-current transition-transform duration-2 ${open ? "-translate-y-[2.5px] -rotate-45" : ""}`} />
+            </span>
+            {open ? t.close : t.menu}
           </button>
         </div>
       </nav>
 
-      <div
-        id="mobile-nav"
-        hidden={!open}
-        className="border-t border-rule bg-paper px-6 pb-7 pt-2 md:hidden"
-      >
-        <ul>
-          {LINKS.map((link) => (
-            <li key={link.key} className="border-b border-rule/70">
-              <Link
-                href={h(link.href)}
-                onClick={() => setOpen(false)}
-                className="block py-4 font-display text-[1.5rem] tracking-[-0.01em]"
-              >
-                {t(c[link.key])}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Link href={h("/#contact")} onClick={() => setOpen(false)} className="btn-accent mt-6">
-          {t(c.book)}
-        </Link>
+      <div id="mobile-menu" hidden={!open} className="border-t border-rule bg-ground lg:hidden">
+        <div className="wrap max-h-[calc(100svh-4rem)] overflow-y-auto pb-8 pt-2">
+          <ul>
+            {LINKS.map((link) => (
+              <li key={link.id} className="border-b border-rule">
+                <Link
+                  href={pathOf(link.id, lang)}
+                  aria-current={section === link.id ? "page" : undefined}
+                  className="flex min-h-[56px] items-center justify-between font-display text-step-2 font-bold aria-[current=page]:text-accent"
+                >
+                  {t.nav[link.key]}
+                  <span aria-hidden className="font-mono text-step--1 text-faint">
+                    /
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 flex items-center justify-between gap-4">
+            <LanguageToggle />
+            {cta}
+          </div>
+        </div>
       </div>
     </header>
   );

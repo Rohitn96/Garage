@@ -4,11 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "build": "next build && node scripts/postbuild.mjs",
+    "start": "npx --yes serve@14.2.4 out",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "deploy": "next build && wrangler deploy"
+    "test": "node --test \"tests/*.test.ts\"",
+    "wordcount": "node scripts/wordcount.ts",
+    "verify": "node scripts/verify.mjs",
+    "open-items": "node scripts/open-items.mjs",
+    "check": "npm run typecheck && npm run lint && npm test && npm run wordcount && npm run build && npm run verify",
+    "deploy": "npm run build && npm run verify && wrangler deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -23,11 +28,14 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.7",
     "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@types/three": "^0.185.4",
     "autoprefixer": "^10.5.4",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "15.5",
     "postcss": "^8.5.26",
     "tailwindcss": "^3.4.19",
     "typescript": "^5.9.3",

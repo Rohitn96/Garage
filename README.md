@@ -1,12 +1,12 @@
 # Revamp Motors
 
-Two-page site for **Revamp Motors** — an independent Tesla / EV specialist that also
+Two-page site for **Revamp Motors**, an independent Tesla / EV specialist that also
 does general repair, at Hall 3, Kytkintie 38, 00770 Helsinki (Tattarisuo). The hall
-number is part of the address everywhere it appears — the yard has several.
+number is part of the address everywhere it appears, the yard has several.
 
 Finnish at `/`, English at `/en/`. The site is **live and indexable**; the pre-launch
 copy and the `noindex` are gone. An opening date is published only if `OPENING_DATE` is
-set — see *Opening date* below.
+set, see *Opening date* below.
 
 ⚠️ **Every price on the site is still a placeholder.** See *Prices* below.
 
@@ -36,7 +36,7 @@ otherwise a second Worker is created.
 ## Stack
 
 Next.js 15 (App Router) · TypeScript · Tailwind · React Three Fiber · Framer Motion ·
-React Hook Form + Zod. Framer Motion drives every animation — no GSAP — with one
+React Hook Form + Zod. Framer Motion drives every animation, no GSAP, with one
 exception: the **above-the-fold hero entrances** are the CSS `.rise` class in
 [app/globals.css](app/globals.css). Framer writes `opacity:0` into the server HTML, which
 held the hero (the page's Largest Contentful Paint) invisible until hydration. See
@@ -70,14 +70,14 @@ returning Finnish visitor got a one-frame swap after mount. Three consequences, 
 are why it was rewritten:
 
 - a Finnish page could not be linked, shared or bookmarked as Finnish
-- search engines only ever saw the English copy — a customer searching
+- search engines only ever saw the English copy, a customer searching
   *"Tesla huolto Helsinki"* could not find the site at all
 - `<html lang>` was corrected by an effect, after the markup had claimed English
 
 For a garage in Helsinki the Finnish copy is the more commercially important of the
 two, so each language has its own root layout (`app/(fi)` serves `/`, `app/(en)` serves
 `/en/`), its own `<html lang>`, its own `<title>`/description, and the two are
-cross-declared with `hreflang` in both the page head and the sitemap — that is what
+cross-declared with `hreflang` in both the page head and the sitemap, that is what
 stops them competing with each other in the index.
 
 There is deliberately no `setLang`. The EN/FI control is a pair of links, because
@@ -87,13 +87,13 @@ would throw away everything above.
 Page bodies live in [components/pages/](components/pages/) and are rendered by all four
 routes, so there is one copy of the layout and only the language context and metadata
 differ. Every visible string is in [lib/content.ts](lib/content.ts) and
-[data/tesla.ts](data/tesla.ts) in both languages — including the skip link and the
+[data/tesla.ts](data/tesla.ts) in both languages, including the skip link and the
 metadata, which are the two that usually get missed.
 
 ## The car
 
 Procedurally built from boxes and cylinders in
-[components/car/carParts.ts](components/car/carParts.ts) — no external model, nothing
+[components/car/carParts.ts](components/car/carParts.ts), no external model, nothing
 to license.
 
 It is an **EV**: a skateboard battery pack spanning the wheelbase, two drive units on
@@ -108,7 +108,7 @@ drawn edge (drei `<Edges>`) so the mechanicals inside stay legible without takin
 shell off. Two things make that work, and both are easy to get wrong:
 
 - **`depthWrite={false}`** on the shell. A transparent surface that writes depth
-  occludes everything drawn after it regardless of its own opacity — with depth writing
+  occludes everything drawn after it regardless of its own opacity, with depth writing
   on, the near side of the body silently swallows half the car.
 - **`renderOrder`**. Transparent surfaces composite in draw order, so the shell must be
   drawn after every opaque part or it blends against whatever happened to be behind it
@@ -119,8 +119,8 @@ over the near one and the body turns milky.
 
 ### Geometry
 
-The body is a single extruded **silhouette** — drawn the way you would sketch a car in
-side view, wheel arches included — not a pile of primitives. Three passes over the
+The body is a single extruded **silhouette**, drawn the way you would sketch a car in
+side view, wheel arches included, not a pile of primitives. Three passes over the
 position buffer then turn that flat slab into a body:
 
 | pass | what it does |
@@ -139,7 +139,7 @@ The HV cable colour is not a styling choice: HV cable is orange by international
 convention so nobody grabs it by accident, and on a cutaway it is the most legible
 "this is an EV and working on it takes certification" signal available.
 
-Tyres are lathes, not cylinders — a cylinder has a hard 90° edge where tread meets
+Tyres are lathes, not cylinders, a cylinder has a hard 90° edge where tread meets
 sidewall, and the shoulder radius is exactly where the highlight sits. Rims, the battery
 pack, drive units, discs and calipers are each merged into one geometry, so four wheels
 are four draw calls rather than forty.
@@ -158,7 +158,7 @@ made the visitor read in two places at once and quietly became the thing they lo
 instead of the car.
 
 The label sits in the MARGIN, not floating beside the part. Offsetting it a fixed
-distance from the anchor was tried and it constantly landed on the bodywork — the part
+distance from the anchor was tried and it constantly landed on the bodywork, the part
 it points at is by definition in the middle of the car. Technical illustration settled
 this a century ago: labels go in the clear space at the edge of the plate and a leader
 crosses the drawing. So the label takes whichever margin the part is nearer, the text
@@ -173,13 +173,13 @@ changes.
 
 On a phone the label is placed by CSS beneath the stage and the leader runs down into
 it. A car is wide, and in portrait no camera distance both fills the screen and keeps
-the car whole — so the phone gets a landscape-ish stage of its own, and the line
+the car whole, so the phone gets a landscape-ish stage of its own, and the line
 crossing the boundary is what keeps picture and text one object.
 
 ### Interaction
 
-**One continuous scroll.** The track is measured per system — 80vh each on desktop,
-**107vh each on a phone** — and multiplied by however many systems `SERVICE_GROUPS`
+**One continuous scroll.** The track is measured per system, 80vh each on desktop,
+**107vh each on a phone**, and multiplied by however many systems `SERVICE_GROUPS`
 contains, so holding one back shortens the track instead of stretching the rest. With
 the climate system held back for licensing (`AC_LICENSED`, lib/business.ts) that is
 five systems: 400vh and 535vh. The car and the callout are driven by the same scroll
@@ -187,7 +187,7 @@ value.
 
 The phone gets MORE scroll per system than the desktop, which looks backwards and is
 not: the input differs, not the stage. At 73vh a system fitted inside a single thumb
-flick — a part could separate and close again between two frames of anyone's attention,
+flick, a part could separate and close again between two frames of anyone's attention,
 and systems read as skipped. A wheel has the opposite problem: it moves in ~100px steps,
 so 93vh was about nine clicks to get through one system and the section read as a page
 that would not let go. 107vh for a thumb, 80vh for a wheel.
@@ -198,17 +198,16 @@ the second. An earlier version turned 95 degrees in total, which meant every sys
 arrived at almost the same angle as the last and the only thing that ever moved was a
 part sliding out and back. Yaw plus a travelling eye line is what stops an exploded
 view reading as parts twitching in and out of a static picture. Within each system's slice `openness` ramps over the first 40%
-and then holds, so the scroll IS the movement — stop halfway and the part sits halfway
+and then holds, so the scroll IS the movement, stop halfway and the part sits halfway
 out. The whole car also yaws slowly across the entire track, which is what makes the
 systems read as one move instead of a series of events.
 
 Clicking was tried and removed: a click is more effort than a scroll for something you
 are reading top to bottom, and it meant the visitor had to decide what to open before
-they knew what was inside. The earlier 720vh version failed for the opposite reason —
-it was so long that scrolling to read pushed you off the thing you were reading.
+they knew what was inside. The earlier 720vh version failed for the opposite reason, it was so long that scrolling to read pushed you off the thing you were reading.
 
-Orientation is the system headings in the top-left corner — done ones marked, the current
-one in accent — plus a filling hairline at the foot of the stage. The list sits at
+Orientation is the system headings in the top-left corner, done ones marked, the current
+one in accent, plus a filling hairline at the foot of the stage. The list sits at
 `top-[6.5rem]` to clear the fixed nav, and left-margin callouts are floored below it so
 the two never collide.
 
@@ -223,7 +222,7 @@ Three things, in order of how much they cost:
   `RecalcStyleDuration` are now **0.00 ms/frame** (measured over a scripted scroll via
   CDP `Performance.getMetrics`); main-thread cost is 2.58 ms/frame.
 - **Sixty `useFrame` subscriptions.** Every part owned one. They are now a single loop
-  over flat arrays in `CarModel` — identical work per part, one subscriber.
+  over flat arrays in `CarModel`, identical work per part, one subscriber.
 - **`MeshPhysicalMaterial` on all sixty parts.** Clearcoat compiles a heavier fragment
   shader and only two parts have paint. The mechanicals use `MeshStandardMaterial`; the
   shell keeps physical. DPR is capped at 1.75 and ContactShadows dropped to 320px,
@@ -237,7 +236,7 @@ otherwise makes `damp` overshoot and the car snaps.
 
 `ax < width / 2` looks correct and is not. The battery pack's anchor is at the centre of
 the car, so it projects within a few pixels of the centre of the screen and the scroll
-yaw walks it back and forth across the line — the first system's label had two
+yaw walks it back and forth across the line, the first system's label had two
 positions. The anchor now has to pass 0.4 or 0.6 of the width before the label moves,
 and the choice resets only when the region does.
 
@@ -245,7 +244,7 @@ Because the visible content is scroll-dependent again, the full catalogue is als
 rendered `sr-only` in document order, and the stage is `aria-hidden`. Screen readers,
 crawlers and no-JS visitors get everything; nothing is announced twice.
 
-`prefers-reduced-motion` or fewer than 4 cores gets no canvas at all — see
+`prefers-reduced-motion` or fewer than 4 cores gets no canvas at all, see
 [lib/useMotionPreference.ts](lib/useMotionPreference.ts). The list beside the stage is
 the content and is complete on its own, which is why the old static SVG diagram
 (`ExplodedDiagram`) could be deleted rather than maintained as a second rendering.
@@ -258,7 +257,7 @@ the content and is complete on its own, which is why the old static SVG diagram
   which on a page this long is most of the visit.
 - **Procedural environment map.** drei's `preset="warehouse"` fetches an HDR from a CDN
   at runtime; `<Environment>` with `<Lightformer>` children bakes the same thing into a
-  128px cube map, rendered once. It matters — every material here is metal, and metal
+  128px cube map, rendered once. It matters, every material here is metal, and metal
   with nothing to reflect renders flat grey no matter how many lamps you point at it.
 - DPR capped at 1.5 on phones.
 
@@ -273,7 +272,7 @@ assembled car tight and then gives back more room than desktop does as a system 
 
 [data/tesla.ts](data/tesla.ts) declares which models each service applies to, and the
 picker in [components/tesla/ModelPicker.tsx](components/tesla/ModelPicker.tsx) filters
-the list to the selected letter — Model 3 and Y get control arms, S and X get air
+the list to the selected letter, Model 3 and Y get control arms, S and X get air
 suspension. The joke is why it is memorable; it earns its place because owners
 genuinely identify by letter, so four letters beat a dropdown.
 
@@ -291,8 +290,8 @@ winter" block went entirely; the FAQ is three questions, answered in a line each
 [components/Pricing.tsx](components/Pricing.tsx). The 3D explorer names services and
 prices none of them.
 
-Previously prices lived in two places with two shapes — unrendered `priceFrom` fields
-on the service catalogue, and a hardcoded five-row array inside the trust section — so
+Previously prices lived in two places with two shapes, unrendered `priceFrom` fields
+on the service catalogue, and a hardcoded five-row array inside the trust section, so
 the page quoted a Tesla package in one breath and listed twenty unpriced services in
 the next.
 
@@ -310,14 +309,14 @@ when there are real rates behind it.
 under them and must stay there.
 
 **Four of the five show today.** The AC service row is held back with the rest of the
-refrigerant work until the F-gas certificate is in hand — one switch, `AC_LICENSED` in
+refrigerant work until the F-gas certificate is in hand, one switch, `AC_LICENSED` in
 [lib/business.ts](lib/business.ts), controls it and every other mention of AC on the
 site. See *Air conditioning* below.
 
 ## Air conditioning
 
-**Hidden until licensed.** Opening a refrigerant circuit — car AC, and the heat pump
-that shares it on an EV — needs an F-gas qualification (Tukes kylmäainepätevyys). Until
+**Hidden until licensed.** Opening a refrigerant circuit, car AC, and the heat pump
+that shares it on an EV, needs an F-gas qualification (Tukes kylmäainepätevyys). Until
 the certificate is in hand the site does not offer that work anywhere, and that is
 enforced at the source rather than by editing copy page by page:
 
@@ -333,7 +332,7 @@ description.
 
 The explorer's track length is derived from `SERVICE_GROUPS.length`, so hiding a system
 shortens the scroll instead of stretching the ones that remain. The climate PARTS stay
-in the 3D car either way — they are part of the car; with no group pointing at them they
+in the 3D car either way, they are part of the car; with no group pointing at them they
 simply never separate out.
 
 ⚠️ The cabin-filter items live inside the climate group, so they are hidden with it even
@@ -343,11 +342,11 @@ rather than turning the flag on.
 ## Contact form
 
 Validated with a Zod schema in [lib/bookingSchema.ts](lib/bookingSchema.ts) and posted
-to Formspree — the site is a static export, so there is no server route. The endpoint id
+to Formspree, the site is a static export, so there is no server route. The endpoint id
 is public by design and ships in the HTML of every Formspree form;
 `NEXT_PUBLIC_FORMSPREE_ENDPOINT` overrides it for preview builds.
 
-The plate field became a free-text **vehicle** field ("Tesla Model 3, 2021 — or
+The plate field became a free-text **vehicle** field ("Tesla Model 3, 2021, or
 ABC-123"). Sending a pre-launch visitor off to find their registration is a barrier at
 exactly the wrong moment.
 
@@ -357,7 +356,7 @@ so test with `-H "Origin: https://revampmotors.fi"` or it will look broken when 
 ## Hero video
 
 `public/videos/hero.mp4` is the file that ships. The 4K master in the repo root is
-gitignored — **editing the master changes nothing until it is re-encoded**, which is how
+gitignored, **editing the master changes nothing until it is re-encoded**, which is how
 a new hero sat unused for a while.
 
 ```bash
@@ -373,7 +372,7 @@ Three decisions in that grade, all driven by the footage being a night street in
 - **saturation 0.30.** The source is heavily sodium-orange, which fights the mint accent.
   Pulled almost to monochrome it becomes atmosphere instead of a competing colour.
 - **CRF 27, not 32.** Dark gradients band badly; `gradfun` debands and the lower CRF
-  stops the fog turning into steps. It still lands at ~600 kB for 20s — dark footage
+  stops the fog turning into steps. It still lands at ~600 kB for 20s, dark footage
   compresses well.
 - **No luma pull.** The old encode darkened the footage because the source was bright.
   This one is already dark, so the scrims in `VideoBackdrop` came down instead
@@ -400,7 +399,7 @@ state shifts the page, and `prefers-reduced-motion` flattens the transition thro
 blanket rule in [app/globals.css](app/globals.css).
 
 The share card draws the same file, inlined as a data URI at build time
-([lib/ogImage.tsx](lib/ogImage.tsx)) — the renderer has no origin to fetch a relative
+([lib/ogImage.tsx](lib/ogImage.tsx)), the renderer has no origin to fetch a relative
 path from, and reading the same asset means the card cannot show an older mark than
 the page does.
 
@@ -453,14 +452,14 @@ config, `lib/ogImage.tsx` (the share card renders its own copy), the scrim gradi
 in both root layouts.
 
 Rules are structure, not decoration, so they sit barely above the ground. In the 3D
-scene that discipline is load-bearing — every mechanical part is steel or graphite, so
+scene that discipline is load-bearing, every mechanical part is steel or graphite, so
 the accent *is* the selection indicator.
 
 Instrument Serif for display, IBM Plex Sans for text, IBM Plex Mono for labels and
 numbers. Strict grid, hairline rules, numbered sections, no gradients.
 
 **No italics anywhere.** The accent used to be a mint italic against upright ink, which
-put two type styles in every headline. The accent is now colour alone, one style — so
+put two type styles in every headline. The accent is now colour alone, one style, so
 the italic face is no longer downloaded either.
 
 ## Copy: no em dashes
@@ -475,9 +474,9 @@ the share card already use (`Revamp Motors · autokorjaamo Helsingissä`), inclu
 `%s · Revamp Motors` title template in `BASE_METADATA`.
 
 En dashes survive in number ranges, where they are the correct character and read as
-"to": `290–330 €`, `20–35 %`, `3–12 tunnin`, `joulu–helmikuussa`.
+"to": `290 to 330 €`, `20 to 35 %`, `3 to 12 tunnin`, `joulu to helmikuussa`.
 
-Check with `grep -o '—' out/**/*.html | wc -l` after a build. It should print 0.
+Check with `grep -o ', ' out/**/*.html | wc -l` after a build. It should print 0.
 
 ## Business facts
 
@@ -495,9 +494,7 @@ pre-launch it was null for exactly that reason: an invented number in markup is 
 than none, because Google publishes it.
 
 **WhatsApp only, for now.** The number is shown, but nothing on the page invites a
-call: there is no "call us" and no `tel:` link, and both places that carry the number —
-the contact section and the footer row, which is labelled WhatsApp rather than Phone —
-open a chat instead. `WHATSAPP_URL` is derived from `phone` rather than stored, since
+call: there is no "call us" and no `tel:` link, and both places that carry the number, the contact section and the footer row, which is labelled WhatsApp rather than Phone, open a chat instead. `WHATSAPP_URL` is derived from `phone` rather than stored, since
 wa.me wants the same digits with the punctuation taken out, so the two cannot drift
 apart. The structured data still declares `telephone`, which is the number's honest
 description; pull it if calls should not be offered there either.
@@ -516,7 +513,7 @@ road, so an address a visitor has to retype is a worse answer than a link.
 `AutoRepair`: name, address, email, image, area served, price range, business ID. It tells
 a crawler the site and the business are one entity.
 
-It does **not** put the shop in the map pack — that comes from a Google Business
+It does **not** put the shop in the map pack, that comes from a Google Business
 Profile, never from markup. `hasMap` carries the shop's Maps URL, which ties the markup
 to that pin; add the shop's own social profiles as `sameAs` when there are any, since
 that is what separates this shop from the unrelated Revamp Motors Ltd in Birmingham,
@@ -524,19 +521,19 @@ which currently owns searches for the name.
 
 Omitted on purpose, because Google will publish whatever is there: `telephone`,
 `openingHoursSpecification` (no hours agreed yet) and `geo` (derived from the postal
-address anyway). Nothing in it is Tesla-owned — the footer disclaims affiliation in
+address anyway). Nothing in it is Tesla-owned, the footer disclaims affiliation in
 words and the metadata must not contradict that.
 
 ## Analytics
 
 [lib/site.ts](lib/site.ts) carries `CF_BEACON_TOKEN`, the Cloudflare Web Analytics site
-token. **Until it is set, the Cloudflare dashboard shows no visits from anywhere** — Web
+token. **Until it is set, the Cloudflare dashboard shows no visits from anywhere**, Web
 Analytics is a real-user beacon, and there was no beacon on the page. Paste the token
 from Cloudflare → Analytics & Logs → Web Analytics, or set
 `NEXT_PUBLIC_CF_BEACON_TOKEN` in the Cloudflare **build** settings (a static export
 inlines env vars at build time, so setting it anywhere else does nothing).
 
-The server-side view — requests and countries, no beacon needed — is a different screen:
+The server-side view, requests and countries, no beacon needed, is a different screen:
 the zone's Analytics & Logs → Traffic. Note that static-asset requests do not invoke
 Worker code, so the Worker's own Metrics tab is not where this traffic shows up.
 
@@ -553,15 +550,15 @@ trading version. It is the only place a date is written.
 ## Known placeholders
 
 - **Phone is `[Phone TBA]`.** Address, email and company ID are real. A live garage
-  with no number loses calls, and Google Business Profile wants one — this is the most
+  with no number loses calls, and Google Business Profile wants one, this is the most
   valuable placeholder left.
 - **No opening hours anywhere.** Add them to `business.ts` and the structured data
   together when they are set.
-- Prices — see above.
+- Prices, see above.
 - The seniority claim in [components/Why.tsx](components/Why.tsx) is unquantified
   because no credentials, dates or headcount have been supplied.
 - **No opening date is published.** Set `OPENING_DATE` in `lib/business.ts` (see above).
-- `SITE_URL` in [lib/site.ts](lib/site.ts) is `https://revampmotors.fi` — change it if
+- `SITE_URL` in [lib/site.ts](lib/site.ts) is `https://revampmotors.fi`, change it if
   the domain differs, since robots.txt, the sitemap and every canonical URL derive from it.
 
 ## Indexing
@@ -589,7 +586,7 @@ Measured with Lighthouse (mobile, 3 runs each, same local server) on `/fi/`:
 What changed, and why each one matters:
 
 - **Nothing ships invisible.** Framer's `initial={{ opacity: 0 }}` is serialised into the
-  HTML, so all 25 text blocks were transparent until hydration — to link previews, to
+  HTML, so all 25 text blocks were transparent until hydration, to link previews, to
   crawlers that do not run JS, and as the LCP. The hero now uses CSS `.rise`, and
   [Reveal](components/Reveal.tsx) renders visible and hides a block only if it starts
   below the fold (decided in a layout effect, before paint).
@@ -599,9 +596,9 @@ What changed, and why each one matters:
 - **Below-fold posters are `loading="lazy"`**, which stops React emitting a preload for them.
 - **Share cards**: `/og.png` and `/fi/og.png`, rendered at build from `lib/content.ts` by
   [lib/ogImage.tsx](lib/ogImage.tsx) with the site's own fonts (in `assets/og`). Route
-  handlers, not `opengraph-image.tsx` — inside route groups that convention exports a
+  handlers, not `opengraph-image.tsx`, inside route groups that convention exports a
   file with no extension, and the Tesla pages' own `openGraph` dropped the inherited image.
-- **Titles** get a `%s — Revamp Motors` template; titles already naming the brand are
+- **Titles** get a `%s, Revamp Motors` template; titles already naming the brand are
   used as-is.
 - **Sitemap** has no `lastmod`. It was `new Date()`, i.e. "everything changed" on every
   deploy, which teaches Google to ignore the field.
@@ -622,5 +619,5 @@ and build again. OneDrive's placeholder files break Next's cache on repeat build
 ## Note on TypeScript
 
 Pinned to `typescript@5`. TypeScript 7 (the native port) installs by default from
-`typescript@latest` and Next 15.5 cannot read `tsconfig.json` through its API — the
+`typescript@latest` and Next 15.5 cannot read `tsconfig.json` through its API, the
 `@/*` path alias silently stops resolving and `next-env.d.ts` is never generated.

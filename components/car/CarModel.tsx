@@ -40,11 +40,11 @@ import type { CarRegionId } from "@/data/services";
  *
  * Two things make this work and both are easy to get wrong:
  *
- *   depthWrite={false} — a transparent surface that writes depth occludes
+ *   depthWrite={false}, a transparent surface that writes depth occludes
  *   whatever is drawn after it, regardless of its own opacity. With depth
  *   writing on, the near flank silently swallows half the car.
  *
- *   renderOrder — transparent surfaces composite in draw order, so the shell has
+ *   renderOrder, transparent surfaces composite in draw order, so the shell has
  *   to be drawn AFTER every opaque part. Without it the shell blends against
  *   whatever happened to be behind it, and parts flicker as the car turns.
  *
@@ -112,7 +112,7 @@ export function CarModel({
    * closures invoked per frame, each with its own scope and its own damp calls,
    * and R3F walking its subscriber list sixty times. Consolidating to ONE loop
    * over flat arrays is the single biggest per-frame saving in the scene, and
-   * it costs nothing in readability — the work per part is identical.
+   * it costs nothing in readability, the work per part is identical.
    */
   const spread = useRef<Float32Array>(new Float32Array(CAR_PARTS.length));
   const glow = useRef<Float32Array>(new Float32Array(CAR_PARTS.length));
@@ -153,7 +153,7 @@ export function CarModel({
       const focused = !isShell && activeRegion !== null && activeRegion === part.region;
 
       // The system on screen separates by exactly as much as the scroll has
-      // travelled through its own stretch of the track — so the movement IS the
+      // travelled through its own stretch of the track, so the movement IS the
       // scroll, not an animation the scroll happens to trigger.
       spread.current[i] = MathUtils.damp(spread.current[i], focused ? open : 0, 9, dt);
       glow.current[i] = MathUtils.damp(glow.current[i], focused ? 1 : 0, 6, dt);

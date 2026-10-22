@@ -1,125 +1,56 @@
-/**
- * The canonical business facts, in one place.
- *
- * The footer used to hardcode the address as a literal and nothing else knew it.
- * Now the footer, the structured data and anything added later read the same
- * object, so there is exactly one line to change when the phone number lands.
- *
- * Everything here is VERIFIED, not placeholder: the company ID resolves against
- * the PRH open-data register to Revamp Motors, osakeyhtiö, registered
- * 2026-08-31. `phone` was null through pre-launch for the same reason: an
- * invented phone number in structured data is worse than no phone number,
- * because Google will publish whatever is here. Setting it back to null hides
- * it again everywhere, footer and schema both.
- */
-export const BUSINESS = {
-  name: "Revamp Motors",
-  street: "Kytkintie 38",
-  /**
-   * The unit on the site. Kytkintie 38 is a yard of several halls, so the hall
-   * number is the difference between a customer finding the door and driving
-   * around the block — it leads the address line rather than trailing it.
-   * Localised because it is a word, not a number: a Finnish visitor is looking
-   * for a sign that says HALLI.
-   */
-  unit: { en: "Hall 3", fi: "Halli 3" },
-  postalCode: "00770",
-  city: "Helsinki",
-  /** The industrial district; the local name people actually navigate by. */
-  district: "Tattarisuo",
-  country: "FI",
-  email: "revampmotors1@gmail.com",
-  companyId: "3651428-1",
-  /** Registration date, per PRH. Not the opening date. */
-  founded: "2026-08-31",
-  /**
-   * E.164, which is the form `tel:` links and schema.org want. Null hides the
-   * phone from the footer and from the structured data in one edit.
-   */
-  phone: "+358458656683" as string | null,
-  /** The same number grouped for reading. Never used as an href. */
-  phoneDisplay: "+358 45 865 6683",
-  /**
-   * The shop's pin. Tattarisuo is a yard of identical halls off a service road,
-   * so an address a visitor has to retype into their own maps app is a worse
-   * answer than a link that opens it on the right door.
-   */
-  mapsUrl: "https://maps.app.goo.gl/ymn8vnducX7tqAai7",
-} as const;
+import { SITE, type Lang } from "@/site.config";
+import { UI } from "@/content/ui";
 
-/**
- * Whether the shop may advertise refrigerant work: air conditioning, and the
- * heat pump that shares its circuit on an EV.
- *
- * Opening a refrigerant circuit needs an F-gas qualification (Tukes
- * kylmäainepätevyys) and the certificate is not in hand yet. Advertising a job
- * you are not licensed to do is not a copy problem, so it is switched off at
- * the source rather than edited out page by page.
- *
- * ONE LINE BRINGS IT BACK. Set this to true and the work reappears everywhere
- * it belongs:
- *   - the "Heat pump & climate" system in the home page car explorer
- *   - the AC service row in the price list
- *   - the same group on the Tesla page
- *   - "AC" / "ilmastointi" in the two-doors copy (lib/content.ts) and "heat
- *     pump" in the Tesla page's meta description (components/RootShell.tsx)
- *
- * The climate parts stay in the 3D car either way — they are part of the car.
- * With no group pointing at them they simply never separate out.
- */
-export const AC_LICENSED = false;
+/** Derived business facts. The facts themselves live in site.config.ts. */
 
-/**
- * The day the shop opens, as an ISO date — or null once it is simply trading.
- *
- * ONE LINE CHANGES THE WHOLE SITE. Set it and the hero eyebrow and the footer
- * both announce the date, in Finnish and in English; set it back to null on
- * opening day and every one of those lines quietly becomes the plain
- * "we are here, book a slot" version. Nothing else has to be edited, which is
- * the point: the old copy said "the first week of October" in five places and
- * in two languages.
- */
-export const OPENING_DATE: string | null = null;
+export const BUSINESS = SITE.business;
 
-/**
- * "Avaamme 6. lokakuuta" / "Opening 6 October", or null when there is no date.
- *
- * Formatted in UTC on purpose: a date-only string parsed in a local timezone
- * behind UTC lands on the previous day, which would advertise the wrong one.
- */
-export function openingNote(lang: "en" | "fi"): string | null {
-  if (!OPENING_DATE) return null;
-  const when = new Date(`${OPENING_DATE}T12:00:00Z`);
-  if (Number.isNaN(when.getTime())) return null;
-  const day = new Intl.DateTimeFormat(lang === "fi" ? "fi-FI" : "en-GB", {
-    day: "numeric",
-    month: "long",
-    timeZone: "UTC",
-  }).format(when);
-  return lang === "fi" ? `Avaamme ${day}` : `Opening ${day}`;
+/** "Halli 3, Kytkintie 38, 00770 Helsinki" */
+export function addressLine(lang: Lang): string {
+  const b = SITE.business;
+  return `${b.unit[lang]}, ${b.street}, ${b.postalCode} ${b.city}`;
 }
 
-/** One-line postal address, as it should read on screen, in one language. */
-export function addressLine(lang: "en" | "fi"): string {
-  return `${BUSINESS.unit[lang]}, ${BUSINESS.street}, ${BUSINESS.postalCode} ${BUSINESS.city}`;
+export function streetAddress(lang: Lang): string {
+  return `${SITE.business.unit[lang]}, ${SITE.business.street}`;
 }
 
-/** Street and unit only — the `streetAddress` half of a postal address. */
-export function streetAddress(lang: "en" | "fi"): string {
-  return `${BUSINESS.unit[lang]}, ${BUSINESS.street}`;
+export const TEL_HREF = `tel:${SITE.business.phone}`;
+
+/** wa.me wants bare digits: the phone with the punctuation taken out. */
+export const WHATSAPP_URL = `https://wa.me/${SITE.business.phone.replace(/\D/g, "")}`;
+
+/** "9.00" from "09:00". */
+function clock(value: string, lang: Lang): string {
+  const [h, m] = value.split(":");
+  return lang === "fi" ? `${Number(h)}.${m}` : `${Number(h)}:${m}`;
 }
+
+function span(range: { opens: string; closes: string }, lang: Lang): string {
+  return lang === "fi"
+    ? `klo ${clock(range.opens, lang)} alkaen, ${clock(range.closes, lang)} asti`
+    : `${clock(range.opens, lang)} to ${clock(range.closes, lang)}`;
+}
+
+export type HoursRow = { label: string; value: string };
 
 /**
- * The shop's WhatsApp, which is the same line as the phone.
- *
- * Derived rather than stored, so the number cannot end up right in one place
- * and wrong in the other: wa.me wants bare digits with no plus and no spaces,
- * which is exactly `phone` with the punctuation taken out. Null when there is
- * no number, and every WhatsApp link on the site disappears with it.
- *
- * No prefilled `?text=`: it would have to be written in two languages, and a
- * message the shop did not write is worse than an empty thread.
+ * Opening hours as display rows. Weekend times appear only once they are set
+ * in site.config.ts; until then the weekend row says what is known.
  */
-export const WHATSAPP_URL: string | null = BUSINESS.phone
-  ? `https://wa.me/${BUSINESS.phone.replace(/\D/g, "")}`
-  : null;
+export function hoursRows(lang: Lang): { rows: HoursRow[]; note: string } {
+  const t = UI[lang].hours;
+  const { saturday, sunday } = SITE.hours.weekend;
+  const rows: HoursRow[] = [{ label: t.weekdays, value: t.weekdaysValue }];
+
+  if (saturday || sunday) {
+    rows.push({ label: t.saturday, value: saturday ? span(saturday, lang) : "" });
+    rows.push({ label: t.sunday, value: sunday ? span(sunday, lang) : "" });
+  } else {
+    rows.push({ label: t.weekend, value: `${t.weekendFullDays}. ${t.weekendTbc}.` });
+  }
+
+  const req = SITE.hours.weekendAppointmentRequired;
+  const note = req === true ? t.appointmentRequired : req === false ? t.dropInOk : t.bookAhead;
+  return { rows: rows.filter((row) => row.value), note };
+}

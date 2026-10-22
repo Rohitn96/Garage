@@ -2,53 +2,43 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { swapLangHref, useLang, type Lang } from "@/lib/i18n";
+import { useLang } from "@/lib/i18n";
+import { alternatePath } from "@/lib/routes";
+import { UI } from "@/content/ui";
+import type { Lang } from "@/site.config";
 
-const OPTIONS: Array<{ code: Lang; label: string; aria: string }> = [
-  { code: "en", label: "EN", aria: "In English" },
-  { code: "fi", label: "FI", aria: "Suomeksi" },
-];
+const OPTIONS: Lang[] = ["fi", "en"];
 
 /**
- * EN / FI switch.
- *
- * Links, not buttons. Language is a route now, so switching it is navigation —
- * and that is the whole point: the Finnish page has an address, so it can be
- * linked, shared, bookmarked and indexed. A control that swapped state without
- * changing the URL would quietly undo all of that.
- *
- * Both options are always rendered rather than showing only the inactive one, so
- * the current language is stated rather than implied — a lone "FI" is ambiguous
- * about whether it is what you are reading or what you would switch to.
- *
- * `hrefLang` tells a crawler these point at translations of each other, which is
- * the same claim the `alternates.languages` metadata makes in the head.
+ * FI / EN. Links, not buttons: each language is its own URL, and the registry
+ * maps this page to its translation even though the slugs differ.
  */
 export function LanguageToggle({ className = "" }: { className?: string }) {
-  const { lang } = useLang();
+  const lang = useLang();
   const pathname = usePathname() ?? "/";
 
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
-      {OPTIONS.map((option, i) => {
-        const current = lang === option.code;
+    <div className={`flex items-center font-mono text-step--2 uppercase tracking-label ${className}`}>
+      {OPTIONS.map((code, i) => {
+        const current = code === lang;
         return (
-          <span key={option.code} className="flex items-center gap-2">
+          <span key={code} className="flex items-center">
             {i > 0 && (
-              <span aria-hidden className="text-graphite/50">
+              <span aria-hidden className="px-1 text-faint">
                 /
               </span>
             )}
             <Link
-              href={swapLangHref(pathname, option.code)}
-              hrefLang={option.code}
-              aria-label={option.aria}
+              href={alternatePath(pathname, code)}
+              hrefLang={code}
+              lang={code}
+              aria-label={UI[code].lang[code]}
               aria-current={current ? "page" : undefined}
-              className={`font-mono text-[0.68rem] uppercase tracking-label transition-colors ${
-                current ? "text-accent" : "text-graphite hover:text-ink"
+              className={`inline-flex min-h-[44px] items-center px-1.5 transition-colors duration-1 ${
+                current ? "text-accent" : "text-muted hover:text-ink"
               }`}
             >
-              {option.label}
+              {code.toUpperCase()}
             </Link>
           </span>
         );

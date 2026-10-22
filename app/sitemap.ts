@@ -1,36 +1,24 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE } from "@/site.config";
+import { ROUTES, ROUTE_IDS } from "@/lib/routes";
 
 /**
- * Emitted as a static /sitemap.xml at build time.
- *
- * Every page is listed in both languages — Finnish at the root, English under
- * /en/ — and each entry declares the other via `alternates.languages`. That is
- * what stops the two trees competing in the index: without it Google sees four
- * URLs and has to guess which are translations and which are duplicates.
+ * Static /sitemap.xml generated from the route registry, so it lists exactly
+ * the pages that exist: every page in Finnish and English, each declaring both
+ * languages and x-default (Finnish). No lastmod: a build date is not a content
+ * change, and an unreliable lastmod teaches Google to ignore it.
  */
 export const dynamic = "force-static";
 
-const PATHS = [
-  { path: "/", priority: 1 },
-  { path: "/tesla/", priority: 0.9 },
-];
-
-/*
- * No `lastModified`. It used to be `new Date()`, which stamped every URL as
- * changed on every deploy — Google checks lastmod against the page, finds it
- * unreliable, and then ignores it for the whole site. Leaving it out is honest;
- * add a real per-page date only if one is tracked.
- */
 export default function sitemap(): MetadataRoute.Sitemap {
-  return PATHS.flatMap(({ path, priority }) => {
-    const fi = `${SITE_URL}${path}`;
-    const en = `${SITE_URL}/en${path}`;
+  return ROUTE_IDS.flatMap((id) => {
+    const route = ROUTES[id];
+    const fi = `${SITE.url}${route.fi}`;
+    const en = `${SITE.url}${route.en}`;
     const languages = { fi, en, "x-default": fi };
-
     return [
-      { url: fi, changeFrequency: "monthly" as const, priority, alternates: { languages } },
-      { url: en, changeFrequency: "monthly" as const, priority, alternates: { languages } },
+      { url: fi, changeFrequency: "monthly" as const, priority: route.priority, alternates: { languages } },
+      { url: en, changeFrequency: "monthly" as const, priority: route.priority, alternates: { languages } },
     ];
   });
 }

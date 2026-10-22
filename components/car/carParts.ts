@@ -6,7 +6,7 @@ import { CAR } from "./evGeometry";
  * travels when its system opens up.
  *
  * Geometry lives in evGeometry.ts. `geo` names a builder there, which is called
- * once and shared — the four wheels are one tyre geometry used four times, not
+ * once and shared, the four wheels are one tyre geometry used four times, not
  * four tyres.
  *
  * TWO LAYERS
@@ -59,7 +59,7 @@ export type CarPart = {
   /** Automotive lacquer. Cheap, and most of why paint looks like paint. */
   clearcoat?: number;
   /**
-   * Self-lit parts. Defaults to BLACK, deliberately — an earlier version
+   * Self-lit parts. Defaults to BLACK, deliberately, an earlier version
    * defaulted every part to a mint emissive, which was invisible on aluminium
    * and turned the tyres bright green, because rubber's albedo is no larger
    * than the glow was. Only lamps opt in.

@@ -29,8 +29,7 @@ const RIGHT_MARGIN_FLOOR = 104;
  * A plain `ax < width / 2` looks correct and is not: the battery pack's anchor
  * sits at the centre of the car, so it projects within a few pixels of the
  * centre of the screen, and the slow scroll yaw walks it back and forth across
- * the line. The label flipped between margins repeatedly on the first system —
- * one part with two positions.
+ * the line. The label flipped between margins repeatedly on the first system,  * one part with two positions.
  *
  * The anchor now has to travel well past centre before the label moves, and the
  * choice resets only when the region does.
@@ -44,7 +43,7 @@ const FLIP_TO_RIGHT = 0.6;
  * Nothing here goes through React. Every frame this projects the anchor mesh's
  * world position to screen pixels and writes `transform` and a path `d`
  * straight to the DOM, so a label that tracks a moving part at 60fps costs no
- * re-renders at all. React runs only when the region changes — once per system
+ * re-renders at all. React runs only when the region changes, once per system
  * the whole section.
  */
 export function CalloutTracker({
