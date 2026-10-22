@@ -1,6 +1,6 @@
 # Revamp Motors
 
-Website for Revamp Motors, an independent Tesla and EV specialist garage in Tattarisuo, Helsinki (Halli 3, Kytkintie 38, 00770). Finnish at the root, English under `/en/`. Static export served by Cloudflare.
+Website for Revamp Motors, an independent Tesla and EV specialist garage in Tattarisuo, Helsinki (Halli 3, Kytkintie 38, 00770). English at the root, Finnish under `/fi/`. Static export served by Cloudflare.
 
 ## Commands
 
@@ -29,7 +29,7 @@ lib/schema.ts         JSON-LD: AutoRepair, Service, Offer, FAQPage, BreadcrumbLi
 content/*.ts          all copy, Finnish and English, as typed objects
 components/pages/     page templates; render.tsx maps a route id to a template and its metadata
 components/blocks/    shared sections: hero, CTA panel, FAQ, prose, cards, gated slots
-app/(fi), app/(en)/en two root layouts (one per language) with catch-all routes
+app/(en), app/(fi)/fi  two root layouts (one per language) with catch-all routes
 app/globals.css       design tokens (colour, type scale, spacing, radius, motion), dark and light
 docs/                 redesign plan, open items, Google Business Profile checklist
 ```
@@ -50,7 +50,7 @@ The sitemap, hreflang, breadcrumbs, redirects and headers follow automatically.
 
 ## Business facts and placeholders
 
-`site.config.ts` holds every fact the site states. Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
+`site.config.ts` holds every fact the site states, including the confirmed free diagnosis scope (digital analysis report, visual inspection, test drive; Tesla only). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
 
 ## Launch offer (free Tesla diagnosis until 31.12.2026)
 
@@ -77,15 +77,15 @@ Light and dark, following the operating system on the first visit; the toggle in
 
 ## Contact form
 
-`components/BookingForm.tsx` posts JSON to Formspree (`formEndpoint` in `site.config.ts`, or `NEXT_PUBLIC_FORMSPREE_ENDPOINT`). Two paths: diagnosis (Tesla models only) and quote (any vehicle). Spam protection: a honeypot field (`_gotcha`) and a minimum fill time; bots get a fake success. Formspree rejects requests without an `Origin` header, so test with a browser, not bare curl.
+`components/BookingForm.tsx` validates with react-hook-form's built-in rules (no schema library) and posts JSON to Formspree (`formEndpoint` in `site.config.ts`, or `NEXT_PUBLIC_FORMSPREE_ENDPOINT`). Two paths: diagnosis (Tesla models only) and quote (any vehicle). Spam protection: a honeypot field (`_gotcha`) and a minimum fill time; bots get a fake success. Formspree rejects requests without an `Origin` header, so test with a browser, not bare curl.
 
 ## SEO
 
 - Unique title, description, canonical, Open Graph and Twitter tags per page and language.
-- hreflang `fi`, `en` and `x-default` (Finnish) on every page; `npm run verify` checks symmetry.
+- hreflang `en`, `fi` and `x-default` (English) on every page; `npm run verify` checks symmetry.
 - `sitemap.xml` and `robots.txt` are generated from `lib/routes.ts`.
 - Structured data: AutoRepair on every page; Service on service, model and report pages; FAQPage where FAQs are shown; BreadcrumbList; BlogPosting on articles; Offer (no price, `validThrough` 2026-12-31) on the offer page.
-- Old URLs: `/fi/...` redirects stay. `#pricing`, `#hinnasto` and `#contact` anchors are sent to the contact page by the head script (fragments never reach the server). Every page also gets a 301 from its slashless URL.
+- Old URLs: the previous site had English under `/en/`; `/en/...` now 301s to the same path at the root. `#pricing`, `#hinnasto` and `#contact` anchors are sent to the contact page by the head script (fragments never reach the server). Every page also gets a 301 from its slashless URL.
 
 ## Deploying to Cloudflare
 

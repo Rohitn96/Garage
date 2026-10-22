@@ -35,7 +35,7 @@ Branch: `redesign/tesla-ev-restructure`. Nothing is pushed to `main` and nothing
 
 ## 2. New site map
 
-Finnish at the root, English under `/en/` with translated slugs (English slugs read better in English results and in shared links; a central route registry maps each page to both paths, so the language switch and hreflang stay exact).
+**Update:** English is now the primary language at the root and Finnish lives under `/fi/` (so every Finnish path below gains a `/fi` prefix and the English ones lose `/en`). Originally: Finnish at the root, English under `/en/` with translated slugs (English slugs read better in English results and in shared links; a central route registry maps each page to both paths, so the language switch and hreflang stay exact).
 
 | Page | Finnish | English |
 |---|---|---|

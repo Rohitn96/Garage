@@ -3,8 +3,6 @@ import { UI } from "@/content/ui";
 
 /** Derived business facts. The facts themselves live in site.config.ts. */
 
-export const BUSINESS = SITE.business;
-
 /** "Halli 3, Kytkintie 38, 00770 Helsinki" */
 export function addressLine(lang: Lang): string {
   const b = SITE.business;

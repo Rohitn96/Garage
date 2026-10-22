@@ -103,8 +103,6 @@ export const UI = {
       tag: "Avajaistarjous",
       banner: "Ilmainen diagnostiikka Teslalle 31.12.2026 asti. Ei sitoumusta.",
       more: "Tarjouksen ehdot",
-      badge: "Ilmainen 31.12.2026 asti",
-      ended: "Avajaistarjous päättyi 31.12.2026.",
     },
     hours: {
       title: "Aukiolo",
@@ -135,7 +133,6 @@ export const UI = {
     breadcrumb: "Murupolku",
     related: "Liittyvät sivut",
     faqTitle: "Usein kysyttyä",
-    readMore: "Lue lisää",
     minutes: "min lukuaika",
     published: "Julkaistu",
     sections: {
@@ -155,7 +152,6 @@ export const UI = {
       exploreHint: "Vieritä, niin auto avautuu",
       blogTitle: "Blogi",
       blogLead: "Käytännön tietoa Teslan ja sähköauton huollosta Suomen oloissa. Ei mainospuhetta, ei keksittyjä lukuja.",
-      sample: "Esimerkki",
     },
   },
   en: {
@@ -186,8 +182,6 @@ export const UI = {
       tag: "Launch offer",
       banner: "Free diagnosis for Tesla until 31 December 2026. No obligation.",
       more: "Offer details",
-      badge: "Free until 31.12.2026",
-      ended: "The launch offer ended on 31 December 2026.",
     },
     hours: {
       title: "Opening hours",
@@ -218,7 +212,6 @@ export const UI = {
     breadcrumb: "Breadcrumb",
     related: "Related pages",
     faqTitle: "Frequently asked",
-    readMore: "Read more",
     minutes: "min read",
     published: "Published",
     sections: {
@@ -238,9 +231,7 @@ export const UI = {
       exploreHint: "Scroll to open the car",
       blogTitle: "Blog",
       blogLead: "Practical information on Tesla and EV servicing in Finnish conditions. No sales talk, no invented numbers.",
-      sample: "Sample",
     },
   },
 } satisfies Record<Lang, unknown>;
 
-export type UiStrings = (typeof UI)["fi"];

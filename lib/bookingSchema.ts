@@ -1,4 +1,4 @@
-import { z } from "zod";
+import type { RegisterOptions } from "react-hook-form";
 import type { Lang } from "@/site.config";
 
 export const VEHICLES = ["model-3", "model-y", "model-s", "model-x", "other-ev", "other"] as const;
@@ -118,38 +118,59 @@ export const FORM_TEXT = {
 
 const THIS_YEAR = new Date().getFullYear();
 
-/** Built per language so the messages match the page. */
-export function makeBookingSchema(lang: Lang, path: "diagnosis" | "quote") {
-  const e = FORM_TEXT[lang].errors;
-  return z
-    .object({
-      vehicle: z.enum(VEHICLES, { message: e.vehicle }),
-      year: z
-        .string()
-        .trim()
-        .regex(/^(19|20)\d{2}$/, e.year)
-        .refine((v) => Number(v) <= THIS_YEAR + 1, e.year),
-      reg: z
-        .string()
-        .trim()
-        .max(12, e.reg)
-        .regex(/^[A-Za-zÅÄÖåäö0-9 -]*$/, e.reg),
-      message: z.string().trim().min(10, e.message).max(2000, e.tooLong),
-      timing: z.enum(TIMINGS, { message: e.timing }),
-      name: z.string().trim().min(2, e.name).max(80, e.tooLong),
-      phone: z
-        .string()
-        .trim()
-        .min(6, e.phone)
-        .max(28, e.tooLong)
-        .regex(/^[+0-9][0-9\s().-]*$/, e.phoneFormat),
-      email: z.email(e.email).max(120, e.tooLong),
-      consent: z.literal(true, { message: e.consent }),
-    })
-    .refine((v) => path !== "diagnosis" || TESLA_VEHICLES.includes(v.vehicle), {
-      path: ["vehicle"],
-      message: FORM_TEXT[lang].teslaOnly,
-    });
-}
+export type BookingRequest = {
+  vehicle: Vehicle;
+  year: string;
+  reg: string;
+  message: string;
+  timing: Timing;
+  name: string;
+  phone: string;
+  email: string;
+  consent: boolean;
+};
 
-export type BookingRequest = z.infer<ReturnType<typeof makeBookingSchema>>;
+type Rules = { [K in keyof BookingRequest]: RegisterOptions<BookingRequest, K> };
+
+/** Length check on the trimmed value, so spaces alone never pass. */
+const length = (min: number, max: number, short: string, long: string) => (value: string) => {
+  const v = (value ?? "").trim();
+  if (v.length < min) return short;
+  if (v.length > max) return long;
+  return true;
+};
+
+/**
+ * react-hook-form's own validation rules, built per language and per path so
+ * the messages match the page and the diagnosis path accepts Teslas only.
+ * Kept free of a schema library: this is the only form on the site.
+ */
+export function bookingRules(lang: Lang, path: "diagnosis" | "quote"): Rules {
+  const e = FORM_TEXT[lang].errors;
+  return {
+    vehicle: {
+      validate: (v: string) =>
+        !(VEHICLES as readonly string[]).includes(v) ? e.vehicle : path === "diagnosis" && !TESLA_VEHICLES.includes(v) ? FORM_TEXT[lang].teslaOnly : true,
+    },
+    year: {
+      validate: (v: string) => (/^(19|20)\d{2}$/.test(v.trim()) && Number(v) <= THIS_YEAR + 1) || e.year,
+    },
+    reg: {
+      validate: (v: string) => (v.trim().length <= 12 && /^[A-Za-zÅÄÖåäö0-9 -]*$/.test(v.trim())) || e.reg,
+    },
+    message: { validate: length(10, 2000, e.message, e.tooLong) },
+    timing: { validate: (v: string) => (TIMINGS as readonly string[]).includes(v) || e.timing },
+    name: { validate: length(2, 80, e.name, e.tooLong) },
+    phone: {
+      validate: (v: string) => {
+        const ok = length(6, 28, e.phone, e.tooLong)(v);
+        if (ok !== true) return ok;
+        return /^[+0-9][0-9\s().-]*$/.test(v.trim()) || e.phoneFormat;
+      },
+    },
+    email: {
+      validate: (v: string) => (v.trim().length <= 120 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())) || e.email,
+    },
+    consent: { validate: (v: boolean) => v === true || e.consent },
+  };
+}

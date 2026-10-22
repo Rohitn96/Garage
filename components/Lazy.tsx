@@ -6,7 +6,7 @@ import { useEffect, useState, type ComponentProps } from "react";
 /*
  * Heavy client components, split out of the shared bundle so a page only
  * downloads them when it renders them: framer-motion and three.js for the
- * explorer, zod and react-hook-form for the booking form.
+ * explorer, react-hook-form for the booking form.
  *
  * The form keeps a fixed minimum height while it loads, so the page does not
  * shift when it arrives.

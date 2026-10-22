@@ -3,7 +3,7 @@ import "../globals.css";
 import { RootShell } from "@/components/RootShell";
 import { BASE_METADATA } from "@/lib/seo";
 
-/** Root layout for the FINNISH tree, served at `/`. See app/(en)/layout.tsx. */
+/** Root layout for the FINNISH tree, served at `/fi/`. See app/(en)/layout.tsx. */
 export const metadata: Metadata = BASE_METADATA;
 
 export const viewport: Viewport = {

@@ -8,8 +8,8 @@ const OG_LOCALE: Record<Lang, string> = { fi: "fi_FI", en: "en_FI" };
 
 /**
  * Metadata for one page in one language: unique title and description,
- * canonical, hreflang for both languages plus x-default (Finnish, since this is
- * a Helsinki garage), Open Graph and Twitter.
+ * canonical, hreflang for both languages plus x-default (English, the primary
+ * language), Open Graph and Twitter.
  */
 export function pageMetadata(id: RouteId, lang: Lang, seo: Seo, type: "website" | "article" = "website"): Metadata {
   const route = ROUTES[id];
@@ -20,7 +20,7 @@ export function pageMetadata(id: RouteId, lang: Lang, seo: Seo, type: "website" 
     description: seo.description,
     alternates: {
       canonical: own,
-      languages: { fi: route.fi, en: route.en, "x-default": route.fi },
+      languages: { en: route.en, fi: route.fi, "x-default": route.en },
     },
     openGraph: {
       title: seo.title,

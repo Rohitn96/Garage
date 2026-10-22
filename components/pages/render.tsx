@@ -20,7 +20,7 @@ import { BlogIndexPage, BlogPostPage } from "./BlogPages";
 
 /**
  * Every page on the site is rendered and described from here, by route id.
- * The catch-all routes in app/(fi) and app/(en)/en only translate a URL into
+ * The catch-all routes in app/(en) and app/(fi)/fi only translate a URL into
  * an id; nothing page specific lives in the app directory.
  */
 
@@ -108,7 +108,7 @@ export function staticParams(lang: Lang): Array<{ slug: string[] }> {
 
 /** Resolves a catch-all slug back to its route id, or 404. */
 export function idFromSlug(slug: string[], lang: Lang): RouteId {
-  const path = `${lang === "en" ? "/en" : ""}/${slug.map(decodeURIComponent).join("/")}/`;
+  const path = `${lang === "fi" ? "/fi" : ""}/${slug.map(decodeURIComponent).join("/")}/`;
   const id = ROUTE_IDS.find((rid) => ROUTES[rid][lang] === path);
   if (!id) notFound();
   return id;

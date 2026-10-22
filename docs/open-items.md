@@ -8,7 +8,7 @@ Run `npm run open-items` for the live list. Everything below that lives in `site
 |---|---|---|---|
 | Weekend opening hours | `hours.weekend.saturday` / `sunday` | Opening and closing time, 24 h, for example `"09:00"` and `"17:00"` | Hours appear in footer, contact, weekend page and the AutoRepair schema. Until then the site says "Full working days, times confirmed when you book". |
 | Weekend appointment rule | `hours.weekendAppointmentRequired` | `true` (appointment only) or `false` (drop-ins welcome) | Replaces "Book ahead and we plan the weekend's work". |
-| Free diagnosis scope | `diagnosis.includes`, `diagnosis.excludes`, then `confirmed: true` | Confirm or rewrite the drafted lists (reading fault codes, checking the described fault, visual inspection on the lift, written summary and estimate; excludes dismantling, repairs and parts, software updates) | Included / not included lists appear on the offer page. |
+| ~~Free diagnosis scope~~ | `diagnosis` | **Done:** digital analysis report, visual inspection, test drive; Tesla only. Optionally add a "not included" list in `diagnosis.excludes`. | Shown on the offer page. |
 | Offer validity detail | `content/tesla.ts` terms | Does "until 31.12.2026" mean booked by, or carried out by, that date? | Wording currently says "valid until 31.12.2026". |
 | Map coordinates | `business.geo` | `lat, lng` of the hall door from the Google Maps pin | Adds `geo` to the structured data. |
 | Public profiles | `business.sameAs` | Google Business Profile URL, Facebook, Instagram | Adds `sameAs` to the structured data. |

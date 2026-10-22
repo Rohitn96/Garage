@@ -42,7 +42,7 @@ export const HOME: Record<Lang, HomeCopy> = {
       label: "Avajaistarjous · 31.12.2026 asti",
       title: "Ilmainen diagnostiikka Teslalle",
       body: "Tuo Tesla vianhakuun maksutta. Jos löydämme jotain, saat arvion ja päätät itse, korjataanko. Ei sitoumusta.",
-      points: ["Koskee Model S, 3, X ja Y -autoja", "Löydökset ja arvio kirjallisena", "Voit hakea auton ilman korjausta"],
+      points: ["Vain Tesla-autoille: Model S, 3, X ja Y", "Digitaalinen analyysiraportti, silmämääräinen tarkastus ja koeajo", "Voit hakea auton ilman korjausta"],
       more: "Tarjouksen ehdot",
     },
     diagnosisFirst: {
@@ -124,7 +124,7 @@ export const HOME: Record<Lang, HomeCopy> = {
       label: "Launch offer · until 31.12.2026",
       title: "Free diagnosis for Tesla",
       body: "Bring your Tesla in for a free diagnosis. If we find something, you get an estimate and decide whether to go ahead. No obligation.",
-      points: ["For Model S, 3, X and Y", "Findings and estimate in writing", "Collect the car without any repair"],
+      points: ["Tesla only: Model S, 3, X and Y", "Digital analysis report, visual inspection and test drive", "Collect the car without any repair"],
       more: "Offer terms",
     },
     diagnosisFirst: {

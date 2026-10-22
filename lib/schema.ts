@@ -16,7 +16,7 @@ import { ogImagePath } from "./og";
  */
 
 const abs = (path: string) => `${SITE.url}${path}`;
-export const SHOP_ID = `${SITE.url}/#shop`;
+const SHOP_ID = `${SITE.url}/#shop`;
 const b = SITE.business;
 
 const DESCRIPTION: Record<Lang, string> = {

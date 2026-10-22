@@ -4,8 +4,9 @@ import { RootShell } from "@/components/RootShell";
 import { BASE_METADATA } from "@/lib/seo";
 
 /**
- * Root layout for the ENGLISH tree, served at `/en/`. Two root layouts, one per
- * language, so <html lang> and metadata are right in the served HTML.
+ * Root layout for the ENGLISH tree, the primary language, served at `/`. Two
+ * root layouts, one per language, so <html lang> and metadata are right in the
+ * served HTML. See app/(fi)/layout.tsx.
  */
 export const metadata: Metadata = BASE_METADATA;
 

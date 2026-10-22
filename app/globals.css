@@ -99,6 +99,12 @@
     }
   }
 
+  /* Grid children may shrink below their content. Without this, one long
+     single-line label (the scan panel's rows) widens a whole column on a phone. */
+  .grid > * {
+    min-width: 0;
+  }
+
   ::selection {
     @apply bg-accent text-onAccent;
   }

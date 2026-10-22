@@ -8,9 +8,9 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE.business.name,
     short_name: SITE.business.name,
-    description: "Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä.",
+    description: "Tesla and EV specialist garage in Tattarisuo, Helsinki.",
     start_url: "/",
-    lang: "fi",
+    lang: "en",
     display: "standalone",
     background_color: "#0C0E10",
     theme_color: "#0C0E10",

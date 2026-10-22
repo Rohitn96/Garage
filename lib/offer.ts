@@ -32,7 +32,7 @@ export function isOfferLive(now: Date | number): boolean {
  * The build's notion of "now". OFFER_BUILD_TIME is inlined by next.config.mjs
  * and can be mocked with OFFER_NOW at build time to test expiry.
  */
-export function buildTime(): Date {
+function buildTime(): Date {
   const stamp = process.env.OFFER_BUILD_TIME;
   const parsed = stamp ? Date.parse(stamp) : NaN;
   return Number.isNaN(parsed) ? new Date() : new Date(parsed);

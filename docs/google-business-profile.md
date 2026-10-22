@@ -8,8 +8,8 @@ The map pack listing comes from Google Business Profile, not from the website. T
 - [ ] Address: Halli 3, Kytkintie 38, 00770 Helsinki. Put "Halli 3" in address line 2.
 - [ ] Map pin on the door of Hall 3, not the yard entrance. Copy the pin's coordinates into `business.geo`.
 - [ ] Phone: +358 45 865 6683
-- [ ] Website: `https://revampmotors.fi/?utm_source=google&utm_medium=organic&utm_campaign=gbp`
-- [ ] Appointment link: `https://revampmotors.fi/yhteystiedot/?utm_source=google&utm_medium=organic&utm_campaign=gbp-booking#diagnostiikka`
+- [ ] Website: `https://revampmotors.fi/fi/?utm_source=google&utm_medium=organic&utm_campaign=gbp` (Finnish pages; English is at the root)
+- [ ] Appointment link: `https://revampmotors.fi/fi/yhteystiedot/?utm_source=google&utm_medium=organic&utm_campaign=gbp-booking#diagnostiikka`
 
 ## Categories
 
@@ -35,8 +35,8 @@ No prices: the site does not publish any, and the profile should match.
 ## Launch offer post (until 31.12.2026)
 
 - [ ] Create an **Offer** post: "Ilmainen Tesla-diagnostiikka 31.12.2026 asti", end date 31.12.2026
-- [ ] Button: "Learn more" linking to `https://revampmotors.fi/tesla/ilmainen-diagnostiikka/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer`
-- [ ] English version: `https://revampmotors.fi/en/tesla/free-diagnosis/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer-en`
+- [ ] Button: "Learn more" linking to `https://revampmotors.fi/fi/tesla/ilmainen-diagnostiikka/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer`
+- [ ] English version: `https://revampmotors.fi/tesla/free-diagnosis/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer-en`
 
 ## Photos (real ones only)
 

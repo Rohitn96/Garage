@@ -123,41 +123,17 @@ export const SITE = {
   },
 
   /**
-   * What the free diagnosis includes and excludes.
-   *
-   * TODO(owner): confirm or rewrite both lists, then set `confirmed: true`.
-   * Until then the offer page shows only the general description of a
-   * diagnosis and these lists stay hidden. The drafts below describe a typical
-   * scope and are NOT published while `confirmed` is false.
+   * What the free diagnosis includes, as confirmed by the owner. Tesla
+   * vehicles only. `excludes` is optional: the "not included" list renders
+   * only when it has entries. Set `confirmed: false` to hide both lists.
    */
   diagnosis: {
-    confirmed: false,
+    confirmed: true,
     includes: {
-      fi: [
-        "Vikakoodien ja järjestelmätietojen luku",
-        "Asiakkaan kuvaaman vian tarkastus ja koeajo tarvittaessa",
-        "Silmämääräinen tarkastus nostimella",
-        "Kirjallinen yhteenveto löydöksistä ja kustannusarvio",
-      ],
-      en: [
-        "Reading fault codes and system data",
-        "Checking the fault you describe, with a test drive if needed",
-        "Visual inspection on the lift",
-        "A written summary of findings and an estimate",
-      ],
+      fi: ["Digitaalinen analyysiraportti", "Silmämääräinen tarkastus", "Koeajo"],
+      en: ["Digital analysis report", "Visual inspection", "Test drive"],
     } as LocalizedList,
-    excludes: {
-      fi: [
-        "Osien purku, joka vaatii erillisen työn",
-        "Korjaukset ja varaosat",
-        "Ohjelmistopäivitykset",
-      ],
-      en: [
-        "Dismantling that needs separate labour",
-        "Repairs and parts",
-        "Software updates",
-      ],
-    } as LocalizedList,
+    excludes: { fi: [], en: [] } as LocalizedList,
   },
 
   /**

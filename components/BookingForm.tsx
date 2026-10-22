@@ -3,13 +3,12 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "@/components/Link";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { SITE } from "@/site.config";
 import { useLang } from "@/lib/i18n";
 import { isOfferLive } from "@/lib/offer";
 import { pathOf } from "@/lib/routes";
 import { CONTACT_ANCHORS, type ContactPath } from "@/lib/links";
-import { FORM_TEXT, TIMINGS, VEHICLES, TESLA_VEHICLES, makeBookingSchema, type BookingRequest } from "@/lib/bookingSchema";
+import { FORM_TEXT, TIMINGS, VEHICLES, TESLA_VEHICLES, bookingRules, type BookingRequest } from "@/lib/bookingSchema";
 import { CONTACT_PAGE } from "@/content/pages";
 import { OfferSwitch } from "./OfferSwitch";
 
@@ -82,14 +81,13 @@ export function BookingSection() {
     return () => window.removeEventListener("hashchange", fromHash);
   }, []);
 
-  const schema = useMemo(() => makeBookingSchema(lang, path), [lang, path]);
+  const rules = useMemo(() => bookingRules(lang, path), [lang, path]);
   const {
     register,
     handleSubmit,
     trigger,
     formState: { errors, isSubmitting, submitCount },
   } = useForm<BookingRequest>({
-    resolver: zodResolver(schema),
     mode: "onBlur",
     defaultValues: { reg: "", timing: undefined, vehicle: undefined },
   });
@@ -244,7 +242,7 @@ export function BookingSection() {
                   defaultValue=""
                   aria-invalid={Boolean(errors.vehicle)}
                   aria-describedby={describe("vehicle")}
-                  {...register("vehicle")}
+                  {...register("vehicle", rules.vehicle)}
                 >
                   <option value="" disabled>
                     {f.choose}
@@ -266,7 +264,7 @@ export function BookingSection() {
                   className={`${FIELD} font-mono`}
                   aria-invalid={Boolean(errors.year)}
                   aria-describedby={describe("year")}
-                  {...register("year")}
+                  {...register("year", rules.year)}
                 />
               </Field>
               <Field id="reg" label={f.reg} optional={f.optional} error={errors.reg?.message}>
@@ -278,7 +276,7 @@ export function BookingSection() {
                   className={`${FIELD} font-mono uppercase`}
                   aria-invalid={Boolean(errors.reg)}
                   aria-describedby={describe("reg")}
-                  {...register("reg")}
+                  {...register("reg", rules.reg)}
                 />
               </Field>
             </div>
@@ -290,7 +288,7 @@ export function BookingSection() {
                 className={`${FIELD} resize-y`}
                 aria-invalid={Boolean(errors.message)}
                 aria-describedby={describe("message", true)}
-                {...register("message")}
+                {...register("message", rules.message)}
               />
             </Field>
 
@@ -302,7 +300,7 @@ export function BookingSection() {
                     key={value}
                     className="flex min-h-[48px] cursor-pointer items-center gap-3 rounded border border-ruleStrong px-3.5 py-2.5 text-step--1 has-[:checked]:border-accent has-[:checked]:bg-surface"
                   >
-                    <input type="radio" value={value} className="h-4 w-4 accent-[rgb(var(--accent))]" {...register("timing")} />
+                    <input type="radio" value={value} className="h-4 w-4 accent-[rgb(var(--accent))]" {...register("timing", rules.timing)} />
                     {f.timings[value]}
                   </label>
                 ))}
@@ -316,7 +314,7 @@ export function BookingSection() {
 
             <div className="grid gap-6 sm:grid-cols-3">
               <Field id="name" label={f.name} error={errors.name?.message}>
-                <input id="name" autoComplete="name" className={FIELD} aria-invalid={Boolean(errors.name)} aria-describedby={describe("name")} {...register("name")} />
+                <input id="name" autoComplete="name" className={FIELD} aria-invalid={Boolean(errors.name)} aria-describedby={describe("name")} {...register("name", rules.name)} />
               </Field>
               <Field id="phone" label={f.phone} error={errors.phone?.message}>
                 <input
@@ -327,7 +325,7 @@ export function BookingSection() {
                   className={`${FIELD} font-mono`}
                   aria-invalid={Boolean(errors.phone)}
                   aria-describedby={describe("phone")}
-                  {...register("phone")}
+                  {...register("phone", rules.phone)}
                 />
               </Field>
               <Field id="email" label={f.email} error={errors.email?.message}>
@@ -339,7 +337,7 @@ export function BookingSection() {
                   className={FIELD}
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={describe("email")}
-                  {...register("email")}
+                  {...register("email", rules.email)}
                 />
               </Field>
             </div>
@@ -357,7 +355,7 @@ export function BookingSection() {
                   className="mt-1 h-5 w-5 shrink-0 accent-[rgb(var(--accent))]"
                   aria-invalid={Boolean(errors.consent)}
                   aria-describedby={errors.consent ? "consent-error" : undefined}
-                  {...register("consent")}
+                  {...register("consent", rules.consent)}
                 />
                 <span>
                   {f.consent}{" "}

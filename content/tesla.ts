@@ -146,13 +146,13 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     steps: [
       { title: "Varaa aika", body: "Lomakkeella, puhelimella tai WhatsAppilla. Kerro malli, vuosimalli ja oireet." },
       { title: "Tuo auto", body: "Sovittuna aikana, myös viikonloppuisin." },
-      { title: "Vianhaku", body: "Luemme vikakoodit, mittaamme ja tarkistamme kuvaamasi vian." },
-      { title: "Löydökset ja arvio", body: "Kerromme mitä löytyi. Päätät itse, korjataanko, ja voit hakea auton ilman korjausta." },
+      { title: "Vianhaku", body: "Digitaalinen analyysi, silmämääräinen tarkastus ja koeajo." },
+      { title: "Raportti ja arvio", body: "Saat digitaalisen analyysiraportin ja arvion. Päätät itse, korjataanko, ja voit hakea auton ilman korjausta." },
     ],
     scopeTitle: "Mitä diagnostiikka sisältää",
     scopeGeneral: [
       {
-        p: "Diagnostiikka keskittyy siihen vikaan tai oireeseen, jonka kerrot meille varatessasi. Selvitämme syyn auton omien vikakoodien, mittausten ja tarkastuksen avulla ja kerromme löydökset selkeästi: mikä on vialla, miten varmistimme sen ja mitä korjaus sisältäisi.",
+        p: "Diagnostiikka sisältää kolme osaa: auton järjestelmien ja vikakoodien digitaalisen analyysin, josta saat raportin, silmämääräisen tarkastuksen ja koeajon. Keskitymme siihen vikaan tai oireeseen, jonka kerrot varatessasi, ja kerromme löydökset selkeästi: mikä on vialla, miten varmistimme sen ja mitä korjaus sisältäisi.",
       },
       {
         p: "Jos vian paikantaminen vaatii laajempaa purkamista, kerromme siitä ja sen kustannuksista etukäteen. Mitään ylimääräistä ei tehdä ilman hyväksyntääsi.",
@@ -163,7 +163,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     scopePending: "Diagnostiikan tarkka sisältö vahvistetaan varauksen yhteydessä.",
     termsTitle: "Ehdot",
     terms: [
-      "Koskee Tesla-merkkisiä autoja: Model S, Model 3, Model X ja Model Y.",
+      "Koskee vain Tesla-autoja: Model S, Model 3, Model X ja Model Y.",
       "Tarjous on voimassa 31.12.2026 asti.",
       "Diagnostiikka on maksuton. Saat löydökset ja arvion, eikä mihinkään tarvitse sitoutua.",
       "Korjaukset ja osat tehdään vain hyväksymäsi arvion mukaan.",
@@ -197,13 +197,13 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     steps: [
       { title: "Book", body: "By form, phone or WhatsApp. Tell us the model, the year and the symptoms." },
       { title: "Drop the car off", body: "At the agreed time, weekends included." },
-      { title: "Diagnosis", body: "We read the fault codes, take measurements and check the fault you described." },
-      { title: "Findings and estimate", body: "We tell you what we found. You decide whether to repair, and you can collect the car without any repair." },
+      { title: "Diagnosis", body: "A digital analysis, a visual inspection and a test drive." },
+      { title: "Report and estimate", body: "You get the digital analysis report and an estimate. You decide whether to repair, and you can collect the car without any repair." },
     ],
     scopeTitle: "What the diagnosis covers",
     scopeGeneral: [
       {
-        p: "The diagnosis focuses on the fault or symptom you describe when you book. We find the cause using the car's own fault codes, measurements and an inspection, and we explain the findings clearly: what is wrong, how we confirmed it and what a repair would involve.",
+        p: "The diagnosis has three parts: a digital analysis of the car's systems and fault codes, written up as a report; a visual inspection; and a test drive. We focus on the fault or symptom you describe when you book, and explain the findings clearly: what is wrong, how we confirmed it and what a repair would involve.",
       },
       {
         p: "If finding the fault needs more extensive dismantling, we tell you about it and its cost in advance. Nothing extra is done without your approval.",
@@ -214,7 +214,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     scopePending: "The exact scope of the diagnosis is confirmed when you book.",
     termsTitle: "Terms",
     terms: [
-      "For Tesla vehicles: Model S, Model 3, Model X and Model Y.",
+      "For Tesla vehicles only: Model S, Model 3, Model X and Model Y.",
       "The offer is valid until 31 December 2026.",
       "The diagnosis is free. You get the findings and an estimate, with no obligation.",
       "Repairs and parts are carried out only to an estimate you have approved.",

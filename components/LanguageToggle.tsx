@@ -7,7 +7,7 @@ import { alternatePath } from "@/lib/routes";
 import { UI } from "@/content/ui";
 import type { Lang } from "@/site.config";
 
-const OPTIONS: Lang[] = ["fi", "en"];
+const OPTIONS: Lang[] = ["en", "fi"];
 
 /**
  * FI / EN. Links, not buttons: each language is its own URL, and the registry

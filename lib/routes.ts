@@ -3,7 +3,7 @@ import type { Lang } from "../site.config.ts";
 /**
  * Every page on the site, with its Finnish and English path.
  *
- * Finnish holds the root; English lives under /en/ with translated slugs. This
+ * English holds the root; Finnish lives under /fi/ with Finnish slugs. This
  * registry is the only place a path is written: links, the language switch,
  * hreflang, canonicals, breadcrumbs and sitemap.xml all read it, so a page
  * cannot exist in one of those and be missing from another.
@@ -25,8 +25,8 @@ export type RouteKind =
 type RouteDef = { fi: string; en: string; kind: RouteKind; parent?: string; priority: number };
 
 const r = (fi: string, en: string, kind: RouteKind, priority: number, parent?: string): RouteDef => ({
-  fi,
-  en: `/en${en}`,
+  fi: `/fi${fi}`,
+  en,
   kind,
   priority,
   parent,
@@ -119,6 +119,6 @@ export function trail(id: RouteId): RouteId[] {
 
 /** Slug segments for generateStaticParams in a language tree. */
 export function slugSegments(id: RouteId, lang: Lang): string[] {
-  const path = ROUTES[id][lang].replace(/^\/en/, "");
+  const path = ROUTES[id][lang].replace(/^\/fi(?=\/)/, "");
   return path.split("/").filter(Boolean);
 }

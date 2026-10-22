@@ -239,29 +239,30 @@ export function OfferPage({ lang }: { lang: Lang }) {
       <SectionHeading label={s.scope} title={c.scopeTitle} />
       <Prose blocks={c.scopeGeneral} lang={lang} className="mt-6" />
       {d.confirmed ? (
-        <div className="mt-10 grid gap-8 md:grid-cols-2">
-          <div>
-            <p className="label">{c.includes}</p>
-            <ul className="mt-4 grid gap-2">
-              {d.includes[lang].map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span aria-hidden className="font-mono text-ok">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="label">{c.excludes}</p>
-            <ul className="mt-4 grid gap-2">
-              {d.excludes[lang].map((item) => (
-                <li key={item} className="flex gap-3 text-muted">
-                  <span aria-hidden className="font-mono">×</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-10">
+          <p className="label">{c.includes}</p>
+          <ul className="mt-4 grid gap-px overflow-hidden rounded border border-rule bg-rule sm:grid-cols-3">
+            {d.includes[lang].map((item, i) => (
+              <li key={item} className="flex items-center gap-4 bg-ground p-5">
+                <span className="font-mono text-step--1 text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-semibold">{item}</span>
+                <span aria-hidden className="ml-auto font-mono text-ok">✓</span>
+              </li>
+            ))}
+          </ul>
+          {d.excludes[lang].length ? (
+            <>
+              <p className="label mt-8">{c.excludes}</p>
+              <ul className="mt-4 grid gap-2">
+                {d.excludes[lang].map((item) => (
+                  <li key={item} className="flex gap-3 text-muted">
+                    <span aria-hidden className="font-mono">×</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
         </div>
       ) : (
         <p className="mt-6 text-step--1 text-muted">{c.scopePending}</p>

@@ -49,9 +49,9 @@ for (const { file, html } of after) {
     if (m && !/päättyi|ended/i.test(m[0])) problems.push(`after: ${file} mentions ${re}: "${m[0].trim()}"`);
   }
 }
-const navAfter = after.find((p) => /^out[\\/]index\.html$/.test(p.file)).html;
+const navAfter = after.find((p) => /^out[\\/]fi[\\/]index\.html$/.test(p.file)).html;
 if (!navAfter.includes("Pyydä tarjous")) problems.push('after: Finnish CTA "Pyydä tarjous" missing');
-const enAfter = after.find((p) => /^out[\\/]en[\\/]index\.html$/.test(p.file)).html;
+const enAfter = after.find((p) => /^out[\\/]index\.html$/.test(p.file)).html;
 if (!enAfter.includes("Request a quote")) problems.push('after: English CTA "Request a quote" missing');
 
 if (problems.length) {

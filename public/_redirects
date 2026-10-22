@@ -3,12 +3,10 @@
 # page. https://developers.cloudflare.com/workers/static-assets/redirects/
 # The first matching rule wins.
 
-# 1. Finnish moved from /fi/ to the root. Keep old shared links working.
-/fi/tesla/   /tesla/     301
-/fi/tesla    /tesla/     301
-/fi/og.png   /og.png     301
-/fi/         /           301
-/fi          /           301
+# 1. English moved from /en/ to the root (Finnish now lives under /fi/). The
+#    English paths are otherwise unchanged, so every old /en/ link maps 1:1.
+/en      /         301
+/en/*    /:splat   301
 
 # 2. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
 #    redirected here: browsers never send the fragment. The head script in
