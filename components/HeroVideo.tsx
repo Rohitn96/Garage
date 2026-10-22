@@ -9,8 +9,10 @@ const SOURCES = {
 };
 
 /**
- * Full-bleed hero footage with two encodes: a 480x854 portrait cut for phones
- * and a 1280x720 landscape crop for wider screens.
+ * Full-bleed hero footage, two different clips, each played at full length and
+ * looped: a 480x854 portrait clip for phones (from hero_mobile.mp4 in the
+ * project root) and a 1280x720 encode of the 4K interior clip for wider
+ * screens (from hero.mp4).
  *
  * The poster is the first paint (a <picture>, so each screen size downloads
  * only its own still). The video is fetched after the page has loaded, only
@@ -38,8 +40,8 @@ export function HeroVideo({ alt }: { alt: string }) {
     }
   }, []);
 
-  // The phone encode is already cut to portrait, so it is shown centred. The
-  // desktop hero is wider than 16:9; anchoring low keeps the wheel and screen.
+  // The phone clip is portrait already, so it is shown centred. The desktop
+  // hero is wider than 16:9; anchoring low keeps the wheel and screen.
   const media = "absolute inset-0 h-full w-full object-cover object-center md:object-[50%_70%]";
 
   return (

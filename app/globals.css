@@ -40,7 +40,7 @@
   --gutter: 1rem;
 
   --radius-sm: 2px;
-  --radius: 6px;
+  --radius: 4px;
   --radius-lg: 12px;
 
   --dur-1: 120ms;
@@ -156,42 +156,35 @@
   }
 
   /*
-   * Shape language: cut corners, taken from the angled cuts in the logo's
-   * letterforms. Solid fills instead of outlines; no pills, no hairline boxes.
-   * clip-path would also clip a focus outline, so clipped controls draw their
-   * focus ring inside (see :focus-visible below).
+   * Shape language: plain rectangles with a small 4 px radius, solid fills and
+   * sentence-case labels, in the manner of Tesla's own interface. The class
+   * names .cut and .cut-sm are kept so every panel and control shares them.
    */
-  .cut-sm {
-    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
-  }
+  .cut-sm,
   .cut {
-    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+    border-radius: 4px;
   }
 
   /* Buttons. Every control is at least 44 px tall for touch. */
   .btn {
-    @apply cut-sm inline-flex min-h-[48px] items-center justify-center gap-2 px-6 py-2.5 text-step--2 font-bold uppercase tracking-[0.1em] transition-[background-color,color,transform] duration-2 ease-out active:translate-y-px;
-  }
-  .btn:focus-visible {
-    outline: none;
-    box-shadow: inset 0 0 0 2px rgb(var(--ink));
+    @apply cut-sm inline-flex min-h-[44px] items-center justify-center gap-2 px-6 py-2 text-step--1 font-medium transition-[background-color,color,box-shadow] duration-2 ease-out;
   }
   .btn-primary {
-    @apply btn bg-accent text-onAccent hover:bg-ink hover:text-ground;
+    @apply btn bg-accent text-onAccent hover:shadow-[inset_0_0_0_100vmax_rgb(0_0_0/0.12)];
   }
   .btn-secondary {
-    @apply btn bg-ink/[0.08] text-ink hover:bg-ink hover:text-ground;
+    @apply btn bg-ink/[0.08] text-ink hover:bg-ink/[0.14];
   }
   .btn-ghost {
-    @apply inline-flex min-h-[44px] items-center gap-2 text-step--2 font-bold uppercase tracking-[0.1em] text-ink transition-colors duration-2 hover:text-accent;
+    @apply inline-flex min-h-[44px] items-center gap-2 text-step--1 font-medium text-ink underline decoration-ruleStrong decoration-1 underline-offset-[6px] transition-colors duration-2 hover:decoration-ink;
   }
-  /* For use on the hero video, whatever the theme. */
+  /* Over the hero video, whatever the theme: light grey with dark text. */
   .btn-on-media {
-    @apply btn bg-white/15 text-white hover:bg-white hover:text-[#0c0e10];
+    @apply btn bg-white/80 text-[#171a20] backdrop-blur hover:bg-white;
   }
 
-  /* Panels: a solid surface with cut corners. On a surface-toned section the
-     panel steps up one tone so it still reads. */
+  /* Panels: plain rectangles on a solid surface. On a surface-toned section
+     the panel steps up one tone so it still reads. */
   .card {
     @apply cut;
     background-color: rgb(var(--surface));
@@ -200,22 +193,18 @@
     background-color: rgb(var(--raised));
   }
 
-  /* A panel that is a link: an accent bar slides in on the left on hover. */
+  /* A panel that is a link: a slightly lighter fill on hover. */
   .card-link {
-    @apply relative transition-[background-color,box-shadow] duration-3 ease-out hover:shadow-[inset_4px_0_0_rgb(var(--accent))];
-  }
-  .card-link:focus-visible {
-    outline: none;
-    box-shadow: inset 0 0 0 2px rgb(var(--accent));
+    @apply relative transition-[background-color,box-shadow] duration-2 ease-out hover:shadow-[inset_0_0_0_100vmax_rgb(var(--ink)/0.04)];
   }
 
   .link {
     @apply text-ink underline decoration-ruleStrong decoration-1 underline-offset-4 transition-colors duration-1 hover:decoration-accent;
   }
 
-  /* Small angled tag for facts and labels. */
+  /* Small tag for facts and labels. */
   .chip {
-    @apply cut-sm inline-flex items-center gap-2 bg-ink/[0.07] px-3 py-1 text-step--2 font-semibold uppercase tracking-[0.08em] text-muted;
+    @apply cut-sm inline-flex items-center gap-2 bg-ink/[0.07] px-2.5 py-1 text-step--2 font-medium text-muted;
   }
   .chip-accent {
     @apply bg-accent/[0.12] text-accent;

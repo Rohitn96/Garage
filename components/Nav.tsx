@@ -81,20 +81,25 @@ export function Nav() {
           <span className="ml-2">{cta}</span>
         </div>
 
-        <div className="flex items-center gap-1 lg:hidden">
+        {/* Language and theme sit together on every screen size. */}
+        <div className="flex items-center gap-0.5 lg:hidden">
+          <LanguageToggle />
           <ThemeToggle />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            className="inline-flex min-h-[44px] items-center gap-2 rounded px-3 font-mono text-step--2 uppercase tracking-label text-ink"
+            aria-label={open ? t.close : t.menu}
+            className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-2 rounded px-2 text-step--1 font-medium text-ink"
           >
-            <span aria-hidden className="grid gap-1">
-              <span className={`block h-px w-4 bg-current transition-transform duration-2 ${open ? "translate-y-[2.5px] rotate-45" : ""}`} />
-              <span className={`block h-px w-4 bg-current transition-transform duration-2 ${open ? "-translate-y-[2.5px] -rotate-45" : ""}`} />
+            <span aria-hidden className="grid gap-[5px]">
+              <span className={`block h-[1.5px] w-5 bg-current transition-transform duration-2 ${open ? "translate-y-[3.25px] rotate-45" : ""}`} />
+              <span className={`block h-[1.5px] w-5 bg-current transition-transform duration-2 ${open ? "-translate-y-[3.25px] -rotate-45" : ""}`} />
             </span>
-            {open ? t.close : t.menu}
+            <span aria-hidden className="hidden sm:inline">
+              {open ? t.close : t.menu}
+            </span>
           </button>
         </div>
       </nav>
@@ -117,10 +122,7 @@ export function Nav() {
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex items-center justify-between gap-4">
-            <LanguageToggle />
-            {cta}
-          </div>
+          <div className="mt-6">{cta}</div>
         </div>
       </div>
     </header>

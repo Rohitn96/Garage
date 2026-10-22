@@ -163,7 +163,7 @@ export function BookingSection() {
       <div className="grid gap-4 md:grid-cols-2">
         <article
           id={lang === "fi" ? "diagnostiikka" : "diagnosis"}
-          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "shadow-[inset_4px_0_0_rgb(var(--accent))]" : ""}`}
+          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "shadow-[inset_0_0_0_2px_rgb(var(--accent))]" : ""}`}
         >
           <OfferSwitch
             live={
@@ -194,7 +194,7 @@ export function BookingSection() {
 
         <article
           id={lang === "fi" ? "tarjous" : "quote"}
-          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "quote" ? "shadow-[inset_4px_0_0_rgb(var(--accent))]" : ""}`}
+          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "quote" ? "shadow-[inset_0_0_0_2px_rgb(var(--accent))]" : ""}`}
         >
           <span className="chip">{lang === "fi" ? "Kaikki autot" : "Any vehicle"}</span>
           <h2 className="h3 mt-4">{c.quote.title}</h2>
@@ -298,7 +298,7 @@ export function BookingSection() {
                 {TIMINGS.map((value) => (
                   <label
                     key={value}
-                    className="cut-sm flex min-h-[48px] cursor-pointer items-center gap-3 bg-ink/[0.06] px-3.5 py-2.5 text-step--1 transition-shadow duration-2 has-[:checked]:shadow-[inset_4px_0_0_rgb(var(--accent))]"
+                    className="cut-sm flex min-h-[48px] cursor-pointer items-center gap-3 bg-ink/[0.06] px-3.5 py-2.5 text-step--1 transition-shadow duration-2 has-[:checked]:shadow-[inset_0_0_0_2px_rgb(var(--accent))]"
                   >
                     <input type="radio" value={value} className="h-4 w-4 accent-[rgb(var(--accent))]" {...register("timing", rules.timing)} />
                     {f.timings[value]}
