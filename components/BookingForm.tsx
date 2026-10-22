@@ -18,7 +18,7 @@ const ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || SITE.formEndpoint
 const MIN_FILL_MS = 2500;
 
 const FIELD =
-  "mt-2 block w-full min-h-[48px] rounded border border-ruleStrong bg-ground px-3.5 py-2.5 text-step-0 text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent aria-[invalid=true]:border-accent";
+  "mt-2 block w-full min-h-[48px] border-0 bg-ink/[0.06] px-3.5 py-2.5 text-step-0 text-ink shadow-[inset_0_-2px_0_rgb(var(--rule-strong))] transition-shadow duration-2 placeholder:text-faint focus:shadow-[inset_0_-2px_0_rgb(var(--accent))] focus:outline-none focus:ring-0 aria-[invalid=true]:shadow-[inset_0_-2px_0_rgb(var(--accent))]";
 
 function Field({
   id,
@@ -163,7 +163,7 @@ export function BookingSection() {
       <div className="grid gap-4 md:grid-cols-2">
         <article
           id={lang === "fi" ? "diagnostiikka" : "diagnosis"}
-          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "border-accent shadow-[0_18px_40px_-28px_rgb(var(--accent)/0.6)]" : ""}`}
+          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "shadow-[inset_4px_0_0_rgb(var(--accent))]" : ""}`}
         >
           <OfferSwitch
             live={
@@ -194,7 +194,7 @@ export function BookingSection() {
 
         <article
           id={lang === "fi" ? "tarjous" : "quote"}
-          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "quote" ? "border-accent shadow-[0_18px_40px_-28px_rgb(var(--accent)/0.6)]" : ""}`}
+          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "quote" ? "shadow-[inset_4px_0_0_rgb(var(--accent))]" : ""}`}
         >
           <span className="chip">{lang === "fi" ? "Kaikki autot" : "Any vehicle"}</span>
           <h2 className="h3 mt-4">{c.quote.title}</h2>
@@ -298,7 +298,7 @@ export function BookingSection() {
                 {TIMINGS.map((value) => (
                   <label
                     key={value}
-                    className="flex min-h-[48px] cursor-pointer items-center gap-3 rounded border border-ruleStrong px-3.5 py-2.5 text-step--1 has-[:checked]:border-accent has-[:checked]:bg-surface"
+                    className="cut-sm flex min-h-[48px] cursor-pointer items-center gap-3 bg-ink/[0.06] px-3.5 py-2.5 text-step--1 transition-shadow duration-2 has-[:checked]:shadow-[inset_4px_0_0_rgb(var(--accent))]"
                   >
                     <input type="radio" value={value} className="h-4 w-4 accent-[rgb(var(--accent))]" {...register("timing", rules.timing)} />
                     {f.timings[value]}
@@ -372,7 +372,7 @@ export function BookingSection() {
             </div>
 
             {status === "failed" ? (
-              <div role="alert" className="rounded border border-accent bg-surface p-4">
+              <div role="alert" className="cut bg-accent/10 p-4 shadow-[inset_4px_0_0_rgb(var(--accent))]">
                 <p className="font-semibold">{f.errorTitle}</p>
                 <p className="mt-1 text-step--1 text-muted">{f.errorBody}</p>
               </div>

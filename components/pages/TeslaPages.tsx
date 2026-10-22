@@ -201,7 +201,7 @@ export function ServicePage({ id, lang }: { id: ServiceId; lang: Lang }) {
       <Section tone="surface">
         <Prose blocks={c.body} lang={lang} className="[&>h2:first-child]:mt-0" />
         {id === "svc-climate" ? (
-          <p className="mt-8 max-w-prose rounded border-l-2 border-accent bg-ground px-4 py-3 text-step--1">
+          <p className="cut mt-8 max-w-prose bg-ground px-5 py-4 text-step--1 shadow-[inset_4px_0_0_rgb(var(--accent))]">
             {SITE.acLicensed ? CLIMATE_SCOPE[lang].full : CLIMATE_SCOPE[lang].limited}
           </p>
         ) : null}
@@ -239,9 +239,9 @@ export function OfferPage({ lang }: { lang: Lang }) {
       {d.confirmed ? (
         <div className="mt-10">
           <p className="label">{c.includes}</p>
-          <ul className="mt-4 grid gap-px overflow-hidden rounded border border-rule bg-rule sm:grid-cols-3">
+          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
             {d.includes[lang].map((item, i) => (
-              <li key={item} className="flex items-center gap-4 bg-ground p-5">
+              <li key={item} className="card flex items-center gap-4 p-5">
                 <span className="font-mono text-step--1 text-accent">{String(i + 1).padStart(2, "0")}</span>
                 <span className="font-semibold">{item}</span>
                 <span aria-hidden className="ml-auto font-mono text-ok">✓</span>

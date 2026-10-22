@@ -11,7 +11,7 @@ export function Reviews({ lang }: { lang: Lang }) {
   const reviews = SITE.reviews;
   if (!reviews.length) return null;
   return (
-    <section className="border-b border-rule">
+    <section>
       <div className="wrap section">
         <SectionHeading label={lang === "fi" ? "Asiakkaat" : "Customers"} title={lang === "fi" ? "Mitä asiakkaat sanovat" : "What customers say"} />
         <ul className="mt-10 grid gap-6 md:grid-cols-3">
@@ -58,7 +58,7 @@ export function Team({ lang }: { lang: Lang }) {
   const team = SITE.team;
   if (!team.length) return null;
   return (
-    <section className="border-b border-rule">
+    <section>
       <div className="wrap section">
         <SectionHeading label={lang === "fi" ? "Tiimi" : "Team"} title={lang === "fi" ? "Ketkä autoasi korjaavat" : "Who works on your car"} />
         <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -83,7 +83,7 @@ export function GaragePhotos({ lang }: { lang: Lang }) {
   const photos = SITE.garagePhotos;
   if (!photos.length) return null;
   return (
-    <section className="border-b border-rule">
+    <section>
       <div className="wrap section">
         <SectionHeading label={lang === "fi" ? "Korjaamo" : "Workshop"} title={lang === "fi" ? "Halli 3, Tattarisuo" : "Hall 3, Tattarisuo"} />
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

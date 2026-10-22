@@ -103,7 +103,7 @@ export function Nav() {
         <div className="wrap max-h-[calc(100svh-4rem)] overflow-y-auto pb-8 pt-2">
           <ul>
             {LINKS.map((link) => (
-              <li key={link.id} className="border-b border-rule">
+              <li key={link.id} className="border-b border-rule/60">
                 <Link
                   href={pathOf(link.id, lang)}
                   aria-current={section === link.id ? "page" : undefined}

@@ -82,10 +82,10 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
   const shown = group && index !== null ? { group, index } : held.current;
 
   return (
-    <section aria-hidden className="border-b border-rule">
+    <section aria-hidden>
       <div className="wrap pt-16 md:pt-24">
         <p className="label flex items-center gap-3">
-          <span aria-hidden className="h-px w-6 bg-accent" />
+          <span aria-hidden className="h-[3px] w-7 -skew-x-[35deg] bg-accent" />
           {label}
         </p>
         <h2 className="h2 mt-5 max-w-[20ch]">{title}</h2>
@@ -146,7 +146,7 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
-                  className="rounded-lg border border-rule bg-ground/90 p-5 shadow-[0_24px_48px_-32px_rgb(0_0_0/0.6)] backdrop-blur"
+                  className="cut bg-surface/95 p-5 shadow-[inset_4px_0_0_rgb(var(--accent))]"
                 >
                   <p className="font-mono text-step--2 tabular-nums text-accent">
                     {shown.index + 1} / {groups.length}

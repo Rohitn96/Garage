@@ -51,14 +51,14 @@ export function CtaPanel({
 }) {
   const t = UI[lang].cta;
   return (
-    <section className="border-b border-rule">
+    <section>
       <div data-reveal className="wrap section">
         <div className="card glow grid gap-8 overflow-hidden p-6 sm:p-10 md:grid-cols-12 md:p-14">
           <div className="md:col-span-7">
             <h2 className="h2 max-w-[18ch]">{title}</h2>
             {body ? <p className="lead mt-5 max-w-[52ch]">{body}</p> : null}
             <p className="mt-5 flex items-center gap-3 text-step--1 text-muted">
-              <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+              <span aria-hidden className="h-[3px] w-4 shrink-0 -skew-x-[35deg] bg-accent" />
               {t.estimateLine}
             </p>
           </div>

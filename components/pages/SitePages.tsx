@@ -67,7 +67,7 @@ export function OtherPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="other" lang={lang} />
-      <section className="border-b border-rule">
+      <section>
         <div className="wrap grid gap-10 py-12 md:py-16 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <p className="label">{c.label}</p>
@@ -158,6 +158,7 @@ export function WeekendPage({ lang }: { lang: Lang }) {
           <div className="lg:col-span-5">
             <VideoPanel
               src="/videos/process.mp4"
+              mobileSrc="/videos/process-mobile.mp4"
               poster="/videos/process-poster.webp"
               alt={lang === "fi" ? "Työkalupakki avataan korjaamon työpöydällä" : "A toolbox being opened on a workshop bench"}
               width={960}
@@ -258,7 +259,7 @@ export function ContactPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="contact" lang={lang} />
-      <section className="glow border-b border-rule">
+      <section className="glow">
         <div className="wrap pb-10 pt-10 md:pt-14">
           <p className="label flex items-center gap-3">
             <span aria-hidden className="h-px w-6 bg-accent" />
@@ -319,7 +320,7 @@ export function PrivacyPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="privacy" lang={lang} />
-      <section className="border-b border-rule">
+      <section>
         <div className="wrap py-10 md:py-14">
           <p className="label">{c.label}</p>
           <h1 className="h2 mt-5">{c.h1}</h1>

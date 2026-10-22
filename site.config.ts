@@ -112,6 +112,19 @@ export const SITE = {
     short: { fi: "10+ vuotta kokemusta", en: "10+ years of experience" } as Localized,
   },
 
+  /** Workmanship warranty on our own work, as stated by the owner. */
+  warranty: {
+    long: { fi: "1 vuoden tai 10 000 km:n takuu tekemällemme työlle", en: "1 year or 10,000 km warranty on our work" } as Localized,
+    short: { fi: "Takuu 1 v tai 10 000 km", en: "1 year or 10,000 km warranty" } as Localized,
+  },
+
+  /** Workshop equipment and parts, as stated by the owner. */
+  equipment: {
+    diagnostics: ["Tesla Toolbox", "Tesla service manual", "Topdon"],
+    teslaAcEquipment: true,
+    parts: { genuine: true, basic: true },
+  },
+
   /** Already published on the current site. */
   replyTime: { fi: "12 tunnin kuluessa, usein jo 3 tunnissa", en: "within 3 to 12 hours" } as Localized,
 

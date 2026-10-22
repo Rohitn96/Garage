@@ -63,7 +63,15 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "Mitä osia käytätte?",
-            a: "Kerromme arviossa, mitä osia käytämme. Jos vaihtoehtoja on, kerromme niiden erot ja saat valita.",
+            a: "Asennamme alkuperäisiä Tesla-osia tai laadukkaita perusosia. Arviosta näet, mitä käytämme, ja valinta on sinun.",
+          },
+          {
+            q: "Annatteko takuun työlle?",
+            a: "Kyllä. Tekemällemme työlle annamme 1 vuoden tai 10 000 kilometrin takuun.",
+          },
+          {
+            q: "Millä laitteilla teette vianhaun?",
+            a: "Käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja Topdonin ammattilaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan.",
           },
           {
             q: "Voitteko päivittää Teslan ohjelmiston?",
@@ -118,7 +126,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
       [1, 0],
       [0, 4],
       [2, 0],
-      [0, 3],
+      [1, 4],
       [2, 2],
     ],
   },
@@ -174,7 +182,15 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "What parts do you use?",
-            a: "The estimate tells you which parts we will use. If there are options, we explain the differences and you choose.",
+            a: "We fit genuine Tesla parts as well as quality basic parts. The estimate shows which we will use, and the choice is yours.",
+          },
+          {
+            q: "Do you give a warranty on your work?",
+            a: "Yes. Our work comes with a warranty of 1 year or 10,000 km.",
+          },
+          {
+            q: "What diagnostic equipment do you use?",
+            a: "Tesla Toolbox, Tesla's official diagnostic software, and professional Topdon scan tools. We work from Tesla's own service manual.",
           },
           {
             q: "Can you update a Tesla's software?",
@@ -229,7 +245,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
       [1, 0],
       [0, 4],
       [2, 0],
-      [0, 3],
+      [1, 4],
       [2, 2],
     ],
   },

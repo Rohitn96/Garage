@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { startMuted } from "@/lib/video";
 
 const SOURCES = {
   mobile: { video: "/videos/hero-mobile.mp4", poster: "/videos/hero-mobile.webp" },
@@ -37,7 +38,9 @@ export function HeroVideo({ alt }: { alt: string }) {
     }
   }, []);
 
-  const media = "absolute inset-0 h-full w-full object-cover object-[50%_35%] md:object-center";
+  // The phone encode is already cut to portrait, so it is shown centred. The
+  // desktop hero is wider than 16:9; anchoring low keeps the wheel and screen.
+  const media = "absolute inset-0 h-full w-full object-cover object-center md:object-[50%_70%]";
 
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden bg-[#0c0e10]">
@@ -48,6 +51,7 @@ export function HeroVideo({ alt }: { alt: string }) {
       {src ? (
         <video
           key={src}
+          ref={startMuted}
           className={`${media} transition-opacity duration-700 ${playing ? "opacity-100" : "opacity-0"}`}
           src={src}
           autoPlay

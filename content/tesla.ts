@@ -40,6 +40,9 @@ export const HUB: Record<Lang, HubCopy> = {
         p: "Ohjelmistopäivitykset tulevat Teslalta langattomasti, emmekä muokkaa auton ohjelmistoa. Jos vika vaatii valmistajan toimenpidettä tai kuuluu todennäköisesti takuuseen, kerromme sen suoraan ja ohjaamme sinut Teslan huoltoon.",
       },
       {
+        p: "Vianhaussa käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja Topdonin ammattilaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan. Asennamme alkuperäisiä Tesla-osia tai laadukkaita perusosia, ja tekemällemme työlle annamme 1 vuoden tai 10 000 kilometrin takuun.",
+      },
+      {
         note: "Revamp Motors on riippumaton korjaamo. Emme ole sidoksissa Tesla, Inc:iin emmekä ole sen valtuuttama huoltoliike.",
       },
     ],
@@ -79,6 +82,9 @@ export const HUB: Record<Lang, HubCopy> = {
       },
       {
         p: "Software updates come from Tesla over the air, and we do not modify the car's software. If a fault needs the manufacturer or is likely to be covered by warranty, we say so plainly and send you to Tesla service.",
+      },
+      {
+        p: "We diagnose with Tesla Toolbox, Tesla's official diagnostic software, and professional Topdon scan tools, and we work from Tesla's own service manual. We fit genuine Tesla parts as well as quality basic parts, and our work comes with a warranty of 1 year or 10,000 km.",
       },
       {
         note: "Revamp Motors is an independent garage. We are not affiliated with Tesla, Inc. and are not an authorised Tesla service centre.",

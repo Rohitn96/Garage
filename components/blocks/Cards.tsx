@@ -18,7 +18,7 @@ export function ModelSelector({ lang, current }: { lang: Lang; current?: RouteId
             <Link
               href={pathOf(id, lang)}
               aria-current={on ? "page" : undefined}
-              className={`card card-link group relative flex h-full min-h-[11rem] flex-col justify-between overflow-hidden p-5 sm:p-6 ${on ? "border-accent" : ""}`}
+              className={`card card-link group relative flex h-full min-h-[11rem] flex-col justify-between overflow-hidden p-5 sm:p-6 ${on ? "shadow-[inset_4px_0_0_rgb(var(--accent))]" : ""}`}
             >
               <span
                 aria-hidden

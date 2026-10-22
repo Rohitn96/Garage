@@ -28,7 +28,7 @@ export function HomePage({ lang }: { lang: Lang }) {
   return (
     <>
       {/* Hero. Always dark, over footage. The H1 is the LCP and is never animated. */}
-      <section className="relative isolate overflow-hidden border-b border-rule text-white">
+      <section className="relative isolate overflow-hidden text-white md:[clip-path:polygon(0_0,100%_0,100%_calc(100%-4vw),0_100%)]">
         <HeroVideo alt={c.hero.videoAlt} />
         <div className="wrap relative flex min-h-[calc(88svh-4rem)] flex-col justify-end pb-12 pt-40 md:min-h-[min(82vh,820px)] md:justify-center md:pb-20 md:pt-20">
           <p className="flex items-center gap-3 text-step--2 font-semibold uppercase tracking-[0.16em] text-white/75">
@@ -53,7 +53,7 @@ export function HomePage({ lang }: { lang: Lang }) {
 
       {/* The launch offer, as a promotion strip. Gone after 31.12.2026. */}
       <WhileOfferLive>
-        <section className="border-b border-rule bg-surface">
+        <section className="border-b border-rule">
           <div data-reveal className="wrap flex flex-col gap-4 py-8 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-4">
               <span className="chip chip-accent mt-1 shrink-0">{c.offer.label}</span>
@@ -69,7 +69,32 @@ export function HomePage({ lang }: { lang: Lang }) {
         </section>
       </WhileOfferLive>
 
+      {/* Why us: experience, equipment, parts and warranty. */}
       <Section>
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+          <SectionHeading label={c.why.label} title={c.why.title} className="lg:col-span-7" />
+          <p className="lead lg:col-span-5">{c.why.lead}</p>
+        </div>
+        <ul className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
+          {c.why.items.map((item, i) => (
+            <li key={item.title} className="card relative overflow-hidden p-7">
+              <span aria-hidden className="pointer-events-none absolute -right-2 -top-4 font-display text-[6rem] font-extrabold leading-none text-ink/[0.05]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="icon-tile relative">
+                <Icon name={item.icon} className="h-6 w-6" />
+              </span>
+              <h3 className="relative mt-6 text-step-1 font-bold">{item.title}</h3>
+              <p className="relative mt-2 text-step--1 leading-relaxed text-muted">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-10 max-w-xl">
+          <Certificates lang={lang} />
+        </div>
+      </Section>
+
+      <Section tone="surface">
         <SectionHeading label={c.models.label} title={c.models.title} lead={c.models.lead} />
         <div className="mt-10">
           <ModelSelector lang={lang} />
@@ -107,6 +132,7 @@ export function HomePage({ lang }: { lang: Lang }) {
           <div className="lg:col-span-6">
             <VideoPanel
               src="/videos/process.mp4"
+              mobileSrc="/videos/process-mobile.mp4"
               poster="/videos/process-poster.webp"
               alt={lang === "fi" ? "Työkalupakki avataan korjaamon työpöydällä" : "A toolbox being opened on a workshop bench"}
               width={960}
@@ -116,34 +142,16 @@ export function HomePage({ lang }: { lang: Lang }) {
         </div>
       </Section>
 
-      <Section tone="surface">
-        <SectionHeading label={c.why.label} title={c.why.title} />
-        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
-          {c.why.items.map((item) => (
-            <li key={item.title} className="card p-6">
-              <span className="icon-tile">
-                <Icon name={item.icon} className="h-6 w-6" />
-              </span>
-              <h3 className="mt-5 text-step-1 font-bold">{item.title}</h3>
-              <p className="mt-2 text-step--1 leading-relaxed text-muted">{item.body}</p>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-10 max-w-xl">
-          <Certificates lang={lang} />
-        </div>
-      </Section>
-
       <Reviews lang={lang} />
 
-      <Section>
+      <Section tone="surface">
         <SectionHeading label={c.steps.label} title={c.steps.title} />
         <div className="mt-10">
           <Steps items={c.steps.items} />
         </div>
       </Section>
 
-      <Section tone="surface">
+      <Section>
         <SystemLabel>{c.other.label}</SystemLabel>
         <h2 className="h3 mt-5">{c.other.title}</h2>
         <ul className="mt-8 grid gap-3 md:grid-cols-2">
@@ -168,7 +176,7 @@ export function HomePage({ lang }: { lang: Lang }) {
         </ul>
       </Section>
 
-      <Section>
+      <Section tone="surface">
         <div className="grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionHeading label={c.faq.label} title={c.faq.title} />

@@ -31,7 +31,7 @@ export function MobileActionBar({ lang }: { lang: Lang }) {
           </svg>
           {t.whatsapp}
         </a>
-        <Link href={contactHref(lang, "quote")} className={`${item} flex-[1.6] rounded-full bg-accent px-2 text-center text-onAccent`}>
+        <Link href={contactHref(lang, "quote")} className={`${item} flex-[1.6] cut-sm bg-accent uppercase tracking-[0.06em] px-2 text-center text-onAccent`}>
           {t.bookService}
         </Link>
       </div>

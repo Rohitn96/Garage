@@ -155,49 +155,71 @@
     @apply text-step-1 leading-relaxed text-muted;
   }
 
+  /*
+   * Shape language: cut corners, taken from the angled cuts in the logo's
+   * letterforms. Solid fills instead of outlines; no pills, no hairline boxes.
+   * clip-path would also clip a focus outline, so clipped controls draw their
+   * focus ring inside (see :focus-visible below).
+   */
+  .cut-sm {
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+  .cut {
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  }
+
   /* Buttons. Every control is at least 44 px tall for touch. */
   .btn {
-    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 py-2.5 text-step--1 font-semibold tracking-[0.01em] transition-[background-color,color,border-color,transform,box-shadow] duration-2 ease-out active:scale-[0.98];
+    @apply cut-sm inline-flex min-h-[48px] items-center justify-center gap-2 px-6 py-2.5 text-step--2 font-bold uppercase tracking-[0.1em] transition-[background-color,color,transform] duration-2 ease-out active:translate-y-px;
+  }
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgb(var(--ink));
   }
   .btn-primary {
-    @apply btn bg-accent text-onAccent shadow-[0_8px_24px_-12px_rgb(var(--accent)/0.7)] hover:-translate-y-px hover:shadow-[0_12px_28px_-12px_rgb(var(--accent)/0.85)];
+    @apply btn bg-accent text-onAccent hover:bg-ink hover:text-ground;
   }
   .btn-secondary {
-    @apply btn border border-ruleStrong text-ink hover:-translate-y-px hover:border-ink;
+    @apply btn bg-ink/[0.08] text-ink hover:bg-ink hover:text-ground;
   }
   .btn-ghost {
-    @apply inline-flex min-h-[44px] items-center gap-2 text-step--1 font-semibold text-ink underline decoration-ruleStrong underline-offset-[6px] transition-colors duration-2 hover:decoration-accent;
+    @apply inline-flex min-h-[44px] items-center gap-2 text-step--2 font-bold uppercase tracking-[0.1em] text-ink transition-colors duration-2 hover:text-accent;
   }
   /* For use on the hero video, whatever the theme. */
   .btn-on-media {
-    @apply btn border border-white/40 bg-black/25 text-white hover:-translate-y-px hover:border-white hover:bg-black/40;
+    @apply btn bg-white/15 text-white hover:bg-white hover:text-[#0c0e10];
   }
 
+  /* Panels: a solid surface with cut corners. On a surface-toned section the
+     panel steps up one tone so it still reads. */
   .card {
-    @apply rounded-lg border border-rule bg-surface;
+    @apply cut;
+    background-color: rgb(var(--surface));
+  }
+  .bg-surface .card {
+    background-color: rgb(var(--raised));
   }
 
-  /* A card that is a link: lifts slightly on hover. */
+  /* A panel that is a link: an accent bar slides in on the left on hover. */
   .card-link {
-    @apply transition-[transform,box-shadow,border-color,background-color] duration-3 ease-out hover:-translate-y-0.5 hover:border-ruleStrong hover:shadow-[0_18px_40px_-24px_rgb(0_0_0/0.45)];
+    @apply relative transition-[background-color,box-shadow] duration-3 ease-out hover:shadow-[inset_4px_0_0_rgb(var(--accent))];
+  }
+  .card-link:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px rgb(var(--accent));
   }
 
   .link {
     @apply text-ink underline decoration-ruleStrong decoration-1 underline-offset-4 transition-colors duration-1 hover:decoration-accent;
   }
 
-  /* Small pill for facts and tags. */
+  /* Small angled tag for facts and labels. */
   .chip {
-    @apply inline-flex items-center gap-2 rounded-full border border-rule px-3 py-1 text-step--2 font-medium text-muted;
+    @apply cut-sm inline-flex items-center gap-2 bg-ink/[0.07] px-3 py-1 text-step--2 font-semibold uppercase tracking-[0.08em] text-muted;
   }
   .chip-accent {
-    @apply border-accent/40 text-accent;
+    @apply bg-accent/[0.12] text-accent;
   }
-  .chip-accent::before {
-    content: "";
-    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-current;
-  }
-
   /* Soft glow behind page heroes, in place of a hard background. */
   .glow {
     background:
@@ -207,7 +229,7 @@
 
   /* Icon tile used on service and reason cards. */
   .icon-tile {
-    @apply inline-flex h-11 w-11 items-center justify-center rounded-lg bg-accent/10 text-accent;
+    @apply cut-sm inline-flex h-11 w-11 items-center justify-center bg-accent/10 text-accent;
   }
 
   /* Long-form content: service pages, model pages, blog. */
@@ -240,7 +262,7 @@
     @apply link;
   }
   .prose-tech .note {
-    @apply rounded-lg border-l-2 border-accent bg-surface px-4 py-3 text-step--1 text-muted;
+    @apply cut bg-surface px-5 py-4 text-step--1 text-muted shadow-[inset_4px_0_0_rgb(var(--accent))];
   }
 
   /* FAQ disclosure. Native details/summary: works without JS. */

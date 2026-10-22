@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export function SystemLabel({ children }: { children: ReactNode }) {
   return (
     <p className="label flex items-center gap-3">
-      <span aria-hidden className="h-px w-6 bg-accent" />
+      <span aria-hidden className="h-[3px] w-7 -skew-x-[35deg] bg-accent" />
       <span>{children}</span>
     </p>
   );
@@ -50,7 +50,7 @@ export function PageHero({
   aside?: ReactNode;
 }) {
   return (
-    <section className="glow border-b border-rule">
+    <section className="glow">
       <div className="wrap grid gap-10 pb-14 pt-10 md:pb-20 md:pt-16 lg:grid-cols-12 lg:items-center">
         <div className={aside ? "lg:col-span-7" : "lg:col-span-10"}>
           <SystemLabel>{label}</SystemLabel>
@@ -76,7 +76,7 @@ export function Section({
   tone?: "ground" | "surface";
 }) {
   return (
-    <section id={id} className={`border-b border-rule ${tone === "surface" ? "bg-surface" : ""} ${className}`}>
+    <section id={id} className={`${tone === "surface" ? "bg-surface" : ""} ${className}`}>
       <div data-reveal className="wrap section">
         {children}
       </div>

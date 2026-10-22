@@ -22,7 +22,7 @@ export function BlogIndexPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="blog" lang={lang} />
-      <section className="glow border-b border-rule">
+      <section className="glow">
         <div className="wrap py-10 md:py-14">
           <p className="label">{t.sections.blogTitle}</p>
           <h1 className="h1 mt-6">{t.sections.blogTitle}</h1>
@@ -30,12 +30,12 @@ export function BlogIndexPage({ lang }: { lang: Lang }) {
         </div>
       </section>
       <Section>
-        <ul className="grid gap-px overflow-hidden rounded border border-rule bg-rule md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {BLOG_POSTS.map((post, i) => {
             const c = BLOG[lang][post.id];
             return (
-              <li key={post.id} className="bg-ground">
-                <Link href={pathOf(post.id, lang)} className="group flex h-full flex-col gap-4 p-6 transition-colors duration-2 hover:bg-surface">
+              <li key={post.id}>
+                <Link href={pathOf(post.id, lang)} className="card card-link group flex h-full flex-col gap-4 p-6">
                   <span className="flex items-center justify-between font-mono text-step--2 uppercase tracking-label text-muted">
                     <span className="text-accent">{String(i + 1).padStart(2, "0")}</span>
                     <span>
@@ -64,7 +64,7 @@ export function BlogPostPage({ id, lang }: { id: BlogPostId; lang: Lang }) {
     <>
       <Breadcrumbs id={id} lang={lang} />
       <article>
-        <header className="glow border-b border-rule">
+        <header className="glow">
           <div className="wrap py-10 md:py-14">
             <p className="label">
               {t.published} <time dateTime={c.published}>{formatDate(c.published, lang)}</time> · {c.readMinutes} {t.minutes}

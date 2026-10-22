@@ -12,7 +12,7 @@ type HomeCopy = {
   explorer: { label: string; title: string; lead: string; hint: string };
   services: { label: string; title: string; lead: string };
   weekend: { label: string; title: string; body: string; steps: TitledItem[]; more: string };
-  why: { label: string; title: string; items: Array<TitledItem & { icon: IconName }> };
+  why: { label: string; title: string; lead: string; items: Array<TitledItem & { icon: IconName }> };
   steps: { label: string; title: string; items: TitledItem[] };
   other: { label: string; title: string; ev: string; other: string };
   faq: { label: string; title: string; all: string };
@@ -29,9 +29,9 @@ export const HOME: Record<Lang, HomeCopy> = {
     hero: {
       label: "Tesla- ja sähköautoasiantuntijat · Helsinki",
       h1: "Riippumaton Tesla-huolto Helsingissä",
-      lead: "Ajoakusta renkaisiin, huolehdimme Teslasi jokaisesta osasta. Yli 10 vuoden yhteenlaskettu kokemus alalta, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
-      facts: ["Yli 10 vuoden kokemus", "Model S, 3, X ja Y", "Viikonloppuisin täydet päivät"],
-      videoAlt: "Musta Tesla Model 3 ajaa peltotiellä auringonlaskussa",
+      lead: "Ajoakusta renkaisiin, huolehdimme Teslasi jokaisesta osasta. Teslan omat diagnostiikkaohjelmistot, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
+      facts: ["Model S, 3, X ja Y", "Alkuperäiset Tesla-osat", "Viikonloppuisin täydet päivät"],
+      videoAlt: "Teslan ohjaamo ajon aikana: ohjauspyörä ja keskinäyttö",
     },
     offer: {
       label: "Avajaistarjous",
@@ -67,8 +67,9 @@ export const HOME: Record<Lang, HomeCopy> = {
       more: "Näin viikonloppuhuolto toimii",
     },
     why: {
-      label: "Miksi Revamp Motors",
-      title: "Asiantuntemusta ja suoria vastauksia",
+      label: "Miksi me",
+      title: "Tesla-osaamista, oikeilla työkaluilla",
+      lead: "Riippumaton korjaamo, joka työskentelee Teslan kanssa kuten valmistaja tarkoittaa: oikeilla ohjelmistoilla, oikeilla osilla ja takuulla.",
       items: [
         {
           icon: "experience",
@@ -76,19 +77,29 @@ export const HOME: Record<Lang, HomeCopy> = {
           body: "Tiimillämme on yhteensä yli kymmenen vuoden kokemus autoalalta, ja keskitymme nyt Teslaan ja sähköautoihin.",
         },
         {
-          icon: "procedure",
-          title: "Teslan menettelyt joka kerta",
-          body: "Ilmajousitetut autot nostotilassa, sähköisen pysäköintijarrun oikea menettely ja jännitteetön suurjännitejärjestelmä ennen töitä.",
+          icon: "scanner",
+          title: "Tesla Toolbox ja Topdon",
+          body: "Vianhaussa käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja Topdonin ammattilaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan.",
         },
         {
-          icon: "estimate",
-          title: "Selkeä arvio ensin",
-          body: "Hyväksyt työn ja arvion ennen kuin aloitamme. Jos löydämme muuta, soitamme ensin, ja näet vaihdetut osat.",
+          icon: "parts",
+          title: "Alkuperäiset tai perusosat",
+          body: "Asennamme alkuperäisiä Tesla-osia tai laadukkaita perusosia. Arviosta näet, mitä käytämme, ja valinta on sinun.",
         },
         {
           icon: "shield",
-          title: "Riippumaton ja vastuullinen",
-          body: "Rekisteröity suomalainen yritys, Y-tunnus 3651428-1. Emme ole sidoksissa Tesla, Inc:iin, ja kerromme suoraan, kun työ kuuluu Teslan takuuseen.",
+          title: "Takuu 1 vuosi tai 10 000 km",
+          body: "Tekemällemme työlle annamme 1 vuoden tai 10 000 kilometrin takuun.",
+        },
+        {
+          icon: "climate",
+          title: "Ilmastointilaitteet Teslalle",
+          body: "Käytössämme on nimenomaan Tesla-autoille tarkoitetut ilmastoinnin huoltolaitteet.",
+        },
+        {
+          icon: "workshop",
+          title: "Täysin varusteltu korjaamo",
+          body: "Nostimet ja kaikki muu, mitä nykyaikainen korjaamo tarvitsee, saman katon alla Tattarisuolla.",
         },
       ],
     },
@@ -123,9 +134,9 @@ export const HOME: Record<Lang, HomeCopy> = {
     hero: {
       label: "Tesla & EV specialists · Helsinki",
       h1: "Independent Tesla service in Helsinki",
-      lead: "From the high-voltage battery to the tyres, we look after every part of your Tesla. Over ten years of combined industry experience, manufacturer procedures on every job, and a clear estimate before any work begins.",
-      facts: ["10+ years of combined experience", "Model S, 3, X and Y", "Full working days at weekends"],
-      videoAlt: "A black Tesla Model 3 driving along a field road at sunset",
+      lead: "From the high-voltage battery to the tyres, we look after every part of your Tesla. Tesla's own diagnostic software, manufacturer procedures on every job, and a clear estimate before any work begins.",
+      facts: ["Model S, 3, X and Y", "Genuine Tesla parts", "Full working days at weekends"],
+      videoAlt: "Inside a Tesla on the move: the steering wheel and centre touchscreen",
     },
     offer: {
       label: "Launch offer",
@@ -161,8 +172,9 @@ export const HOME: Record<Lang, HomeCopy> = {
       more: "How weekend service works",
     },
     why: {
-      label: "Why Revamp Motors",
-      title: "Specialist knowledge. Straight answers.",
+      label: "Why us",
+      title: "Tesla expertise, with the right tools",
+      lead: "An independent workshop that works on Teslas the way the manufacturer intends: with the right software, the right parts, and a warranty on our work.",
       items: [
         {
           icon: "experience",
@@ -170,19 +182,29 @@ export const HOME: Record<Lang, HomeCopy> = {
           body: "Our team brings more than a decade of combined experience in the automotive industry, now focused on Tesla and electric vehicles.",
         },
         {
-          icon: "procedure",
-          title: "Tesla procedures, every time",
-          body: "Air suspension cars lifted in jack mode, the correct electric parking brake procedure, and a de-energised high-voltage system before anyone touches it.",
+          icon: "scanner",
+          title: "Tesla Toolbox and Topdon",
+          body: "We diagnose with Tesla Toolbox, Tesla's official diagnostic software, and professional Topdon scan tools, and we work from Tesla's own service manual.",
         },
         {
-          icon: "estimate",
-          title: "A clear estimate first",
-          body: "You approve the work and the estimate before we start. If we find anything else, we call you first, and you see the parts we replaced.",
+          icon: "parts",
+          title: "Genuine or basic parts",
+          body: "We fit genuine Tesla parts as well as quality basic parts. The estimate shows which we will use, and the choice is yours.",
         },
         {
           icon: "shield",
-          title: "Independent and accountable",
-          body: "A registered Finnish company, business ID 3651428-1. Not affiliated with Tesla, Inc., and honest about when a job belongs with Tesla's warranty.",
+          title: "1 year or 10,000 km warranty",
+          body: "Every job we do comes with a warranty of 1 year or 10,000 km on our work.",
+        },
+        {
+          icon: "climate",
+          title: "AC equipment made for Tesla",
+          body: "Our air conditioning service machines are specified for Tesla vehicles.",
+        },
+        {
+          icon: "workshop",
+          title: "A fully equipped workshop",
+          body: "Lifts and everything else a modern garage needs, under one roof in Tattarisuo.",
         },
       ],
     },

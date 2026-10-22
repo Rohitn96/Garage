@@ -45,3 +45,10 @@ These are stated on the site. Most were already on the previous site; the ones m
 ## 4. After 31.12.2026
 
 The offer switches off by itself in visitors' browsers. A rebuild on or after 1.1.2027 (`npm run deploy`) also removes it from the HTML and from the offer page's metadata, which is cleaner for search engines. See README, "Launch offer".
+
+## 5. Added on 23.10.2026, please confirm wording
+
+- **Parts:** the site says "genuine Tesla parts as well as quality basic parts". You wrote "Tesla basics part"; if that is a specific product line or brand, tell me the exact name.
+- **Warranty:** "1 year or 10,000 km warranty on our work". If it is "whichever comes first", or excludes parts the customer supplies, say so and I will add it.
+- **AC machines for Tesla:** stated as equipment in "Why us". The climate page still says refrigerant work (AC recharge) waits for the F-gas certificate, because `acLicensed` in `site.config.ts` is `false`. Once the certificate is held, set it to `true` and the site offers AC service and recharge.
+- **Diagnostics:** "Tesla Toolbox, Tesla's official diagnostic software, professional Topdon scan tools, and Tesla's own service manual."
