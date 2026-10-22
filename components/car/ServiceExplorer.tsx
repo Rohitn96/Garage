@@ -22,42 +22,30 @@ const RAMP = 0.32;
 const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const smooth = (t: number) => t * t * (3 - 2 * t);
 
-/**
- * Whether this visitor gets the WebGL car: a wide screen, motion allowed, at
- * least four cores, and no Save-Data or slow connection. Everyone else gets the
- * service grid that follows this section, which carries the same content.
- */
-function useCanRender3D(): boolean {
-  const [ok, setOk] = useState(false);
+function useCompact(): boolean {
+  const [compact, setCompact] = useState(false);
   useEffect(() => {
-    const wide = window.matchMedia("(min-width: 1024px)");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const nav = navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } };
-    const slow = nav.connection?.saveData || /(^|-)2g|3g/.test(nav.connection?.effectiveType ?? "");
-    const cores = navigator.hardwareConcurrency;
-    const update = () => setOk(wide.matches && !reduced.matches && !slow && (typeof cores !== "number" || cores >= 4));
+    const q = window.matchMedia("(max-width: 767px)");
+    const update = () => setCompact(q.matches);
     update();
-    wide.addEventListener("change", update);
-    reduced.addEventListener("change", update);
-    return () => {
-      wide.removeEventListener("change", update);
-      reduced.removeEventListener("change", update);
-    };
+    q.addEventListener("change", update);
+    return () => q.removeEventListener("change", update);
   }, []);
-  return ok;
+  return compact;
 }
 
 /**
- * The car opened up system by system. Desktop only, decided by CSS so nothing
- * shifts after load; the whole stage is a visual presentation of the service
- * grid below it and is hidden from assistive tech.
+ * The car opened up system by system, on every screen size. On a phone the car
+ * takes the top of the stage and the system's details sit beneath it; on wider
+ * screens the details sit in the margin with a leader line to the part. The
+ * stage is a presentation of the service grid that follows, so it is hidden
+ * from assistive tech.
  */
 export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: ServiceGroup[]; label: string; title: string; lead: string; hint: string }) {
-  const can3D = useCanRender3D();
+  const compact = useCompact();
   const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState<number | null>(null);
   const [running, setRunning] = useState(false);
-  const [armed, setArmed] = useState(false);
   const span = (END - START) / groups.length;
 
   const labelRef = useRef<HTMLDivElement | null>(null);
@@ -87,15 +75,6 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
     return () => io.disconnect();
   }, []);
 
-  // three.js is fetched only once the track is near, never on load.
-  useEffect(() => {
-    if (armed || !can3D) return;
-    const node = track.current;
-    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && setArmed(true), { rootMargin: "50% 0px" });
-    if (node) io.observe(node);
-    return () => io.disconnect();
-  }, [armed, can3D]);
-
   const group = index === null ? null : groups[index];
   const region: CarRegionId | null = group?.id ?? null;
   const held = useRef<{ group: ServiceGroup; index: number } | null>(null);
@@ -103,8 +82,8 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
   const shown = group && index !== null ? { group, index } : held.current;
 
   return (
-    <section aria-hidden className="hidden border-b border-rule lg:block motion-reduce:hidden">
-      <div className="wrap pt-24">
+    <section aria-hidden className="border-b border-rule">
+      <div className="wrap pt-16 md:pt-24">
         <p className="label flex items-center gap-3">
           <span aria-hidden className="h-px w-6 bg-accent" />
           {label}
@@ -115,31 +94,32 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
 
       <div
         ref={track}
-        style={{ "--track": `${groups.length * 80}vh` } as CSSProperties}
-        className="relative h-[var(--track)]"
+        style={{ "--track": `${groups.length * 85}vh`, "--track-md": `${groups.length * 80}vh` } as CSSProperties}
+        className="relative h-[var(--track)] md:h-[var(--track-md)]"
       >
-        <div className="blueprint sticky top-0 h-[100svh] overflow-hidden">
-          <div className="absolute inset-0">
-            {can3D && armed ? (
-              <CarScene
-                activeRegion={region}
-                openness={openness}
-                progress={scrollYProgress}
-                turn={turn}
-                compact={false}
-                running={running}
-                calloutRefs={calloutRefs}
-              />
-            ) : null}
+        <div className="sticky top-0 h-[100svh] overflow-hidden">
+          {/* Soft floor light under the car. */}
+          <div className="pointer-events-none absolute inset-x-0 top-[18%] mx-auto h-[45%] max-w-3xl rounded-full bg-accent/10 blur-3xl md:top-[30%]" />
 
-            <ol className="pointer-events-none absolute left-10 top-28">
+          <div className="absolute inset-x-0 top-0 h-[54svh] md:inset-0 md:h-auto">
+            <CarScene
+              activeRegion={region}
+              openness={openness}
+              progress={scrollYProgress}
+              turn={turn}
+              compact={compact}
+              running={running}
+              calloutRefs={calloutRefs}
+            />
+
+            <ol className="pointer-events-none absolute left-10 top-28 hidden md:block">
               {groups.map((g, i) => {
                 const on = i === index;
                 const done = index !== null && i < index;
                 return (
                   <li key={g.id} className="flex items-center gap-3 py-1">
-                    <span className={`h-px shrink-0 transition-all duration-2 ${on ? "w-7 bg-accent" : done ? "w-4 bg-accent/40" : "w-4 bg-rule"}`} />
-                    <span className={`font-mono text-step--2 uppercase tracking-label transition-colors duration-2 ${on ? "text-accent" : done ? "text-muted" : "text-faint"}`}>
+                    <span className={`h-px shrink-0 transition-all duration-3 ${on ? "w-8 bg-accent" : done ? "w-4 bg-accent/40" : "w-4 bg-ruleStrong"}`} />
+                    <span className={`text-step--2 font-semibold uppercase tracking-[0.14em] transition-colors duration-3 ${on ? "text-accent" : done ? "text-muted" : "text-faint"}`}>
                       {g.title}
                     </span>
                   </li>
@@ -147,35 +127,36 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
               })}
             </ol>
 
-            <svg className="pointer-events-none absolute inset-0 h-full w-full">
+            <svg className="pointer-events-none absolute inset-0 h-full w-full overflow-visible">
               <circle ref={ringRef} r="13" className="fill-none stroke-accent/40 opacity-0 transition-opacity duration-3" strokeWidth="1" />
               <circle ref={dotRef} r="3" className="fill-accent opacity-0 transition-opacity duration-3" />
               <path ref={pathRef} className="fill-none stroke-accent/60 opacity-0 transition-opacity duration-3" strokeWidth="1" />
             </svg>
 
+            {/* Phone: placed by CSS under the car. Wider: placed every frame by
+                the callout tracker, in whichever margin the part is nearer. */}
             <div
               ref={labelRef}
               data-side="right"
-              className="pointer-events-none absolute left-0 top-0 w-[18rem] opacity-0 transition-opacity duration-3 data-[side=left]:text-right"
+              className="pointer-events-none absolute left-0 top-[calc(54svh+0.75rem)] w-full px-4 opacity-0 transition-opacity duration-3 data-[side=left]:md:text-right md:top-0 md:w-[19rem] md:px-0"
             >
               {shown && (
                 <motion.div
                   key={shown.group.id}
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.18, ease: [0.22, 0.61, 0.36, 1] }}
-                  className="rounded border border-rule bg-ground/90 p-4 backdrop-blur"
+                  transition={{ duration: 0.28, ease: [0.22, 0.61, 0.36, 1] }}
+                  className="rounded-lg border border-rule bg-ground/90 p-5 shadow-[0_24px_48px_-32px_rgb(0_0_0/0.6)] backdrop-blur"
                 >
-                  <p className="font-mono text-step--2 tabular-nums tracking-label text-accent">
-                    SYS {String(shown.index + 1).padStart(2, "0")}
-                    <span className="text-faint"> / {String(groups.length).padStart(2, "0")}</span>
+                  <p className="font-mono text-step--2 tabular-nums text-accent">
+                    {shown.index + 1} / {groups.length}
                   </p>
                   <h3 className="mt-1.5 text-step-2 font-bold">{shown.group.title}</h3>
                   <p className="mt-1.5 text-step--1 leading-relaxed text-muted">{shown.group.standfirst}</p>
-                  <ul className="mt-3 grid gap-1">
+                  <ul className="mt-3 grid gap-1.5">
                     {shown.group.items.map((item) => (
                       <li key={item} className="flex items-center gap-2 text-step--1">
-                        <span aria-hidden className="h-1 w-1 shrink-0 rounded-full bg-ok" />
+                        <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                         {item}
                       </li>
                     ))}
@@ -186,7 +167,7 @@ export function ServiceExplorer({ groups, label, title, lead, hint }: { groups: 
           </div>
 
           {index === null && (
-            <p className="pointer-events-none absolute inset-x-0 bottom-16 text-center font-mono text-step--2 uppercase tracking-label text-muted">
+            <p className="pointer-events-none absolute inset-x-0 bottom-24 text-center text-step--2 font-semibold uppercase tracking-[0.16em] text-muted md:bottom-16">
               {hint}
             </p>
           )}

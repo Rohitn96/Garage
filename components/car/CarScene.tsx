@@ -29,7 +29,7 @@ function Rig({
     // The phone frames the assembled car tight, then gives back more room than
     // desktop does as a system opens: at this size a separated part reaches the
     // edge of a 390px stage long before it would on a 1440px one.
-    const distance = compact ? MathUtils.lerp(7.8, 9.6, t) : MathUtils.lerp(9.4, 10.6, t);
+    const distance = compact ? MathUtils.lerp(9.6, 11.2, t) : MathUtils.lerp(9.4, 10.6, t);
     // The eye line also travels: up over the first half of the track and back
     // down over the second. Combined with the yaw it means no two systems are
     // seen from the same place, which is most of what stops an exploded view

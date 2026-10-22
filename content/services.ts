@@ -28,40 +28,33 @@ export const SERVICE_IDS: ServiceId[] = [
   "svc-climate",
 ];
 
-/** Card copy for grids: system code and one line. */
-export const SERVICE_CARDS: Record<ServiceId, { code: string; fi: string; en: string }> = {
+/** Card copy for grids: one line per service. */
+export const SERVICE_CARDS: Record<ServiceId, { fi: string; en: string }> = {
   "svc-battery": {
-    code: "SYS 01",
     fi: "Ajoakun kunto, latausviat ja 12 V:n akun vaihto.",
     en: "Battery health, charging faults and 12 V battery replacement.",
   },
   "svc-powertrain": {
-    code: "SYS 02",
     fi: "Äänet, tärinä ja tehonrajoitus jäljitettynä oikeaan osaan.",
     en: "Noise, vibration and power limits traced to the right part.",
   },
   "svc-brakes": {
-    code: "SYS 03",
     fi: "Satuloiden huolto, levyt, palat ja jarruneste.",
     en: "Caliper service, discs, pads and brake fluid.",
   },
   "svc-suspension": {
-    code: "SYS 04",
     fi: "Tukivarret, holkit ja ilmajousituksen vuodot.",
     en: "Control arms, bushings and air suspension leaks.",
   },
   "svc-tyres": {
-    code: "SYS 05",
     fi: "Kausivaihto, suuntaus, tasapainotus ja rengashotelli.",
     en: "Seasonal changes, alignment, balancing and tyre storage.",
   },
   "svc-electrical": {
-    code: "SYS 06",
     fi: "Varoitukset, anturit, kamerat ja kosteusviat.",
     en: "Warnings, sensors, cameras and moisture faults.",
   },
   "svc-climate": {
-    code: "SYS 07",
     fi: "Lämpöpumpun vianhaku, huurtuminen ja suodattimet.",
     en: "Heat pump diagnosis, fogging and cabin filters.",
   },
@@ -89,7 +82,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan ajoakun kuntotesti, latausviat ja 12 V:n akun vaihto Tattarisuolla, Helsingissä. Vianhaku ensin, kirjallinen arvio ennen töitä.",
     },
     name: "Akku ja lataus",
-    system: "SYS 01",
     h1: "Teslan akku, lataus ja 12 V:n akku",
     lead: "Teslassa on kaksi akkua ja kaksi erilaista vikaa. Ajoakku kertoo auton kunnosta ja arvosta, kun taas pieni 12 V:n akku pysäyttää auton useammin kuin mikään muu. Selvitämme ensin, kumpi oireilee ja miksi, ja vasta sitten puhumme vaihtamisesta.",
     symptoms: [
@@ -186,7 +178,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan voimalinjan äänet, tärinä, tehonrajoitus ja suurjännitejärjestelmän viat. Vianhaku Tattarisuolla, Helsingissä. Arvio ennen töitä.",
     },
     name: "Voimalinja ja suurjännite",
-    system: "SYS 02",
     h1: "Teslan voimalinja ja suurjännitejärjestelmän vianhaku",
     lead: "Ääni, tärinä tai tehonrajoitus voi tulla moottorista, alennusvaihteesta, vetoakselista, invertteristä tai aivan muualta alustasta. Jäljitämme oireen siihen osaan, joka sen aiheuttaa, ennen kuin puhumme korjauksesta.",
     symptoms: [
@@ -285,7 +276,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan jarrusatuloiden puhdistus ja voitelu, levyt, palat ja jarruneste. Regeneratiivinen jarrutus ja Suomen suolatiet huomioiden. Tattarisuo, Helsinki.",
     },
     name: "Jarrut ja regenerointi",
-    system: "SYS 03",
     h1: "Teslan jarrut ja regeneratiivinen jarrutus",
     lead: "Regeneratiivinen jarrutus hoitaa suurimman osan hidastuksista, joten kitkajarrut kuluvat vähän mutta ruostuvat ja jumittuvat. Suomen suolatiellä jarrut tarvitsevat huoltoa useammin kuin palojen paksuudesta voisi päätellä.",
     symptoms: [
@@ -399,7 +389,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan tukivarret, holkit, iskunvaimentimet ja ilmajousituksen vuodot. Model S ja X ilmajousitus, Model 3 ja Y etupään äänet. Tattarisuo, Helsinki.",
     },
     name: "Alusta ja ilmajousitus",
-    system: "SYS 04",
     h1: "Teslan alusta ja ilmajousitus",
     lead: "Painava auto, talvitiet ja kuopat kuluttavat alustaa. Model 3:ssa ja Model Y:ssä vika on tavallisesti tukivarren holkissa tai pallonivelessä, Model S:ssä ja Model X:ssä usein ilmajousituksessa. Paikannamme äänen ennen kuin vaihdamme mitään.",
     symptoms: [
@@ -505,7 +494,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan rengasvaihto, nelipyöräsuuntaus, tasapainotus, rengaspaineanturit ja rengashotelli Tattarisuolla, Helsingissä. Myös viikonloppuisin.",
     },
     name: "Renkaat ja suuntaus",
-    system: "SYS 05",
     h1: "Teslan renkaat ja pyöränsuuntaus",
     lead: "Välitön vääntö ja raskas auto kuluttavat renkaita. Oikeat paineet, säännöllinen kierto ja tarkka suuntaus pitävät kulumisen tasaisena ja ajettavuuden ennallaan. Teemme myös kausivaihdot ja säilytämme renkaat.",
     symptoms: [
@@ -615,7 +603,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan sähkövikojen vianhaku: varoitukset, näyttö, kamerat, anturit, ovet ja kosteusviat. Erotamme ohjelmistovirheen laitevikasta. Tattarisuo, Helsinki.",
     },
     name: "Sähköviat ja ohjelmisto",
-    system: "SYS 06",
     h1: "Teslan sähköviat ja ohjelmisto",
     lead: "Teslassa moni vika näkyy ensin näytöllä: varoitus, toimimaton toiminto tai uudelleen käynnistyvä näyttö. Erotamme ohjelmistovirheen sähkövikasta ja kerromme, mikä korjataan korjaamossa ja mikä vaatii valmistajan toimenpiteen.",
     symptoms: [
@@ -724,7 +711,6 @@ const FI: Record<ServiceId, ServiceContent> = {
         "Teslan lämpöpumpun ja ilmastoinnin vianhaku: heikko lämpö, huurtuvat ikkunat, talven toimintamatka ja raitisilmasuodattimet. Tattarisuo, Helsinki.",
     },
     name: "Ilmastointi ja lämpöpumppu",
-    system: "SYS 07",
     h1: "Teslan ilmastointi ja lämpöpumppu",
     lead: "Suomessa lämpöpumppu on osa toimintamatkaa, ei pelkkä mukavuusvaruste. Kun lämpö ei riitä, ikkunat huurtuvat tai talven toimintamatka putoaa äkillisesti, selvitämme syyn anturista, venttiilistä, pumpusta, puhaltimesta tai ohjauksesta.",
     symptoms: [
@@ -841,7 +827,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla battery health checks, charging faults and 12 V battery replacement in Tattarisuo, Helsinki. Diagnosis first, a written estimate before any work.",
     },
     name: "Battery and charging",
-    system: "SYS 01",
     h1: "Tesla battery, charging and the 12 V battery",
     lead: "A Tesla has two batteries and two very different kinds of fault. The high-voltage pack tells you about the car's condition and value; the small 12 V battery strands more cars than anything else. We find out which one is causing the problem, and why, before anyone talks about replacing anything.",
     symptoms: [
@@ -938,7 +923,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla drive unit noise, vibration, power limits and high-voltage system faults, diagnosed in Tattarisuo, Helsinki. Estimate before any work.",
     },
     name: "Powertrain and high voltage",
-    system: "SYS 02",
     h1: "Tesla powertrain and high-voltage diagnostics",
     lead: "A noise, a vibration or a power limit can come from the motor, the reduction gear, a driveshaft, the inverter or somewhere else in the chassis entirely. We trace the symptom to the part that is causing it before we talk about a repair.",
     symptoms: [
@@ -1037,7 +1021,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla brake caliper cleaning and lubrication, discs, pads and brake fluid, with regenerative braking and Finnish salted roads in mind. Tattarisuo, Helsinki.",
     },
     name: "Brakes and regen",
-    system: "SYS 03",
     h1: "Tesla brakes and regenerative braking",
     lead: "Regenerative braking does most of the slowing down, so the friction brakes wear very little but corrode and seize instead. On salted Finnish roads they need attention more often than pad thickness would suggest.",
     symptoms: [
@@ -1151,7 +1134,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla control arms, bushings, dampers and air suspension leaks. Model S and X air suspension, Model 3 and Y front end noises. Tattarisuo, Helsinki.",
     },
     name: "Suspension and air suspension",
-    system: "SYS 04",
     h1: "Tesla suspension and air suspension",
     lead: "A heavy car, winter roads and potholes wear suspension. On Model 3 and Model Y the fault is usually a control arm bushing or ball joint; on Model S and Model X it is often the air suspension. We locate the noise before we replace anything.",
     symptoms: [
@@ -1257,7 +1239,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla tyre changes, four-wheel alignment, balancing, TPMS sensors and tyre storage in Tattarisuo, Helsinki. Weekend appointments too.",
     },
     name: "Tyres and alignment",
-    system: "SYS 05",
     h1: "Tesla tyres and wheel alignment",
     lead: "Instant torque and a heavy car are hard on tyres. Correct pressures, regular rotation and accurate alignment keep wear even and the handling as it should be. We also do seasonal changes and store your off-season set.",
     symptoms: [
@@ -1367,7 +1348,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla electrical fault finding: warnings, screen, cameras, sensors, doors and moisture faults. We tell software issues from hardware faults. Tattarisuo, Helsinki.",
     },
     name: "Electrical faults and software",
-    system: "SYS 06",
     h1: "Tesla electrical faults and software",
     lead: "In a Tesla, most faults show up on the screen first: a warning, a feature that stops working, a display that reboots. We separate software glitches from electrical faults and tell you what can be fixed in the workshop and what needs action from the manufacturer.",
     symptoms: [
@@ -1476,7 +1456,6 @@ const EN: Record<ServiceId, ServiceContent> = {
         "Tesla heat pump and climate fault diagnosis: weak heating, fogged windows, winter range and cabin filters. Tattarisuo, Helsinki.",
     },
     name: "Climate and heat pump",
-    system: "SYS 07",
     h1: "Tesla climate control and heat pump",
     lead: "In Finland the heat pump is part of your range, not just a comfort feature. When the heating is weak, the windows fog up or winter range suddenly drops, we trace the cause to a sensor, valve, pump, blower or the control logic.",
     symptoms: [

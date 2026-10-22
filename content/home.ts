@@ -1,19 +1,19 @@
 import type { Lang } from "@/site.config";
+import type { IconName } from "@/components/Icons";
 import type { Seo, TitledItem } from "./types";
 
 /** Home page copy. FINNISH NEEDS HUMAN REVIEW. */
 
 type HomeCopy = {
   seo: Seo;
-  hero: { label: string; h1: string; lead: string; facts: string[] };
-  scan: { title: string; caption: string; states: { scan: string; ok: string; queued: string } };
-  offer: { label: string; title: string; body: string; points: string[]; more: string };
-  diagnosisFirst: { label: string; title: string; body: string };
-  weekend: { label: string; title: string; body: string; steps: TitledItem[]; more: string };
+  hero: { label: string; h1: string; lead: string; facts: string[]; videoAlt: string };
+  offer: { label: string; title: string; body: string; more: string };
   models: { label: string; title: string; lead: string };
-  systems: { label: string; title: string; lead: string };
+  explorer: { label: string; title: string; lead: string; hint: string };
+  services: { label: string; title: string; lead: string };
+  weekend: { label: string; title: string; body: string; steps: TitledItem[]; more: string };
+  why: { label: string; title: string; items: Array<TitledItem & { icon: IconName }> };
   steps: { label: string; title: string; items: TitledItem[] };
-  trust: { label: string; title: string; items: TitledItem[] };
   other: { label: string; title: string; ev: string; other: string };
   faq: { label: string; title: string; all: string };
   cta: { title: string; body: string };
@@ -22,73 +22,84 @@ type HomeCopy = {
 export const HOME: Record<Lang, HomeCopy> = {
   fi: {
     seo: {
-      title: "Revamp Motors · Tesla- ja sähköautohuolto Helsingissä",
+      title: "Revamp Motors · Riippumaton Tesla-huolto Helsingissä",
       description:
-        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Vianhaku, akku ja 12 V, jarrut, alusta, ilmajousitus ja renkaat. Arvio ennen töitä.",
+        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta. Akku, jarrut, alusta, renkaat ja vianhaku. Arvio ennen töitä.",
     },
     hero: {
-      label: "Tesla ja sähköautot · Tattarisuo, Helsinki",
-      // The soft hyphen lets the long compound break on narrow phones.
-      h1: "Tesla- ja sähkö­autohuolto Helsingissä",
-      lead: "Riippumaton korjaamo, joka on erikoistunut Teslaan ja sähköautoihin. Vianhaku ensin, kirjallinen arvio ennen töitä, ja sinä päätät mitä tehdään.",
-      facts: ["Arkisin ajanvarauksella", "Viikonloppuisin täydet työpäivät", "Arvio ennen töitä"],
-    },
-    scan: {
-      title: "Vianhaun järjestys",
-      caption: "Järjestelmät, jotka käymme läpi vianhaussa. Havainnekuva, ei auton dataa.",
-      states: { scan: "Tarkistus", ok: "Valmis", queued: "Jonossa" },
+      label: "Tesla- ja sähköautoasiantuntijat · Helsinki",
+      h1: "Riippumaton Tesla-huolto Helsingissä",
+      lead: "Ajoakusta renkaisiin, huolehdimme Teslasi jokaisesta osasta. Yli 10 vuoden yhteenlaskettu kokemus alalta, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
+      facts: ["Yli 10 vuoden kokemus", "Model S, 3, X ja Y", "Viikonloppuisin täydet päivät"],
+      videoAlt: "Musta Tesla Model 3 ajaa peltotiellä auringonlaskussa",
     },
     offer: {
-      label: "Avajaistarjous · 31.12.2026 asti",
-      title: "Ilmainen diagnostiikka Teslalle",
-      body: "Tuo Tesla vianhakuun maksutta. Jos löydämme jotain, saat arvion ja päätät itse, korjataanko. Ei sitoumusta.",
-      points: ["Vain Tesla-autoille: Model S, 3, X ja Y", "Digitaalinen analyysiraportti, silmämääräinen tarkastus ja koeajo", "Voit hakea auton ilman korjausta"],
-      more: "Tarjouksen ehdot",
+      label: "Avajaistarjous",
+      title: "Ilmainen Tesla-diagnostiikka 31.12.2026 asti",
+      body: "Digitaalinen analyysiraportti, silmämääräinen tarkastus ja koeajo. Ei sitoumusta.",
+      more: "Tutustu tarjoukseen",
     },
-    diagnosisFirst: {
-      label: "Vianhaku ensin",
-      title: "Ensin syy, sitten korjaus",
-      body: "Jokainen työ alkaa vianhausta. Saat löydökset ja arvion, ja päätät itse, mitä tehdään. Mitään ei vaihdeta arvaamalla.",
+    models: {
+      label: "Teslasi",
+      title: "Jokainen malli, jokainen vuosimalli",
+      lead: "Model S, 3, X ja Y, myös vanhemmat yksilöt. Katso, mistä huolehdimme juuri sinun autossasi.",
+    },
+    explorer: {
+      label: "Auton sisällä",
+      title: "Teslasi, avattuna",
+      lead: "Huolehdimme Teslan kaikista osista ajoakusta renkaisiin. Vieritä, niin auto avautuu järjestelmä kerrallaan.",
+      hint: "Vieritä, niin auto avautuu",
+    },
+    services: {
+      label: "Palvelut",
+      title: "Kaikki mitä Teslasi tarvitsee",
+      lead: "Vianhaku, akku ja lataus, jarrut, alusta, renkaat, sähköjärjestelmät ja ilmastointi. Yksi riippumaton korjaamo kaikkeen.",
     },
     weekend: {
       label: "Viikonloppuhuolto",
       title: "Kiireinen viikko? Jätä auto meille ja pidä viikonloppu vapaana.",
-      body: "Arkisin työskentelemme vain ajanvarauksella, mutta viikonloppuisin teemme täysiä työpäiviä. Tuo auto sovittuna aikana, me hoidamme vianhaun ja hyväksytyt työt, ja saat auton takaisin valmiina.",
+      body: "Arkisin työskentelemme ajanvarauksella, viikonloppuisin täysiä työpäiviä. Tuo auto sovittuna aikana, me hoidamme hyväksytyt työt, ja saat auton takaisin valmiina.",
       steps: [
-        { title: "Varaa viikonloppu", body: "Kerro mitä autolle pitää tehdä. Sovimme luovutus- ja noutoajan." },
-        { title: "Tuo auto", body: "Jätä auto ja avainkortti meille. Kerromme löydökset ennen kuin teemme mitään ylimääräistä." },
+        { title: "Varaa viikonloppu", body: "Kerro mitä autolle tehdään. Sovimme luovutus- ja noutoajan." },
+        { title: "Tuo auto", body: "Jätä auto ja avainkortti meille. Kysymme ennen kuin teemme mitään ylimääräistä." },
         { title: "Hae valmiina", body: "Käymme tehdyt työt läpi, kun haet auton." },
       ],
       more: "Näin viikonloppuhuolto toimii",
     },
-    models: {
-      label: "Mallit",
-      title: "Valitse mallisi",
-      lead: "Jokaisella mallilla on omat tyypilliset huoltokohteensa. Katso, mitä tarkistamme juuri sinun autostasi.",
-    },
-    systems: {
-      label: "Järjestelmät",
-      title: "Auto avattuna, järjestelmä kerrallaan",
-      lead: "Seitsemän järjestelmää, joihin Tesla-työmme jakautuu. Valitse järjestelmä, niin näet oireet, tarkistukset ja sen, milloin kannattaa varata aika.",
+    why: {
+      label: "Miksi Revamp Motors",
+      title: "Asiantuntemusta ja suoria vastauksia",
+      items: [
+        {
+          icon: "experience",
+          title: "Yli 10 vuoden kokemus",
+          body: "Tiimillämme on yhteensä yli kymmenen vuoden kokemus autoalalta, ja keskitymme nyt Teslaan ja sähköautoihin.",
+        },
+        {
+          icon: "procedure",
+          title: "Teslan menettelyt joka kerta",
+          body: "Ilmajousitetut autot nostotilassa, sähköisen pysäköintijarrun oikea menettely ja jännitteetön suurjännitejärjestelmä ennen töitä.",
+        },
+        {
+          icon: "estimate",
+          title: "Selkeä arvio ensin",
+          body: "Hyväksyt työn ja arvion ennen kuin aloitamme. Jos löydämme muuta, soitamme ensin, ja näet vaihdetut osat.",
+        },
+        {
+          icon: "shield",
+          title: "Riippumaton ja vastuullinen",
+          body: "Rekisteröity suomalainen yritys, Y-tunnus 3651428-1. Emme ole sidoksissa Tesla, Inc:iin, ja kerromme suoraan, kun työ kuuluu Teslan takuuseen.",
+        },
+      ],
     },
     steps: {
       label: "Näin se toimii",
-      title: "Neljä vaihetta, ei yllätyksiä",
+      title: "Selkeästi alusta loppuun",
       items: [
-        { title: "Kerro oireet", body: "Lomakkeella, puhelimella tai WhatsAppilla. Kuva varoituksesta auttaa." },
-        { title: "Vianhaku", body: "Luemme vikakoodit, mittaamme ja tarkistamme auton nostimella." },
-        { title: "Arvio ja päätös", body: "Saat löydökset ja arvion. Työ alkaa vasta, kun olet hyväksynyt sen." },
-        { title: "Korjaus ja luovutus", body: "Teemme sovitun työn ja käymme sen kanssasi läpi. Vanhat osat näytetään." },
-      ],
-    },
-    trust: {
-      label: "Miten toimimme",
-      title: "Suoraan, tarkasti ja ilman yllätyksiä",
-      items: [
-        { title: "Riippumaton korjaamo", body: "Rekisteröity yritys, Y-tunnus 3651428-1. Emme ole sidoksissa Tesla, Inc:iin." },
-        { title: "Arvio ennen töitä", body: "Mitään ei tehdä ilman hyväksyntääsi. Jos löydämme muuta, soitamme ensin." },
-        { title: "Vanhat osat näytetään", body: "Näet, mitä vaihdettiin ja miksi." },
-        { title: "Suurjännite turvallisesti", body: "Suurjännitejärjestelmä tehdään jännitteettömäksi ennen töitä, ja työn tekee siihen koulutettu henkilö." },
+        { title: "Kerro tarpeesi", body: "Lomakkeella, puhelimella tai WhatsAppilla. Kuva varoituksesta auttaa." },
+        { title: "Tarkastus", body: "Selvitämme syyn huolellisesti ennen kuin ehdotamme mitään." },
+        { title: "Arvio ja päätös", body: "Saat arvion. Työ alkaa vasta, kun olet hyväksynyt sen." },
+        { title: "Korjaus ja luovutus", body: "Teemme sovitun työn ja käymme sen kanssasi läpi." },
       ],
     },
     other: {
@@ -99,78 +110,90 @@ export const HOME: Record<Lang, HomeCopy> = {
     },
     faq: { label: "Kysymykset", title: "Usein kysyttyä", all: "Kaikki kysymykset" },
     cta: {
-      title: "Kerro, mitä autosi tekee",
+      title: "Varaa Teslallesi aika",
       body: "Vastaamme 12 tunnin kuluessa, usein jo 3 tunnissa. Aika vahvistetaan vastauksessamme.",
     },
   },
   en: {
     seo: {
-      title: "Revamp Motors · Tesla and EV service in Helsinki",
+      title: "Revamp Motors · Independent Tesla service in Helsinki",
       description:
-        "Independent Tesla and EV specialist garage in Tattarisuo, Helsinki. Diagnostics, battery and 12 V, brakes, suspension, air suspension and tyres. Estimate before work.",
+        "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Battery, brakes, suspension, tyres and diagnostics. Estimate before work.",
     },
     hero: {
-      label: "Tesla and EV · Tattarisuo, Helsinki",
-      h1: "Tesla and EV service in Helsinki",
-      lead: "An independent garage that specialises in Tesla and electric cars. Diagnosis first, a written estimate before any work, and you decide what gets done.",
-      facts: ["Weekdays by appointment", "Full working days at weekends", "Estimate before work"],
-    },
-    scan: {
-      title: "Diagnostic sequence",
-      caption: "The systems we go through in a diagnosis. An illustration, not data from a car.",
-      states: { scan: "Checking", ok: "Done", queued: "Queued" },
+      label: "Tesla & EV specialists · Helsinki",
+      h1: "Independent Tesla service in Helsinki",
+      lead: "From the high-voltage battery to the tyres, we look after every part of your Tesla. Over ten years of combined industry experience, manufacturer procedures on every job, and a clear estimate before any work begins.",
+      facts: ["10+ years of combined experience", "Model S, 3, X and Y", "Full working days at weekends"],
+      videoAlt: "A black Tesla Model 3 driving along a field road at sunset",
     },
     offer: {
-      label: "Launch offer · until 31.12.2026",
-      title: "Free diagnosis for Tesla",
-      body: "Bring your Tesla in for a free diagnosis. If we find something, you get an estimate and decide whether to go ahead. No obligation.",
-      points: ["Tesla only: Model S, 3, X and Y", "Digital analysis report, visual inspection and test drive", "Collect the car without any repair"],
-      more: "Offer terms",
+      label: "Launch offer",
+      title: "Free Tesla diagnosis until 31.12.2026",
+      body: "Digital analysis report, visual inspection and a test drive. No obligation.",
+      more: "See the offer",
     },
-    diagnosisFirst: {
-      label: "Diagnosis first",
-      title: "The cause first, then the repair",
-      body: "Every job starts with a diagnosis. You get the findings and an estimate, and you decide what is done. Nothing is replaced on a guess.",
+    models: {
+      label: "Your Tesla",
+      title: "Every model, every year",
+      lead: "Model S, 3, X and Y, including older cars. See what we look after on yours.",
+    },
+    explorer: {
+      label: "Inside the car",
+      title: "Your Tesla, opened up",
+      lead: "We cover everything on a Tesla, from the high-voltage battery to the tyres. Scroll and the car comes apart, one system at a time.",
+      hint: "Scroll to open the car",
+    },
+    services: {
+      label: "Services",
+      title: "Everything your Tesla needs",
+      lead: "Diagnostics, battery and charging, brakes, suspension, tyres, electrical and climate. One independent workshop for all of it.",
     },
     weekend: {
       label: "Weekend service",
       title: "Busy week? Leave the car with us and take the weekend off.",
-      body: "On weekdays we work by appointment only, but at weekends we work full days. Drop the car off at the agreed time, we handle the diagnosis and the work you approve, and you get it back finished.",
+      body: "On weekdays we work by appointment, and at weekends we work full days. Drop the car off at the agreed time, we handle the work you approve, and you get it back finished.",
       steps: [
         { title: "Book the weekend", body: "Tell us what the car needs. We agree drop-off and collection times." },
-        { title: "Drop it off", body: "Leave the car and the key card with us. We tell you what we find before doing anything extra." },
+        { title: "Drop it off", body: "Leave the car and the key card with us. We ask before doing anything extra." },
         { title: "Collect it finished", body: "We go through the work with you when you pick it up." },
       ],
       more: "How weekend service works",
     },
-    models: {
-      label: "Models",
-      title: "Choose your model",
-      lead: "Each model has its own typical service items. See what we check on your car.",
-    },
-    systems: {
-      label: "Systems",
-      title: "The car, opened up system by system",
-      lead: "The seven systems our Tesla work is organised around. Pick one to see the symptoms, what we check and when to book.",
+    why: {
+      label: "Why Revamp Motors",
+      title: "Specialist knowledge. Straight answers.",
+      items: [
+        {
+          icon: "experience",
+          title: "10+ years of combined experience",
+          body: "Our team brings more than a decade of combined experience in the automotive industry, now focused on Tesla and electric vehicles.",
+        },
+        {
+          icon: "procedure",
+          title: "Tesla procedures, every time",
+          body: "Air suspension cars lifted in jack mode, the correct electric parking brake procedure, and a de-energised high-voltage system before anyone touches it.",
+        },
+        {
+          icon: "estimate",
+          title: "A clear estimate first",
+          body: "You approve the work and the estimate before we start. If we find anything else, we call you first, and you see the parts we replaced.",
+        },
+        {
+          icon: "shield",
+          title: "Independent and accountable",
+          body: "A registered Finnish company, business ID 3651428-1. Not affiliated with Tesla, Inc., and honest about when a job belongs with Tesla's warranty.",
+        },
+      ],
     },
     steps: {
       label: "How it works",
-      title: "Four steps, no surprises",
+      title: "Clear from start to finish",
       items: [
-        { title: "Tell us the symptoms", body: "By form, phone or WhatsApp. A photo of the warning helps." },
-        { title: "Diagnosis", body: "We read fault codes, take measurements and inspect the car on the lift." },
-        { title: "Estimate and decision", body: "You get the findings and an estimate. Work starts only once you approve it." },
-        { title: "Repair and handover", body: "We do the agreed work and go through it with you. You see the old parts." },
-      ],
-    },
-    trust: {
-      label: "How we work",
-      title: "Direct, precise and no surprises",
-      items: [
-        { title: "Independent garage", body: "A registered company, business ID 3651428-1. Not affiliated with Tesla, Inc." },
-        { title: "Estimate before work", body: "Nothing is done without your approval. If we find something else, we call first." },
-        { title: "Old parts shown", body: "You see what was replaced and why." },
-        { title: "High voltage, safely", body: "The high-voltage system is de-energised before work, and the work is done by someone trained for it." },
+        { title: "Tell us what you need", body: "By form, phone or WhatsApp. A photo of any warning helps." },
+        { title: "Inspection", body: "We find the cause properly before we suggest anything." },
+        { title: "Estimate and decision", body: "You get an estimate. Work starts only once you approve it." },
+        { title: "Repair and handover", body: "We do the agreed work and go through it with you." },
       ],
     },
     other: {
@@ -181,7 +204,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     },
     faq: { label: "Questions", title: "Frequently asked", all: "All questions" },
     cta: {
-      title: "Tell us what your car is doing",
+      title: "Book your Tesla in",
       body: "We reply within 3 to 12 hours. Your slot is confirmed in our reply.",
     },
   },

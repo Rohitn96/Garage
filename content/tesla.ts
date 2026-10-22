@@ -26,9 +26,9 @@ export const HUB: Record<Lang, HubCopy> = {
     },
     label: "Tesla · Tattarisuo, Helsinki",
     h1: "Riippumaton Tesla-huolto Helsingissä",
-    lead: "Model 3, Model Y, Model S ja Model X. Vianhaku, akku ja lataus, jarrut, alusta ja ilmajousitus, renkaat ja sähköviat. Ensin syy, sitten arvio, ja sinä päätät.",
+    lead: "Kaikki mitä Teslasi tarvitsee saman katon alta: vianhaku, akku ja lataus, jarrut, alusta ja ilmajousitus, renkaat, sähköjärjestelmät ja ilmastointi. Taustalla yli 10 vuoden yhteenlaskettu kokemus alalta. Ensin syy, sitten selkeä arvio, ja sinä päätät.",
     modelsTitle: "Valitse malli",
-    servicesTitle: "Tesla-palvelut järjestelmittäin",
+    servicesTitle: "Tesla-palvelut",
     servicesLead: "Jokaisella sivulla kerromme oireet, mitä tarkistamme, miten vianhaku etenee ja milloin kannattaa varata aika.",
     extrasTitle: "Lisäksi",
     approach: [
@@ -67,9 +67,9 @@ export const HUB: Record<Lang, HubCopy> = {
     },
     label: "Tesla · Tattarisuo, Helsinki",
     h1: "Independent Tesla service in Helsinki",
-    lead: "Model 3, Model Y, Model S and Model X. Diagnostics, battery and charging, brakes, suspension and air suspension, tyres and electrical faults. The cause first, then an estimate, and you decide.",
+    lead: "Everything your Tesla needs under one roof: diagnostics, battery and charging, brakes, suspension and air suspension, tyres, electrical systems and climate. Backed by 10+ years of combined industry experience. The cause first, then a clear estimate, and you decide.",
     modelsTitle: "Choose a model",
-    servicesTitle: "Tesla services by system",
+    servicesTitle: "Tesla services",
     servicesLead: "Each page covers the symptoms, what we check, how the diagnosis works and when to book.",
     extrasTitle: "Also",
     approach: [

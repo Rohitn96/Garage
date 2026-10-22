@@ -6,81 +6,68 @@ import { UI } from "@/content/ui";
 import { faqPreview } from "@/content/faq";
 import { serviceGroups } from "@/data/services";
 import { LazyServiceExplorer as ServiceExplorer } from "@/components/Lazy";
+import { HeroVideo } from "@/components/HeroVideo";
 import { VideoPanel } from "@/components/VideoPanel";
-import { OfferSwitch } from "@/components/OfferSwitch";
+import { Icon } from "@/components/Icons";
+import { WhileOfferLive } from "@/components/OfferSwitch";
 import { CtaButtons, CtaPanel } from "@/components/blocks/Cta";
-import { ModelSelector, ScanPanel, ServiceGrid } from "@/components/blocks/Cards";
+import { ModelSelector, ServiceGrid } from "@/components/blocks/Cards";
 import { Section, SectionHeading, SystemLabel } from "@/components/blocks/Section";
 import { Steps } from "@/components/blocks/Steps";
 import { FaqList } from "@/components/blocks/Faq";
 import { Certificates, Reviews } from "@/components/blocks/Gated";
 
 /*
- * Order is the argument: positioning and the offer first, then the car the
- * visitor owns, the systems we work on, the weekend promise, how a visit goes,
- * why to trust us, and the questions that block a booking.
+ * Order: who we are (hero), the launch promotion in one line, the car the
+ * visitor owns, the car opened up, the services, the weekend promise, why us,
+ * how a visit goes, other cars, questions, and the booking call.
  */
 export function HomePage({ lang }: { lang: Lang }) {
   const c = HOME[lang];
-  const t = UI[lang];
 
   return (
     <>
-      {/* Hero. The H1 is the LCP element and is never animated. */}
-      <section className="blueprint border-b border-rule">
-        <div className="wrap grid gap-12 pb-16 pt-12 md:pb-24 md:pt-20 lg:grid-cols-12 lg:items-center">
-          <div className="lg:col-span-7">
-            <SystemLabel>{c.hero.label}</SystemLabel>
-            <h1 className="h1 mt-6 max-w-[16ch]">{c.hero.h1}</h1>
-            <p className="lead mt-6 max-w-[54ch]">{c.hero.lead}</p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <CtaButtons lang={lang} />
-            </div>
-            <p className="mt-4 text-step--1 text-muted">{t.cta.estimateLine}</p>
-            <ul className="mt-8 flex flex-wrap gap-2">
-              {c.hero.facts.map((fact) => (
-                <li key={fact} className="chip">
-                  {fact}
-                </li>
-              ))}
-            </ul>
+      {/* Hero. Always dark, over footage. The H1 is the LCP and is never animated. */}
+      <section className="relative isolate overflow-hidden border-b border-rule text-white">
+        <HeroVideo alt={c.hero.videoAlt} />
+        <div className="wrap relative flex min-h-[calc(88svh-4rem)] flex-col justify-end pb-12 pt-40 md:min-h-[min(82vh,820px)] md:justify-center md:pb-20 md:pt-20">
+          <p className="flex items-center gap-3 text-step--2 font-semibold uppercase tracking-[0.16em] text-white/75">
+            <span aria-hidden className="h-px w-6 bg-accent" />
+            {c.hero.label}
+          </p>
+          <h1 className="h1 mt-5 max-w-[15ch] text-white">{c.hero.h1}</h1>
+          <p className="mt-6 max-w-[52ch] text-step-1 leading-relaxed text-white/80">{c.hero.lead}</p>
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <CtaButtons lang={lang} onMedia />
           </div>
-          <div className="lg:col-span-5">
-            <ScanPanel lang={lang} title={c.scan.title} caption={c.scan.caption} states={c.scan.states} />
-          </div>
+          <ul className="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-step--1 text-white/75">
+            {c.hero.facts.map((fact) => (
+              <li key={fact} className="flex items-center gap-2">
+                <span aria-hidden className="text-accent">✓</span>
+                {fact}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* The launch offer while it runs; the diagnosis-first promise after. */}
-      <OfferSwitch
-        live={
-          <Section tone="surface">
-            <div className="grid gap-10 md:grid-cols-12 md:items-end">
-              <div className="md:col-span-7">
-                <SectionHeading label={c.offer.label} title={c.offer.title} lead={c.offer.body} />
-              </div>
-              <div className="md:col-span-5">
-                <ul className="grid gap-3">
-                  {c.offer.points.map((point) => (
-                    <li key={point} className="flex items-center gap-3 border-t border-rule pt-3">
-                      <span aria-hidden className="font-mono text-ok">✓</span>
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-                <Link href={pathOf("offer", lang)} className="btn-ghost mt-6">
-                  {c.offer.more} →
-                </Link>
+      {/* The launch offer, as a promotion strip. Gone after 31.12.2026. */}
+      <WhileOfferLive>
+        <section className="border-b border-rule bg-surface">
+          <div data-reveal className="wrap flex flex-col gap-4 py-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-start gap-4">
+              <span className="chip chip-accent mt-1 shrink-0">{c.offer.label}</span>
+              <div>
+                <p className="text-step-1 font-bold">{c.offer.title}</p>
+                <p className="mt-1 text-step--1 text-muted">{c.offer.body}</p>
               </div>
             </div>
-          </Section>
-        }
-        ended={
-          <Section tone="surface">
-            <SectionHeading label={c.diagnosisFirst.label} title={c.diagnosisFirst.title} lead={c.diagnosisFirst.body} />
-          </Section>
-        }
-      />
+            <Link href={pathOf("offer", lang)} className="btn-ghost shrink-0">
+              {c.offer.more} →
+            </Link>
+          </div>
+        </section>
+      </WhileOfferLive>
 
       <Section>
         <SectionHeading label={c.models.label} title={c.models.title} lead={c.models.lead} />
@@ -89,32 +76,23 @@ export function HomePage({ lang }: { lang: Lang }) {
         </div>
       </Section>
 
-      <ServiceExplorer
-        groups={serviceGroups(lang)}
-        label={c.systems.label}
-        title={c.systems.title}
-        lead={c.systems.lead}
-        hint={t.sections.exploreHint}
-      />
+      <ServiceExplorer groups={serviceGroups(lang)} label={c.explorer.label} title={c.explorer.title} lead={c.explorer.lead} hint={c.explorer.hint} />
 
-      <Section id="services">
-        {/* On wide screens the explorer above carries this heading visually. */}
-        <div className="lg:sr-only">
-          <SectionHeading label={c.systems.label} title={c.systems.title} lead={c.systems.lead} />
-        </div>
-        <div className="mt-10 lg:mt-0">
+      <Section id="services" tone="surface">
+        <SectionHeading label={c.services.label} title={c.services.title} lead={c.services.lead} />
+        <div className="mt-10">
           <ServiceGrid lang={lang} />
         </div>
       </Section>
 
-      <Section tone="surface">
+      <Section>
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
           <div className="lg:col-span-6">
             <SectionHeading label={c.weekend.label} title={c.weekend.title} lead={c.weekend.body} />
             <ol className="mt-8 grid gap-4">
               {c.weekend.steps.map((step, i) => (
                 <li key={step.title} className="grid grid-cols-[2.5rem_1fr] gap-3 border-t border-rule pt-4">
-                  <span className="font-mono text-step--1 text-accent">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-display text-step-1 font-extrabold text-accent">{i + 1}</span>
                   <span>
                     <span className="block font-semibold">{step.title}</span>
                     <span className="mt-1 block text-step--1 text-muted">{step.body}</span>
@@ -138,6 +116,26 @@ export function HomePage({ lang }: { lang: Lang }) {
         </div>
       </Section>
 
+      <Section tone="surface">
+        <SectionHeading label={c.why.label} title={c.why.title} />
+        <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
+          {c.why.items.map((item) => (
+            <li key={item.title} className="card p-6">
+              <span className="icon-tile">
+                <Icon name={item.icon} className="h-6 w-6" />
+              </span>
+              <h3 className="mt-5 text-step-1 font-bold">{item.title}</h3>
+              <p className="mt-2 text-step--1 leading-relaxed text-muted">{item.body}</p>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-10 max-w-xl">
+          <Certificates lang={lang} />
+        </div>
+      </Section>
+
+      <Reviews lang={lang} />
+
       <Section>
         <SectionHeading label={c.steps.label} title={c.steps.title} />
         <div className="mt-10">
@@ -146,40 +144,20 @@ export function HomePage({ lang }: { lang: Lang }) {
       </Section>
 
       <Section tone="surface">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <SectionHeading label={c.trust.label} title={c.trust.title} />
-            <div className="mt-10">
-              <Certificates lang={lang} />
-            </div>
-          </div>
-          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-7">
-            {c.trust.items.map((item) => (
-              <li key={item.title} className="border-t border-rule pt-5">
-                <h3 className="text-step-1 font-bold">{item.title}</h3>
-                <p className="mt-2 text-step--1 text-muted">{item.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Section>
-
-      <Reviews lang={lang} />
-
-      <Section>
-        <SectionHeading label={c.other.label} title={c.other.title} />
-        <ul className="mt-10 grid gap-px overflow-hidden rounded border border-rule bg-rule md:grid-cols-2">
+        <SystemLabel>{c.other.label}</SystemLabel>
+        <h2 className="h3 mt-5">{c.other.title}</h2>
+        <ul className="mt-8 grid gap-3 md:grid-cols-2">
           {(
             [
               ["ev", c.other.ev],
               ["other", c.other.other],
             ] as const
           ).map(([id, body]) => (
-            <li key={id} className="bg-ground">
-              <Link href={pathOf(id, lang)} className="group flex h-full flex-col gap-2 p-6 transition-colors duration-2 hover:bg-surface">
+            <li key={id}>
+              <Link href={pathOf(id, lang)} className="card card-link group flex h-full flex-col gap-2 p-6">
                 <span className="flex items-center justify-between text-step-1 font-bold">
-                  {t.nav[id]}
-                  <span aria-hidden className="font-mono text-accent transition-transform duration-2 group-hover:translate-x-1">
+                  {UI[lang].nav[id]}
+                  <span aria-hidden className="text-accent transition-transform duration-2 group-hover:translate-x-1">
                     →
                   </span>
                 </span>

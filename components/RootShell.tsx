@@ -1,4 +1,4 @@
-import { Archivo, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { SITE, type Lang } from "@/site.config";
 import { LanguageProvider } from "@/lib/i18n";
@@ -11,22 +11,44 @@ import { OfferBanner } from "./OfferBanner";
 import { Footer } from "./Footer";
 import { MobileActionBar } from "./MobileActionBar";
 import { JsonLd } from "./JsonLd";
+import { Reveal } from "./Reveal";
 
 /*
- * Archivo at an expanded width for display, echoing the wide letterforms of
- * the logo; Plex Sans for reading; Plex Mono for system labels and data.
- * next/font self-hosts them and sizes the fallbacks to match, so swapping in
- * the web font does not move the layout.
+ * Archivo (heavy) for headings, echoing the wide letterforms of the logo; Plex
+ * Sans for reading; Plex Mono for small numerals. All three are OFL licensed
+ * and self-hosted from assets/fonts, so the build never depends on reaching
+ * Google Fonts (it failed intermittently when it did). next/font sizes the
+ * fallbacks to match, so the swap does not move the layout.
+ *
+ * `optional`, not `swap`: a late swap re-lays out the largest text on the page,
+ * which on a slow phone is both a visible shift and a later LCP. If a face is
+ * not ready by first paint, the size-matched fallback stays for this view and
+ * the web font is used from cache on the next.
  */
-// `optional`, not `swap`: a late swap re-lays out the largest text on the page,
-// which on a slow phone is both a visible shift and a later LCP. If a face is
-// not ready by first paint, the size-matched fallback stays for this view and
-// the web font is used from cache on the next. One static display weight
-// (every heading is set heavy) rather than the variable file, to keep the
-// bytes down; the label face is small text and is not preloaded.
-const display = Archivo({ subsets: ["latin"], weight: ["800"], variable: "--font-display", display: "optional" });
-const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-sans", display: "optional" });
-const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono", display: "optional", preload: false });
+const display = localFont({
+  src: "../assets/fonts/archivo-800-latin.woff2",
+  weight: "800",
+  variable: "--font-display",
+  display: "optional",
+  adjustFontFallback: "Arial",
+});
+const sans = localFont({
+  src: "../assets/fonts/plex-sans-latin.woff2",
+  weight: "100 700",
+  variable: "--font-sans",
+  display: "optional",
+  adjustFontFallback: "Arial",
+});
+const mono = localFont({
+  src: [
+    { path: "../assets/fonts/plex-mono-400-latin.woff2", weight: "400" },
+    { path: "../assets/fonts/plex-mono-500-latin.woff2", weight: "500" },
+  ],
+  variable: "--font-mono",
+  display: "optional",
+  preload: false,
+  adjustFontFallback: false,
+});
 
 const BEACON = process.env.NEXT_PUBLIC_CF_BEACON_TOKEN || SITE.analyticsToken;
 
@@ -59,6 +81,7 @@ export function RootShell({ lang, children }: { lang: Lang; children: ReactNode 
           <main id="main">{children}</main>
           <Footer lang={lang} />
           <MobileActionBar lang={lang} />
+          <Reveal />
           <JsonLd data={businessSchema(lang)} />
           {BEACON ? (
             <script

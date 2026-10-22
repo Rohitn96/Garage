@@ -20,8 +20,8 @@ const SHOP_ID = `${SITE.url}/#shop`;
 const b = SITE.business;
 
 const DESCRIPTION: Record<Lang, string> = {
-  fi: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Vianhaku, akku ja 12 V, jarrut, alusta ja ilmajousitus, renkaat. Arvio ennen töitä.",
-  en: "Independent Tesla and EV specialist garage in Tattarisuo, Helsinki. Diagnostics, battery and 12 V, brakes, suspension and air suspension, tyres. Estimate before any work.",
+  fi: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä, yli 10 vuoden yhteenlasketulla kokemuksella. Vianhaku, akku ja 12 V, jarrut, alusta ja ilmajousitus, renkaat. Arvio ennen töitä.",
+  en: "Independent Tesla and EV specialist garage in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Diagnostics, battery and 12 V, brakes, suspension and air suspension, tyres. Estimate before any work.",
 };
 
 const KNOWS_ABOUT: Record<Lang, string[]> = {

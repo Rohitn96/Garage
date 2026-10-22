@@ -26,7 +26,6 @@ export type ServiceContent = {
   seo: Seo;
   /** Short name for nav, cards and breadcrumbs. */
   name: string;
-  system: string;
   h1: string;
   lead: string;
   symptoms: TitledItem[];

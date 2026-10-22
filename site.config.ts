@@ -105,6 +105,13 @@ export const SITE = {
     weekendAppointmentRequired: null as boolean | null,
   },
 
+  /** Combined industry experience of the team, as stated by the owner. */
+  experience: {
+    years: 10,
+    long: { fi: "Yli 10 vuoden yhteenlaskettu kokemus alalta", en: "10+ years of combined industry experience" } as Localized,
+    short: { fi: "10+ vuotta kokemusta", en: "10+ years of experience" } as Localized,
+  },
+
   /** Already published on the current site. */
   replyTime: { fi: "12 tunnin kuluessa, usein jo 3 tunnissa", en: "within 3 to 12 hours" } as Localized,
 

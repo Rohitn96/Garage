@@ -5,7 +5,7 @@ import { offerSchema, serviceSchema } from "@/lib/schema";
 import { contactHref } from "@/lib/links";
 import { HUB, OFFER_PAGE, REPORT } from "@/content/tesla";
 import { MODELS, type ModelId } from "@/content/models";
-import { CLIMATE_SCOPE, SERVICES, SERVICE_CARDS, type ServiceId } from "@/content/services";
+import { CLIMATE_SCOPE, SERVICES, type ServiceId } from "@/content/services";
 import { ROUTE_NAMES, UI } from "@/content/ui";
 import { JsonLd } from "@/components/JsonLd";
 import { OfferSwitch } from "@/components/OfferSwitch";
@@ -86,7 +86,7 @@ export function ModelPage({ id, lang }: { id: ModelId; lang: Lang }) {
         title={c.h1}
         lead={c.lead}
         aside={
-          <div className="corners card p-6">
+          <div className="card p-6">
             <p className="label">{s.checklist}</p>
             <ul className="mt-4 grid gap-2.5">
               {c.checks.map((check) => (
@@ -147,17 +147,15 @@ export function ModelPage({ id, lang }: { id: ModelId; lang: Lang }) {
 export function ServicePage({ id, lang }: { id: ServiceId; lang: Lang }) {
   const c = SERVICES[lang][id];
   const s = UI[lang].sections;
-  const card = SERVICE_CARDS[id];
   return (
     <>
       <Breadcrumbs id={id} lang={lang} />
       <PageHero
-        code={card.code}
         label={c.name}
         title={c.h1}
         lead={c.lead}
         aside={
-          <div className="corners card p-6">
+          <div className="card p-6">
             <p className="label">{s.symptoms}</p>
             <ul className="mt-4 grid gap-2.5">
               {c.symptoms.map((symptom) => (
@@ -174,14 +172,14 @@ export function ServicePage({ id, lang }: { id: ServiceId; lang: Lang }) {
       </PageHero>
 
       <Section>
-        <SectionHeading code={card.code} label={s.symptoms} title={s.symptomsTitle} />
+        <SectionHeading label={s.symptoms} title={s.symptomsTitle} />
         <div className="mt-10">
           <ItemGrid items={c.symptoms} />
         </div>
       </Section>
 
       <Section tone="surface">
-        <SectionHeading code={card.code} label={s.checks} title={s.checksTitle} />
+        <SectionHeading label={s.checks} title={s.checksTitle} />
         <div className="mt-10">
           <ItemGrid items={c.checks} marker="check" />
         </div>
@@ -190,11 +188,11 @@ export function ServicePage({ id, lang }: { id: ServiceId; lang: Lang }) {
       <Section>
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
-            <SectionHeading code={card.code} label={s.diagnosis} title={s.diagnosisTitle} as="h2" />
+            <SectionHeading label={s.diagnosis} title={s.diagnosisTitle} as="h2" />
             <Prose blocks={c.diagnosis} lang={lang} className="mt-6" />
           </div>
           <div>
-            <SectionHeading code={card.code} label={s.when} title={s.whenTitle} as="h2" />
+            <SectionHeading label={s.when} title={s.whenTitle} as="h2" />
             <Prose blocks={c.whenToBook} lang={lang} className="mt-6" />
           </div>
         </div>
@@ -290,7 +288,7 @@ export function OfferPage({ lang }: { lang: Lang }) {
               title={c.live.h1}
               lead={c.live.lead}
               aside={
-                <div className="corners card p-6">
+                <div className="card p-6">
                   <p className="label">{c.endDateLabel}</p>
                   <p className="mt-3 font-display text-step-4 font-black [font-variation-settings:'wdth'_120]">
                     {SITE.offer.validThroughDisplay[lang]}
@@ -341,7 +339,7 @@ export function ReportPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="battery-report" lang={lang} />
-      <PageHero code="SYS 01" label={c.label} title={c.h1} lead={c.lead}>
+      <PageHero label={c.label} title={c.h1} lead={c.lead}>
         <Link href={contactHref(lang, "quote")} className="btn-primary">
           {c.cta}
         </Link>

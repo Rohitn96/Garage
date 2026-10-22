@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { LanguageToggle } from "./LanguageToggle";
 import { ThemeToggle } from "./ThemeToggle";
-import { OfferSwitch } from "./OfferSwitch";
 import { useLang } from "@/lib/i18n";
 import { pathOf, routeByPath, trail, type RouteId } from "@/lib/routes";
 import { contactHref } from "@/lib/links";
@@ -43,20 +42,11 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // The launch offer is carried by the banner above; the nav's job is booking.
   const cta = (
-    <OfferSwitch
-      as="span"
-      live={
-        <Link href={contactHref(lang, "diagnosis")} className="btn-primary">
-          {t.cta.freeDiagnosis}
-        </Link>
-      }
-      ended={
-        <Link href={contactHref(lang, "quote")} className="btn-primary">
-          {t.cta.requestQuote}
-        </Link>
-      }
-    />
+    <Link href={contactHref(lang, "quote")} className="btn-primary min-h-[42px] px-5">
+      {t.cta.bookService}
+    </Link>
   );
 
   return (

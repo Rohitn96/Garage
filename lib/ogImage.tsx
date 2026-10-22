@@ -52,7 +52,7 @@ export async function renderOgImage(lang: Lang): Promise<ImageResponse> {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div style={{ display: "flex", fontSize: 22, letterSpacing: "0.12em", textTransform: "uppercase", color: ACCENT }}>
-            SYS 01 / 07
+            Tesla · EV · Helsinki
           </div>
           <div style={{ display: "flex", fontSize: 68, lineHeight: 1.05, letterSpacing: "-0.02em", maxWidth: 980 }}>{h.h1.replace(/­/g, "")}</div>
         </div>

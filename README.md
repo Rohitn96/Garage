@@ -69,11 +69,17 @@ Light and dark, following the operating system on the first visit; the toggle in
 
 `public/logo/revamp-motors-dark.*` (white letters) and `-light.*` (grey letters) were cropped from the supplied artwork and keyed to transparency. The logo is a CSS background chosen by theme, so only the visible variant downloads. Favicon and app icons are the logo's orange apex on the dark ground.
 
-## Motion
+## Hero video, motion and fonts
 
-- The exploded car (`components/car/`) runs only on screens at least 1024 px wide, with motion allowed, four or more CPU cores and no Save-Data or slow connection. Its code (framer-motion, three.js) is not downloaded otherwise. The service grid below it carries the same content for everyone.
-- The workshop video plays only on wide screens with a fast connection; everyone else gets the WebP poster.
+- **Hero video:** `public/videos/hero-mobile.mp4` (480x854 portrait, about 1.2 MB) for phones and `hero-desktop.mp4` (1280x720 crop, about 2.3 MB) for wider screens, both encoded from `hero1.mp4` in the project root (not committed). The WebP poster of the first frame is the first paint; the video starts after the page has loaded and the browser is idle, and fades in over the identical frame. Reduced motion, Save-Data and slow connections keep the poster. To re-encode, see the ffmpeg commands in the commit that added them.
+- **3D car:** runs on phones and desktops. On a phone the car fills the top of the stage and the system's details sit beneath it; on desktop the details sit in the margin with a leader line. Its code (framer-motion, three.js) loads only when the visitor scrolls within half a screen of it. Reduced motion, Save-Data, slow connections and low-core devices skip it; the service grid below carries the same content.
+- **Scroll reveal:** sections fade up as they enter the viewport (`components/Reveal.tsx`). Content is visible without JavaScript and anything already on screen is never hidden.
 - Headings are never animated. `prefers-reduced-motion` turns off every animation.
+- **Fonts** are self-hosted from `assets/fonts` (Archivo 800, IBM Plex Sans, IBM Plex Mono; all OFL) with `next/font/local`, so builds never depend on reaching Google Fonts.
+
+## Calls to action
+
+"Book a service" is the main action everywhere (nav, mobile bar, hero, page endings). The free Tesla diagnosis is the launch promotion: the top banner, a strip under the hero, the secondary button on Tesla pages, the offer page and the contact page's first path.
 
 ## Contact form
 

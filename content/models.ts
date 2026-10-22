@@ -7,7 +7,8 @@ import type { ModelContent } from "./types";
  */
 
 export type ModelId = "model-3" | "model-y" | "model-s" | "model-x";
-export const MODEL_IDS: ModelId[] = ["model-3", "model-y", "model-s", "model-x"];
+/** S, 3, X, Y: the order owners know. */
+export const MODEL_IDS: ModelId[] = ["model-s", "model-3", "model-x", "model-y"];
 
 /** Model selector copy: big letter plus one line. */
 export const MODEL_CARDS: Record<ModelId, { letter: string; fi: string; en: string }> = {

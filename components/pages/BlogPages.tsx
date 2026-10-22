@@ -22,7 +22,7 @@ export function BlogIndexPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="blog" lang={lang} />
-      <section className="blueprint border-b border-rule">
+      <section className="glow border-b border-rule">
         <div className="wrap py-10 md:py-14">
           <p className="label">{t.sections.blogTitle}</p>
           <h1 className="h1 mt-6">{t.sections.blogTitle}</h1>
@@ -64,7 +64,7 @@ export function BlogPostPage({ id, lang }: { id: BlogPostId; lang: Lang }) {
     <>
       <Breadcrumbs id={id} lang={lang} />
       <article>
-        <header className="blueprint border-b border-rule">
+        <header className="glow border-b border-rule">
           <div className="wrap py-10 md:py-14">
             <p className="label">
               {t.published} <time dateTime={c.published}>{formatDate(c.published, lang)}</time> · {c.readMinutes} {t.minutes}

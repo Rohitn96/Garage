@@ -23,7 +23,6 @@
   --accent: 255 90 31;
   --on-accent: 12 14 16;
   --ok: 63 185 128;
-  --grid-alpha: 0.045;
   color-scheme: dark;
 
   /* Type scale: fluid between 360 px and 1240 px viewports. */
@@ -62,7 +61,6 @@
   --accent: 201 58 11;
   --on-accent: 255 255 255;
   --ok: 22 122 74;
-  --grid-alpha: 0.06;
   color-scheme: light;
 }
 
@@ -100,7 +98,7 @@
   }
 
   /* Grid children may shrink below their content. Without this, one long
-     single-line label (the scan panel's rows) widens a whole column on a phone. */
+     single-line label widens a whole column on a phone. */
   .grid > * {
     min-width: 0;
   }
@@ -138,8 +136,9 @@
     padding-block: var(--space-section);
   }
 
+  /* Eyebrow above headings. Quiet, spaced capitals. */
   .label {
-    @apply font-mono text-step--2 uppercase tracking-label text-muted;
+    @apply font-sans text-step--2 font-semibold uppercase tracking-[0.16em] text-muted;
   }
 
   .h1 {
@@ -158,79 +157,62 @@
 
   /* Buttons. Every control is at least 44 px tall for touch. */
   .btn {
-    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded px-5 py-2.5 font-mono text-step--1 font-medium uppercase tracking-[0.08em] transition-colors duration-2 ease-out;
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full px-6 py-2.5 text-step--1 font-semibold tracking-[0.01em] transition-[background-color,color,border-color,transform,box-shadow] duration-2 ease-out active:scale-[0.98];
   }
   .btn-primary {
-    @apply btn bg-accent text-onAccent hover:bg-ink hover:text-ground;
+    @apply btn bg-accent text-onAccent shadow-[0_8px_24px_-12px_rgb(var(--accent)/0.7)] hover:-translate-y-px hover:shadow-[0_12px_28px_-12px_rgb(var(--accent)/0.85)];
   }
   .btn-secondary {
-    @apply btn border border-ruleStrong text-ink hover:border-ink;
+    @apply btn border border-ruleStrong text-ink hover:-translate-y-px hover:border-ink;
   }
   .btn-ghost {
-    @apply btn px-0 text-ink underline decoration-ruleStrong underline-offset-[6px] hover:decoration-accent;
+    @apply inline-flex min-h-[44px] items-center gap-2 text-step--1 font-semibold text-ink underline decoration-ruleStrong underline-offset-[6px] transition-colors duration-2 hover:decoration-accent;
+  }
+  /* For use on the hero video, whatever the theme. */
+  .btn-on-media {
+    @apply btn border border-white/40 bg-black/25 text-white hover:-translate-y-px hover:border-white hover:bg-black/40;
   }
 
   .card {
-    @apply rounded border border-rule bg-surface;
+    @apply rounded-lg border border-rule bg-surface;
+  }
+
+  /* A card that is a link: lifts slightly on hover. */
+  .card-link {
+    @apply transition-[transform,box-shadow,border-color,background-color] duration-3 ease-out hover:-translate-y-0.5 hover:border-ruleStrong hover:shadow-[0_18px_40px_-24px_rgb(0_0_0/0.45)];
   }
 
   .link {
     @apply text-ink underline decoration-ruleStrong decoration-1 underline-offset-4 transition-colors duration-1 hover:decoration-accent;
   }
 
-  /* Status chip, the diagnostic state vocabulary: OK, CHECK, SCAN. */
+  /* Small pill for facts and tags. */
   .chip {
-    @apply inline-flex items-center gap-2 rounded-sm border border-rule px-2 py-1 font-mono text-step--2 uppercase tracking-label text-muted;
+    @apply inline-flex items-center gap-2 rounded-full border border-rule px-3 py-1 text-step--2 font-medium text-muted;
   }
-  .chip::before {
+  .chip-accent {
+    @apply border-accent/40 text-accent;
+  }
+  .chip-accent::before {
     content: "";
     @apply h-1.5 w-1.5 shrink-0 rounded-full bg-current;
   }
-  .chip-ok {
-    @apply text-ok;
-  }
-  .chip-accent {
-    @apply text-accent;
+
+  /* Soft glow behind page heroes, in place of a hard background. */
+  .glow {
+    background:
+      radial-gradient(48rem 24rem at 85% 40%, rgb(var(--accent) / 0.09), transparent 65%),
+      radial-gradient(40rem 20rem at -10% 110%, rgb(var(--ink) / 0.05), transparent 60%);
   }
 
-  /* Blueprint grid. Structure, drawn faintly enough to never compete with text. */
-  .blueprint {
-    background-image:
-      linear-gradient(rgb(var(--ink) / var(--grid-alpha)) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(var(--ink) / var(--grid-alpha)) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: -1px -1px;
-  }
-
-  /* Crosshair corner marks, like registration marks on a drawing. */
-  .corners {
-    position: relative;
-  }
-  .corners::before,
-  .corners::after {
-    content: "";
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: rgb(var(--accent));
-    pointer-events: none;
-  }
-  .corners::before {
-    top: -1px;
-    left: -1px;
-    border-top-width: 2px;
-    border-left-width: 2px;
-  }
-  .corners::after {
-    bottom: -1px;
-    right: -1px;
-    border-bottom-width: 2px;
-    border-right-width: 2px;
+  /* Icon tile used on service and reason cards. */
+  .icon-tile {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-lg bg-accent/10 text-accent;
   }
 
   /* Long-form content: service pages, model pages, blog. */
   .prose-tech {
-    @apply max-w-prose text-step-0 leading-[1.7] text-ink;
+    @apply max-w-prose text-step-0 leading-[1.75] text-ink;
   }
   .prose-tech > * + * {
     margin-top: 1.1em;
@@ -252,28 +234,31 @@
   }
   .prose-tech ul > li::before {
     content: "";
-    @apply absolute left-0 top-[0.8em] h-px w-3 bg-accent;
+    @apply absolute left-0 top-[0.7em] h-1.5 w-1.5 rounded-full bg-accent;
   }
   .prose-tech a {
     @apply link;
   }
   .prose-tech .note {
-    @apply rounded border-l-2 border-accent bg-surface px-4 py-3 text-step--1 text-muted;
+    @apply rounded-lg border-l-2 border-accent bg-surface px-4 py-3 text-step--1 text-muted;
   }
 
   /* FAQ disclosure. Native details/summary: works without JS. */
   .faq summary {
-    @apply flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-step-1 font-semibold;
+    @apply flex cursor-pointer list-none items-start justify-between gap-6 py-5 font-display text-step-1 font-semibold transition-colors duration-2 hover:text-accent;
   }
   .faq summary::-webkit-details-marker {
     display: none;
   }
   .faq summary::after {
     content: "+";
-    @apply font-mono text-step-1 font-normal text-accent transition-transform duration-2;
+    @apply font-sans text-step-2 font-light leading-none text-accent transition-transform duration-3;
   }
   .faq details[open] summary::after {
     transform: rotate(45deg);
+  }
+  .faq details[open] > p {
+    animation: fade-up var(--dur-3) var(--ease-out);
   }
 }
 
@@ -314,13 +299,40 @@
 /* ==========================================================================
    Motion
    ========================================================================== */
-@keyframes scan {
+@keyframes fade-up {
   from {
-    transform: translateY(0);
+    opacity: 0;
+    transform: translateY(8px);
   }
   to {
-    transform: translateY(var(--scan-distance, 100%));
+    opacity: 1;
+    transform: none;
   }
+}
+
+/* Scroll reveal. Only active once components/Reveal.tsx has run, so content is
+   visible without JavaScript; blocks already on screen are never hidden. */
+.reveal-on [data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+}
+.reveal-on [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Smooth colour change while the theme toggle is pressed, and only then. */
+.theme-anim,
+.theme-anim *,
+.theme-anim *::before,
+.theme-anim *::after {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

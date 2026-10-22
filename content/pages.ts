@@ -20,7 +20,7 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
     },
     label: "Muut sähköautot",
     h1: "Muiden sähköautojen huolto Helsingissä",
-    lead: "Tesla on erikoisalamme, mutta samat järjestelmät löytyvät muistakin sähköautoista. Huollamme Polestarit, Volkswagen ID:t, Kiat, Hyundait, BMW i -mallit ja muut sähköautot.",
+    lead: "Tesla on erikoisalamme, ja yli 10 vuoden yhteenlaskettu kokemuksemme alalta kattaa myös muut sähköautot. Huollamme Polestarit, Volkswagen ID:t, Kiat, Hyundait, BMW i -mallit ja muut sähköautot.",
     brandsTitle: "Merkit",
     brands: ["Polestar", "Volkswagen ID", "Kia", "Hyundai", "BMW i", "Muut sähköautot"],
     workTitle: "Mitä teemme",
@@ -49,7 +49,7 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
     },
     label: "Other EVs",
     h1: "Servicing for other electric cars in Helsinki",
-    lead: "Tesla is our specialism, but the same systems are found in other electric cars. We service Polestar, Volkswagen ID, Kia, Hyundai, BMW i and other EVs.",
+    lead: "Tesla is our specialism, and our 10+ years of combined industry experience covers other electric cars too. We service Polestar, Volkswagen ID, Kia, Hyundai, BMW i and other EVs.",
     brandsTitle: "Makes",
     brands: ["Polestar", "Volkswagen ID", "Kia", "Hyundai", "BMW i", "Other EVs"],
     workTitle: "What we do",
@@ -250,7 +250,7 @@ export const ABOUT_PAGE: Record<Lang, SimplePage & { body: Block[]; principlesTi
     },
     label: "Meistä",
     h1: "Korjaamo, joka aloittaa vianhausta",
-    lead: "Revamp Motors on riippumaton korjaamo Tattarisuolla, Helsingissä. Olemme erikoistuneet Teslaan ja sähköautoihin, ja teemme muille autoille perustöitä ajanvarauksella.",
+    lead: "Revamp Motors on riippumaton korjaamo Tattarisuolla, Helsingissä, ja tiimillämme on yli 10 vuoden yhteenlaskettu kokemus alalta. Olemme erikoistuneet Teslaan ja sähköautoihin, ja teemme muille autoille perustöitä ajanvarauksella.",
     body: [
       {
         p: "Sähköautot ovat muuttaneet sitä, mitä autolle tehdään. Öljynvaihtoja ja jakohihnoja ei ole, mutta jarrut ruostuvat, 12 V:n akku pysäyttää auton, alusta kuluu painon alla ja moni vika näkyy ensin näytöllä. Näihin töihin tarvitaan oikeat tiedot, oikeat menettelyt ja kärsivällisyyttä etsiä vian todellinen syy.",
@@ -261,6 +261,7 @@ export const ABOUT_PAGE: Record<Lang, SimplePage & { body: Block[]; principlesTi
     ],
     principlesTitle: "Toimintatapamme",
     principles: [
+      { title: "Yli 10 vuoden kokemus", body: "Tiimillämme on yhteensä yli kymmenen vuoden kokemus autoalalta." },
       { title: "Arvio ennen töitä", body: "Mitään ei tehdä ilman hyväksyntääsi. Jos löydämme muuta, soitamme ensin." },
       { title: "Vanhat osat näytetään", body: "Näet, mitä vaihdettiin ja miksi." },
       { title: "Työt kirjataan", body: "Saat kirjallisen yhteenvedon tehdyistä töistä." },
@@ -276,7 +277,7 @@ export const ABOUT_PAGE: Record<Lang, SimplePage & { body: Block[]; principlesTi
     },
     label: "About",
     h1: "A garage that starts with a diagnosis",
-    lead: "Revamp Motors is an independent garage in Tattarisuo, Helsinki. We specialise in Tesla and electric cars, and do basic work on other cars by appointment.",
+    lead: "Revamp Motors is an independent garage in Tattarisuo, Helsinki, run by a team with 10+ years of combined industry experience. We specialise in Tesla and electric cars, and do basic work on other cars by appointment.",
     body: [
       {
         p: "Electric cars have changed what a car needs. There are no oil changes or timing belts, but the brakes corrode, the 12 V battery strands the car, the suspension wears under the weight, and many faults show up on the screen first. This work needs the right information, the right procedures and the patience to find the real cause of a fault.",
@@ -287,6 +288,7 @@ export const ABOUT_PAGE: Record<Lang, SimplePage & { body: Block[]; principlesTi
     ],
     principlesTitle: "How we work",
     principles: [
+      { title: "10+ years of experience", body: "Our team has more than a decade of combined experience in the automotive industry." },
       { title: "Estimate before work", body: "Nothing is done without your approval. If we find something else, we call first." },
       { title: "Old parts shown", body: "You see what was replaced and why." },
       { title: "Work recorded", body: "You get a written summary of the work done." },

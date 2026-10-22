@@ -111,7 +111,7 @@ export function WeekendPage({ lang }: { lang: Lang }) {
         label={c.label}
         title={c.h1}
         lead={c.lead}
-        aside={<Hours lang={lang} className="corners card p-6" />}
+        aside={<Hours lang={lang} className="card p-6" />}
       >
         <Link href={contactHref(lang, "quote")} className="btn-primary">
           {c.cta}
@@ -228,7 +228,7 @@ export function AboutPage({ lang }: { lang: Lang }) {
       </Section>
       <Section tone="surface">
         <SectionHeading title={c.principlesTitle} />
-        <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {c.principles.map((item) => (
             <li key={item.title} className="border-t border-rule pt-5">
               <h3 className="text-step-1 font-bold">{item.title}</h3>
@@ -258,7 +258,7 @@ export function ContactPage({ lang }: { lang: Lang }) {
   return (
     <>
       <Breadcrumbs id="contact" lang={lang} />
-      <section className="blueprint border-b border-rule">
+      <section className="glow border-b border-rule">
         <div className="wrap pb-10 pt-10 md:pt-14">
           <p className="label flex items-center gap-3">
             <span aria-hidden className="h-px w-6 bg-accent" />

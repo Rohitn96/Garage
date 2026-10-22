@@ -92,7 +92,8 @@ export const UI = {
     lang: { fi: "Suomeksi", en: "In English" },
     cta: {
       freeDiagnosis: "Ilmainen diagnostiikka",
-      freeDiagnosisLong: "Varaa ilmainen Tesla-diagnostiikka",
+      freeDiagnosisLong: "Ilmainen Tesla-diagnostiikka",
+      bookService: "Varaa huolto",
       bookDiagnosis: "Varaa diagnostiikka",
       requestQuote: "Pyydä tarjous",
       call: "Soita",
@@ -118,7 +119,7 @@ export const UI = {
       dropInOk: "Viikonloppuisin voit tulla myös ilman varausta, mutta varaus kannattaa.",
     },
     footer: {
-      tagline: "Tesla- ja sähköautojen vianhaku ja huolto Tattarisuolla, Helsingissä.",
+      tagline: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta.",
       services: "Tesla-palvelut",
       pages: "Sivut",
       contact: "Yhteystiedot",
@@ -171,7 +172,8 @@ export const UI = {
     lang: { fi: "Suomeksi", en: "In English" },
     cta: {
       freeDiagnosis: "Free diagnosis",
-      freeDiagnosisLong: "Book a free Tesla diagnosis",
+      freeDiagnosisLong: "Free Tesla diagnosis",
+      bookService: "Book a service",
       bookDiagnosis: "Book a diagnosis",
       requestQuote: "Request a quote",
       call: "Call",
@@ -197,7 +199,7 @@ export const UI = {
       dropInOk: "You can drop in at weekends, but booking is recommended.",
     },
     footer: {
-      tagline: "Tesla and EV diagnostics and service in Tattarisuo, Helsinki.",
+      tagline: "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience.",
       services: "Tesla services",
       pages: "Pages",
       contact: "Contact",

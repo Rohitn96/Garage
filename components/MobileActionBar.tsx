@@ -3,7 +3,6 @@ import type { Lang } from "@/site.config";
 import { TEL_HREF, WHATSAPP_URL } from "@/lib/business";
 import { contactHref } from "@/lib/links";
 import { UI } from "@/content/ui";
-import { OfferSwitch } from "./OfferSwitch";
 
 /**
  * Call, WhatsApp and the primary action, always in reach on a phone. The body
@@ -13,7 +12,7 @@ import { OfferSwitch } from "./OfferSwitch";
 export function MobileActionBar({ lang }: { lang: Lang }) {
   const t = UI[lang].cta;
   const item =
-    "flex min-h-[48px] flex-1 flex-col items-center justify-center gap-0.5 font-mono text-[0.7rem] uppercase tracking-[0.08em]";
+    "flex min-h-[48px] flex-1 flex-col items-center justify-center gap-0.5 text-[0.75rem] font-semibold";
   return (
     <nav
       aria-label={lang === "fi" ? "Pikayhteys" : "Quick contact"}
@@ -32,19 +31,9 @@ export function MobileActionBar({ lang }: { lang: Lang }) {
           </svg>
           {t.whatsapp}
         </a>
-        <OfferSwitch
-          as="span"
-          live={
-            <Link href={contactHref(lang, "diagnosis")} className={`${item} flex-[1.6] rounded bg-accent px-2 text-center text-onAccent`}>
-              {t.freeDiagnosis}
-            </Link>
-          }
-          ended={
-            <Link href={contactHref(lang, "quote")} className={`${item} flex-[1.6] rounded bg-accent px-2 text-center text-onAccent`}>
-              {t.requestQuote}
-            </Link>
-          }
-        />
+        <Link href={contactHref(lang, "quote")} className={`${item} flex-[1.6] rounded-full bg-accent px-2 text-center text-onAccent`}>
+          {t.bookService}
+        </Link>
       </div>
     </nav>
   );

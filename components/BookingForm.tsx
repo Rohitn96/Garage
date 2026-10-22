@@ -163,7 +163,7 @@ export function BookingSection() {
       <div className="grid gap-4 md:grid-cols-2">
         <article
           id={lang === "fi" ? "diagnostiikka" : "diagnosis"}
-          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "corners border-accent" : ""}`}
+          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "border-accent shadow-[0_18px_40px_-28px_rgb(var(--accent)/0.6)]" : ""}`}
         >
           <OfferSwitch
             live={
@@ -194,7 +194,7 @@ export function BookingSection() {
 
         <article
           id={lang === "fi" ? "tarjous" : "quote"}
-          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "quote" ? "corners border-accent" : ""}`}
+          className={`card scroll-mt-28 p-6 sm:p-8 ${path === "quote" ? "border-accent shadow-[0_18px_40px_-28px_rgb(var(--accent)/0.6)]" : ""}`}
         >
           <span className="chip">{lang === "fi" ? "Kaikki autot" : "Any vehicle"}</span>
           <h2 className="h3 mt-4">{c.quote.title}</h2>
@@ -213,8 +213,8 @@ export function BookingSection() {
 
       <div ref={formRef} className="scroll-mt-28 pt-10">
         {status === "sent" ? (
-          <div role="status" className="corners card p-6 sm:p-10">
-            <span className="chip chip-ok">OK</span>
+          <div role="status" className="card p-6 sm:p-10">
+            <span className="icon-tile">✓</span>
             <h2 className="h3 mt-4">{f.successTitle}</h2>
             <p className="mt-3 max-w-prose text-muted">{f.successBody}</p>
           </div>

@@ -21,7 +21,11 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
   const toggle = () => {
     const next: Theme = theme === "light" ? "dark" : "light";
-    document.documentElement.setAttribute("data-theme", next);
+    const root = document.documentElement;
+    // Colours ease across only for the switch itself, never during normal use.
+    root.classList.add("theme-anim");
+    window.setTimeout(() => root.classList.remove("theme-anim"), 450);
+    root.setAttribute("data-theme", next);
     try {
       localStorage.setItem("theme", next);
     } catch {

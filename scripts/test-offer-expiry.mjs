@@ -50,9 +50,9 @@ for (const { file, html } of after) {
   }
 }
 const navAfter = after.find((p) => /^out[\\/]fi[\\/]index\.html$/.test(p.file)).html;
-if (!navAfter.includes("Pyydä tarjous")) problems.push('after: Finnish CTA "Pyydä tarjous" missing');
+if (!navAfter.includes("Varaa huolto")) problems.push('after: Finnish CTA "Varaa huolto" missing');
 const enAfter = after.find((p) => /^out[\\/]index\.html$/.test(p.file)).html;
-if (!enAfter.includes("Request a quote")) problems.push('after: English CTA "Request a quote" missing');
+if (!enAfter.includes("Book a service")) problems.push('after: English CTA "Book a service" missing');
 
 if (problems.length) {
   console.error(problems.map((p) => `  FAIL ${p}`).join("\n"));
