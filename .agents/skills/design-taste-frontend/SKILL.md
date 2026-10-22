@@ -690,7 +690,7 @@ These patterns came out of real LLM-generated landing-page tests. They are the s
 * **Banned in eyebrows / labels / pills / button text / image captions / nav items.** Replace with line breaks, columns, or hairlines.
 * **Banned in body copy.** Restructure the sentence: two sentences with a period, OR a comma, OR parentheses, OR a colon.
 * **Banned in quote attribution.** Use a normal hyphen with spaces (` - `) or a line break + smaller-weight name.
-* **Banned in en-dash form too (` to `) when used as a separator.** Date ranges (`2018-2026`) use a hyphen. Number ranges (`€40-80k`) use a hyphen.
+* **Banned in en-dash form too (U+2013) when used as a separator.** Date ranges (`2018-2026`) use a hyphen. Number ranges (`€40-80k`) use a hyphen.
 
 The ONLY permitted dash characters on the page are:
 * Regular hyphen `-` (for compound words, ranges, line dividers in markup)
