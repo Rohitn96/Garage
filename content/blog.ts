@@ -319,7 +319,7 @@ const FI: Record<BlogPostId, BlogContent> = {
       {
         p: "Arvaamalla vaihdettu osa on kallein osa, koska se ei korjaa vikaa. Huolellinen vianhaku vie aikaa, mutta se tekee korjauksesta kertaluonteisen.",
       },
-      { note: "Teslan omistajille: katso [Tesla-diagnostiikka](@offer) ja [sähköviat ja ohjelmisto](@svc-electrical)." },
+      { note: "Teslan omistajille: katso [Tesla-tarkastus](@offer) ja [sähköviat ja ohjelmisto](@svc-electrical)." },
     ],
     related: ["offer", "svc-electrical", "svc-powertrain", "post-12v"],
   },
@@ -634,7 +634,7 @@ const EN: Record<BlogPostId, BlogContent> = {
       {
         p: "A part replaced on a guess is the most expensive part, because it does not fix the fault. A careful diagnosis takes time, but it makes the repair a one-off.",
       },
-      { note: "For Tesla owners: see [Tesla diagnosis](@offer) and [electrical faults and software](@svc-electrical)." },
+      { note: "For Tesla owners: see [Tesla inspection](@offer) and [electrical faults and software](@svc-electrical)." },
     ],
     related: ["offer", "svc-electrical", "svc-powertrain", "post-12v"],
   },

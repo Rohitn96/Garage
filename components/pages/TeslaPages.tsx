@@ -230,7 +230,7 @@ export function ServicePage({ id, lang }: { id: ServiceId; lang: Lang }) {
 export function OfferPage({ lang }: { lang: Lang }) {
   const c = OFFER_PAGE[lang];
   const s = UI[lang].sections;
-  const d = SITE.diagnosis;
+  const d = SITE.inspection;
 
   const scope = (
     <Section tone="surface">

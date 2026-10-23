@@ -57,7 +57,7 @@ const STATIC = {
   "svc-tyres": r("/tesla/renkaat-ja-suuntaus/", "/tesla/tyres-and-alignment/", "service", 0.8, "tesla"),
   "svc-electrical": r("/tesla/sahkoviat-ja-ohjelmisto/", "/tesla/electrical-and-software/", "service", 0.8, "tesla"),
   "svc-climate": r("/tesla/ilmastointi-ja-lampopumppu/", "/tesla/climate-and-heat-pump/", "service", 0.7, "tesla"),
-  offer: r("/tesla/ilmainen-diagnostiikka/", "/tesla/free-diagnosis/", "offer", 0.9, "tesla"),
+  offer: r("/tesla/ilmainen-tarkastus/", "/tesla/free-inspection/", "offer", 0.9, "tesla"),
   "battery-report": r("/tesla/akun-kuntoraportti/", "/tesla/battery-health-report/", "report", 0.8, "tesla"),
   ev: r("/sahkoautot/", "/electric-cars/", "page", 0.8, "home"),
   other: r("/muut-autot/", "/other-cars/", "page", 0.5, "home"),

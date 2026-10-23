@@ -28,7 +28,7 @@ export function HomePage({ lang }: { lang: Lang }) {
   return (
     <>
       {/* Hero. Always dark, over footage. The H1 is the LCP and is never animated. */}
-      <section className="relative isolate overflow-hidden text-white md:[clip-path:polygon(0_0,100%_0,100%_calc(100%-4vw),0_100%)]">
+      <section className="relative isolate overflow-hidden text-white">
         <HeroVideo alt={c.hero.videoAlt} />
         <div className="wrap relative flex min-h-[calc(88svh-4rem)] flex-col justify-end pb-12 pt-40 md:min-h-[min(82vh,820px)] md:justify-center md:pb-20 md:pt-20">
           <p className="flex items-center gap-3 text-step--2 font-semibold uppercase tracking-[0.16em] text-white/75">
@@ -49,6 +49,10 @@ export function HomePage({ lang }: { lang: Lang }) {
             ))}
           </ul>
         </div>
+        {/* The slanted lower edge, drawn as a static wedge in the page colour on
+            top of the footage. Clipping the video layer itself made the browser
+            re-clip every frame. */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[4vw] bg-ground [clip-path:polygon(0_100%,100%_0,100%_100%)] md:block" />
       </section>
 
       {/* The launch offer, as a promotion strip. Gone after 31.12.2026. */}

@@ -9,7 +9,7 @@ The map pack listing comes from Google Business Profile, not from the website. T
 - [ ] Map pin on the door of Hall 3, not the yard entrance. Copy the pin's coordinates into `business.geo`.
 - [ ] Phone: +358 45 865 6683
 - [ ] Website: `https://revampmotors.fi/fi/?utm_source=google&utm_medium=organic&utm_campaign=gbp` (Finnish pages; English is at the root)
-- [ ] Appointment link: `https://revampmotors.fi/fi/yhteystiedot/?utm_source=google&utm_medium=organic&utm_campaign=gbp-booking#diagnostiikka`
+- [ ] Appointment link: `https://revampmotors.fi/fi/yhteystiedot/?utm_source=google&utm_medium=organic&utm_campaign=gbp-booking#tarkastus`
 
 ## Categories
 
@@ -34,9 +34,9 @@ No prices: the site does not publish any, and the profile should match.
 
 ## Launch offer post (until 31.12.2026)
 
-- [ ] Create an **Offer** post: "Ilmainen Tesla-diagnostiikka 31.12.2026 asti", end date 31.12.2026
-- [ ] Button: "Learn more" linking to `https://revampmotors.fi/fi/tesla/ilmainen-diagnostiikka/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer`
-- [ ] English version: `https://revampmotors.fi/tesla/free-diagnosis/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer-en`
+- [ ] Create an **Offer** post: "Ilmainen Tesla-tarkastus 31.12.2026 asti", end date 31.12.2026
+- [ ] Button: "Learn more" linking to `https://revampmotors.fi/fi/tesla/ilmainen-tarkastus/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer`
+- [ ] English version: `https://revampmotors.fi/tesla/free-inspection/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer-en`
 
 ## Photos (real ones only)
 

@@ -58,7 +58,7 @@ function Field({
 
 /**
  * The contact page's two paths, side by side, and the one form they share.
- * Picking a path (or arriving on #diagnostiikka / #tarjous) sets the form's
+ * Picking a path (or arriving on #tarkastus / #tarjous) sets the form's
  * mode; the diagnosis path accepts Tesla models only.
  */
 export function BookingSection() {
@@ -114,7 +114,7 @@ export function BookingSection() {
       return;
     }
     const live = isOfferLive(Date.now());
-    const kind = path === "diagnosis" ? (live ? "Free Tesla diagnosis" : "Tesla diagnosis") : "Quote request";
+    const kind = path === "diagnosis" ? (live ? "Free Tesla inspection" : "Tesla inspection") : "Quote request";
     try {
       const response = await fetch(ENDPOINT, {
         method: "POST",
@@ -162,7 +162,7 @@ export function BookingSection() {
       {/* Two paths, side by side on wide screens. */}
       <div className="grid gap-4 md:grid-cols-2">
         <article
-          id={lang === "fi" ? "diagnostiikka" : "diagnosis"}
+          id={lang === "fi" ? "tarkastus" : "inspection"}
           className={`card scroll-mt-28 p-6 sm:p-8 ${path === "diagnosis" ? "shadow-[inset_0_0_0_2px_rgb(var(--accent))]" : ""}`}
         >
           <OfferSwitch

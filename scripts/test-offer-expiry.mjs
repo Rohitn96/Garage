@@ -32,7 +32,7 @@ const before = build("2026-12-31T23:00:00+02:00");
 const home = before.find((p) => /^out[\\/]index\.html$/.test(p.file)).html;
 if (!home.includes('data-offer="live"')) problems.push("before: home is not marked live");
 if (!home.includes('data-offer-variant="live"')) problems.push("before: home has no live offer content");
-const offerFi = before.find((p) => p.file.includes("ilmainen-diagnostiikka")).html;
+const offerFi = before.find((p) => p.file.includes("ilmainen-tarkastus")).html;
 if (!offerFi.includes('"@type":"Offer"')) problems.push("before: offer page has no Offer schema");
 if (!offerFi.includes('"validThrough":"2026-12-31"')) problems.push("before: Offer schema lacks validThrough");
 

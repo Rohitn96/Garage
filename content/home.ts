@@ -35,8 +35,8 @@ export const HOME: Record<Lang, HomeCopy> = {
     },
     offer: {
       label: "Avajaistarjous",
-      title: "Ilmainen Tesla-diagnostiikka 31.12.2026 asti",
-      body: "Digitaalinen analyysiraportti, silmämääräinen tarkastus ja koeajo. Ei sitoumusta.",
+      title: "Ilmainen Tesla-tarkastus 31.12.2026 asti",
+      body: "Yleinen perustarkastus Tesla-autoille. Ei sitoumusta.",
       more: "Tutustu tarjoukseen",
     },
     models: {
@@ -140,8 +140,8 @@ export const HOME: Record<Lang, HomeCopy> = {
     },
     offer: {
       label: "Launch offer",
-      title: "Free Tesla diagnosis until 31.12.2026",
-      body: "Digital analysis report, visual inspection and a test drive. No obligation.",
+      title: "Free Tesla inspection until 31.12.2026",
+      body: "A basic general inspection for Tesla vehicles. No obligation.",
       more: "See the offer",
     },
     models: {

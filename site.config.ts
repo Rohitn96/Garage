@@ -129,7 +129,7 @@ export const SITE = {
   replyTime: { fi: "12 tunnin kuluessa, usein jo 3 tunnissa", en: "within 3 to 12 hours" } as Localized,
 
   /**
-   * Launch offer: free diagnosis for Tesla vehicles.
+   * Launch offer: free basic inspection for Tesla vehicles.
    *
    * `endsAt` is the first instant AFTER the offer, in Helsinki time. The offer
    * is valid through 31.12.2026, so it ends at midnight going into 1.1.2027,
@@ -143,17 +143,21 @@ export const SITE = {
   },
 
   /**
-   * What the free diagnosis includes, as confirmed by the owner. Tesla
-   * vehicles only. `excludes` is optional: the "not included" list renders
-   * only when it has entries. Set `confirmed: false` to hide both lists.
+   * The free launch offer: a basic general inspection, Tesla vehicles only, as
+   * confirmed by the owner. Fault diagnosis, diagnostic equipment and reports
+   * are paid services and are not part of it. Set `confirmed: false` to hide
+   * both lists.
    */
-  diagnosis: {
+  inspection: {
     confirmed: true,
     includes: {
-      fi: ["Digitaalinen analyysiraportti", "Silmämääräinen tarkastus", "Koeajo"],
-      en: ["Digital analysis report", "Visual inspection", "Test drive"],
+      fi: ["Yleinen perustarkastus", "Löydökset kerrottuna, ja arvio, jos jotain on korjattava"],
+      en: ["A basic general inspection", "Findings explained, with an estimate if anything needs work"],
     } as LocalizedList,
-    excludes: { fi: [], en: [] } as LocalizedList,
+    excludes: {
+      fi: ["Vianhaku ja diagnostiikkalaitteet", "Kirjalliset tai digitaaliset raportit", "Korjaukset ja varaosat"],
+      en: ["Fault diagnosis and diagnostic equipment", "Written or digital reports", "Repairs and parts"],
+    } as LocalizedList,
   },
 
   /**

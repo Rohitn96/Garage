@@ -38,7 +38,7 @@ export const FORM_TEXT = {
     consent:
       "Hyväksyn, että tietojani käytetään tähän yhteydenottoon vastaamiseen ja ajan varaamiseen.",
     privacy: "Tietosuojaseloste",
-    submitDiagnosis: "Lähetä diagnostiikkapyyntö",
+    submitDiagnosis: "Lähetä tarkastuspyyntö",
     submitQuote: "Lähetä tarjouspyyntö",
     sending: "Lähetetään…",
     successTitle: "Kiitos, pyyntösi on vastaanotettu.",
@@ -46,7 +46,7 @@ export const FORM_TEXT = {
     errorTitle: "Lähetys ei onnistunut.",
     errorBody: "Yritä hetken kuluttua uudelleen, tai soita tai lähetä viesti WhatsAppilla.",
     fixErrors: "Tarkista merkityt kentät.",
-    teslaOnly: "Ilmainen diagnostiikka koskee vain Tesla-autoja. Valitse Tesla-malli tai pyydä tarjous.",
+    teslaOnly: "Ilmainen tarkastus koskee vain Tesla-autoja. Valitse Tesla-malli tai pyydä tarjous.",
     required: "pakollinen",
     errors: {
       vehicle: "Valitse auto.",
@@ -90,7 +90,7 @@ export const FORM_TEXT = {
     email: "Email",
     consent: "I agree that my details are used to answer this enquiry and book a slot.",
     privacy: "Privacy notice",
-    submitDiagnosis: "Send diagnosis request",
+    submitDiagnosis: "Send inspection request",
     submitQuote: "Send quote request",
     sending: "Sending…",
     successTitle: "Thank you, we have your request.",
@@ -98,7 +98,7 @@ export const FORM_TEXT = {
     errorTitle: "That did not go through.",
     errorBody: "Please try again in a moment, or call or message us on WhatsApp.",
     fixErrors: "Please check the highlighted fields.",
-    teslaOnly: "The free diagnosis is for Tesla vehicles only. Choose a Tesla model or request a quote.",
+    teslaOnly: "The free inspection is for Tesla vehicles only. Choose a Tesla model or request a quote.",
     required: "required",
     errors: {
       vehicle: "Please choose a vehicle.",

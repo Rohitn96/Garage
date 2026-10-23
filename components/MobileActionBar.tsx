@@ -14,7 +14,7 @@ export function MobileActionBar({ lang }: { lang: Lang }) {
   return (
     <nav
       aria-label={lang === "fi" ? "Pikayhteys" : "Quick contact"}
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-ground/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-ground pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <div className="flex items-stretch gap-2 px-3 py-2">
         <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={`${item} bg-ink/[0.08] text-ink`}>

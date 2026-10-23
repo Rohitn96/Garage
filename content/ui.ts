@@ -22,7 +22,7 @@ const ROUTE_NAMES_FI: Record<RouteId, string> = {
   "svc-tyres": "Renkaat ja suuntaus",
   "svc-electrical": "Sähköviat ja ohjelmisto",
   "svc-climate": "Ilmastointi ja lämpöpumppu",
-  offer: "Tesla-diagnostiikka",
+  offer: "Tesla-tarkastus",
   "battery-report": "Akun kuntoraportti",
   ev: "Muut sähköautot",
   other: "Muut autot",
@@ -54,7 +54,7 @@ const ROUTE_NAMES_EN: Record<RouteId, string> = {
   "svc-tyres": "Tyres and alignment",
   "svc-electrical": "Electrical faults and software",
   "svc-climate": "Climate and heat pump",
-  offer: "Tesla diagnosis",
+  offer: "Tesla inspection",
   "battery-report": "Battery health report",
   ev: "Other EVs",
   other: "Other vehicles",
@@ -91,10 +91,10 @@ export const UI = {
     theme: { toLight: "Vaihda vaaleaan teemaan", toDark: "Vaihda tummaan teemaan" },
     lang: { fi: "Suomeksi", en: "In English" },
     cta: {
-      freeDiagnosis: "Ilmainen diagnostiikka",
-      freeDiagnosisLong: "Ilmainen Tesla-diagnostiikka",
+      freeInspection: "Ilmainen tarkastus",
+      freeInspectionLong: "Ilmainen Tesla-tarkastus",
       bookService: "Varaa huolto",
-      bookDiagnosis: "Varaa diagnostiikka",
+      bookInspection: "Varaa tarkastus",
       requestQuote: "Pyydä tarjous",
       call: "Soita",
       whatsapp: "WhatsApp",
@@ -102,7 +102,7 @@ export const UI = {
     },
     offer: {
       tag: "Avajaistarjous",
-      banner: "Ilmainen diagnostiikka Teslalle 31.12.2026 asti. Ei sitoumusta.",
+      banner: "Ilmainen tarkastus Teslalle 31.12.2026 asti. Ei sitoumusta.",
       more: "Tarjouksen ehdot",
     },
     hours: {
@@ -171,10 +171,10 @@ export const UI = {
     theme: { toLight: "Switch to light theme", toDark: "Switch to dark theme" },
     lang: { fi: "Suomeksi", en: "In English" },
     cta: {
-      freeDiagnosis: "Free diagnosis",
-      freeDiagnosisLong: "Free Tesla diagnosis",
+      freeInspection: "Free inspection",
+      freeInspectionLong: "Free Tesla inspection",
       bookService: "Book a service",
-      bookDiagnosis: "Book a diagnosis",
+      bookInspection: "Book an inspection",
       requestQuote: "Request a quote",
       call: "Call",
       whatsapp: "WhatsApp",
@@ -182,7 +182,7 @@ export const UI = {
     },
     offer: {
       tag: "Launch offer",
-      banner: "Free diagnosis for Tesla until 31 December 2026. No obligation.",
+      banner: "Free inspection for Tesla until 31 December 2026. No obligation.",
       more: "Offer details",
     },
     hours: {

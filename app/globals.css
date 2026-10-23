@@ -180,7 +180,7 @@
   }
   /* Over the hero video, whatever the theme: light grey with dark text. */
   .btn-on-media {
-    @apply btn bg-white/80 text-[#171a20] backdrop-blur hover:bg-white;
+    @apply btn bg-[#eeeeee] text-[#171a20] hover:bg-white;
   }
 
   /* Panels: plain rectangles on a solid surface. On a surface-toned section

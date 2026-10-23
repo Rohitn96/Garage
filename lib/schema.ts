@@ -92,7 +92,7 @@ export function offerSchema(lang: Lang, description: string) {
     "@context": "https://schema.org",
     "@type": "Offer",
     "@id": `${abs(pathOf("offer", lang))}#offer`,
-    name: lang === "fi" ? "Ilmainen Tesla-diagnostiikka" : "Free Tesla diagnosis",
+    name: lang === "fi" ? "Ilmainen Tesla-tarkastus" : "Free Tesla inspection",
     description,
     url: abs(pathOf("offer", lang)),
     validThrough: SITE.offer.validThrough,
@@ -101,7 +101,7 @@ export function offerSchema(lang: Lang, description: string) {
     areaServed: { "@type": "City", name: "Helsinki" },
     itemOffered: {
       "@type": "Service",
-      name: lang === "fi" ? "Tesla-diagnostiikka" : "Tesla diagnosis",
+      name: lang === "fi" ? "Tesla-tarkastus" : "Tesla inspection",
       provider: { "@id": SHOP_ID },
     },
   };

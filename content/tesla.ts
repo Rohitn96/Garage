@@ -129,105 +129,99 @@ type OfferCopy = {
 export const OFFER_PAGE: Record<Lang, OfferCopy> = {
   fi: {
     seoLive: {
-      title: "Ilmainen Tesla-diagnostiikka Helsingissä 31.12.2026 asti",
+      title: "Ilmainen Tesla-tarkastus Helsingissä 31.12.2026 asti",
       description:
-        "Avajaistarjous: ilmainen diagnostiikka Teslalle Tattarisuolla, Helsingissä 31.12.2026 asti. Saat löydökset ja arvion, ja päätät itse. Ei sitoumusta.",
+        "Avajaistarjous: ilmainen perustarkastus Tesla-autoille Tattarisuolla, Helsingissä 31.12.2026 asti. Jos jotain on korjattava, saat arvion ja päätät itse. Ei sitoumusta.",
     },
     seoEnded: {
-      title: "Tesla-diagnostiikka Helsingissä",
+      title: "Tesla-tarkastus Helsingissä",
       description:
-        "Teslan vianhaku Tattarisuolla, Helsingissä. Saat löydökset ja kirjallisen arvion, ja päätät itse, mitä tehdään.",
+        "Yleistarkastus Tesla-autoille Tattarisuolla, Helsingissä. Jos jotain on korjattava, saat arvion ennen kuin mitään tehdään.",
     },
     live: {
       label: "Avajaistarjous · voimassa 31.12.2026 asti",
-      h1: "Ilmainen diagnostiikka Teslalle",
-      lead: "Tuo Tesla vianhakuun maksutta. Jos löydämme jotain, saat arvion ja päätät itse, jatketaanko. Ei sitoumusta.",
+      h1: "Ilmainen tarkastus Teslallesi",
+      lead: "Tuo Tesla maksuttomaan perustarkastukseen. Jos löydämme jotain korjattavaa, saat arvion ja päätät itse, jatketaanko. Ei sitoumusta.",
     },
     ended: {
-      label: "Tesla-diagnostiikka",
-      h1: "Teslan diagnostiikka",
-      lead: "Avajaistarjous päättyi 31.12.2026. Diagnostiikka toimii edelleen samalla tavalla: saat löydökset ja arvion ennen kuin mitään korjataan, ja päätät itse.",
+      label: "Tesla-tarkastus",
+      h1: "Teslan tarkastus",
+      lead: "Avajaistarjous päättyi 31.12.2026. Tarkastamme Teslat edelleen samalla tavalla: jos jotain on korjattava, saat arvion ennen kuin mitään tehdään, ja päätät itse.",
     },
     howTitle: "Näin se etenee",
     steps: [
-      { title: "Varaa aika", body: "Lomakkeella, puhelimella tai WhatsAppilla. Kerro malli, vuosimalli ja oireet." },
+      { title: "Varaa aika", body: "Lomakkeella, puhelimella tai WhatsAppilla. Kerro malli ja vuosimalli." },
       { title: "Tuo auto", body: "Sovittuna aikana, myös viikonloppuisin." },
-      { title: "Vianhaku", body: "Digitaalinen analyysi, silmämääräinen tarkastus ja koeajo." },
-      { title: "Raportti ja arvio", body: "Saat digitaalisen analyysiraportin ja arvion. Päätät itse, korjataanko, ja voit hakea auton ilman korjausta." },
+      { title: "Tarkastus", body: "Käymme auton läpi yleisellä perustarkastuksella." },
+      { title: "Löydökset ja arvio", body: "Kerromme, mitä löytyi. Jos jotain on korjattava, saat arvion ja päätät itse. Voit hakea auton ilman korjausta." },
     ],
-    scopeTitle: "Mitä diagnostiikka sisältää",
+    scopeTitle: "Mitä tarkastus sisältää",
     scopeGeneral: [
       {
-        p: "Diagnostiikka sisältää kolme osaa: auton järjestelmien ja vikakoodien digitaalisen analyysin, josta saat raportin, silmämääräisen tarkastuksen ja koeajon. Keskitymme siihen vikaan tai oireeseen, jonka kerrot varatessasi, ja kerromme löydökset selkeästi: mikä on vialla, miten varmistimme sen ja mitä korjaus sisältäisi.",
-      },
-      {
-        p: "Jos vian paikantaminen vaatii laajempaa purkamista, kerromme siitä ja sen kustannuksista etukäteen. Mitään ylimääräistä ei tehdä ilman hyväksyntääsi.",
+        p: "Tarkastus on Teslan yleinen perustarkastus: käymme auton läpi ja katsomme, onko jotain, mikä kaipaa huomiota. Siihen ei sisälly vianhakua, diagnostiikkalaitteita eikä raporttia. Jos jokin vaatii tarkempaa selvitystä, kerromme sen ja annamme ensin arvion jatkotyöstä.",
       },
     ],
     includes: "Sisältyy",
     excludes: "Ei sisälly",
-    scopePending: "Diagnostiikan tarkka sisältö vahvistetaan varauksen yhteydessä.",
+    scopePending: "Tarkastuksen sisältö vahvistetaan varauksen yhteydessä.",
     termsTitle: "Ehdot",
     terms: [
       "Koskee vain Tesla-autoja: Model S, Model 3, Model X ja Model Y.",
       "Tarjous on voimassa 31.12.2026 asti.",
-      "Diagnostiikka on maksuton. Saat löydökset ja arvion, eikä mihinkään tarvitse sitoutua.",
-      "Korjaukset ja osat tehdään vain hyväksymäsi arvion mukaan.",
+      "Perustarkastus on maksuton, eikä mihinkään tarvitse sitoutua.",
+      "Vianhaku, raportit, korjaukset ja osat eivät sisälly tarjoukseen. Jatkotyöt tehdään vain hyväksymäsi arvion mukaan.",
       "Takuuseen todennäköisesti kuuluvista vioista kerromme ja ohjaamme sinut Teslan huoltoon.",
     ],
     endDateLabel: "Voimassa",
-    cta: "Varaa ilmainen diagnostiikka",
+    cta: "Varaa ilmainen tarkastus",
   },
   en: {
     seoLive: {
-      title: "Free Tesla diagnosis in Helsinki until 31.12.2026",
+      title: "Free Tesla inspection in Helsinki until 31.12.2026",
       description:
-        "Launch offer: a free diagnosis for Tesla in Tattarisuo, Helsinki until 31 December 2026. You get the findings and an estimate, and you decide. No obligation.",
+        "Launch offer: a free basic inspection for Tesla vehicles in Tattarisuo, Helsinki, until 31 December 2026. If anything needs work, you get an estimate and decide. No obligation.",
     },
     seoEnded: {
-      title: "Tesla diagnosis in Helsinki",
+      title: "Tesla inspection in Helsinki",
       description:
-        "Tesla fault diagnosis in Tattarisuo, Helsinki. You get the findings and a written estimate, and you decide what is done.",
+        "A general inspection for Tesla vehicles in Tattarisuo, Helsinki. If anything needs work, you get an estimate before anything is done.",
     },
     live: {
       label: "Launch offer · valid until 31.12.2026",
-      h1: "Free diagnosis for Tesla",
-      lead: "Bring your Tesla in for a free diagnosis. If we find something, you get an estimate and decide whether to go ahead. No obligation.",
+      h1: "Free inspection for your Tesla",
+      lead: "Bring your Tesla in for a free basic inspection. If we find something that needs work, you get an estimate and decide whether to go ahead. No obligation.",
     },
     ended: {
-      label: "Tesla diagnosis",
-      h1: "Tesla diagnosis",
-      lead: "The launch offer ended on 31 December 2026. The diagnosis still works the same way: you get the findings and an estimate before anything is repaired, and you decide.",
+      label: "Tesla inspection",
+      h1: "Tesla inspection",
+      lead: "The launch offer ended on 31 December 2026. We still inspect Teslas the same way: if anything needs work, you get an estimate before anything is done, and you decide.",
     },
     howTitle: "How it works",
     steps: [
-      { title: "Book", body: "By form, phone or WhatsApp. Tell us the model, the year and the symptoms." },
+      { title: "Book", body: "By form, phone or WhatsApp. Tell us the model and year." },
       { title: "Drop the car off", body: "At the agreed time, weekends included." },
-      { title: "Diagnosis", body: "A digital analysis, a visual inspection and a test drive." },
-      { title: "Report and estimate", body: "You get the digital analysis report and an estimate. You decide whether to repair, and you can collect the car without any repair." },
+      { title: "Inspection", body: "We go over the car with a basic general inspection." },
+      { title: "Findings and estimate", body: "We tell you what we found. If anything needs work, you get an estimate and decide. You can collect the car without any repair." },
     ],
-    scopeTitle: "What the diagnosis covers",
+    scopeTitle: "What the inspection covers",
     scopeGeneral: [
       {
-        p: "The diagnosis has three parts: a digital analysis of the car's systems and fault codes, written up as a report; a visual inspection; and a test drive. We focus on the fault or symptom you describe when you book, and explain the findings clearly: what is wrong, how we confirmed it and what a repair would involve.",
-      },
-      {
-        p: "If finding the fault needs more extensive dismantling, we tell you about it and its cost in advance. Nothing extra is done without your approval.",
+        p: "The inspection is a basic general check of your Tesla: we go over the car and look for anything that needs attention. It does not include fault diagnosis, diagnostic equipment or a report. If something needs a closer look, we tell you and give you an estimate for the further work first.",
       },
     ],
     includes: "Included",
     excludes: "Not included",
-    scopePending: "The exact scope of the diagnosis is confirmed when you book.",
+    scopePending: "The exact scope of the inspection is confirmed when you book.",
     termsTitle: "Terms",
     terms: [
       "For Tesla vehicles only: Model S, Model 3, Model X and Model Y.",
       "The offer is valid until 31 December 2026.",
-      "The diagnosis is free. You get the findings and an estimate, with no obligation.",
-      "Repairs and parts are carried out only to an estimate you have approved.",
+      "The basic inspection is free, with no obligation.",
+      "Fault diagnosis, reports, repairs and parts are not included. Any further work is done only to an estimate you have approved.",
       "If a fault is likely to be covered by warranty, we tell you and send you to Tesla service.",
     ],
     endDateLabel: "Valid until",
-    cta: "Book a free diagnosis",
+    cta: "Book a free inspection",
   },
 };
 

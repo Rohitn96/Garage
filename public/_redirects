@@ -8,10 +8,16 @@
 /en      /         301
 /en/*    /:splat   301
 
-# 2. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
+# 2. The launch offer is a free inspection, not a diagnosis; its pages moved.
+/tesla/free-diagnosis/            /tesla/free-inspection/        301
+/tesla/free-diagnosis             /tesla/free-inspection/        301
+/fi/tesla/ilmainen-diagnostiikka/ /fi/tesla/ilmainen-tarkastus/  301
+/fi/tesla/ilmainen-diagnostiikka  /fi/tesla/ilmainen-tarkastus/  301
+
+# 3. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
 #    redirected here: browsers never send the fragment. The head script in
 #    lib/offer.ts sends them to the contact page instead.
 
-# 3. Google Search Console's verification file must answer at its exact URL.
+# 4. Google Search Console's verification file must answer at its exact URL.
 #    Status 200 is a rewrite, not a redirect. Keep while the property is verified.
 /googlef5fb86be7b72c0c2.html  /googlef5fb86be7b72c0c2  200

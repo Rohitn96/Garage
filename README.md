@@ -50,13 +50,13 @@ The sitemap, hreflang, breadcrumbs, redirects and headers follow automatically.
 
 ## Business facts and placeholders
 
-`site.config.ts` holds every fact the site states, including the confirmed free diagnosis scope (digital analysis report, visual inspection, test drive; Tesla only). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
+`site.config.ts` holds every fact the site states, including the scope of the free launch inspection (a basic general inspection, Tesla only; no diagnosis, diagnostic equipment or report). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
 
-## Launch offer (free Tesla diagnosis until 31.12.2026)
+## Launch offer (free Tesla inspection until 31.12.2026)
 
 The offer ends at 1.1.2027 00:00 Helsinki time (`offer.endsAt` in `site.config.ts`). It switches off two ways:
 
-1. **In the browser, with no rebuild.** Every offer element is rendered in a live and an ended variant (`OfferSwitch`). An inline script in `<head>` compares the visitor's clock with the end time before first paint, sets `data-offer` on `<html>`, CSS hides the wrong variant, and the Offer JSON-LD is turned into an inert `text/plain` block. CTAs change from "Free diagnosis" to "Book a diagnosis" / "Request a quote".
+1. **In the browser, with no rebuild.** Every offer element is rendered in a live and an ended variant (`OfferSwitch`). An inline script in `<head>` compares the visitor's clock with the end time before first paint, sets `data-offer` on `<html>`, CSS hides the wrong variant, and the Offer JSON-LD is turned into an inert `text/plain` block. CTAs change from "Free Tesla inspection" to "Book an inspection".
 2. **At build time.** A build made after the end date contains only the ended variant and no Offer schema, and the offer page's metadata switches to the neutral version.
 
 Do a normal deploy on or after 1.1.2027 so the HTML and metadata are clean for search engines. To preview the ended state, add `?offer-now=2027-01-02` to any URL, or build with `OFFER_NOW=2027-01-02T00:00:00+02:00`.
@@ -79,7 +79,7 @@ Light and dark, following the operating system on the first visit; the toggle in
 
 ## Calls to action
 
-"Book a service" is the main action everywhere (nav, mobile bar, hero, page endings). The free Tesla diagnosis is the launch promotion: the top banner, a strip under the hero, the secondary button on Tesla pages, the offer page and the contact page's first path.
+"Book a service" is the main action everywhere (nav, mobile bar, hero, page endings). The free Tesla inspection is the launch promotion: the top banner, a strip under the hero, the secondary button on Tesla pages, the offer page and the contact page's first path.
 
 ## Contact form
 

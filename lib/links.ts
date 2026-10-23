@@ -8,11 +8,14 @@ export type ContactPath = "diagnosis" | "quote";
  * scrolls to the form and tells the form which path to open.
  */
 export function contactHref(lang: Lang, path: ContactPath): string {
-  const anchor = path === "diagnosis" ? (lang === "fi" ? "diagnostiikka" : "diagnosis") : lang === "fi" ? "tarjous" : "quote";
+  const anchor = path === "diagnosis" ? (lang === "fi" ? "tarkastus" : "inspection") : lang === "fi" ? "tarjous" : "quote";
   return `${pathOf("contact", lang)}#${anchor}`;
 }
 
 export const CONTACT_ANCHORS: Record<string, ContactPath> = {
+  tarkastus: "diagnosis",
+  inspection: "diagnosis",
+  // Older links from when the offer was called a diagnosis.
   diagnostiikka: "diagnosis",
   diagnosis: "diagnosis",
   tarjous: "quote",

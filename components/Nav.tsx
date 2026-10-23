@@ -21,8 +21,8 @@ const LINKS: Array<{ id: RouteId; key: keyof (typeof UI)["fi"]["nav"] }> = [
 ];
 
 /**
- * Sticky, solid bar. The persistent call to action reads "Free diagnosis"
- * while the launch offer runs and "Request a quote" after it, with no rebuild.
+ * Sticky, solid bar with one persistent call to action: book a service. The
+ * launch offer is carried by the banner above it.
  */
 export function Nav() {
   const lang = useLang();
@@ -50,7 +50,7 @@ export function Nav() {
   );
 
   return (
-    <header className="sticky top-0 z-50 border-b border-rule bg-ground/95 backdrop-blur supports-[backdrop-filter]:bg-ground/85">
+    <header className="sticky top-0 z-50 border-b border-rule bg-ground">
       <nav aria-label={t.mainNav} className="wrap flex h-16 items-center justify-between gap-4 lg:h-[4.5rem]">
         <Link href={pathOf("home", lang)} aria-label={`Revamp Motors, ${ROUTE_NAMES[lang].home}`} className="shrink-0">
           <Logo alt="" className="h-7 sm:h-8 lg:h-9" />
