@@ -129,9 +129,9 @@ type OfferCopy = {
 export const OFFER_PAGE: Record<Lang, OfferCopy> = {
   fi: {
     seoLive: {
-      title: "Tesla-tarkastus Helsingissä 124,25 € 31.12.2026 asti",
+      title: "Tesla-tarkastus Helsingissä 99 € 31.12.2026 asti",
       description:
-        "Avajaistarjous: Tesla-autojen perustarkastus Tattarisuolla, Helsingissä, hintaan 124,25 € sis. alv (99 € + alv 25,5 %) 31.12.2026 asti. Jos jotain on korjattava, saat arvion ja päätät itse.",
+        "Avajaistarjous: Tesla-autojen perustarkastus Tattarisuolla, Helsingissä, hintaan 99 € sis. alv 25,5 % 31.12.2026 asti. Jos jotain on korjattava, saat arvion ja päätät itse.",
     },
     seoEnded: {
       title: "Tesla-tarkastus Helsingissä",
@@ -140,8 +140,8 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     },
     live: {
       label: "Avajaistarjous · voimassa 31.12.2026 asti",
-      h1: "Tesla-tarkastus 124,25 €",
-      lead: "Tuo Tesla perustarkastukseen avajaishintaan 124,25 € sis. alv (99 € + alv 25,5 %). Jos löydämme jotain korjattavaa, saat arvion ja päätät itse, jatketaanko.",
+      h1: "Tesla-tarkastus 99 €",
+      lead: "Tuo Tesla perustarkastukseen avajaishintaan 99 € sis. alv 25,5 %. Jos löydämme jotain korjattavaa, saat arvion ja päätät itse, jatketaanko.",
     },
     ended: {
       label: "Tesla-tarkastus",
@@ -168,7 +168,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     terms: [
       "Koskee vain Tesla-autoja: Model S, Model 3, Model X ja Model Y.",
       "Tarjous on voimassa 31.12.2026 asti.",
-      "Perustarkastuksen hinta on 124,25 € sis. alv (99 € + alv 25,5 %). Jatkotöihin ei tarvitse sitoutua.",
+      "Perustarkastuksen hinta on 99 € sis. alv 25,5 %. Jatkotöihin ei tarvitse sitoutua.",
       "Vianhaku, raportit, korjaukset ja osat eivät sisälly tarjoukseen. Jatkotyöt tehdään vain hyväksymäsi arvion mukaan.",
       "Takuuseen todennäköisesti kuuluvista vioista kerromme ja ohjaamme sinut Teslan huoltoon.",
     ],
@@ -177,9 +177,9 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
   },
   en: {
     seoLive: {
-      title: "Tesla inspection in Helsinki for €124.25 until 31.12.2026",
+      title: "Tesla inspection in Helsinki for €99 until 31.12.2026",
       description:
-        "Launch offer: a basic inspection for Tesla vehicles in Tattarisuo, Helsinki, for €124.25 incl. VAT (€99 + 25.5% VAT) until 31 December 2026. If anything needs work, you get an estimate and decide.",
+        "Launch offer: a basic inspection for Tesla vehicles in Tattarisuo, Helsinki, for €99 incl. 25.5% VAT until 31 December 2026. If anything needs work, you get an estimate and decide.",
     },
     seoEnded: {
       title: "Tesla inspection in Helsinki",
@@ -188,8 +188,8 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     },
     live: {
       label: "Launch offer · valid until 31.12.2026",
-      h1: "Tesla inspection for €124.25",
-      lead: "Bring your Tesla in for a basic inspection at the launch price of €124.25 incl. VAT (€99 + 25.5% VAT). If we find something that needs work, you get an estimate and decide whether to go ahead.",
+      h1: "Tesla inspection for €99",
+      lead: "Bring your Tesla in for a basic inspection at the launch price of €99 incl. 25.5% VAT. If we find something that needs work, you get an estimate and decide whether to go ahead.",
     },
     ended: {
       label: "Tesla inspection",
@@ -216,7 +216,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     terms: [
       "For Tesla vehicles only: Model S, Model 3, Model X and Model Y.",
       "The offer is valid until 31 December 2026.",
-      "The basic inspection costs €124.25 incl. VAT (€99 + 25.5% VAT). There is no obligation to have any further work done.",
+      "The basic inspection costs €99 incl. 25.5% VAT. There is no obligation to have any further work done.",
       "Fault diagnosis, reports, repairs and parts are not included. Any further work is done only to an estimate you have approved.",
       "If a fault is likely to be covered by warranty, we tell you and send you to Tesla service.",
     ],

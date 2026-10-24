@@ -144,17 +144,17 @@ export const SITE = {
 
   /**
    * The launch offer: a basic general inspection, Tesla vehicles only, as
-   * confirmed by the owner, at 99 € + VAT 25.5 %. Fault diagnosis, diagnostic
+   * confirmed by the owner, at 99 € including VAT 25.5 %. Fault diagnosis, diagnostic
    * equipment and reports are not part of it. Set `confirmed: false` to hide
    * both lists.
    *
-   * Finnish consumer rules require the VAT inclusive total to be shown, so the
-   * copy leads with `gross` and states the net price and rate beside it. This is
-   * the only price the site publishes; scripts/verify.mjs allows exactly these.
+   * Finnish consumer prices are shown VAT inclusive, so the site states only
+   * `gross`, with the VAT rate. This is the only price the site publishes;
+   * scripts/verify.mjs allows exactly this one.
    */
   inspection: {
     confirmed: true,
-    price: { net: 99, vatPercent: 25.5, gross: 124.25 },
+    price: { gross: 99, vatPercent: 25.5 },
     includes: {
       fi: ["Yleinen perustarkastus", "Löydökset kerrottuna, ja arvio, jos jotain on korjattava"],
       en: ["A basic general inspection", "Findings explained, with an estimate if anything needs work"],

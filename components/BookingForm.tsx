@@ -114,7 +114,7 @@ export function BookingSection() {
       return;
     }
     const live = isOfferLive(Date.now());
-    const kind = path === "diagnosis" ? (live ? "Tesla inspection, launch price 99 EUR + VAT 25.5%" : "Tesla inspection") : "Quote request";
+    const kind = path === "diagnosis" ? (live ? "Tesla inspection, launch price 99 EUR incl. VAT 25.5%" : "Tesla inspection") : "Quote request";
     try {
       const response = await fetch(ENDPOINT, {
         method: "POST",

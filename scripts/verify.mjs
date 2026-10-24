@@ -99,7 +99,7 @@ for (const [path, html] of pages) {
       // The launch inspection's Offer is the one place a price is allowed.
       const priced = data["@type"] === "Offer" ? "" : JSON.stringify(data);
       if (priced.match(/"price"|priceRange|priceCurrency|currenciesAccepted/)) fail(`price field in JSON-LD on ${path}`);
-      if (data["@type"] === "Offer" && data.price !== "124.25") fail(`Offer price is not 124.25 on ${path}`);
+      if (data["@type"] === "Offer" && data.price !== "99.00") fail(`Offer price is not 99.00 on ${path}`);
     } catch {
       fail(`invalid JSON-LD on ${path}`);
     }
@@ -110,7 +110,7 @@ for (const [path, html] of pages) {
 // The launch inspection price (site.config.ts, inspection.price) is the only one
 // allowed; it is cut out first so that any other price still fails.
 const PRICING = [/€/, /\bEUR\b/, /\/\s?hr\b/i, /hinnasto/i, /pricing/i, /\d\s?euroa?\b/i];
-const ALLOWED_PRICES = /€124\.25(?!\d)|€99(?![\d.,])|(?<![\d,.])124,25 €|(?<![\d,.])99 €/g;
+const ALLOWED_PRICES = /€99(?![\d.,])|(?<![\d,.])99 €/g;
 for (const [path, html] of pages) {
   const visible = html
     .replace(/<script[\s\S]*?<\/script>/g, "")

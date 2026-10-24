@@ -35,8 +35,8 @@ export const HOME: Record<Lang, HomeCopy> = {
     },
     offer: {
       label: "Avajaistarjous",
-      title: "Tesla-tarkastus 124,25 € 31.12.2026 asti",
-      body: "99 € + alv 25,5 %. Yleinen perustarkastus Tesla-autoille, ja arvio, jos jotain on korjattava.",
+      title: "Tesla-tarkastus 99 € 31.12.2026 asti",
+      body: "Hinta sisältää alv:n 25,5 %. Yleinen perustarkastus Tesla-autoille, ja arvio, jos jotain on korjattava.",
       more: "Tutustu tarjoukseen",
     },
     models: {
@@ -140,8 +140,8 @@ export const HOME: Record<Lang, HomeCopy> = {
     },
     offer: {
       label: "Launch offer",
-      title: "Tesla inspection €124.25 until 31.12.2026",
-      body: "€99 + 25.5% VAT. A basic general inspection for Tesla vehicles, with an estimate if anything needs work.",
+      title: "Tesla inspection €99 until 31.12.2026",
+      body: "Price includes 25.5% VAT. A basic general inspection for Tesla vehicles, with an estimate if anything needs work.",
       more: "See the offer",
     },
     models: {

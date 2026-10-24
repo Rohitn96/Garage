@@ -50,15 +50,15 @@ The sitemap, hreflang, breadcrumbs, redirects and headers follow automatically.
 
 ## Business facts and placeholders
 
-`site.config.ts` holds every fact the site states, including the scope and price of the launch inspection (a basic general inspection, Tesla only, 99 € + VAT 25.5 % = 124.25 €; no diagnosis, diagnostic equipment or report). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
+`site.config.ts` holds every fact the site states, including the scope and price of the launch inspection (a basic general inspection, Tesla only, 99 € including VAT 25.5 %; no diagnosis, diagnostic equipment or report). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
 
-## Launch offer (Tesla inspection at 124.25 € incl. VAT until 31.12.2026)
+## Launch offer (Tesla inspection at 99 € incl. VAT until 31.12.2026)
 
-The price is `inspection.price` in `site.config.ts`: 99 € + VAT 25.5 %. Finnish consumer rules require the VAT inclusive total, so the copy leads with 124.25 € and shows the net price beside it. It is the only price on the site; `npm run verify` allows exactly these figures and still fails on any other.
+The price is `inspection.price` in `site.config.ts`: 99 € including VAT 25.5 %. Finnish consumer prices are shown VAT inclusive, so no net price is shown. It is the only price on the site; `npm run verify` allows exactly these figures and still fails on any other.
 
 The offer ends at 1.1.2027 00:00 Helsinki time (`offer.endsAt` in `site.config.ts`). It switches off two ways:
 
-1. **In the browser, with no rebuild.** Every offer element is rendered in a live and an ended variant (`OfferSwitch`). An inline script in `<head>` compares the visitor's clock with the end time before first paint, sets `data-offer` on `<html>`, CSS hides the wrong variant, and the Offer JSON-LD is turned into an inert `text/plain` block. CTAs change from "Tesla inspection €124.25" to "Book an inspection", and the price disappears.
+1. **In the browser, with no rebuild.** Every offer element is rendered in a live and an ended variant (`OfferSwitch`). An inline script in `<head>` compares the visitor's clock with the end time before first paint, sets `data-offer` on `<html>`, CSS hides the wrong variant, and the Offer JSON-LD is turned into an inert `text/plain` block. CTAs change from "Tesla inspection €99" to "Book an inspection", and the price disappears.
 2. **At build time.** A build made after the end date contains only the ended variant and no Offer schema, and the offer page's metadata switches to the neutral version.
 
 Do a normal deploy on or after 1.1.2027 so the HTML and metadata are clean for search engines. To preview the ended state, add `?offer-now=2027-01-02` to any URL, or build with `OFFER_NOW=2027-01-02T00:00:00+02:00`.

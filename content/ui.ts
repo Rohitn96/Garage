@@ -91,7 +91,7 @@ export const UI = {
     theme: { toLight: "Vaihda vaaleaan teemaan", toDark: "Vaihda tummaan teemaan" },
     lang: { fi: "Suomeksi", en: "In English" },
     cta: {
-      inspectionLong: "Tesla-tarkastus 124,25 €",
+      inspectionLong: "Tesla-tarkastus 99 €",
       bookService: "Varaa huolto",
       bookInspection: "Varaa tarkastus",
       requestQuote: "Pyydä tarjous",
@@ -101,7 +101,7 @@ export const UI = {
     },
     offer: {
       tag: "Avajaistarjous",
-      banner: "Tesla-tarkastus 124,25 € sis. alv (99 € + alv 25,5 %) 31.12.2026 asti.",
+      banner: "Tesla-tarkastus 99 € sis. alv 25,5 % 31.12.2026 asti.",
       more: "Tarjouksen ehdot",
     },
     hours: {
@@ -170,7 +170,7 @@ export const UI = {
     theme: { toLight: "Switch to light theme", toDark: "Switch to dark theme" },
     lang: { fi: "Suomeksi", en: "In English" },
     cta: {
-      inspectionLong: "Tesla inspection €124.25",
+      inspectionLong: "Tesla inspection €99",
       bookService: "Book a service",
       bookInspection: "Book an inspection",
       requestQuote: "Request a quote",
@@ -180,7 +180,7 @@ export const UI = {
     },
     offer: {
       tag: "Launch offer",
-      banner: "Tesla inspection €124.25 incl. VAT (€99 + 25.5% VAT) until 31 December 2026.",
+      banner: "Tesla inspection €99 incl. 25.5% VAT until 31 December 2026.",
       more: "Offer details",
     },
     hours: {

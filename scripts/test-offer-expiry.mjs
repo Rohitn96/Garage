@@ -35,7 +35,7 @@ if (!home.includes('data-offer-variant="live"')) problems.push("before: home has
 const offerFi = before.find((p) => /fi[\\/]tesla[\\/]tarkastus[\\/]/.test(p.file)).html;
 if (!offerFi.includes('"@type":"Offer"')) problems.push("before: offer page has no Offer schema");
 if (!offerFi.includes('"validThrough":"2026-12-31"')) problems.push("before: Offer schema lacks validThrough");
-if (!offerFi.includes('"price":"124.25"')) problems.push("before: Offer schema lacks the launch price");
+if (!offerFi.includes('"price":"99.00"')) problems.push("before: Offer schema lacks the launch price");
 
 console.log("building as of 2027-01-01 00:00:01 Helsinki ...");
 const after = build("2027-01-01T00:00:01+02:00");
