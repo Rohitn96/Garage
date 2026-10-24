@@ -8,11 +8,16 @@
 /en      /         301
 /en/*    /:splat   301
 
-# 2. The launch offer is a free inspection, not a diagnosis; its pages moved.
-/tesla/free-diagnosis/            /tesla/free-inspection/        301
-/tesla/free-diagnosis             /tesla/free-inspection/        301
-/fi/tesla/ilmainen-diagnostiikka/ /fi/tesla/ilmainen-tarkastus/  301
-/fi/tesla/ilmainen-diagnostiikka  /fi/tesla/ilmainen-tarkastus/  301
+# 2. The launch offer moved twice: free diagnosis, then free inspection, now a
+#    priced inspection. Every old address goes straight to the current page.
+/tesla/free-diagnosis/            /tesla/inspection/     301
+/tesla/free-diagnosis             /tesla/inspection/     301
+/tesla/free-inspection/           /tesla/inspection/     301
+/tesla/free-inspection            /tesla/inspection/     301
+/fi/tesla/ilmainen-diagnostiikka/ /fi/tesla/tarkastus/   301
+/fi/tesla/ilmainen-diagnostiikka  /fi/tesla/tarkastus/   301
+/fi/tesla/ilmainen-tarkastus/     /fi/tesla/tarkastus/   301
+/fi/tesla/ilmainen-tarkastus      /fi/tesla/tarkastus/   301
 
 # 3. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
 #    redirected here: browsers never send the fragment. The head script in

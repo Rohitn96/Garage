@@ -46,7 +46,7 @@ export const FORM_TEXT = {
     errorTitle: "Lähetys ei onnistunut.",
     errorBody: "Yritä hetken kuluttua uudelleen, tai soita tai lähetä viesti WhatsAppilla.",
     fixErrors: "Tarkista merkityt kentät.",
-    teslaOnly: "Ilmainen tarkastus koskee vain Tesla-autoja. Valitse Tesla-malli tai pyydä tarjous.",
+    teslaOnly: "Tarkastustarjous koskee vain Tesla-autoja. Valitse Tesla-malli tai pyydä tarjous.",
     required: "pakollinen",
     errors: {
       vehicle: "Valitse auto.",
@@ -98,7 +98,7 @@ export const FORM_TEXT = {
     errorTitle: "That did not go through.",
     errorBody: "Please try again in a moment, or call or message us on WhatsApp.",
     fixErrors: "Please check the highlighted fields.",
-    teslaOnly: "The free inspection is for Tesla vehicles only. Choose a Tesla model or request a quote.",
+    teslaOnly: "The inspection offer is for Tesla vehicles only. Choose a Tesla model or request a quote.",
     required: "required",
     errors: {
       vehicle: "Please choose a vehicle.",

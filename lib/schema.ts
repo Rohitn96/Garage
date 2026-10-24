@@ -9,7 +9,7 @@ import { ogImagePath } from "./og";
  * schema.org builders. Every value comes from site.config.ts or page content.
  * Nothing is emitted for a fact that is not set: no geo until the coordinates
  * are entered, no weekend hours until they are known, no sameAs until there
- * are profiles. No price appears anywhere.
+ * are profiles. The only price is the launch inspection's, in the Offer.
  *
  * `brand` and `sameAs` never point at anything Tesla owned: an independent shop
  * must not imply affiliation in its metadata either.
@@ -18,6 +18,7 @@ import { ogImagePath } from "./og";
 const abs = (path: string) => `${SITE.url}${path}`;
 const SHOP_ID = `${SITE.url}/#shop`;
 const b = SITE.business;
+const price = SITE.inspection.price;
 
 const DESCRIPTION: Record<Lang, string> = {
   fi: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä, yli 10 vuoden yhteenlasketulla kokemuksella. Vianhaku, akku ja 12 V, jarrut, alusta ja ilmajousitus, renkaat. Arvio ennen töitä.",
@@ -86,15 +87,23 @@ export function serviceSchema(id: RouteId, lang: Lang, description: string) {
   };
 }
 
-/** The launch offer. No price field, by design. Removed after 31.12.2026. */
+/** The launch offer, priced VAT inclusive. Removed after 31.12.2026. */
 export function offerSchema(lang: Lang, description: string) {
   return {
     "@context": "https://schema.org",
     "@type": "Offer",
     "@id": `${abs(pathOf("offer", lang))}#offer`,
-    name: lang === "fi" ? "Ilmainen Tesla-tarkastus" : "Free Tesla inspection",
+    name: lang === "fi" ? "Tesla-tarkastus, avajaishinta" : "Tesla inspection, launch price",
     description,
     url: abs(pathOf("offer", lang)),
+    price: price.gross.toFixed(2),
+    priceCurrency: "EUR",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: price.gross.toFixed(2),
+      priceCurrency: "EUR",
+      valueAddedTaxIncluded: true,
+    },
     validThrough: SITE.offer.validThrough,
     availability: "https://schema.org/InStock",
     offeredBy: { "@id": SHOP_ID },

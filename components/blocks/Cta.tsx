@@ -8,7 +8,7 @@ import { OfferSwitch } from "../OfferSwitch";
 
 /**
  * The two actions pages end on. Primary: book a service. Secondary on Tesla
- * pages: the free inspection while the launch offer runs, "Book an diagnosis"
+ * pages: the launch price inspection while the offer runs, "Book an diagnosis"
  * after it, with no mention of free.
  */
 export function CtaButtons({ lang, tesla = true, onMedia = false }: { lang: Lang; tesla?: boolean; onMedia?: boolean }) {
@@ -24,7 +24,7 @@ export function CtaButtons({ lang, tesla = true, onMedia = false }: { lang: Lang
           as="span"
           live={
             <Link href={contactHref(lang, "diagnosis")} className={secondary}>
-              {t.freeInspectionLong}
+              {t.inspectionLong}
             </Link>
           }
           ended={

@@ -26,7 +26,7 @@ The map pack listing comes from Google Business Profile, not from the website. T
 
 Tesla service, Tesla diagnosis, Tesla battery health check, 12 V battery replacement, brake caliper service, brake discs and pads, air suspension repair, control arm replacement, wheel alignment, seasonal tyre change, tyre storage, electric vehicle service, pre-purchase inspection, basic service for petrol and diesel cars.
 
-No prices: the site does not publish any, and the profile should match.
+Prices: the site publishes only the launch inspection (124,25 € sis. alv, 99 € + alv 25,5 %, until 31.12.2026). Add it to the Tesla inspection service if you list prices; publish no others.
 
 ## Description (750 characters max). Draft, needs Finnish review
 
@@ -34,9 +34,9 @@ No prices: the site does not publish any, and the profile should match.
 
 ## Launch offer post (until 31.12.2026)
 
-- [ ] Create an **Offer** post: "Ilmainen Tesla-tarkastus 31.12.2026 asti", end date 31.12.2026
-- [ ] Button: "Learn more" linking to `https://revampmotors.fi/fi/tesla/ilmainen-tarkastus/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer`
-- [ ] English version: `https://revampmotors.fi/tesla/free-inspection/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer-en`
+- [ ] Create an **Offer** post: "Tesla-tarkastus 124,25 € (99 € + alv 25,5 %) 31.12.2026 asti", end date 31.12.2026
+- [ ] Button: "Learn more" linking to `https://revampmotors.fi/fi/tesla/tarkastus/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer`
+- [ ] English version: `https://revampmotors.fi/tesla/inspection/?utm_source=google&utm_medium=organic&utm_campaign=gbp-offer-en`
 
 ## Photos (real ones only)
 

@@ -129,7 +129,7 @@ export const SITE = {
   replyTime: { fi: "12 tunnin kuluessa, usein jo 3 tunnissa", en: "within 3 to 12 hours" } as Localized,
 
   /**
-   * Launch offer: free basic inspection for Tesla vehicles.
+   * Launch offer: a basic Tesla inspection at the launch price in `inspection.price`.
    *
    * `endsAt` is the first instant AFTER the offer, in Helsinki time. The offer
    * is valid through 31.12.2026, so it ends at midnight going into 1.1.2027,
@@ -143,13 +143,18 @@ export const SITE = {
   },
 
   /**
-   * The free launch offer: a basic general inspection, Tesla vehicles only, as
-   * confirmed by the owner. Fault diagnosis, diagnostic equipment and reports
-   * are paid services and are not part of it. Set `confirmed: false` to hide
+   * The launch offer: a basic general inspection, Tesla vehicles only, as
+   * confirmed by the owner, at 99 € + VAT 25.5 %. Fault diagnosis, diagnostic
+   * equipment and reports are not part of it. Set `confirmed: false` to hide
    * both lists.
+   *
+   * Finnish consumer rules require the VAT inclusive total to be shown, so the
+   * copy leads with `gross` and states the net price and rate beside it. This is
+   * the only price the site publishes; scripts/verify.mjs allows exactly these.
    */
   inspection: {
     confirmed: true,
+    price: { net: 99, vatPercent: 25.5, gross: 124.25 },
     includes: {
       fi: ["Yleinen perustarkastus", "Löydökset kerrottuna, ja arvio, jos jotain on korjattava"],
       en: ["A basic general inspection", "Findings explained, with an estimate if anything needs work"],

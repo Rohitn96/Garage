@@ -32,9 +32,10 @@ const before = build("2026-12-31T23:00:00+02:00");
 const home = before.find((p) => /^out[\\/]index\.html$/.test(p.file)).html;
 if (!home.includes('data-offer="live"')) problems.push("before: home is not marked live");
 if (!home.includes('data-offer-variant="live"')) problems.push("before: home has no live offer content");
-const offerFi = before.find((p) => p.file.includes("ilmainen-tarkastus")).html;
+const offerFi = before.find((p) => /fi[\\/]tesla[\\/]tarkastus[\\/]/.test(p.file)).html;
 if (!offerFi.includes('"@type":"Offer"')) problems.push("before: offer page has no Offer schema");
 if (!offerFi.includes('"validThrough":"2026-12-31"')) problems.push("before: Offer schema lacks validThrough");
+if (!offerFi.includes('"price":"124.25"')) problems.push("before: Offer schema lacks the launch price");
 
 console.log("building as of 2027-01-01 00:00:01 Helsinki ...");
 const after = build("2027-01-01T00:00:01+02:00");
@@ -43,7 +44,7 @@ for (const { file, html } of after) {
   if (html.includes('data-offer-variant="live"')) problems.push(`after: ${file} still has live offer content`);
   if (html.includes('"@type":"Offer"')) problems.push(`after: ${file} still has Offer schema`);
   const text = visible(html);
-  for (const re of [/ilmai/i, /\bfree\b/i, /31\.12\.2026 asti/, /until 31/i]) {
+  for (const re of [/ilmai/i, /\bfree\b/i, /€/, /31\.12\.2026 asti/, /until 31/i]) {
     const m = text.match(new RegExp(`.{0,60}${re.source}.{0,60}`, re.flags));
     // The ended notice ("the launch offer ended on 31.12.2026") is expected.
     if (m && !/päättyi|ended/i.test(m[0])) problems.push(`after: ${file} mentions ${re}: "${m[0].trim()}"`);

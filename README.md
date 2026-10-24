@@ -38,7 +38,7 @@ docs/                 redesign plan, open items, Google Business Profile checkli
 
 All text is in `content/`. Long-form pages are lists of blocks (`{ h2 }`, `{ p }`, `{ ul }`, `{ note }`). Link to another page with `[text](@route-id)`, for example `[jarrut](@svc-brakes)`. Route ids are in `lib/routes.ts`; an unknown id fails the build, so a broken internal link cannot ship.
 
-Rules for copy: no em or en dashes (use commas, periods or "to"), no prices, no invented facts or statistics. `npm run verify` enforces the first two.
+Rules for copy: no em or en dashes (use commas, periods or "to"), no prices except the launch inspection price, no invented facts or statistics. `npm run verify` enforces the first two.
 
 ### Adding a page
 
@@ -50,13 +50,15 @@ The sitemap, hreflang, breadcrumbs, redirects and headers follow automatically.
 
 ## Business facts and placeholders
 
-`site.config.ts` holds every fact the site states, including the scope of the free launch inspection (a basic general inspection, Tesla only; no diagnosis, diagnostic equipment or report). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
+`site.config.ts` holds every fact the site states, including the scope and price of the launch inspection (a basic general inspection, Tesla only, 99 € + VAT 25.5 % = 124.25 €; no diagnosis, diagnostic equipment or report). Anything still unknown is `null` or an empty list, marked `TODO(owner)`, and the component that would show it renders nothing (reviews, certificates, team, workshop photos, battery report sample, weekend hours). `docs/open-items.md` explains each item.
 
-## Launch offer (free Tesla inspection until 31.12.2026)
+## Launch offer (Tesla inspection at 124.25 € incl. VAT until 31.12.2026)
+
+The price is `inspection.price` in `site.config.ts`: 99 € + VAT 25.5 %. Finnish consumer rules require the VAT inclusive total, so the copy leads with 124.25 € and shows the net price beside it. It is the only price on the site; `npm run verify` allows exactly these figures and still fails on any other.
 
 The offer ends at 1.1.2027 00:00 Helsinki time (`offer.endsAt` in `site.config.ts`). It switches off two ways:
 
-1. **In the browser, with no rebuild.** Every offer element is rendered in a live and an ended variant (`OfferSwitch`). An inline script in `<head>` compares the visitor's clock with the end time before first paint, sets `data-offer` on `<html>`, CSS hides the wrong variant, and the Offer JSON-LD is turned into an inert `text/plain` block. CTAs change from "Free Tesla inspection" to "Book an inspection".
+1. **In the browser, with no rebuild.** Every offer element is rendered in a live and an ended variant (`OfferSwitch`). An inline script in `<head>` compares the visitor's clock with the end time before first paint, sets `data-offer` on `<html>`, CSS hides the wrong variant, and the Offer JSON-LD is turned into an inert `text/plain` block. CTAs change from "Tesla inspection €124.25" to "Book an inspection", and the price disappears.
 2. **At build time.** A build made after the end date contains only the ended variant and no Offer schema, and the offer page's metadata switches to the neutral version.
 
 Do a normal deploy on or after 1.1.2027 so the HTML and metadata are clean for search engines. To preview the ended state, add `?offer-now=2027-01-02` to any URL, or build with `OFFER_NOW=2027-01-02T00:00:00+02:00`.
@@ -79,7 +81,7 @@ Light and dark, following the operating system on the first visit; the toggle in
 
 ## Calls to action
 
-"Book a service" is the main action everywhere (nav, mobile bar, hero, page endings). The free Tesla inspection is the launch promotion: the top banner, a strip under the hero, the secondary button on Tesla pages, the offer page and the contact page's first path.
+"Book a service" is the main action everywhere (nav, mobile bar, hero, page endings). The launch price Tesla inspection is the promotion: the top banner, a strip under the hero, the secondary button on Tesla pages, the offer page and the contact page's first path.
 
 ## Contact form
 
