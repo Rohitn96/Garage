@@ -14,8 +14,9 @@
     "wordcount": "node scripts/wordcount.ts",
     "verify": "node scripts/verify.mjs",
     "open-items": "node scripts/open-items.mjs",
+    "purge": "node scripts/purge-cache.mjs",
     "check": "npm run typecheck && npm run lint && npm test && npm run wordcount && npm run build && npm run verify",
-    "deploy": "npm run build && npm run verify && wrangler deploy"
+    "deploy": "npm run build && npm run verify && wrangler deploy && npm run purge"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",

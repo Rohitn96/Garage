@@ -15,8 +15,9 @@ Website for Revamp Motors, an independent Tesla and EV specialist garage in Tatt
 | `npm run wordcount` | Checks every service and model page is 500 to 800 words per language |
 | `npm run verify` | Checks the build: links, sitemap, canonical, hreflang symmetry, unique titles, JSON-LD, no pricing language, no em or en dashes |
 | `npm run open-items` | Lists every fact the site still needs from the owner |
+| `npm run purge` | Purges the Cloudflare edge cache for every sitemap URL, then checks the edge serves the new build (`-- --dry-run` lists the URLs and sends nothing, `-- --check-only` runs the check alone) |
 | `npm run check` | All of the above in order |
-| `npm run deploy` | Build, verify, then `wrangler deploy` (production) |
+| `npm run deploy` | Build, verify, `wrangler deploy`, purge the edge cache, then check it took (production) |
 
 ## Where things live
 
@@ -97,7 +98,30 @@ Light and dark, following the operating system on the first visit; the toggle in
 
 ## Deploying to Cloudflare
 
-`wrangler.jsonc` is an assets-only Worker serving `out/`. `npm run deploy` builds, verifies and deploys. Not fixable from the repo (Cloudflare dashboard): "Always Use HTTPS" with HSTS, and a DNS record for `www`.
+`wrangler.jsonc` is an assets-only Worker serving `out/`. `npm run deploy` builds, verifies, deploys, then purges the edge cache. Not fixable from the repo (Cloudflare dashboard): "Always Use HTTPS" with HSTS, and a DNS record for `www`.
+
+### Purging the edge cache
+
+A deploy swaps the Worker's assets but leaves whatever Cloudflare already holds at the edge. In October 2026 `/tesla/` served the previous Finnish page for five days after English moved to the root: the origin was correct and one edge copy was not, and `max-age=0, must-revalidate` did not stop it. `scripts/purge-cache.mjs` therefore purges every URL in the built `sitemap.xml`, plus the RSC payload beside each page, because client side navigation renders from the payload and a stale one shows old content under the right URL.
+
+It needs two values, neither of which is ever committed:
+
+| Variable | Where it comes from |
+|---|---|
+| `CLOUDFLARE_API_TOKEN` | My Profile, API Tokens, Create Token. Give it the single permission Zone, Cache Purge, Purge, scoped to this zone only. |
+| `CLOUDFLARE_ZONE_ID` | Domain overview page, API section, Zone ID. |
+
+Locally, set them in the shell for the one command; `.env` and `.dev.vars` are gitignored if you prefer a file. In Cloudflare Workers Builds, add both under Settings, Build, Variables and secrets, as **encrypted** build variables, and change the deploy command to:
+
+```
+npx wrangler deploy && npm run purge
+```
+
+`npm run purge -- --dry-run` prints the URL list and sends nothing, which is the safe way to check it before giving it a token. The script exits non-zero if the credentials are missing or Cloudflare rejects the request, so a silent no-op cannot pass for a purge.
+
+After purging it asks the edge for `/`, `/tesla/` and `/fi/tesla/` the way a visitor would and compares the `<title>` and `<html lang>` against the files just built. Those three pages are the ones the incident turned on: the two language roots and the page that was actually stale. A purge is not instant at every edge, so it tries three times, five seconds apart, before giving up and exiting non-zero.
+
+The request carries no cache busting query and no `no-cache` header, on purpose. Either would reach past the cached object and report success while a stale copy sat there serving everyone else, which is the exact failure this is meant to catch. `npm run purge -- --check-only` runs just the check, with no token and no purge; `-- --no-check` purges without it.
 
 ## Measured performance
 
