@@ -378,7 +378,7 @@ export function ReportPage({ lang }: { lang: Lang }) {
             <p className="label mb-2">{UI[lang].faqTitle}</p>
             <FaqList items={c.faq} lang={lang} />
             <div className="mt-10">
-              <RelatedLinks ids={["svc-battery", "post-used", "model-s", "post-12v"]} lang={lang} />
+              <RelatedLinks ids={["svc-electrical", "post-used", "model-s", "post-12v"]} lang={lang} />
             </div>
           </div>
         </div>

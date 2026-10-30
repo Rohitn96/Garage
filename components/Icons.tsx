@@ -29,8 +29,6 @@ export function Icon({ name, className = "h-5 w-5" }: { name: IconName; classNam
 }
 
 export const SERVICE_ICON: Record<ServiceId, IconName> = {
-  "svc-battery": "battery",
-  "svc-powertrain": "powertrain",
   "svc-brakes": "brakes",
   "svc-suspension": "suspension",
   "svc-tyres": "tyres",

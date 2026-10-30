@@ -2,42 +2,21 @@ import type { Lang } from "@/site.config";
 import type { ServiceContent } from "./types";
 
 /**
- * The seven Tesla service pages, Finnish and English.
+ * The Tesla service pages, Finnish and English. High-voltage battery and
+ * powertrain work is not offered (no SFS 6002 qualification), so there are no
+ * pages for it; the 12 V battery lives on the electrical page.
  *
  * Every claim here is either general, verifiable vehicle knowledge or a claim
  * the shop already made on the previous site. No prices, no statistics.
  * FINNISH NEEDS HUMAN REVIEW.
  */
 
-export type ServiceId =
-  | "svc-battery"
-  | "svc-powertrain"
-  | "svc-brakes"
-  | "svc-suspension"
-  | "svc-tyres"
-  | "svc-electrical"
-  | "svc-climate";
+export type ServiceId = "svc-brakes" | "svc-suspension" | "svc-tyres" | "svc-climate" | "svc-electrical";
 
-export const SERVICE_IDS: ServiceId[] = [
-  "svc-battery",
-  "svc-powertrain",
-  "svc-brakes",
-  "svc-suspension",
-  "svc-tyres",
-  "svc-electrical",
-  "svc-climate",
-];
+export const SERVICE_IDS: ServiceId[] = ["svc-brakes", "svc-suspension", "svc-tyres", "svc-climate", "svc-electrical"];
 
 /** Card copy for grids: one line per service. */
 export const SERVICE_CARDS: Record<ServiceId, { fi: string; en: string }> = {
-  "svc-battery": {
-    fi: "Ajoakun kunto, latausviat ja 12 V:n akun vaihto.",
-    en: "Battery health, charging faults and 12 V battery replacement.",
-  },
-  "svc-powertrain": {
-    fi: "Äänet, tärinä ja tehonrajoitus jäljitettynä oikeaan osaan.",
-    en: "Noise, vibration and power limits traced to the right part.",
-  },
   "svc-brakes": {
     fi: "Satuloiden huolto, levyt, palat ja jarruneste.",
     en: "Caliper service, discs, pads and brake fluid.",
@@ -50,13 +29,13 @@ export const SERVICE_CARDS: Record<ServiceId, { fi: string; en: string }> = {
     fi: "Kausivaihto, suuntaus, tasapainotus ja rengashotelli.",
     en: "Seasonal changes, alignment, balancing and tyre storage.",
   },
-  "svc-electrical": {
-    fi: "Varoitukset, anturit, kamerat ja kosteusviat.",
-    en: "Warnings, sensors, cameras and moisture faults.",
-  },
   "svc-climate": {
-    fi: "Lämpöpumpun vianhaku, huurtuminen ja suodattimet.",
-    en: "Heat pump diagnosis, fogging and cabin filters.",
+    fi: "Ilmastoinnin huolto, lämpöpumppu, huurtuminen ja suodattimet.",
+    en: "AC service, heat pump, fogging and cabin filters.",
+  },
+  "svc-electrical": {
+    fi: "12 V:n akun vaihto, varoitukset, anturit ja kamerat.",
+    en: "12 V battery replacement, warnings, sensors and cameras.",
   },
 };
 
@@ -64,211 +43,17 @@ export const SERVICE_CARDS: Record<ServiceId, { fi: string; en: string }> = {
 export const CLIMATE_SCOPE: Record<Lang, { limited: string; full: string }> = {
   fi: {
     limited:
-      "Kylmäainepiirin avaaminen, kuten ilmastoinnin täyttö tai lämpöpumpun kylmäainepuolen korjaus, vaatii F-kaasupätevyyden. Teemme tällä hetkellä vianhaun, anturi- ja nestepiirityöt sekä suodattimet. Jos vika on kylmäainepiirissä, kerromme sen suoraan ja ohjaamme sinut pätevälle tekijälle.",
+      "Kylmäainepiirin työt, kuten ilmastoinnin tyhjennys, täyttö ja vuototesti, vaativat F-kaasupätevyyden. Pätevyytemme on hakuprosessissa, ja kylmäainetyöt tulevat valikoimaamme pian. Siihen asti teemme ilmastoinnin ja lämpöpumpun vianhaun, anturi- ja nestepiirityöt sekä suodattimet, ja jos vika on kylmäainepiirissä, kerromme sen suoraan.",
     full: "Teemme myös kylmäainepiirin työt, kuten ilmastoinnin tyhjennyksen, täytön ja painekokeen.",
   },
   en: {
     limited:
-      "Opening the refrigerant circuit, for example recharging the air conditioning or repairing the refrigerant side of the heat pump, requires an F-gas qualification. At the moment we do the diagnosis, sensor and coolant circuit work, and filters. If the fault is in the refrigerant circuit, we tell you plainly and refer you to a qualified technician.",
+      "Refrigerant work, such as evacuating, recharging and leak testing the air conditioning, requires an F-gas certification. Ours is in progress, and refrigerant work is coming soon. Until then we diagnose the air conditioning and heat pump, do sensor and coolant circuit work and filters, and if the fault is in the refrigerant circuit, we tell you plainly.",
     full: "We also carry out refrigerant circuit work, including evacuating, recharging and pressure testing the air conditioning.",
   },
 };
 
 const FI: Record<ServiceId, ServiceContent> = {
-  "svc-battery": {
-    seo: {
-      title: "Teslan akku, lataus ja 12 V:n akun vaihto Helsingissä",
-      description:
-        "Teslan ajoakun kuntotesti, latausviat ja 12 V:n akun vaihto Tattarisuolla, Helsingissä. Vianhaku ensin, kirjallinen arvio ennen töitä.",
-    },
-    name: "Akku ja lataus",
-    h1: "Teslan akku, lataus ja 12 V:n akku",
-    lead: "Teslassa on kaksi akkua ja kaksi erilaista vikaa. Ajoakku kertoo auton kunnosta ja arvosta, kun taas pieni 12 V:n akku pysäyttää auton useammin kuin mikään muu. Selvitämme ensin, kumpi oireilee ja miksi, ja vasta sitten puhumme vaihtamisesta.",
-    symptoms: [
-      {
-        title: "Auto ei herää tai ovet eivät aukea",
-        body: "Puhelinavain ei toimi, kosketusnäyttö pysyy pimeänä tai kahvat eivät reagoi. Tavallisin syy on heikko 12 V:n akku, ei ajoakku.",
-      },
-      {
-        title: "Varoitus 12 V:n akusta",
-        body: "Auto ilmoittaa, että pienjänniteakku pitää huoltaa tai vaihtaa. Varoitus kannattaa ottaa vakavasti, koska akku voi pettää ilman uutta ilmoitusta.",
-      },
-      {
-        title: "Toimintamatka on laskenut",
-        body: "Täyteen ladatun akun arvioitu toimintamatka on selvästi pienempi kuin ennen, myös lämpimällä säällä ja samalla ajotavalla.",
-      },
-      {
-        title: "Lataus katkeaa tai jää hitaaksi",
-        body: "Lataus keskeytyy, teho jää alhaiseksi tai auto ilmoittaa latausvirheestä usealla eri laturilla.",
-      },
-      {
-        title: "Latauskaapeli jää kiinni",
-        body: "Latausportin salpa ei vapauta kaapelia, erityisesti pakkasella tai märän sään jälkeen.",
-      },
-    ],
-    checks: [
-      {
-        title: "12 V:n akun kunto",
-        body: "Mittaamme akun jännitteen ja kunnon ja tarkistamme, onko autossa lyijy- vai litiumioniakku. Tyyppi vaikuttaa siihen, miten akku testataan ja vaihdetaan.",
-      },
-      {
-        title: "Ajoakun tiedot",
-        body: "Luemme akunhallintajärjestelmän tallentamat tiedot ja vikakoodit ja arvioimme kapasiteetin sekä kennoryhmien tasapainon.",
-      },
-      {
-        title: "Latausjärjestelmä",
-        body: "Tarkistamme latausportin, salvan, liittimet ja auton oman laturin toiminnan sekä latausvirheiden historian.",
-      },
-      {
-        title: "Akun jäähdytys ja lämmitys",
-        body: "Lämpötilanhallinta vaikuttaa sekä lataustehoon että akun ikään. Tarkistamme jäähdytysnesteen ja piirin toiminnan.",
-      },
-    ],
-    diagnosis: [
-      {
-        p: "Aloitamme kuuntelemalla: milloin vika ilmenee, millä laturilla ja missä lämpötilassa. Sen jälkeen luemme auton omat vikakoodit ja akkujärjestelmän tiedot ja mittaamme 12 V:n järjestelmän. Moni latausvika johtuu muusta kuin autosta, esimerkiksi kotilaturin asetuksista, sähköliittymästä tai kaapelista, joten kysymme myös latausolosuhteista.",
-      },
-      {
-        p: "Ajoakkua ei avata vianhaun aikana. Kunto arvioidaan järjestelmän tiedoista ja mittauksista. Saat kirjallisen yhteenvedon löydöksistä ja kustannusarvion, ja työ alkaa vasta, kun olet hyväksynyt sen.",
-      },
-    ],
-    whenToBook: [
-      {
-        p: "Varaa aika heti, jos auto varoittaa 12 V:n akusta. Teslassa pienjänniteakku pitää yllä lukituksia, näyttöä ja ajoakun kytkentää, joten sen pettäminen voi jättää auton seisomaan kotipihaan. Vaihto on yleensä nopea työ, kun syy on varmistettu.",
-      },
-      {
-        p: "Toimintamatkan hidas lasku vuosien mittaan on normaalia akun vanhenemista. Jos lasku on äkillinen tai suuri, tai jos harkitset auton ostoa tai myyntiä, [akun kuntoraportti](@battery-report) kertoo tilanteen paperilla.",
-      },
-    ],
-    body: [
-      { h2: "Suomen talvi ja akku" },
-      {
-        p: "Kylmä akku ei ota latausta vastaan yhtä nopeasti kuin lämmin, ja regeneratiivinen jarrutus on rajoitettu, kunnes akku lämpenee. Tämä on normaalia eikä vika. Esilämmitys sovelluksesta ennen lähtöä ja latauksen ajastus lähtöaikaan pitävät akun toiminta-alueellaan. Jos auto seisoo pakkasessa pitkään, jätä se mieluummin lataukseen kuin lähes tyhjäksi.",
-      },
-      {
-        p: "Latausportin salpa ja kansi voivat jäätyä. Sovelluksen latausportin sulatustoiminto auttaa usein. Toistuva jumittuminen kertoo yleensä kuluneesta salvasta tai lämmittimestä, ja se korjataan vaihtamalla osa.",
-      },
-      { note: "Lue myös: [12 V:n akun varoitusmerkit](@post-12v) ja [Tesla talvella Suomessa](@post-winter)." },
-    ],
-    faq: [
-      {
-        q: "Kuinka usein Teslan 12 V:n akku pitää vaihtaa?",
-        a: "Kiinteää väliä ei ole. Akku vaihdetaan, kun auto varoittaa siitä tai mittaus osoittaa sen heikentyneen. Uudemmissa autoissa on litiumioniakku, joka kestää yleensä pidempään kuin vanhempi lyijyakku.",
-      },
-      {
-        q: "Voiko ajoakun kunnon mitata ilman purkamista?",
-        a: "Kyllä. Kunto arvioidaan auton akunhallintajärjestelmän tiedoista ja mittauksista. Akkua ei avata.",
-      },
-      {
-        q: "Kuuluuko ajoakun vika takuuseen?",
-        a: "Ajoakulla on valmistajan oma takuu, jonka kesto ja kilometriraja riippuvat mallista. Jos löydämme vian, joka todennäköisesti kuuluu takuuseen, kerromme sen ja ohjaamme sinut Teslan huoltoon.",
-      },
-      {
-        q: "Mitä 12 V:n akun vaihto vaatii Teslassa?",
-        a: "Vaihdossa noudatetaan valmistajan järjestystä, jotta auton järjestelmät eivät jää virhetilaan. Varmistamme ensin, että vika on akussa eikä latauspiirissä, ja tarkistamme vaihdon jälkeen, ettei vikakoodeja jää.",
-      },
-    ],
-    related: ["battery-report", "svc-electrical", "model-3", "post-12v"],
-  },
-
-  "svc-powertrain": {
-    seo: {
-      title: "Teslan voimalinjan ja suurjännitejärjestelmän vianhaku",
-      description:
-        "Teslan voimalinjan äänet, tärinä, tehonrajoitus ja suurjännitejärjestelmän viat. Vianhaku Tattarisuolla, Helsingissä. Arvio ennen töitä.",
-    },
-    name: "Voimalinja ja suurjännite",
-    h1: "Teslan voimalinja ja suurjännitejärjestelmän vianhaku",
-    lead: "Ääni, tärinä tai tehonrajoitus voi tulla moottorista, alennusvaihteesta, vetoakselista, invertteristä tai aivan muualta alustasta. Jäljitämme oireen siihen osaan, joka sen aiheuttaa, ennen kuin puhumme korjauksesta.",
-    symptoms: [
-      {
-        title: "Vinkuna tai ulina kiihdytyksessä",
-        body: "Ääni, joka muuttuu nopeuden tai kuormituksen mukaan, voi tulla alennusvaihteen laakereista tai vetoakselista.",
-      },
-      {
-        title: "Kolahdus lähdössä tai suunnanvaihdossa",
-        body: "Usein syy on vetoakselin nivel, moottorin kiinnike tai alustan holkki, harvemmin itse voimayksikkö.",
-      },
-      {
-        title: "Tehonrajoitus tai voimalinjan varoitus",
-        body: "Auto rajoittaa tehoa ja näyttää varoituksen. Syy voi olla lämpötila, anturi tai suurjännitejärjestelmän vika.",
-      },
-      {
-        title: "Auto ei kytke ajovalmiutta",
-        body: "Näyttö toimii, mutta auto ei lähde liikkeelle. Syy voi olla 12 V:n järjestelmässä, eristysvian hälytyksessä tai suurjännitekytkennässä.",
-      },
-      {
-        title: "Tärinä tietyllä nopeudella",
-        body: "Usein vanne, rengas tai vetoakseli, joten tarkistamme ne ennen kuin epäilemme voimayksikköä.",
-      },
-    ],
-    checks: [
-      {
-        title: "Vikakoodit ja tapahtumahistoria",
-        body: "Luemme voimalinjan ja suurjännitejärjestelmän vikakoodit ja katsomme, milloin ja missä olosuhteissa ne ovat syntyneet.",
-      },
-      {
-        title: "Koeajo ja äänen paikannus",
-        body: "Toistamme oireen koeajolla ja paikannamme äänen tai tärinän nostimella.",
-      },
-      {
-        title: "Vetoakselit, kiinnikkeet ja tiivisteet",
-        body: "Tarkistamme nivelsuojat, välykset, moottorin kiinnikkeet ja mahdolliset öljyvuodot.",
-      },
-      {
-        title: "Suurjännitekaapelit ja liittimet",
-        body: "Silmämääräinen tarkastus ja eristysvikojen selvitys turvallisesti, jännitteettömäksi tehdyllä järjestelmällä.",
-      },
-    ],
-    diagnosis: [
-      {
-        p: "Voimalinjan äänet ovat harhaanjohtavia. Sähköauto on hiljainen, joten pieni laakeriääni kuulostaa suurelta, ja alustan kolahdus voi tuntua tulevan moottorista. Siksi aloitamme aina koeajolla ja vikakoodeilla ja etenemme purkamiseen vasta, kun tiedämme mitä etsimme.",
-      },
-      {
-        p: "Suurjännitejärjestelmää käsitellään vain jännitteettömäksi tehtynä ja turvallisuusohjeiden mukaan. Jos vika vaatii osan, jota vain valmistaja toimittaa tai korjaa, kerromme sen suoraan ennen kuin sitoudut mihinkään.",
-      },
-    ],
-    whenToBook: [
-      {
-        p: "Varaa aika, jos auto rajoittaa tehoa, näyttää voimalinjaan liittyvän varoituksen tai jos ääni voimistuu viikkojen aikana. Älä jatka ajamista, jos auto ilmoittaa eristysviasta tai kehottaa pysähtymään, vaan soita meille.",
-      },
-      {
-        p: "Jos autolla on voimassa oleva akku- ja voimayksikkötakuu ja vika näyttää takuuasialta, kerromme sen ja ohjaamme sinut Teslalle. Vianhaku auttaa silloinkin, koska tiedät, mistä on kyse, kun asioit huollossa.",
-      },
-    ],
-    body: [
-      { h2: "Mitä suurjännitetyö tarkoittaa käytännössä" },
-      {
-        p: "Teslan ajoakku, invertterit ja oranssit kaapelit toimivat satojen volttien jännitteellä. Työ aloitetaan tekemällä järjestelmä jännitteettömäksi valmistajan ohjeen mukaan, ja jännitteettömyys varmistetaan mittaamalla ennen kuin mihinkään kosketaan. Tämä vie aikaa, mutta se on ainoa oikea tapa.",
-      },
-      {
-        p: "Suurin osa voimalinjan korjauksista on kuitenkin mekaanisia: vetoakselit, nivelsuojat, kiinnikkeet, tiivisteet ja alennusvaihteen öljy. Ne eivät vaadi suurjännitejärjestelmän avaamista lainkaan, ja ne ovat yleensä selvästi pienempiä töitä kuin voimayksikön vaihto.",
-      },
-      { h3: "Mitä kerromme ennen korjausta" },
-      {
-        p: "Saat tietää, mikä osa on vioittunut, miten varmistimme sen, mitä korjaus sisältää ja mitä vaihtoehtoja on. Jos osa on saatavilla vain valmistajalta, kerromme sen. Jos vika on pieni ja autolla voi ajaa turvallisesti, kerromme senkin, jotta voit suunnitella korjauksen omaan aikatauluusi.",
-      },
-      {
-        note: "Mallikohtaiset huomiot: [Model S](@model-s), [Model 3](@model-3), [Model X](@model-x) ja [Model Y](@model-y).",
-      },
-    ],
-    faq: [
-      {
-        q: "Vaihdatteko Teslan sähkömoottorin?",
-        a: "Arvioimme vian ja kerromme vaihtoehdot. Koko voimayksikön vaihto on harvinainen ja suuri työ, ja usein vika on pienemmässä osassa, kuten vetoakselissa tai laakerissa. Jos korjaus vaatii valmistajan osan tai työn, kerromme sen ennen kuin sitoudut mihinkään.",
-      },
-      {
-        q: "Onko suurjännitetyö turvallista riippumattomassa korjaamossa?",
-        a: "Kun järjestelmä tehdään jännitteettömäksi ja työn tekee siihen koulutettu henkilö, se on turvallista. Teemme suurjännitetyöt aina näin.",
-      },
-      {
-        q: "Kuuluuko voimalinjan vika takuuseen?",
-        a: "Akulla ja voimayksiköllä on valmistajan takuu, jonka kesto ja kilometriraja riippuvat mallista. Jos vika näyttää takuuasialta, ohjaamme sinut Teslan huoltoon.",
-      },
-    ],
-    related: ["svc-electrical", "svc-battery", "svc-suspension", "post-diagnosis"],
-  },
-
   "svc-brakes": {
     seo: {
       title: "Teslan jarrut ja jarrusatuloiden huolto Helsingissä",
@@ -598,17 +383,21 @@ const FI: Record<ServiceId, ServiceContent> = {
 
   "svc-electrical": {
     seo: {
-      title: "Teslan sähköviat, varoitukset ja ohjelmisto Helsingissä",
+      title: "Teslan 12 V:n akku ja sähköviat Helsingissä",
       description:
-        "Teslan sähkövikojen vianhaku: varoitukset, näyttö, kamerat, anturit, ovet ja kosteusviat. Erotamme ohjelmistovirheen laitevikasta. Tattarisuo, Helsinki.",
+        "Teslan 12 V:n akun testaus ja vaihto sekä sähkövikojen vianhaku: varoitukset, näyttö, kamerat, anturit, ovet ja kosteusviat. Tattarisuo, Helsinki.",
     },
-    name: "Sähköviat ja ohjelmisto",
-    h1: "Teslan sähköviat ja ohjelmisto",
-    lead: "Teslassa moni vika näkyy ensin näytöllä: varoitus, toimimaton toiminto tai uudelleen käynnistyvä näyttö. Erotamme ohjelmistovirheen sähkövikasta ja kerromme, mikä korjataan korjaamossa ja mikä vaatii valmistajan toimenpiteen.",
+    name: "Sähköviat ja 12 V:n akku",
+    h1: "Teslan sähköviat ja 12 V:n akku",
+    lead: "Teslassa moni vika näkyy ensin näytöllä: varoitus, toimimaton toiminto tai uudelleen käynnistyvä näyttö. Moni niistä alkaa pienestä 12 V:n akusta, jonka testaamme ja vaihdamme. Erotamme ohjelmistovirheen sähkövikasta ja kerromme, mikä korjataan korjaamossa ja mikä vaatii valmistajan toimenpiteen.",
     symptoms: [
       {
-        title: "Näyttö käynnistyy uudelleen tai jäätyy",
-        body: "Kosketusnäyttö pimenee kesken ajon tai reagoi hitaasti.",
+        title: "Auto ei herää",
+        body: "Puhelinavain ei toimi, kosketusnäyttö pysyy pimeänä tai kahvat eivät reagoi. Tavallisin syy on heikko 12 V:n akku.",
+      },
+      {
+        title: "Varoitus 12 V:n akusta",
+        body: "Auto ilmoittaa, että pienjänniteakku tarvitsee huoltoa. Ota varoitus vakavasti: akku voi pettää ilman toista varoitusta.",
       },
       {
         title: "Toistuvat varoitukset",
@@ -622,19 +411,15 @@ const FI: Record<ServiceId, ServiceContent> = {
         title: "Ovet, ikkunat tai kahvat oireilevat",
         body: "Kahva ei avaudu, ikkuna ei laske tai ovi ei tunnista avainta.",
       },
-      {
-        title: "Valot ja lisälaitteet",
-        body: "Valojen, istuinlämmittimien tai pistorasioiden viat.",
-      },
     ],
     checks: [
       {
-        title: "Vikakoodit",
-        body: "Luemme ohjausyksiköiden vikakoodit ja katsomme, milloin vika on tallentunut.",
+        title: "12 V:n akun kunto ja tyyppi",
+        body: "Mittaamme jännitteen ja kunnon ja tarkistamme, onko autossa lyijy- vai litiumioniakku. Tyyppi vaikuttaa siihen, miten akku testataan ja vaihdetaan.",
       },
       {
-        title: "12 V:n järjestelmä",
-        body: "Moni sähkövika johtuu heikosta 12 V:n akusta, joten se mitataan aina ensin.",
+        title: "Vikakoodit",
+        body: "Luemme ohjausyksiköiden vikakoodit ja katsomme, milloin vika on tallentunut.",
       },
       {
         title: "Johtosarjat ja liittimet",
@@ -647,7 +432,7 @@ const FI: Record<ServiceId, ServiceContent> = {
     ],
     diagnosis: [
       {
-        p: "Ensimmäinen kysymys on, onko vika ohjelmistossa vai laitteistossa. Auton uudelleenkäynnistys tai ohjelmistopäivitys poistaa usein ohimenevän vian. Jos vika palaa, etsimme sen syyn vikakoodeista ja mittaamalla piiri kerrallaan.",
+        p: "Ensimmäinen kysymys on, onko vika ohjelmistossa vai laitteistossa. Auton uudelleenkäynnistys tai ohjelmistopäivitys poistaa usein ohimenevän vian. Jos vika palaa, mittaamme ensin 12 V:n akun ja etsimme sitten syyn vikakoodeista ja mittaamalla piiri kerrallaan.",
       },
       {
         p: "Ohjelmistopäivitykset tulevat Teslalta langattomasti. Emme muokkaa auton ohjelmistoa emmekä avaa maksullisia ominaisuuksia. Jos vika vaatii valmistajan toimenpidettä, kerromme sen suoraan.",
@@ -655,65 +440,66 @@ const FI: Record<ServiceId, ServiceContent> = {
     ],
     whenToBook: [
       {
-        p: "Varaa aika, jos vika toistuu useamman uudelleenkäynnistyksen jälkeen, jos turvallisuuteen liittyvä toiminto kuten kamera, valot tai lasinpyyhkimet ei toimi, tai jos auto varoittaa 12 V:n akusta.",
+        p: "Varaa aika heti, jos auto varoittaa 12 V:n akusta. Akku pitää lukot, näytön ja ohjausyksiköt toiminnassa, joten kun se pettää, auto voi jäädä pihaan. Vaihto on yleensä nopea työ, kun syy on varmistettu.",
       },
       {
-        p: "Kirjaa vian ajankohta, sää ja tilanne ylös, ja ota kuva varoituksesta. Mitä tarkemmin vika on kuvattu, sitä nopeammin se löytyy. Kuvan voi lähettää etukäteen WhatsAppilla.",
+        p: "Varaa aika myös, jos vika toistuu useamman uudelleenkäynnistyksen jälkeen tai jos turvallisuuteen liittyvä toiminto kuten kamera, valot tai lasinpyyhkimet ei toimi. Ota kuva varoituksesta ja kirjaa, milloin vika ilmenee; kuvan voi lähettää etukäteen WhatsAppilla.",
       },
     ],
     body: [
-      { h2: "Kosteus ja liittimet" },
+      { h2: "12 V:n akku" },
       {
-        p: "Suomen syksy ja talvi tuovat autoon kosteutta, joka voi hapettaa liittimiä esimerkiksi takaluukussa, ovien johtosarjoissa ja valoissa. Ajoittainen vika, joka tulee esiin sateella tai pakkasella ja katoaa kuivalla säällä, viittaa usein kosteuteen. Tällainen vika löytyy järjestelmällisesti, ei arvaamalla.",
+        p: "Suuren ajoakun lisäksi jokaisessa Teslassa on pieni 12 V:n akku. Vanhemmissa autoissa se on lyijyakku, uudemmissa litiumioniakku, joka kestää yleensä pidempään. Vaihdamme akun valmistajan järjestyksessä, jotta auton järjestelmät eivät jää vikatilaan. Varmistamme ensin, että vika on akussa eikä sen latauspiirissä, ja tarkistamme lopuksi, ettei vikakoodeja jää.",
+      },
+      { h3: "Kosteus ja liittimet" },
+      {
+        p: "Suomen syksy ja talvi tuovat autoon kosteutta, joka voi hapettaa liittimiä takaluukussa, ovien johtosarjoissa ja valoissa. Ajoittainen vika, joka tulee esiin sateella tai pakkasella ja katoaa kuivalla säällä, viittaa usein kosteuteen, ja se löytyy järjestelmällisesti, ei arvaamalla.",
       },
       { h3: "Kun syy on ohjelmistossa" },
       {
-        p: "Osa vioista korjaantuu valmistajan ohjelmistopäivityksellä. Tarkistamme auton ohjelmistoversion ja kerromme, jos vika näyttää liittyvän ohjelmistoon eikä osaan. Silloin et maksa turhaan vaihdetusta osasta.",
+        p: "Osa vioista korjaantuu valmistajan ohjelmistopäivityksellä. Tarkistamme auton ohjelmistoversion ja kerromme, jos vika näyttää liittyvän ohjelmistoon eikä osaan, jotta et maksa turhaan vaihdetusta osasta.",
       },
-      { h3: "Kamerat ja anturit talvella" },
-      {
-        p: "Lumi, jää ja suolaliuos peittävät kameroita ja antureita, ja auto ilmoittaa silloin toiminnon olevan rajoitettu. Tämä on normaalia ja korjaantuu puhdistamalla. Jos varoitus jää päälle puhtaallakin kameralla, syy voi olla kosteudessa, kiinnityksessä tai johdotuksessa, ja se kannattaa tarkistaa.",
-      },
-      {
-        p: "Jos auto on täysin pimeänä, käyttöohjeessa on ohje 12 V:n järjestelmän apukäynnistykseen. Jos et ole varma, soita meille ennen kuin yrität, niin neuvomme.",
-      },
-      { note: "Katso myös [akku ja lataus](@svc-battery) ja [mitä vianhaku sisältää](@post-diagnosis)." },
+      { note: "Lue lisää: [12 V:n akun varoitusmerkit](@post-12v) ja [mitä vianhaku sisältää](@post-diagnosis)." },
     ],
     faq: [
       {
-        q: "Voiko korjaamo päivittää Teslan ohjelmiston?",
-        a: "Emme muokkaa auton ohjelmistoa. Päivitykset tulevat Teslalta langattomasti. Tarkistamme, mikä versio autossa on, ja neuvomme, jos päivitys jää jumiin.",
-      },
-      {
-        q: "Onko näytön uudelleenkäynnistys turvallista?",
-        a: "Kyllä, kun auto on pysäköity. Ohjeet löytyvät auton käyttöohjeesta. Jos vika palaa usein, varaa vianhaku.",
+        q: "Kuinka usein Teslan 12 V:n akku vaihdetaan?",
+        a: "Kiinteää väliä ei ole. Akku vaihdetaan, kun auto varoittaa siitä tai testi osoittaa sen heikentyneen. Uudempi litiumioniakku kestää yleensä lyijyakkua pidempään.",
       },
       {
         q: "Aiheuttaako 12 V:n akku sähkövikoja?",
         a: "Usein. Heikko 12 V:n akku voi aiheuttaa satunnaisia varoituksia ja toimintahäiriöitä, joten mittaamme sen ensimmäisenä.",
       },
       {
+        q: "Voiko korjaamo päivittää Teslan ohjelmiston?",
+        a: "Emme muokkaa auton ohjelmistoa. Päivitykset tulevat Teslalta langattomasti. Tarkistamme, mikä versio autossa on, ja neuvomme, jos päivitys jää jumiin.",
+      },
+      {
         q: "Miksi ovenkahva ei toimi pakkasella?",
         a: "Jää voi estää kahvan liikkeen. Esilämmitys sovelluksesta sulattaa sen yleensä. Jos kahva ei toimi sulana ja kuivana, syy voi olla kahvan moottorissa, kytkimessä tai johdotuksessa.",
       },
       {
-        q: "Mitä tietoja vianhakuun kannattaa tuoda?",
-        a: "Kuva varoituksesta, tieto siitä milloin vika ilmenee, ja onko autoon tehty viime aikoina töitä tai asennettu lisälaitteita. Jälkiasennetut laitteet ovat yllättävän yleinen sähkövikojen syy.",
+        q: "Korjaatteko ajoakkua tai suurjännitejärjestelmää?",
+        a: "Emme. Teemme töitä 12 V:n järjestelmään ja auton pienjännitesähköihin. Jos vika on suurjännitejärjestelmässä, kerromme sen ja ohjaamme sinut Teslan huoltoon.",
       },
     ],
-    related: ["svc-battery", "svc-powertrain", "post-12v", "post-diagnosis"],
+    related: ["post-12v", "svc-climate", "battery-report", "post-diagnosis"],
   },
 
   "svc-climate": {
     seo: {
-      title: "Teslan lämpöpumppu ja ilmastointi, vianhaku Helsingissä",
+      title: "Teslan ilmastointi ja lämpöpumppu, huolto Helsingissä",
       description:
-        "Teslan lämpöpumpun ja ilmastoinnin vianhaku: heikko lämpö, huurtuvat ikkunat, talven toimintamatka ja raitisilmasuodattimet. Tattarisuo, Helsinki.",
+        "Teslan ilmastointi ja lämpöpumppu: ilmastointi ei viilennä, heikko lämpö, huurtuvat ikkunat ja raitisilmasuodattimet. Teslalle tarkoitetut ilmastoinnin huoltolaitteet. Tattarisuo, Helsinki.",
     },
     name: "Ilmastointi ja lämpöpumppu",
     h1: "Teslan ilmastointi ja lämpöpumppu",
-    lead: "Suomessa lämpöpumppu on osa toimintamatkaa, ei pelkkä mukavuusvaruste. Kun lämpö ei riitä, ikkunat huurtuvat tai talven toimintamatka putoaa äkillisesti, selvitämme syyn anturista, venttiilistä, pumpusta, puhaltimesta tai ohjauksesta.",
+    lead: "Teslassa ilmastointi ja lämpöpumppu ovat yksi järjestelmä: se viilentää matkustamon kesällä, lämmittää sen talvella ja pitää ikkunat kirkkaina. Kun ilmastointi ei viilennä, lämpö ei riitä tai ikkunat huurtuvat, selvitämme syyn anturista, venttiilistä, pumpusta, puhaltimesta tai ohjauksesta Tesla-autoille tarkoitetuilla ilmastoinnin huoltolaitteilla.",
     symptoms: [
+      {
+        title: "Ilmastointi ei viilennä",
+        body: "Puhaltimista tuleva ilma pysyy lämpimänä tai viilenee vain vähän. Syy voi olla anturissa, ohjauksessa tai kylmäainepiirissä.",
+      },
       {
         title: "Heikko lämpö pakkasella",
         body: "Matkustamo lämpenee hitaasti tai jää viileäksi, vaikka asetukset ovat kohdallaan.",
@@ -723,26 +509,22 @@ const FI: Record<ServiceId, ServiceContent> = {
         body: "Usein syy on tukkeutunut raitisilmasuodatin, kiertoilma-asetus tai kosteus matkustamossa.",
       },
       {
-        title: "Äkillinen toimintamatkan lasku",
-        body: "Tavallista talven laskua suurempi muutos samoissa olosuhteissa voi viitata lämmönhallinnan vikaan.",
-      },
-      {
         title: "Haju tai kosteus",
         body: "Ummehtunut haju puhaltimesta kertoo yleensä suodattimesta tai höyrystimen kosteudesta.",
       },
       {
-        title: "Ilmastointi ei viilennä",
-        body: "Syy voi olla anturissa, ohjauksessa tai kylmäainepiirissä.",
+        title: "Talven toimintamatka putoaa äkillisesti",
+        body: "Tavallista talven laskua suurempi muutos samoissa olosuhteissa voi viitata lämpöpumpun vikaan.",
       },
     ],
     checks: [
       {
-        title: "Vikakoodit ja lämpötila-anturit",
-        body: "Luemme lämmönhallinnan vikakoodit ja tarkistamme anturien lukemat.",
+        title: "Ilmastoinnin teho",
+        body: "Tarkistamme puhallusilman lämpötilat ja järjestelmän toiminnan Teslalle tarkoitetuilla huoltolaitteilla.",
       },
       {
-        title: "Venttiilit, pumput ja nestepiiri",
-        body: "Lämmönhallinnan nestepuoli, joka lämmittää ja jäähdyttää akkua ja voimalinjaa.",
+        title: "Vikakoodit ja lämpötila-anturit",
+        body: "Luemme lämmönhallinnan vikakoodit ja tarkistamme anturien lukemat.",
       },
       {
         title: "Puhaltimet ja ilmaläpät",
@@ -755,31 +537,28 @@ const FI: Record<ServiceId, ServiceContent> = {
     ],
     diagnosis: [
       {
-        p: "Teslan lämmönhallinta yhdistää matkustamon, akun ja voimalinjan lämmityksen ja jäähdytyksen yhdeksi järjestelmäksi. Vian syy voi olla anturissa, venttiilissä, pumpussa, ohjelmistossa tai kylmäainepiirissä. Luemme vikakoodit, tarkistamme anturit ja nestepiirin ja rajaamme vian ennen arviota.",
+        p: "Teslan lämmönhallinta yhdistää ilmastoinnin, lämpöpumpun ja lämmityksen yhdeksi järjestelmäksi. Vian syy voi olla anturissa, venttiilissä, pumpussa, ohjelmistossa tai kylmäainepiirissä. Luemme vikakoodit, tarkistamme anturit, ilmavirran ja viilennystehon ja rajaamme vian ennen arviota.",
       },
       {
-        p: "Saat kirjallisen yhteenvedon löydöksistä ja arvion, ja työ alkaa vasta, kun olet hyväksynyt sen. Jos vika on kylmäainepiirissä, sanomme sen suoraan.",
+        p: "Saat yhteenvedon löydöksistä ja arvion, ja työ alkaa vasta, kun olet hyväksynyt sen.",
       },
     ],
     whenToBook: [
       {
-        p: "Varaa aika ennen kovia pakkasia, jos lämmitys tuntuu heikolta jo syksyllä. Raitisilmasuodattimet kannattaa vaihtaa ennen talvea, koska tukkeutunut suodatin heikentää sekä lämmitystä että huurteenpoistoa.",
+        p: "Varaa aika keväällä, jos ilmastointi tuntui heikolta viime kesänä, ja ennen kovia pakkasia, jos lämmitys tuntuu heikolta jo syksyllä. Raitisilmasuodattimet kannattaa vaihtaa ennen talvea, koska tukkeutunut suodatin heikentää sekä lämmitystä että huurteenpoistoa.",
       },
       {
-        p: "Jos ikkunat eivät pysy kirkkaina, korjaa vika heti. Huono näkyvyys on turvallisuusasia, ei mukavuuskysymys. Varaa aika myös, jos lämmitys toimii vain osittain, esimerkiksi toinen puoli matkustamosta jää viileäksi.",
+        p: "Jos ikkunat eivät pysy kirkkaina, korjaa vika heti. Huono näkyvyys on turvallisuusasia, ei mukavuuskysymys. Varaa aika myös, jos lämmitys tai viilennys toimii vain osittain, esimerkiksi toinen puoli matkustamosta jää lämpimäksi tai viileäksi.",
       },
     ],
     body: [
-      { h2: "Lämpöpumppu ja talvi" },
+      { h2: "Ilmastoinnin huolto" },
       {
-        p: "Model Y:ssä sekä uudemmissa Model 3-, Model S- ja Model X -autoissa on lämpöpumppu, joka siirtää lämpöä ympäristöstä ja voimalinjasta matkustamoon ja akkuun. Vanhemmissa autoissa matkustamoa lämmittää vastuslämmitin, joka kuluttaa enemmän energiaa.",
+        p: "Ilmastoinnin huoltolaitteemme on tarkoitettu Tesla-autoille. Ilmastoinnista häviää vuosien mittaan hieman kylmäainetta, ja heikentynyt viilennys on usein ensimmäinen merkki. Puhdas raitisilmasuodatin ja vapaa ilmanottoaukko vaikuttavat myös selvästi siihen, miten hyvin järjestelmä viilentää ja poistaa huurretta.",
       },
+      { h3: "Lämpöpumppu ja talvi" },
       {
-        p: "Lämpöpumpun hyötysuhde laskee kovalla pakkasella, ja auto käyttää silloin enemmän energiaa lämmitykseen. Talven toimintamatkan lasku on siksi normaalia, mutta äkillinen muutos samoissa olosuhteissa kannattaa tarkistaa. Esilämmitys auton ollessa latauksessa säästää akkua ajoa varten.",
-      },
-      { h3: "Akun lämmitys ennen pikalatausta" },
-      {
-        p: "Lämmönhallinta lämmittää myös ajoakkua ennen pikalatausta, kun navigoit auton omalla navigaattorilla pikalaturille. Jos auto lataa pakkasella hitaasti, vaikka akku on ehtinyt lämmetä, syy voi olla lämmönhallinnassa ja se kannattaa tarkistaa.",
+        p: "Model Y:ssä sekä uudemmissa Model 3-, Model S- ja Model X -autoissa on lämpöpumppu, joka siirtää lämpöä ympäristöstä matkustamoon. Vanhemmissa autoissa matkustamoa lämmittää vastuslämmitin, joka kuluttaa enemmän energiaa. Lämpöpumpun hyötysuhde laskee kovalla pakkasella, joten talven toimintamatkan lasku on normaalia, mutta äkillinen muutos samoissa olosuhteissa kannattaa tarkistaa.",
       },
       { h3: "Mitä voit tehdä itse" },
       {
@@ -795,16 +574,16 @@ const FI: Record<ServiceId, ServiceContent> = {
     ],
     faq: [
       {
+        q: "Miksi Teslan ilmastointi ei viilennä kunnolla?",
+        a: "Tavallisia syitä ovat tukkeutunut raitisilmasuodatin, anturivika tai vähentynyt kylmäaine. Tarkistamme ensin suodattimen, anturit ja viilennystehon ja kerromme, mitä löytyi.",
+      },
+      {
         q: "Kuinka usein raitisilmasuodatin vaihdetaan?",
         a: "Valmistajan aikataulun mukaan, ja aina kun ilmavirta heikkenee tai sisällä haisee. Ennen talvea tehty vaihto parantaa huurteenpoistoa.",
       },
       {
         q: "Miksi Tesla kuluttaa talvella enemmän?",
-        a: "Akun ja matkustamon lämmitys vie energiaa, ja kylmä akku toimii heikommin. Esilämmitys latauksessa ollessa vähentää kulutusta ajon aikana.",
-      },
-      {
-        q: "Onko lämpöpumpun vika vaarallinen?",
-        a: "Ei yleensä, mutta heikko lämmitys ja huurtuvat ikkunat heikentävät näkyvyyttä. Korjaa vika ennen pakkasia.",
+        a: "Matkustamon lämmitys vie energiaa, ja lämpöpumpun hyötysuhde laskee kovalla pakkasella. Esilämmitys latauksessa ollessa vähentää kulutusta ajon aikana.",
       },
       {
         q: "Miksi auton alle tippuu vettä?",
@@ -812,208 +591,14 @@ const FI: Record<ServiceId, ServiceContent> = {
       },
       {
         q: "Miksi puhaltimesta kuuluu ääntä?",
-        a: "Puhaltimeen voi päätyä lehtiä tai roskia ilmanottoaukosta, tai puhaltimen laakeri voi kulua. Tarkistamme puhaltimen ja ilmakanavat. Usein korjaukseksi riittää puhdistus, ja vasta sitten harkitaan osan vaihtoa.",
+        a: "Puhaltimeen voi päätyä lehtiä tai roskia ilmanottoaukosta, tai puhaltimen laakeri voi kulua. Usein korjaukseksi riittää puhdistus, ja vasta sitten harkitaan osan vaihtoa.",
       },
     ],
-    related: ["svc-battery", "svc-electrical", "post-winter", "model-y"],
+    related: ["svc-electrical", "post-winter", "model-y", "svc-tyres"],
   },
 };
 
 const EN: Record<ServiceId, ServiceContent> = {
-  "svc-battery": {
-    seo: {
-      title: "Tesla battery, charging and 12 V battery replacement in Helsinki",
-      description:
-        "Tesla battery health checks, charging faults and 12 V battery replacement in Tattarisuo, Helsinki. Diagnosis first, a written estimate before any work.",
-    },
-    name: "Battery and charging",
-    h1: "Tesla battery, charging and the 12 V battery",
-    lead: "A Tesla has two batteries and two very different kinds of fault. The high-voltage pack tells you about the car's condition and value; the small 12 V battery strands more cars than anything else. We find out which one is causing the problem, and why, before anyone talks about replacing anything.",
-    symptoms: [
-      {
-        title: "The car will not wake or the doors will not open",
-        body: "The phone key does not work, the touchscreen stays dark or the handles do not respond. The usual cause is a weak 12 V battery, not the main pack.",
-      },
-      {
-        title: "A 12 V battery warning",
-        body: "The car says the low-voltage battery needs service or replacement. Take it seriously: the battery can fail without a second warning.",
-      },
-      {
-        title: "Range has dropped",
-        body: "The estimated range at full charge is clearly lower than it used to be, in mild weather and with the same driving.",
-      },
-      {
-        title: "Charging stops or stays slow",
-        body: "Charging stops, the rate stays low or the car reports a charging fault on more than one charger.",
-      },
-      {
-        title: "The cable is stuck in the port",
-        body: "The charge port latch will not release the cable, especially in frost or after wet weather.",
-      },
-    ],
-    checks: [
-      {
-        title: "12 V battery condition",
-        body: "We measure voltage and condition and check whether the car has a lead-acid or a lithium-ion low-voltage battery. The type changes how it is tested and replaced.",
-      },
-      {
-        title: "High-voltage battery data",
-        body: "We read the data and fault codes stored by the battery management system and assess capacity and the balance between cell groups.",
-      },
-      {
-        title: "Charging system",
-        body: "We check the charge port, latch, contacts and the onboard charger, and the car's history of charging faults.",
-      },
-      {
-        title: "Battery heating and cooling",
-        body: "Thermal management affects both charging speed and battery life. We check the coolant and the circuit.",
-      },
-    ],
-    diagnosis: [
-      {
-        p: "We start by listening: when the fault appears, on which charger and at what temperature. Then we read the car's own fault codes and battery data and measure the 12 V system. Many charging faults have nothing to do with the car, for example the settings of a home charger, the electrical supply or a cable, so we ask about where and how you charge as well.",
-      },
-      {
-        p: "The high-voltage battery is not opened during diagnosis. Its condition is assessed from system data and measurements. You get a written summary of what we found and an estimate, and work starts only once you have approved it.",
-      },
-    ],
-    whenToBook: [
-      {
-        p: "Book straight away if the car warns about the 12 V battery. In a Tesla the low-voltage battery keeps the locks, the screen and the high-voltage contactors working, so when it fails the car can be left sitting on your drive. Replacement is usually a quick job once the cause is confirmed.",
-      },
-      {
-        p: "A slow loss of range over the years is normal ageing. If the drop is sudden or large, or you are buying or selling the car, a [battery health report](@battery-report) puts the condition on paper.",
-      },
-    ],
-    body: [
-      { h2: "Finnish winters and the battery" },
-      {
-        p: "A cold battery accepts charge more slowly than a warm one, and regenerative braking is limited until the pack warms up. That is normal behaviour, not a fault. Preconditioning from the app before you leave, and scheduling charging to finish near departure, keep the battery in its working window. If the car will stand in frost for a long time, leave it plugged in rather than nearly empty.",
-      },
-      {
-        p: "The charge port latch and flap can freeze. The app's charge port defrost function often helps. If it sticks again and again, the latch or its heater is usually worn, and the fix is replacing the part.",
-      },
-      { note: "Read more: [12 V battery warning signs](@post-12v) and [Tesla winter care in Finland](@post-winter)." },
-    ],
-    faq: [
-      {
-        q: "How often does a Tesla 12 V battery need replacing?",
-        a: "There is no fixed interval. It is replaced when the car warns about it or a test shows it has weakened. Newer cars use a lithium-ion low-voltage battery, which usually lasts longer than the older lead-acid type.",
-      },
-      {
-        q: "Can battery health be measured without taking the pack apart?",
-        a: "Yes. Condition is assessed from the battery management system's data and from measurements. The pack is not opened.",
-      },
-      {
-        q: "Is a high-voltage battery fault covered by warranty?",
-        a: "The high-voltage battery has its own manufacturer warranty, with a length and distance limit that depend on the model. If we find a fault that is likely to be covered, we tell you and send you to Tesla service.",
-      },
-      {
-        q: "What does a 12 V battery replacement involve on a Tesla?",
-        a: "We follow the manufacturer's sequence so the car's systems are not left in a fault state. We first confirm the fault is the battery and not its charging circuit, and afterwards check that no fault codes remain.",
-      },
-    ],
-    related: ["battery-report", "svc-electrical", "model-3", "post-12v"],
-  },
-
-  "svc-powertrain": {
-    seo: {
-      title: "Tesla powertrain and high-voltage diagnostics in Helsinki",
-      description:
-        "Tesla drive unit noise, vibration, power limits and high-voltage system faults, diagnosed in Tattarisuo, Helsinki. Estimate before any work.",
-    },
-    name: "Powertrain and high voltage",
-    h1: "Tesla powertrain and high-voltage diagnostics",
-    lead: "A noise, a vibration or a power limit can come from the motor, the reduction gear, a driveshaft, the inverter or somewhere else in the chassis entirely. We trace the symptom to the part that is causing it before we talk about a repair.",
-    symptoms: [
-      {
-        title: "Whine or howl under acceleration",
-        body: "A noise that changes with speed or load can come from reduction gear bearings or a driveshaft.",
-      },
-      {
-        title: "A clunk when pulling away or changing direction",
-        body: "Often a driveshaft joint, a motor mount or a chassis bushing, less often the drive unit itself.",
-      },
-      {
-        title: "Reduced power or a powertrain warning",
-        body: "The car limits power and shows a warning. The cause can be temperature, a sensor or a high-voltage system fault.",
-      },
-      {
-        title: "The car will not go into drive",
-        body: "The screen works but the car will not move. The cause can be in the 12 V system, an isolation fault alert or the high-voltage contactors.",
-      },
-      {
-        title: "Vibration at a particular speed",
-        body: "Often a wheel, a tyre or a driveshaft, so we check those before suspecting the drive unit.",
-      },
-    ],
-    checks: [
-      {
-        title: "Fault codes and event history",
-        body: "We read the powertrain and high-voltage fault codes and look at when, and in what conditions, they were logged.",
-      },
-      {
-        title: "Road test and noise location",
-        body: "We reproduce the symptom on a road test and locate the noise or vibration on the lift.",
-      },
-      {
-        title: "Driveshafts, mounts and seals",
-        body: "We check boots, play, motor mounts and any oil leaks.",
-      },
-      {
-        title: "High-voltage cables and connectors",
-        body: "Visual inspection and isolation fault finding, carried out safely on a de-energised system.",
-      },
-    ],
-    diagnosis: [
-      {
-        p: "Powertrain noises are misleading. An electric car is quiet, so a small bearing noise sounds big, and a chassis knock can feel as if it comes from the motor. That is why we always start with a road test and the fault codes, and only take things apart once we know what we are looking for.",
-      },
-      {
-        p: "The high-voltage system is only worked on once it has been de-energised, following safety procedures. If the fault needs a part that only the manufacturer supplies or repairs, we say so plainly before you commit to anything.",
-      },
-    ],
-    whenToBook: [
-      {
-        p: "Book if the car limits power, shows a powertrain warning or a noise is getting louder over weeks. Do not keep driving if the car reports an isolation fault or tells you to pull over; call us instead.",
-      },
-      {
-        p: "If the car is still under its battery and drive unit warranty and the fault looks like a warranty matter, we tell you and send you to Tesla. The diagnosis still helps, because you know what the problem is when you get there.",
-      },
-    ],
-    body: [
-      { h2: "What high-voltage work means in practice" },
-      {
-        p: "A Tesla's battery, inverters and orange cables run at several hundred volts. Work begins by de-energising the system to the manufacturer's procedure and confirming by measurement that it is dead before anything is touched. It takes time, and it is the only correct way to do it.",
-      },
-      {
-        p: "Most powertrain repairs are mechanical, though: driveshafts, boots, mounts, seals and reduction gear oil. None of them need the high-voltage system opened at all, and they are usually far smaller jobs than replacing a drive unit.",
-      },
-      { h3: "What we tell you before a repair" },
-      {
-        p: "You find out which part has failed, how we confirmed it, what the repair involves and what the options are. If a part is only available from the manufacturer, we say so. If the fault is minor and the car is safe to drive, we tell you that too, so you can plan the repair around your own schedule.",
-      },
-      {
-        note: "Model notes: [Model S](@model-s), [Model 3](@model-3), [Model X](@model-x) and [Model Y](@model-y).",
-      },
-    ],
-    faq: [
-      {
-        q: "Do you replace Tesla drive units?",
-        a: "We diagnose the fault and explain the options. Replacing a whole drive unit is a rare and large job, and the fault is often in a smaller part such as a driveshaft or a bearing. If the repair needs a manufacturer part or manufacturer work, we tell you before you commit to anything.",
-      },
-      {
-        q: "Is high-voltage work safe at an independent garage?",
-        a: "When the system is de-energised and the work is done by someone trained for it, yes. That is how we always do it.",
-      },
-      {
-        q: "Is a powertrain fault covered by warranty?",
-        a: "The battery and drive unit have a manufacturer warranty whose length and distance limit depend on the model. If the fault looks like a warranty matter, we send you to Tesla service.",
-      },
-    ],
-    related: ["svc-electrical", "svc-battery", "svc-suspension", "post-diagnosis"],
-  },
-
   "svc-brakes": {
     seo: {
       title: "Tesla brakes and caliper service in Helsinki",
@@ -1343,17 +928,21 @@ const EN: Record<ServiceId, ServiceContent> = {
 
   "svc-electrical": {
     seo: {
-      title: "Tesla electrical faults, warnings and software in Helsinki",
+      title: "Tesla 12 V battery and electrical faults in Helsinki",
       description:
-        "Tesla electrical fault finding: warnings, screen, cameras, sensors, doors and moisture faults. We tell software issues from hardware faults. Tattarisuo, Helsinki.",
+        "Tesla 12 V battery testing and replacement, and electrical fault finding: warnings, screen, cameras, sensors, doors and moisture faults. Tattarisuo, Helsinki.",
     },
-    name: "Electrical faults and software",
-    h1: "Tesla electrical faults and software",
-    lead: "In a Tesla, most faults show up on the screen first: a warning, a feature that stops working, a display that reboots. We separate software glitches from electrical faults and tell you what can be fixed in the workshop and what needs action from the manufacturer.",
+    name: "Electrical and 12 V battery",
+    h1: "Tesla electrical faults and the 12 V battery",
+    lead: "In a Tesla, most faults show up on the screen first: a warning, a feature that stops working, a display that reboots. Many of them start with the small 12 V battery, which we test and replace. We separate software glitches from electrical faults and tell you what can be fixed in the workshop and what needs action from the manufacturer.",
     symptoms: [
       {
-        title: "The screen reboots or freezes",
-        body: "The touchscreen goes dark while driving or responds slowly.",
+        title: "The car will not wake",
+        body: "The phone key does not work, the touchscreen stays dark or the handles do not respond. The usual cause is a weak 12 V battery.",
+      },
+      {
+        title: "A 12 V battery warning",
+        body: "The car says the low-voltage battery needs service. Take it seriously: the battery can fail without a second warning.",
       },
       {
         title: "Recurring warnings",
@@ -1367,19 +956,15 @@ const EN: Record<ServiceId, ServiceContent> = {
         title: "Doors, windows or handles misbehave",
         body: "A handle will not present, a window will not drop or a door does not recognise the key.",
       },
-      {
-        title: "Lights and accessories",
-        body: "Faults in lights, seat heaters or power outlets.",
-      },
     ],
     checks: [
       {
-        title: "Fault codes",
-        body: "We read the control units' fault codes and see when each fault was logged.",
+        title: "12 V battery condition and type",
+        body: "We measure voltage and condition and check whether the car has a lead-acid or a lithium-ion battery. The type changes how it is tested and replaced.",
       },
       {
-        title: "12 V system",
-        body: "Many electrical faults come from a weak 12 V battery, so we always measure it first.",
+        title: "Fault codes",
+        body: "We read the control units' fault codes and see when each fault was logged.",
       },
       {
         title: "Wiring and connectors",
@@ -1392,7 +977,7 @@ const EN: Record<ServiceId, ServiceContent> = {
     ],
     diagnosis: [
       {
-        p: "The first question is whether the fault is in software or hardware. Restarting the car or a software update often clears a passing glitch. If the fault comes back, we find its cause from the fault codes and by measuring, one circuit at a time.",
+        p: "The first question is whether the fault is in software or hardware. Restarting the car or a software update often clears a passing glitch. If the fault comes back, we measure the 12 V battery first, then find the cause from the fault codes and by measuring, one circuit at a time.",
       },
       {
         p: "Software updates come from Tesla over the air. We do not modify the car's software or unlock paid features. If a fault needs action from the manufacturer, we tell you plainly.",
@@ -1400,65 +985,66 @@ const EN: Record<ServiceId, ServiceContent> = {
     ],
     whenToBook: [
       {
-        p: "Book if a fault keeps coming back after several restarts, if a safety function such as a camera, lights or wipers is not working, or if the car warns about the 12 V battery.",
+        p: "Book straight away if the car warns about the 12 V battery. It keeps the locks, the screen and the control units working, so when it fails the car can be left sitting on your drive. Replacement is usually a quick job once the cause is confirmed.",
       },
       {
-        p: "Write down when the fault happens, the weather and the situation, and take a photo of the warning. The better the description, the faster the fault is found. You can send the photo ahead on WhatsApp.",
+        p: "Book as well if a fault keeps coming back after several restarts, or if a safety function such as a camera, lights or wipers is not working. Take a photo of the warning and note when it happens; you can send it ahead on WhatsApp.",
       },
     ],
     body: [
-      { h2: "Moisture and connectors" },
+      { h2: "The 12 V battery" },
       {
-        p: "Finnish autumns and winters bring moisture into the car, which can corrode connectors in places such as the tailgate, the door wiring and the lights. An intermittent fault that appears in rain or frost and disappears in dry weather usually points to moisture. A fault like that is found methodically, not by guessing.",
+        p: "Besides the large drive battery, every Tesla has a small 12 V battery. Older cars use lead-acid, newer ones lithium-ion, which usually lasts longer. We replace it in the manufacturer's sequence so the car's systems are not left in a fault state, first confirming that the fault is the battery and not its charging circuit, and afterwards checking that no fault codes remain.",
+      },
+      { h3: "Moisture and connectors" },
+      {
+        p: "Finnish autumns and winters bring moisture into the car, which can corrode connectors in the tailgate, the door wiring and the lights. An intermittent fault that appears in rain or frost and disappears in dry weather usually points to moisture, and it is found methodically, not by guessing.",
       },
       { h3: "When the cause is software" },
       {
-        p: "Some faults are fixed by a manufacturer software update. We check which software version the car has and tell you if a fault looks software related rather than a failed part. That way you do not pay for a part that did not need replacing.",
+        p: "Some faults are fixed by a manufacturer software update. We check which version the car has and tell you if a fault looks software related rather than a failed part, so you do not pay for a part that did not need replacing.",
       },
-      { h3: "Cameras and sensors in winter" },
-      {
-        p: "Snow, ice and road salt cover cameras and sensors, and the car then reports that a feature is limited. That is normal and clears with cleaning. If the warning stays on with a clean camera, the cause can be moisture, mounting or wiring, and it is worth checking.",
-      },
-      {
-        p: "If the car is completely dark, the owner's manual explains how to jump-start the 12 V system. If you are not sure, call us before you try and we will talk you through it.",
-      },
-      { note: "See also [battery and charging](@svc-battery) and [what a diagnosis involves](@post-diagnosis)." },
+      { note: "Read more: [12 V battery warning signs](@post-12v) and [what a diagnosis involves](@post-diagnosis)." },
     ],
     faq: [
       {
-        q: "Can a garage update a Tesla's software?",
-        a: "We do not modify the car's software. Updates come from Tesla over the air. We check which version the car has and help if an update gets stuck.",
-      },
-      {
-        q: "Is it safe to restart the screen?",
-        a: "Yes, with the car parked. The steps are in the owner's manual. If the fault keeps returning, book a diagnosis.",
+        q: "How often does a Tesla 12 V battery need replacing?",
+        a: "There is no fixed interval. It is replaced when the car warns about it or a test shows it has weakened. The newer lithium-ion type usually lasts longer than lead-acid.",
       },
       {
         q: "Can the 12 V battery cause electrical faults?",
         a: "Often. A weak 12 V battery can cause random warnings and glitches, so it is the first thing we measure.",
       },
       {
+        q: "Can a garage update a Tesla's software?",
+        a: "We do not modify the car's software. Updates come from Tesla over the air. We check which version the car has and help if an update gets stuck.",
+      },
+      {
         q: "Why does a door handle stop working in frost?",
         a: "Ice can block the handle. Preconditioning from the app usually thaws it. If the handle does not work when it is thawed and dry, the cause can be the handle motor, a switch or the wiring.",
       },
       {
-        q: "What should I bring to a diagnosis?",
-        a: "A photo of the warning, when the fault happens, and whether any work has been done recently or accessories fitted. Aftermarket accessories are a surprisingly common cause of electrical faults.",
+        q: "Do you work on the high-voltage battery?",
+        a: "No. We work on the 12 V system and the car's low-voltage electrics. If a fault is in the high-voltage system, we tell you and refer you to Tesla service.",
       },
     ],
-    related: ["svc-battery", "svc-powertrain", "post-12v", "post-diagnosis"],
+    related: ["post-12v", "svc-climate", "battery-report", "post-diagnosis"],
   },
 
   "svc-climate": {
     seo: {
-      title: "Tesla heat pump and climate diagnosis in Helsinki",
+      title: "Tesla air conditioning and heat pump service in Helsinki",
       description:
-        "Tesla heat pump and climate fault diagnosis: weak heating, fogged windows, winter range and cabin filters. Tattarisuo, Helsinki.",
+        "Tesla air conditioning and heat pump: AC that does not cool, weak heating, fogged windows and cabin filters. AC service equipment made for Tesla. Tattarisuo, Helsinki.",
     },
-    name: "Climate and heat pump",
-    h1: "Tesla climate control and heat pump",
-    lead: "In Finland the heat pump is part of your range, not just a comfort feature. When the heating is weak, the windows fog up or winter range suddenly drops, we trace the cause to a sensor, valve, pump, blower or the control logic.",
+    name: "Air conditioning and heat pump",
+    h1: "Tesla air conditioning and heat pump",
+    lead: "In a Tesla the air conditioning and the heat pump are one system: it cools the cabin in summer, heats it in winter and keeps the windows clear. When the AC stops cooling, the heating is weak or the windows fog up, we trace the cause to a sensor, valve, pump, blower or the control logic, with AC service equipment made for Tesla vehicles.",
     symptoms: [
+      {
+        title: "The air conditioning does not cool",
+        body: "The air from the vents stays warm or only cools a little. The cause can be a sensor, the control logic or the refrigerant circuit.",
+      },
       {
         title: "Weak heating in frost",
         body: "The cabin warms slowly or stays cool even though the settings are right.",
@@ -1468,26 +1054,22 @@ const EN: Record<ServiceId, ServiceContent> = {
         body: "Often a clogged cabin filter, the recirculation setting or moisture in the cabin.",
       },
       {
-        title: "A sudden drop in range",
-        body: "A bigger change than the usual winter drop, in the same conditions, can point to a thermal management fault.",
-      },
-      {
         title: "Smell or damp",
         body: "A musty smell from the vents usually means the filter or moisture on the evaporator.",
       },
       {
-        title: "The air conditioning does not cool",
-        body: "The cause can be a sensor, the control logic or the refrigerant circuit.",
+        title: "A sudden drop in winter range",
+        body: "A bigger change than the usual winter drop, in the same conditions, can point to a heat pump fault.",
       },
     ],
     checks: [
       {
-        title: "Fault codes and temperature sensors",
-        body: "We read the thermal management fault codes and check the sensor readings.",
+        title: "AC performance",
+        body: "We check outlet temperatures and how the system responds, with service equipment specified for Tesla.",
       },
       {
-        title: "Valves, pumps and coolant circuit",
-        body: "The coolant side of thermal management, which heats and cools the battery and powertrain.",
+        title: "Fault codes and temperature sensors",
+        body: "We read the thermal system's fault codes and check the sensor readings.",
       },
       {
         title: "Blowers and air flaps",
@@ -1500,31 +1082,28 @@ const EN: Record<ServiceId, ServiceContent> = {
     ],
     diagnosis: [
       {
-        p: "Tesla's thermal management combines heating and cooling for the cabin, the battery and the powertrain into one system. The cause of a fault can be a sensor, a valve, a pump, software or the refrigerant circuit. We read the fault codes, check the sensors and the coolant circuit, and narrow the fault down before giving you an estimate.",
+        p: "Tesla's thermal system combines the air conditioning, the heat pump and the heating into one. The cause of a fault can be a sensor, a valve, a pump, software or the refrigerant circuit. We read the fault codes, check the sensors, the airflow and the cooling performance, and narrow the fault down before giving you an estimate.",
       },
       {
-        p: "You get a written summary of what we found and an estimate, and work starts only once you have approved it. If the fault is in the refrigerant circuit, we tell you plainly.",
+        p: "You get a summary of what we found and an estimate, and work starts only once you have approved it.",
       },
     ],
     whenToBook: [
       {
-        p: "Book before the hard frosts if the heating already feels weak in autumn. Replace cabin filters before winter, because a clogged filter weakens both heating and demisting.",
+        p: "Book in spring if the AC felt weak last summer, and before the hard frosts if the heating already feels weak in autumn. Replace cabin filters before winter, because a clogged filter weakens both heating and demisting.",
       },
       {
-        p: "If the windows will not stay clear, get it fixed straight away. Poor visibility is a safety issue, not a comfort one. Book as well if the heating only partly works, for example one side of the cabin stays cool.",
+        p: "If the windows will not stay clear, get it fixed straight away. Poor visibility is a safety issue, not a comfort one. Book as well if the heating or cooling only partly works, for example one side of the cabin stays warm or cool.",
       },
     ],
     body: [
-      { h2: "The heat pump in winter" },
+      { h2: "Air conditioning service" },
       {
-        p: "Model Y, and newer Model 3, Model S and Model X cars, use a heat pump that moves heat from the surroundings and the powertrain into the cabin and the battery. Older cars heat the cabin with a resistive heater, which uses more energy.",
+        p: "Our air conditioning service machines are specified for Tesla vehicles. The AC loses a little refrigerant over the years, and weak cooling is often the first sign. A clean cabin filter and a clear air intake also make a noticeable difference to how well the system cools and demists.",
       },
+      { h3: "The heat pump in winter" },
       {
-        p: "A heat pump becomes less efficient in hard frost, and the car then uses more energy for heating. Some loss of winter range is therefore normal, but a sudden change in the same conditions is worth checking. Preconditioning while plugged in saves battery for the drive.",
-      },
-      { h3: "Warming the battery before fast charging" },
-      {
-        p: "Thermal management also warms the high-voltage battery before fast charging when you navigate to a fast charger with the car's own navigation. If the car charges slowly in frost even though the battery has had time to warm, the cause can be in thermal management and is worth checking.",
+        p: "Model Y, and newer Model 3, Model S and Model X cars, use a heat pump that moves heat from the surroundings into the cabin. Older cars heat the cabin with a resistive heater, which uses more energy. A heat pump becomes less efficient in hard frost, so some loss of winter range is normal, but a sudden change in the same conditions is worth checking.",
       },
       { h3: "What you can do yourself" },
       {
@@ -1540,16 +1119,16 @@ const EN: Record<ServiceId, ServiceContent> = {
     ],
     faq: [
       {
+        q: "Why does my Tesla's AC not cool properly?",
+        a: "Common causes are a clogged cabin filter, a sensor fault or low refrigerant. We check the filter, the sensors and the cooling performance first, and tell you what we find.",
+      },
+      {
         q: "How often should the cabin filter be changed?",
         a: "On the manufacturer's schedule, and whenever airflow drops or the cabin smells. A change before winter improves demisting.",
       },
       {
         q: "Why does a Tesla use more energy in winter?",
-        a: "Heating the battery and the cabin takes energy, and a cold battery works less efficiently. Preconditioning while plugged in reduces consumption on the road.",
-      },
-      {
-        q: "Is a heat pump fault dangerous?",
-        a: "Not usually, but weak heating and fogged windows reduce visibility. Get it fixed before the frosts.",
+        a: "Heating the cabin takes energy, and the heat pump is less efficient in hard frost. Preconditioning while plugged in reduces consumption on the road.",
       },
       {
         q: "Why is water dripping under the car?",
@@ -1557,10 +1136,10 @@ const EN: Record<ServiceId, ServiceContent> = {
       },
       {
         q: "Why is the blower noisy?",
-        a: "Leaves or debris can get into the blower through the air intake, or the blower bearing can wear. We check the blower and the ducts. Often cleaning is enough, and only then is replacing the part considered.",
+        a: "Leaves or debris can get into the blower through the air intake, or the blower bearing can wear. Often cleaning is enough, and only then is replacing the part considered.",
       },
     ],
-    related: ["svc-battery", "svc-electrical", "post-winter", "model-y"],
+    related: ["svc-electrical", "post-winter", "model-y", "svc-tyres"],
   },
 };
 

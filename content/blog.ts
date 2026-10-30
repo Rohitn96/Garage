@@ -64,7 +64,7 @@ const FI: Record<BlogPostId, BlogContent> = {
       },
       { note: "Kaikki nämä työt voi yhdistää yhteen käyntiin. Kiireiselle sopii [viikonloppuhuolto](@weekend)." },
     ],
-    related: ["svc-brakes", "svc-tyres", "svc-battery", "weekend"],
+    related: ["svc-brakes", "svc-tyres", "svc-climate", "weekend"],
   },
 
   "post-12v": {
@@ -110,9 +110,9 @@ const FI: Record<BlogPostId, BlogContent> = {
       {
         p: "Kylmä heikentää akun kykyä antaa virtaa, joten heikko akku paljastuu usein ensimmäisillä pakkasilla. Jos auto on varoittanut akusta syksyllä, vaihto kannattaa tehdä ennen talvea.",
       },
-      { note: "Katso myös [akku ja lataus](@svc-battery) ja [sähköviat](@svc-electrical)." },
+      { note: "Katso myös [sähköviat ja 12 V:n akku](@svc-electrical)." },
     ],
-    related: ["svc-battery", "svc-electrical", "post-winter", "offer"],
+    related: ["svc-electrical", "svc-climate", "post-winter", "offer"],
   },
 
   "post-brakes": {
@@ -321,7 +321,7 @@ const FI: Record<BlogPostId, BlogContent> = {
       },
       { note: "Teslan omistajille: katso [Tesla-tarkastus](@offer) ja [sähköviat ja ohjelmisto](@svc-electrical)." },
     ],
-    related: ["offer", "svc-electrical", "svc-powertrain", "post-12v"],
+    related: ["offer", "svc-electrical", "svc-climate", "post-12v"],
   },
 };
 
@@ -379,7 +379,7 @@ const EN: Record<BlogPostId, BlogContent> = {
       },
       { note: "All of this can be combined into one visit. If your week is full, try [weekend service](@weekend)." },
     ],
-    related: ["svc-brakes", "svc-tyres", "svc-battery", "weekend"],
+    related: ["svc-brakes", "svc-tyres", "svc-climate", "weekend"],
   },
 
   "post-12v": {
@@ -425,9 +425,9 @@ const EN: Record<BlogPostId, BlogContent> = {
       {
         p: "Cold reduces a battery's ability to deliver current, so a weak battery often gives itself away in the first frosts. If the car warned about the battery in autumn, replace it before winter.",
       },
-      { note: "See also [battery and charging](@svc-battery) and [electrical faults](@svc-electrical)." },
+      { note: "See also [electrical faults and the 12 V battery](@svc-electrical)." },
     ],
-    related: ["svc-battery", "svc-electrical", "post-winter", "offer"],
+    related: ["svc-electrical", "svc-climate", "post-winter", "offer"],
   },
 
   "post-brakes": {
@@ -636,7 +636,7 @@ const EN: Record<BlogPostId, BlogContent> = {
       },
       { note: "For Tesla owners: see [Tesla inspection](@offer) and [electrical faults and software](@svc-electrical)." },
     ],
-    related: ["offer", "svc-electrical", "svc-powertrain", "post-12v"],
+    related: ["offer", "svc-electrical", "svc-climate", "post-12v"],
   },
 };
 

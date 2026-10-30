@@ -21,13 +21,13 @@ const b = SITE.business;
 const price = SITE.inspection.price;
 
 const DESCRIPTION: Record<Lang, string> = {
-  fi: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä, yli 10 vuoden yhteenlasketulla kokemuksella. Vianhaku, akku ja 12 V, jarrut, alusta ja ilmajousitus, renkaat. Arvio ennen töitä.",
-  en: "Independent Tesla and EV specialist garage in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Diagnostics, battery and 12 V, brakes, suspension and air suspension, tyres. Estimate before any work.",
+  fi: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä, yli 10 vuoden yhteenlasketulla kokemuksella. Jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu, sähköviat ja 12 V:n akku. Arvio ennen töitä.",
+  en: "Independent Tesla and EV specialist garage in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Brakes, suspension and air suspension, tyres, air conditioning and heat pump, electrical faults and the 12 V battery. Estimate before any work.",
 };
 
 const KNOWS_ABOUT: Record<Lang, string[]> = {
-  fi: ["Tesla-huolto", "Sähköauton huolto", "Tesla-diagnostiikka", "12 V:n akun vaihto", "Jarruhuolto", "Ilmajousitus", "Pyöränsuuntaus"],
-  en: ["Tesla servicing", "Electric vehicle servicing", "Tesla diagnostics", "12 V battery replacement", "Brake service", "Air suspension", "Wheel alignment"],
+  fi: ["Tesla-huolto", "Sähköauton huolto", "Tesla-diagnostiikka", "12 V:n akun vaihto", "Jarruhuolto", "Ilmajousitus", "Pyöränsuuntaus", "Ilmastoinnin huolto"],
+  en: ["Tesla servicing", "Electric vehicle servicing", "Tesla diagnostics", "12 V battery replacement", "Brake service", "Air suspension", "Wheel alignment", "Air conditioning service"],
 };
 
 function openingHours() {

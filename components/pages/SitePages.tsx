@@ -51,7 +51,7 @@ export function EvPage({ lang }: { lang: Lang }) {
         <div className="grid gap-12 lg:grid-cols-12">
           <Prose blocks={c.body} lang={lang} className="lg:col-span-7 [&>h2:first-child]:mt-0" />
           <div className="lg:col-span-5">
-            <RelatedLinks ids={["tesla", "svc-battery", "svc-brakes", "weekend"]} lang={lang} />
+            <RelatedLinks ids={["tesla", "svc-electrical", "svc-brakes", "weekend"]} lang={lang} />
           </div>
         </div>
       </Section>

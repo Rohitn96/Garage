@@ -16,7 +16,7 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
     seo: {
       title: "Sähköauton huolto Helsingissä: Polestar, VW ID, Kia, Hyundai",
       description:
-        "Sähköauton huolto ja vianhaku Tattarisuolla, Helsingissä. Polestar, Volkswagen ID, Kia, Hyundai, BMW i ja muut. 12 V:n akku, jarrut, alusta ja renkaat.",
+        "Sähköauton huolto ja vianhaku Tattarisuolla, Helsingissä. Polestar, Volkswagen ID, Kia, Hyundai, BMW i ja muut. 12 V:n akku, jarrut, alusta, renkaat ja ilmastointi.",
     },
     label: "Muut sähköautot",
     h1: "Muiden sähköautojen huolto Helsingissä",
@@ -25,12 +25,11 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
     brands: ["Polestar", "Volkswagen ID", "Kia", "Hyundai", "BMW i", "Muut sähköautot"],
     workTitle: "Mitä teemme",
     work: [
-      { title: "Akun kunto ja 12 V:n akku", body: "Ajoakun kunnon arviointi ja 12 V:n akun vaihto, joka on yleisin syy siihen, ettei sähköauto herää." },
-      { title: "Latausviat", body: "Latausportin, salvan ja liittimien viat, myös pakkasella kiinni jäävät kaapelit." },
+      { title: "12 V:n akku", body: "12 V:n akun testaus ja vaihto. Heikko 12 V:n akku on yleisin syy siihen, ettei sähköauto herää." },
       { title: "Jarrut", body: "Satuloiden puhdistus ja voitelu, levyt ja palat. Regeneratiivinen jarrutus ruostuttaa jarruja kaikissa sähköautoissa." },
       { title: "Alusta", body: "Tukivarret, holkit ja iskunvaimentimet painavissa autoissa huonoilla talviteillä." },
       { title: "Renkaat ja suuntaus", body: "Kausivaihdot, nelipyöräsuuntaus ja rengashotelli." },
-      { title: "Suurjännitetyöt", body: "Suurjännitekaapelien ja liittimien tarkastus jännitteettömäksi tehdyllä järjestelmällä." },
+      { title: "Ilmastointi ja lämpöpumppu", body: "Ilmastoinnin ja lämpöpumpun vianhaku, viilennysteho ja raitisilmasuodattimet." },
     ],
     body: [
       { h2: "Merkkihuolto ja riippumaton korjaamo" },
@@ -45,7 +44,7 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
     seo: {
       title: "EV service in Helsinki: Polestar, VW ID, Kia, Hyundai and more",
       description:
-        "Electric car servicing and diagnostics in Tattarisuo, Helsinki. Polestar, Volkswagen ID, Kia, Hyundai, BMW i and others. 12 V battery, brakes, suspension, tyres.",
+        "Electric car servicing and diagnostics in Tattarisuo, Helsinki. Polestar, Volkswagen ID, Kia, Hyundai, BMW i and others. 12 V battery, brakes, suspension, tyres and air conditioning.",
     },
     label: "Other EVs",
     h1: "Servicing for other electric cars in Helsinki",
@@ -54,12 +53,11 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
     brands: ["Polestar", "Volkswagen ID", "Kia", "Hyundai", "BMW i", "Other EVs"],
     workTitle: "What we do",
     work: [
-      { title: "Battery condition and 12 V battery", body: "Assessing the high-voltage battery and replacing the 12 V battery, the most common reason an EV will not wake up." },
-      { title: "Charging faults", body: "Charge port, latch and contact faults, including cables that stick in frost." },
+      { title: "12 V battery", body: "Testing and replacing the 12 V battery. A weak 12 V battery is the most common reason an EV will not wake up." },
       { title: "Brakes", body: "Caliper cleaning and lubrication, discs and pads. Regenerative braking makes brakes corrode on every EV." },
       { title: "Suspension", body: "Control arms, bushings and dampers on heavy cars and rough winter roads." },
       { title: "Tyres and alignment", body: "Seasonal changes, four-wheel alignment and tyre storage." },
-      { title: "High-voltage work", body: "Inspection of high-voltage cables and connectors on a de-energised system." },
+      { title: "Air conditioning and heat pump", body: "AC and heat pump diagnosis, cooling performance and cabin filters." },
     ],
     body: [
       { h2: "Dealer service and an independent garage" },

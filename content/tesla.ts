@@ -20,13 +20,13 @@ type HubCopy = {
 export const HUB: Record<Lang, HubCopy> = {
   fi: {
     seo: {
-      title: "Tesla-huolto Helsingissä: vianhaku, akku, jarrut ja alusta",
+      title: "Tesla-huolto Helsingissä: jarrut, alusta, renkaat ja ilmastointi",
       description:
-        "Riippumaton Tesla-huolto Tattarisuolla, Helsingissä. Model 3, Y, S ja X: diagnostiikka, 12 V:n akku, jarrut, ilmajousitus, renkaat ja sähköviat.",
+        "Riippumaton Tesla-huolto Tattarisuolla, Helsingissä. Model 3, Y, S ja X: jarrut, ilmajousitus, renkaat, ilmastointi, 12 V:n akku ja sähköviat.",
     },
     label: "Tesla · Tattarisuo, Helsinki",
     h1: "Riippumaton Tesla-huolto Helsingissä",
-    lead: "Kaikki mitä Teslasi tarvitsee saman katon alta: vianhaku, akku ja lataus, jarrut, alusta ja ilmajousitus, renkaat, sähköjärjestelmät ja ilmastointi. Taustalla yli 10 vuoden yhteenlaskettu kokemus alalta. Ensin syy, sitten selkeä arvio, ja sinä päätät.",
+    lead: "Kaikki mitä Teslasi tarvitsee saman katon alta: jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Taustalla yli 10 vuoden yhteenlaskettu kokemus alalta. Ensin syy, sitten selkeä arvio, ja sinä päätät.",
     modelsTitle: "Valitse malli",
     servicesTitle: "Tesla-palvelut",
     servicesLead: "Jokaisella sivulla kerromme oireet, mitä tarkistamme, miten vianhaku etenee ja milloin kannattaa varata aika.",
@@ -34,7 +34,7 @@ export const HUB: Record<Lang, HubCopy> = {
     approach: [
       { h2: "Miten työskentelemme Teslan kanssa" },
       {
-        p: "Tesla on tietokone pyörillä, mutta suurin osa sen huolloista on edelleen mekaanisia: jarrut, alusta, renkaat ja 12 V:n akku. Teemme nämä työt valmistajan ohjeiden mukaan. Ilmajousitetut autot nostetaan nostotilassa, sähköisen pysäköintijarrun kanssa noudatetaan oikeaa menettelyä, ja suurjännitejärjestelmä tehdään jännitteettömäksi ennen kuin siihen kosketaan.",
+        p: "Tesla on tietokone pyörillä, mutta suurin osa sen huolloista on edelleen mekaanisia: jarrut, alusta, renkaat ja 12 V:n akku. Teemme nämä työt valmistajan ohjeiden mukaan. Ilmajousitetut autot nostetaan nostotilassa ja sähköisen pysäköintijarrun kanssa noudatetaan oikeaa menettelyä. Ajoakkuun ja suurjännitejärjestelmään emme koske; ne kuuluvat Teslan huollolle.",
       },
       {
         p: "Ohjelmistopäivitykset tulevat Teslalta langattomasti, emmekä muokkaa auton ohjelmistoa. Jos vika vaatii valmistajan toimenpidettä tai kuuluu todennäköisesti takuuseen, kerromme sen suoraan ja ohjaamme sinut Teslan huoltoon.",
@@ -64,13 +64,13 @@ export const HUB: Record<Lang, HubCopy> = {
   },
   en: {
     seo: {
-      title: "Tesla service in Helsinki: diagnostics, battery, brakes, suspension",
+      title: "Tesla service in Helsinki: brakes, suspension, tyres and AC",
       description:
-        "Independent Tesla service in Tattarisuo, Helsinki. Model 3, Y, S and X: diagnostics, 12 V battery, brakes, air suspension, tyres and electrical faults.",
+        "Independent Tesla service in Tattarisuo, Helsinki. Model 3, Y, S and X: brakes, air suspension, tyres, air conditioning, the 12 V battery and electrical faults.",
     },
     label: "Tesla · Tattarisuo, Helsinki",
     h1: "Independent Tesla service in Helsinki",
-    lead: "Everything your Tesla needs under one roof: diagnostics, battery and charging, brakes, suspension and air suspension, tyres, electrical systems and climate. Backed by 10+ years of combined industry experience. The cause first, then a clear estimate, and you decide.",
+    lead: "Everything your Tesla needs under one roof: brakes, suspension and air suspension, tyres, air conditioning and heat pump, and electrical faults and the 12 V battery. Backed by 10+ years of combined industry experience. The cause first, then a clear estimate, and you decide.",
     modelsTitle: "Choose a model",
     servicesTitle: "Tesla services",
     servicesLead: "Each page covers the symptoms, what we check, how the diagnosis works and when to book.",
@@ -78,7 +78,7 @@ export const HUB: Record<Lang, HubCopy> = {
     approach: [
       { h2: "How we work on Teslas" },
       {
-        p: "A Tesla is a computer on wheels, but most of its servicing is still mechanical: brakes, suspension, tyres and the 12 V battery. We do this work to the manufacturer's procedures. Cars with air suspension are lifted in jack mode, the electric parking brake gets the correct procedure, and the high-voltage system is de-energised before anyone touches it.",
+        p: "A Tesla is a computer on wheels, but most of its servicing is still mechanical: brakes, suspension, tyres and the 12 V battery. We do this work to the manufacturer's procedures. Cars with air suspension are lifted in jack mode and the electric parking brake gets the correct procedure. We do not work on the drive battery or the high-voltage system; that belongs with Tesla service.",
       },
       {
         p: "Software updates come from Tesla over the air, and we do not modify the car's software. If a fault needs the manufacturer or is likely to be covered by warranty, we say so plainly and send you to Tesla service.",
@@ -250,13 +250,13 @@ export const REPORT: Record<Lang, ReportCopy> = {
     },
     label: "Tesla · Akun kuntoraportti",
     h1: "Teslan akun kuntoraportti",
-    lead: "Kirjallinen arvio ajoakun kunnosta. Hyödyllinen, kun ostat tai myyt Teslaa, kun takuu on päättymässä tai kun toimintamatka on muuttunut. Akkua ei avata, ja kunto arvioidaan auton omista tiedoista ja mittauksista.",
+    lead: "Kirjallinen arvio ajoakun kunnosta. Hyödyllinen, kun ostat tai myyt Teslaa, kun takuu on päättymässä tai kun toimintamatka on muuttunut. Kyseessä on pelkkä tarkastus: akkua ei avata, ja kunto arvioidaan auton omista tiedoista. Emme korjaa ajoakkuja; jos raportti viittaa vikaan, ohjaamme sinut Teslan huoltoon.",
     coversTitle: "Mitä raportissa käydään läpi",
     covers: [
       { title: "Käytettävissä oleva kapasiteetti", body: "Arvio akun nykyisestä kapasiteetista suhteessa uuteen." },
       { title: "Kennoryhmien tasapaino", body: "Suuret jännite-erot kennoryhmien välillä voivat kertoa ongelmasta ennen kuin se näkyy toimintamatkassa." },
       { title: "Vikakoodit ja historia", body: "Akunhallintajärjestelmän tallentamat vikakoodit ja ilmoitukset." },
-      { title: "12 V:n akku ja lataus", body: "Pienjänniteakun kunto ja latausjärjestelmän toiminta." },
+      { title: "12 V:n akku", body: "Pienjänniteakun kunto ja tyyppi." },
     ],
     whenTitle: "Milloin raportista on hyötyä",
     when: [
@@ -297,13 +297,13 @@ export const REPORT: Record<Lang, ReportCopy> = {
     },
     label: "Tesla · Battery health report",
     h1: "Tesla battery health report",
-    lead: "A written assessment of the high-voltage battery. Useful when you buy or sell a Tesla, when the warranty is about to end, or when range has changed. The pack is not opened; its condition is assessed from the car's own data and measurements.",
+    lead: "A written assessment of the high-voltage battery. Useful when you buy or sell a Tesla, when the warranty is about to end, or when range has changed. It is a read-only check: the pack is not opened, and its condition is assessed from the car's own data. We do not repair high-voltage batteries; if the report points to a fault, we refer you to Tesla service.",
     coversTitle: "What the report covers",
     covers: [
       { title: "Usable capacity", body: "An estimate of the battery's current capacity compared with new." },
       { title: "Cell group balance", body: "Large voltage differences between cell groups can point to a problem before it shows in range." },
       { title: "Fault codes and history", body: "Fault codes and alerts stored by the battery management system." },
-      { title: "12 V battery and charging", body: "Low-voltage battery condition and charging system operation." },
+      { title: "12 V battery", body: "Low-voltage battery condition and type." },
     ],
     whenTitle: "When the report is useful",
     when: [

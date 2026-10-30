@@ -104,7 +104,7 @@ const FI: Record<ModelId, ModelContent> = {
         a: "Kylmä kovettaa tukivarsien kumiholkit, ja kuluneet holkit narisevat silloin herkemmin. Paikannamme äänen ennen kuin vaihdamme osia.",
       },
     ],
-    related: ["svc-suspension", "svc-brakes", "svc-battery", "post-used"],
+    related: ["svc-suspension", "svc-brakes", "svc-electrical", "post-used"],
   },
 
   "model-y": {
@@ -465,7 +465,7 @@ const EN: Record<ModelId, ModelContent> = {
         a: "Cold hardens the control arm rubber bushings, and worn bushings creak more easily then. We locate the noise before replacing parts.",
       },
     ],
-    related: ["svc-suspension", "svc-brakes", "svc-battery", "post-used"],
+    related: ["svc-suspension", "svc-brakes", "svc-electrical", "post-used"],
   },
 
   "model-y": {

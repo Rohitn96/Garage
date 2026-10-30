@@ -24,13 +24,13 @@ The map pack listing comes from Google Business Profile, not from the website. T
 
 ## Services (add each, with a one-line description)
 
-Tesla service, Tesla diagnosis, Tesla battery health check, 12 V battery replacement, brake caliper service, brake discs and pads, air suspension repair, control arm replacement, wheel alignment, seasonal tyre change, tyre storage, electric vehicle service, pre-purchase inspection, basic service for petrol and diesel cars.
+Tesla service, Tesla diagnosis, Tesla battery health check (read-only), 12 V battery replacement, air conditioning service, heat pump diagnosis, brake caliper service, brake discs and pads, air suspension repair, control arm replacement, wheel alignment, seasonal tyre change, tyre storage, electric vehicle service, pre-purchase inspection, basic service for petrol and diesel cars. Do not list high-voltage battery or powertrain repair.
 
 Prices: the site publishes only the launch inspection (99 € sis. alv 25,5 %, until 31.12.2026). Add it to the Tesla inspection service if you list prices; publish no others.
 
 ## Description (750 characters max). Draft, needs Finnish review
 
-> Revamp Motors on riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Teemme vianhaun ensin ja annamme arvion ennen töitä: akku ja 12 V:n akku, jarrut, alusta ja ilmajousitus, renkaat ja suuntaus sekä sähköviat. Huollamme myös muita sähköautoja ja teemme polttomoottoriautoihin perustöitä. Arkisin ajanvarauksella, viikonloppuisin täydet työpäivät. Emme ole sidoksissa Tesla, Inc:iin.
+> Revamp Motors on riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Teemme vianhaun ensin ja annamme arvion ennen töitä: jarrut, alusta ja ilmajousitus, renkaat ja suuntaus, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Huollamme myös muita sähköautoja ja teemme polttomoottoriautoihin perustöitä. Arkisin ajanvarauksella, viikonloppuisin täydet työpäivät. Emme ole sidoksissa Tesla, Inc:iin.
 
 ## Launch offer post (until 31.12.2026)
 

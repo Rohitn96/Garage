@@ -19,10 +19,23 @@
 /fi/tesla/ilmainen-tarkastus/     /fi/tesla/tarkastus/   301
 /fi/tesla/ilmainen-tarkastus      /fi/tesla/tarkastus/   301
 
-# 3. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
+# 3. High-voltage battery and powertrain work is not offered; the 12 V battery
+#    moved to the electrical page, and climate became air conditioning.
+/tesla/battery-and-charging/             /tesla/electrical-and-software/           301
+/tesla/battery-and-charging              /tesla/electrical-and-software/           301
+/fi/tesla/akku-ja-lataus/                /fi/tesla/sahkoviat-ja-ohjelmisto/        301
+/fi/tesla/akku-ja-lataus                 /fi/tesla/sahkoviat-ja-ohjelmisto/        301
+/tesla/powertrain-and-high-voltage/      /tesla/                                   301
+/tesla/powertrain-and-high-voltage       /tesla/                                   301
+/fi/tesla/voimalinja-ja-suurjannite/     /fi/tesla/                                301
+/fi/tesla/voimalinja-ja-suurjannite      /fi/tesla/                                301
+/tesla/climate-and-heat-pump/            /tesla/air-conditioning-and-heat-pump/    301
+/tesla/climate-and-heat-pump             /tesla/air-conditioning-and-heat-pump/    301
+
+# 4. Removed pricing anchors (/#pricing, /tesla/#pricing, #hinnasto) cannot be
 #    redirected here: browsers never send the fragment. The head script in
 #    lib/offer.ts sends them to the contact page instead.
 
-# 4. Google Search Console's verification file must answer at its exact URL.
+# 5. Google Search Console's verification file must answer at its exact URL.
 #    Status 200 is a rewrite, not a redirect. Keep while the property is verified.
 /googlef5fb86be7b72c0c2.html  /googlef5fb86be7b72c0c2  200

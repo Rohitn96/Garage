@@ -168,8 +168,9 @@ export const SITE = {
   /**
    * Refrigerant work (AC recharge, opening the heat pump circuit) needs an
    * F-gas qualification (Tukes kylmäainepätevyys).
-   * TODO(owner): set to true once the certificate is in hand. The climate
-   * page then offers refrigerant work as well as diagnosis.
+   * TODO(owner): set to true once the certificate is in hand (in progress,
+   * October 2026). The AC page then offers refrigerant work instead of
+   * "coming soon".
    */
   acLicensed: false,
 

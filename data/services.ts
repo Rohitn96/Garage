@@ -8,7 +8,7 @@ import type { ServiceId } from "@/content/services";
  */
 
 /** Which part group separates out of the car when this system is shown. */
-export type CarRegionId = "battery" | "drive" | "brakes" | "suspension" | "climate" | "wheels";
+export type CarRegionId = "battery" | "drive" | "brakes" | "suspension" | "climate" | "wheels" | "electrical";
 
 export type ServiceGroup = {
   id: CarRegionId;
@@ -20,35 +20,11 @@ export type ServiceGroup = {
 
 type Group = { id: CarRegionId; page: ServiceId; fi: Omit<ServiceGroup, "id" | "page">; en: Omit<ServiceGroup, "id" | "page"> };
 
+/**
+ * The "battery" and "drive" regions have no group: high-voltage battery and
+ * powertrain work is not offered, so those parts stay in the car.
+ */
 const GROUPS: Group[] = [
-  {
-    id: "battery",
-    page: "svc-battery",
-    fi: {
-      title: "Akku ja lataus",
-      standfirst: "Lattian alla oleva ajoakku ja pieni 12 V:n akku, joka pysäyttää auton useammin.",
-      items: ["Akun kuntoraportti", "12 V:n akun vaihto", "Latausportti ja laturi", "Akun jäähdytys"],
-    },
-    en: {
-      title: "Battery and charging",
-      standfirst: "The high-voltage pack under the floor, and the small 12 V battery that strands more cars.",
-      items: ["Battery health report", "12 V battery replacement", "Charge port and onboard charger", "Battery cooling"],
-    },
-  },
-  {
-    id: "drive",
-    page: "svc-powertrain",
-    fi: {
-      title: "Voimalinja",
-      standfirst: "Moottorit, alennusvaihteet ja invertterit. Edessä, takana tai molemmissa.",
-      items: ["Voimalinjan vianhaku", "Alennusvaihde ja vetoakselit", "Suurjännitekaapelit ja liittimet"],
-    },
-    en: {
-      title: "Powertrain",
-      standfirst: "Motors, reduction gears and inverters. Front, rear or both.",
-      items: ["Drive unit diagnostics", "Reduction gear and driveshafts", "HV cabling and connectors"],
-    },
-  },
   {
     id: "brakes",
     page: "svc-brakes",
@@ -81,18 +57,18 @@ const GROUPS: Group[] = [
     id: "climate",
     page: "svc-climate",
     fi: {
-      title: "Lämpöpumppu ja ilmastointi",
-      standfirst: "Suomessa lämpöpumppu on osa toimintamatkaa, ei mukavuusvaruste.",
+      title: "Ilmastointi ja lämpöpumppu",
+      standfirst: "Viileä kesällä, lämmin talvella ja kirkkaat ikkunat. Huoltolaitteet Teslalle.",
       items: SITE.acLicensed
-        ? ["Lämpöpumpun vianhaku", "Ilmastoinnin huolto ja täyttö", "Raitisilmasuodattimet"]
-        : ["Lämpöpumpun vianhaku", "Anturit ja nestepiiri", "Raitisilmasuodattimet"],
+        ? ["Ilmastoinnin huolto ja täyttö", "Lämpöpumpun vianhaku", "Raitisilmasuodattimet"]
+        : ["Ilmastoinnin vianhaku ja tehon tarkastus", "Lämpöpumpun vianhaku", "Raitisilmasuodattimet"],
     },
     en: {
-      title: "Heat pump and climate",
-      standfirst: "In this climate the heat pump is part of your range, not a comfort feature.",
+      title: "Air conditioning and heat pump",
+      standfirst: "Cool in summer, warm in winter, clear windows. Service equipment made for Tesla.",
       items: SITE.acLicensed
-        ? ["Heat pump diagnostics", "AC service and recharge", "Cabin filters"]
-        : ["Heat pump diagnostics", "Sensors and coolant circuit", "Cabin filters"],
+        ? ["AC service and recharge", "Heat pump diagnostics", "Cabin filters"]
+        : ["AC diagnosis and performance check", "Heat pump diagnostics", "Cabin filters"],
     },
   },
   {
@@ -107,6 +83,20 @@ const GROUPS: Group[] = [
       title: "Tyres and alignment",
       standfirst: "Instant torque and a heavy car eat tyres. Rotation on schedule makes them last.",
       items: ["Seasonal changeover", "Four-wheel alignment", "Rotation and wear check", "Tyre storage"],
+    },
+  },
+  {
+    id: "electrical",
+    page: "svc-electrical",
+    fi: {
+      title: "Sähköviat ja 12 V:n akku",
+      standfirst: "Pieni 12 V:n akku pysäyttää useamman Teslan kuin mikään muu. Mittaamme sen ensin.",
+      items: ["12 V:n akun testaus ja vaihto", "Vikakoodit ja varoitukset", "Kamerat, anturit ja ovet"],
+    },
+    en: {
+      title: "Electrical and 12 V battery",
+      standfirst: "The small 12 V battery strands more Teslas than anything else. We measure it first.",
+      items: ["12 V battery test and replacement", "Fault codes and warnings", "Cameras, sensors and doors"],
     },
   },
 ];

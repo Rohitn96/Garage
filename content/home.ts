@@ -24,12 +24,12 @@ export const HOME: Record<Lang, HomeCopy> = {
     seo: {
       title: "Revamp Motors · Riippumaton Tesla-huolto Helsingissä",
       description:
-        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta. Akku, jarrut, alusta, renkaat ja vianhaku. Arvio ennen töitä.",
+        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
     },
     hero: {
       label: "Tesla- ja sähköautoasiantuntijat · Helsinki",
       h1: "Riippumaton Tesla-huolto Helsingissä",
-      lead: "Ajoakusta renkaisiin, huolehdimme Teslasi jokaisesta osasta. Teslan omat diagnostiikkaohjelmistot, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
+      lead: "Jarruista ja alustasta ilmastointiin ja renkaisiin, huolehdimme Teslastasi oikein. Teslan omat diagnostiikkaohjelmistot, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
       facts: ["Model S, 3, X ja Y", "Alkuperäiset Tesla-osat", "Viikonloppuisin täydet päivät"],
       videoAlt: "Teslan ohjaamo ajon aikana: ohjauspyörä ja keskinäyttö",
     },
@@ -47,13 +47,13 @@ export const HOME: Record<Lang, HomeCopy> = {
     explorer: {
       label: "Auton sisällä",
       title: "Teslasi, avattuna",
-      lead: "Huolehdimme Teslan kaikista osista ajoakusta renkaisiin. Vieritä, niin auto avautuu järjestelmä kerrallaan.",
+      lead: "Jarruista ilmastointiin ja 12 V:n akkuun, katso mistä huolehdimme. Vieritä, niin auto avautuu järjestelmä kerrallaan.",
       hint: "Vieritä, niin auto avautuu",
     },
     services: {
       label: "Palvelut",
       title: "Kaikki mitä Teslasi tarvitsee",
-      lead: "Vianhaku, akku ja lataus, jarrut, alusta, renkaat, sähköjärjestelmät ja ilmastointi. Yksi riippumaton korjaamo kaikkeen.",
+      lead: "Jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Yksi riippumaton korjaamo Teslallesi.",
     },
     weekend: {
       label: "Viikonloppuhuolto",
@@ -129,12 +129,12 @@ export const HOME: Record<Lang, HomeCopy> = {
     seo: {
       title: "Revamp Motors · Independent Tesla service in Helsinki",
       description:
-        "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Battery, brakes, suspension, tyres and diagnostics. Estimate before work.",
+        "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
     },
     hero: {
       label: "Tesla & EV specialists · Helsinki",
       h1: "Independent Tesla service in Helsinki",
-      lead: "From the high-voltage battery to the tyres, we look after every part of your Tesla. Tesla's own diagnostic software, manufacturer procedures on every job, and a clear estimate before any work begins.",
+      lead: "From brakes and suspension to air conditioning and tyres, we look after your Tesla properly. Tesla's own diagnostic software, manufacturer procedures on every job, and a clear estimate before any work begins.",
       facts: ["Model S, 3, X and Y", "Genuine Tesla parts", "Full working days at weekends"],
       videoAlt: "Inside a Tesla on the move: the steering wheel and centre touchscreen",
     },
@@ -152,13 +152,13 @@ export const HOME: Record<Lang, HomeCopy> = {
     explorer: {
       label: "Inside the car",
       title: "Your Tesla, opened up",
-      lead: "We cover everything on a Tesla, from the high-voltage battery to the tyres. Scroll and the car comes apart, one system at a time.",
+      lead: "From the brakes to the air conditioning and the 12 V battery, see what we look after. Scroll and the car comes apart, one system at a time.",
       hint: "Scroll to open the car",
     },
     services: {
       label: "Services",
       title: "Everything your Tesla needs",
-      lead: "Diagnostics, battery and charging, brakes, suspension, tyres, electrical and climate. One independent workshop for all of it.",
+      lead: "Brakes, suspension and air suspension, tyres, air conditioning and heat pump, and electrical faults and the 12 V battery. One independent workshop for your Tesla.",
     },
     weekend: {
       label: "Weekend service",

@@ -6,13 +6,11 @@ import { ROUTE_NAMES, UI } from "@/content/ui";
 import { Logo } from "./Logo";
 
 const SERVICES: RouteId[] = [
-  "svc-battery",
-  "svc-powertrain",
   "svc-brakes",
   "svc-suspension",
   "svc-tyres",
-  "svc-electrical",
   "svc-climate",
+  "svc-electrical",
   "battery-report",
   "offer",
 ];

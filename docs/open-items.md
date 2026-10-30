@@ -17,7 +17,7 @@ Run `npm run open-items` for the live list. Everything below that lives in `site
 | Team | `team` | Names, roles, optional photo and short bio, with consent | Team section appears on about. |
 | Workshop photos | `garagePhotos` | Real photos of Halli 3, WebP, at least 1600 px wide, with alt text | Photo grid appears on about. |
 | Battery report sample | `batteryReportSample` | An anonymised real report (PDF or image) plus a preview image | Sample block appears on the battery report page. |
-| F-gas certificate | `acLicensed` | Set to `true` once the Tukes refrigerant qualification is held | Climate page and explorer offer AC recharge and refrigerant work. |
+| F-gas certificate | `acLicensed` | Set to `true` once the Tukes refrigerant qualification is held | The AC page and explorer switch from "refrigerant work coming soon" to offering AC recharge and refrigerant work. In progress (Oct 2026). |
 | Analytics | `NEXT_PUBLIC_CF_BEACON_TOKEN` (build env) | Cloudflare Web Analytics token | Cookieless analytics beacon is added. |
 
 ## 2. Claims to confirm
@@ -50,5 +50,5 @@ The offer switches off by itself in visitors' browsers. A rebuild on or after 1.
 
 - **Parts:** the site says "genuine Tesla parts as well as quality basic parts". You wrote "Tesla basics part"; if that is a specific product line or brand, tell me the exact name.
 - **Warranty:** "1 year or 10,000 km warranty on our work". If it is "whichever comes first", or excludes parts the customer supplies, say so and I will add it.
-- **AC machines for Tesla:** stated as equipment in "Why us". The climate page still says refrigerant work (AC recharge) waits for the F-gas certificate, because `acLicensed` in `site.config.ts` is `false`. Once the certificate is held, set it to `true` and the site offers AC service and recharge.
+- **AC machines for Tesla:** stated as equipment in "Why us". The AC page says refrigerant work (AC recharge) is coming soon, pending the F-gas certificate, because `acLicensed` in `site.config.ts` is `false`. Once the certificate is held, set it to `true` and the site offers AC service and recharge.
 - **Diagnostics:** "Tesla Toolbox, Tesla's official diagnostic software, professional Topdon scan tools, and Tesla's own service manual."

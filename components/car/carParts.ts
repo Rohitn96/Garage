@@ -132,9 +132,10 @@ export const CAR_PARTS: CarPart[] = [
   },
   {
     id: "lv-battery",
+    anchor: true,
     geo: "box",
     layer: "inner",
-    region: "battery",
+    region: "electrical",
     args: [0.3, 0.2, 0.26],
     at: [1.62, 0.72, 0.46],
     blowsTo: [0.42, 0.55, 0.45],

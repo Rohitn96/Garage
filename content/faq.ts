@@ -79,7 +79,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "Teettekö suurjännitetöitä?",
-            a: "Kyllä. Suurjännitejärjestelmä tehdään jännitteettömäksi valmistajan ohjeen mukaan ja jännitteettömyys varmistetaan mittaamalla ennen töitä. Työn tekee siihen koulutettu henkilö.",
+            a: "Emme. Emme korjaa ajoakkua emmekä tee töitä suurjännitejärjestelmään. Teemme 12 V:n akun vaihdot ja pienjännitesähköt, ja jos vika on suurjännitejärjestelmässä, ohjaamme sinut Teslan huoltoon.",
           },
         ],
       },
@@ -198,7 +198,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "Do you do high-voltage work?",
-            a: "Yes. The high-voltage system is de-energised to the manufacturer's procedure and confirmed dead by measurement before work. The work is done by someone trained for it.",
+            a: "No. We do not repair the high-voltage battery or work on the high-voltage system. We replace 12 V batteries and handle the low-voltage electrics, and if a fault is in the high-voltage system, we refer you to Tesla service.",
           },
         ],
       },
