@@ -323,6 +323,68 @@ const FI: Record<BlogPostId, BlogContent> = {
     ],
     related: ["offer", "svc-electrical", "svc-climate", "post-12v"],
   },
+  "post-2027": {
+    seo: {
+      title: "Uudet sähköautot 2027: mitä Suomeen on tulossa",
+      description:
+        "Vuonna 2027 Eurooppaan tulevat sähköautot: Volkswagen ID. Polo, Audi A2 e-tron, Volvon edullisempi malli, Mercedeksen sähkö-C ja sähkö-E, BMW iX5 ja Xiaomi.",
+    },
+    title: "Uudet sähköautot 2027: mitä Suomeen on tulossa",
+    dek: "Valmistajien ilmoittamat uutuudet vuodelle 2027 ja se, mitä ne tarkoittavat suomalaiselle kuljettajalle talvessa, suolatiellä ja huollossa.",
+    published: "2026-11-03",
+    readMinutes: 6,
+    body: [
+      {
+        p: "Eurooppaan on vuodelle 2027 ilmoitettu Volkswagen ID. Polo, Audi A2 e-tron, Volvon aiempaa edullisempi sähkömalli, täyssähköiset Mercedes-Benzin C- ja E-sarja sekä BMW iX5. Xiaomi aloittaa sähköautojen myynnin Euroopassa samana vuonna Saksasta alkaen.",
+      },
+      {
+        p: "Sähköauto on Suomessa jo tavallinen valinta uutta autoa ostettaessa, ja vuodelle 2027 on luvassa joukko malleja, jotka muuttavat valikoimaa etenkin pienten ja keskikokoisten autojen päässä. Kokosimme tähän sen, mitä valmistajat ovat toistaiseksi kertoneet, ja mitä kukin auto tarkoittaa käytännössä siinä vaiheessa, kun se on muutaman vuoden päästä nostimella.",
+      },
+      {
+        note: "Kirjoitettu marraskuussa 2026 valmistajien omien ilmoitusten perusteella. Julkaisuajat siirtyvät, eikä jokainen Eurooppaan vahvistettu malli tule Suomeen samaan aikaan.",
+      },
+      { h2: "Volkswagen ID. Polo" },
+      {
+        p: "Pieni Volkswagen, jota on odotettu pitkään. Tuotannon on määrä alkaa Portugalissa vuoden 2027 puolivälissä ja myynnin myöhemmin samana vuonna. Juuri tämän kokoluokan edullisemmista sähköautoista on Suomessa ollut pulaa, ja pienet mallit yleistyvät meillä nopeasti, kun niitä kerran valmistetaan sarjassa.",
+      },
+      { h2: "Audi A2 e-tron" },
+      {
+        p: "Audi on kertonut ensimmäisten toimitusten alkavan alkuvuonna 2027. Kyseessä on pieni premium-hatchback eikä taas uusi iso katumaasturi, mikä tekee siitä kiinnostavan kaupunkiin ja vanhoihin pysäköintihalleihin, joissa isoimmat sähköautot ovat ahtaita.",
+      },
+      { h2: "Volvon edullisempi sähköauto" },
+      {
+        p: "Volvo on ilmoittanut tuovansa Eurooppaan vuonna 2027 aiempaa edullisemman sähkömallin, jonka odotetaan asettuvan mallistossa nykyisen EX40:n alapuolelle. Volvolla on Suomessa vakiintunut asema ja toimiva varaosaketju, ja sillä on enemmän merkitystä kuin miltä kuulostaa siinä vaiheessa, kun auto on takuun ulkopuolella.",
+      },
+      { h2: "Mercedes-Benzin sähkö-C ja sähkö-E" },
+      {
+        p: "Mercedes on ilmoittanut täyssähköisistä C- ja E-sarjan malleista. Nämä ovat lähivuosien työsuhdeautoja, mikä tarkoittaa, että ne tulevat käytettyjen markkinoille isoina erinä kolmen tai neljän vuoden kuluttua. Juuri silloin ne päätyvät riippumattomiin korjaamoihin.",
+      },
+      { h2: "BMW iX5" },
+      {
+        p: "Seuraava X5 esitellään vuonna 2027, ja mallistossa on polttomoottoriversioiden rinnalla täyssähköinen iX5.",
+      },
+      { h2: "Xiaomi" },
+      {
+        p: "Xiaomi on vahvistanut aloittavansa sähköautojen myynnin Euroopassa vuonna 2027 Saksasta alkaen. Suomea ei ole mainittu, joten tämä kannattaa pitää toistaiseksi mahdollisuutena eikä päivämääränä.",
+      },
+      { h2: "Mikä merkitsee enemmän kuin tekniset tiedot" },
+      {
+        p: "Merkistä riippumatta jokainen näistä autoista kohtaa saman suomalaisen talven ja samat suolatiet. Nämä asiat ratkaisevat omistamisen arjen enemmän kuin esitteen lukemat:",
+      },
+      {
+        ul: [
+          "Lämpöpumppu ja ilmastointi. Toimintamatka talvella riippuu siitä, miten auto lämmittää matkustamon ja akun.",
+          "12 V:n akku. Yleisin syy siihen, ettei sähköauto herää, on edelleen pieni apuakku eikä ajoakku.",
+          "Jarrut. Regeneratiivinen jarrutus tarkoittaa, että kitkajarruja käytetään vähän, ja käyttämätön jarru ruostuu ja jumittuu suolatiellä.",
+          "Renkaat ja suuntaus. Sähköauto on painava ja vääntää heti, joten renkaat kuluvat nopeammin kuin vastaavassa bensa-autossa.",
+        ],
+      },
+      {
+        p: "Teemme nämä työt merkistä riippumatta. Katso [muiden sähköautojen huolto](@ev) tai lue, [miten sähköauto pärjää Suomen talvessa](@post-winter). Jos olet ostamassa käytettyä sähköautoa, [käytetyn Teslan ostajan tarkistuslista](@post-used) toimii runkona muissakin merkeissä.",
+      },
+    ],
+    related: ["ev", "post-winter", "post-used", "svc-brakes"],
+  },
 };
 
 const EN: Record<BlogPostId, BlogContent> = {
@@ -637,6 +699,68 @@ const EN: Record<BlogPostId, BlogContent> = {
       { note: "For Tesla owners: see [Tesla inspection](@offer) and [electrical faults and software](@svc-electrical)." },
     ],
     related: ["offer", "svc-electrical", "svc-climate", "post-12v"],
+  },
+  "post-2027": {
+    seo: {
+      title: "New electric cars coming to Finland in 2027",
+      description:
+        "The EVs announced for Europe in 2027: Volkswagen ID. Polo, Audi A2 e-tron, Volvo's lower priced model, the electric Mercedes C-Class and E-Class, BMW iX5 and Xiaomi.",
+    },
+    title: "New electric cars to watch in 2027",
+    dek: "What manufacturers have announced for 2027, and what each one means for a driver in Finland once winter, salted roads and the first service arrive.",
+    published: "2026-11-03",
+    readMinutes: 6,
+    body: [
+      {
+        p: "The electric cars announced for Europe in 2027 are the Volkswagen ID. Polo, the Audi A2 e-tron, a lower priced Volvo, fully electric versions of the Mercedes-Benz C-Class and E-Class, and the BMW iX5. Xiaomi starts selling in Europe the same year, beginning with Germany.",
+      },
+      {
+        p: "Buying electric is now an ordinary choice in Finland, and 2027 brings a group of models that change what is on offer, particularly at the small and mid-sized end. Here is what manufacturers have said so far, and what each car means in practice once it is a few years old and up on a lift.",
+      },
+      {
+        note: "Written in November 2026 from manufacturers' own announcements. Launch dates move, and not every model confirmed for Europe reaches Finland at the same time.",
+      },
+      { h2: "Volkswagen ID. Polo" },
+      {
+        p: "The small Volkswagen people have been waiting for. Production is planned to start in Portugal in mid-2027, with sales later the same year. Affordable cars in this size class are exactly what the Finnish market has been short of, and small models spread quickly here once they are in series production.",
+      },
+      { h2: "Audi A2 e-tron" },
+      {
+        p: "Audi has said the first deliveries begin in early 2027. It is a small premium hatchback rather than another large SUV, which makes it interesting for city driving and for older parking garages where the biggest EVs are a tight fit.",
+      },
+      { h2: "Volvo's lower priced electric car" },
+      {
+        p: "Volvo has announced a lower priced electric model for Europe in 2027, expected to sit below the current EX40 in the range. Volvo is well established in Finland with a working parts chain, and that matters more than it sounds once a car is out of warranty.",
+      },
+      { h2: "The electric Mercedes-Benz C-Class and E-Class" },
+      {
+        p: "Mercedes has announced fully electric versions of both the C-Class and the E-Class. These are the company cars of the next few years, which means they reach the used market in volume three or four years later. That is the point at which they start arriving at independent garages.",
+      },
+      { h2: "BMW iX5" },
+      {
+        p: "The next X5 is due in 2027, with a fully electric iX5 alongside the combustion versions.",
+      },
+      { h2: "Xiaomi" },
+      {
+        p: "Xiaomi has confirmed it will start selling electric cars in Europe in 2027, beginning with Germany. Finland has not been named, so treat this one as a possibility rather than a date.",
+      },
+      { h2: "What matters more than the spec sheet" },
+      {
+        p: "Whatever the badge, every one of these cars meets the same Finnish winter and the same salted roads. These are the things that shape ownership more than the brochure figures:",
+      },
+      {
+        ul: [
+          "Heat pump and air conditioning. Winter range depends on how the car heats the cabin and the battery.",
+          "The 12 V battery. The most common reason an EV will not wake up is still the small auxiliary battery, not the main pack.",
+          "Brakes. Regenerative braking means the friction brakes are rarely used, and a brake that is rarely used corrodes and seizes on salted roads.",
+          "Tyres and alignment. An EV is heavy and delivers torque instantly, so tyres wear faster than on a comparable petrol car.",
+        ],
+      },
+      {
+        p: "We do this work whatever the make. See [servicing for other electric cars](@ev), or read how [an EV copes with a Finnish winter](@post-winter). If you are buying used, the [used Tesla buying checklist](@post-used) works as a framework for other makes too.",
+      },
+    ],
+    related: ["ev", "post-winter", "post-used", "svc-brakes"],
   },
 };
 

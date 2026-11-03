@@ -39,6 +39,7 @@ export const BLOG_POSTS = [
   { id: "post-used", fi: "kaytetyn-teslan-ostajan-tarkistuslista", en: "used-tesla-buying-checklist" },
   { id: "post-air", fi: "tesla-ilmajousituksen-viat", en: "tesla-air-suspension-faults" },
   { id: "post-diagnosis", fi: "mita-vianhaku-oikeasti-sisaltaa", en: "what-a-diagnosis-actually-involves" },
+  { id: "post-2027", fi: "uudet-sahkoautot-2027", en: "new-evs-2027-finland" },
 ] as const;
 
 export type BlogPostId = (typeof BLOG_POSTS)[number]["id"];

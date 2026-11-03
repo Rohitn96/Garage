@@ -78,8 +78,8 @@ export const HOME: Record<Lang, HomeCopy> = {
         },
         {
           icon: "scanner",
-          title: "Tesla Toolbox ja Topdon",
-          body: "Vianhaussa käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja Topdonin ammattilaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan.",
+          title: "Tesla Toolbox ja ammattilaitteet",
+          body: "Vianhaussa käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja ammattitason diagnostiikkalaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan.",
         },
         {
           icon: "parts",
@@ -183,8 +183,8 @@ export const HOME: Record<Lang, HomeCopy> = {
         },
         {
           icon: "scanner",
-          title: "Tesla Toolbox and Topdon",
-          body: "We diagnose with Tesla Toolbox, Tesla's official diagnostic software, and professional Topdon scan tools, and we work from Tesla's own service manual.",
+          title: "Tesla Toolbox and professional scan tools",
+          body: "We diagnose with Tesla Toolbox, Tesla's official diagnostic software, and professional scan tools, and we work from Tesla's own service manual.",
         },
         {
           icon: "parts",

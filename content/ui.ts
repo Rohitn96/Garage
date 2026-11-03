@@ -36,6 +36,7 @@ const ROUTE_NAMES_FI: Record<RouteId, string> = {
   "post-used": "Käytetyn Teslan ostajan tarkistuslista",
   "post-air": "Ilmajousituksen viat",
   "post-diagnosis": "Mitä vianhaku sisältää",
+  "post-2027": "Uudet sähköautot 2027",
 };
 
 const ROUTE_NAMES_EN: Record<RouteId, string> = {
@@ -66,6 +67,7 @@ const ROUTE_NAMES_EN: Record<RouteId, string> = {
   "post-used": "Used Tesla buying checklist",
   "post-air": "Air suspension faults",
   "post-diagnosis": "What a diagnosis involves",
+  "post-2027": "New electric cars in 2027",
 };
 
 export const ROUTE_NAMES: Record<Lang, Record<RouteId, string>> = { fi: ROUTE_NAMES_FI, en: ROUTE_NAMES_EN };
