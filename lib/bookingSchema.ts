@@ -1,30 +1,27 @@
 import type { RegisterOptions } from "react-hook-form";
 import type { Lang } from "@/site.config";
 
-export const VEHICLES = ["model-3", "model-y", "model-s", "model-x", "other-ev", "other"] as const;
-export const TESLA_VEHICLES: readonly string[] = ["model-3", "model-y", "model-s", "model-x"];
 export const TIMINGS = ["asap", "weekday", "weekend", "flexible"] as const;
 
-export type Vehicle = (typeof VEHICLES)[number];
 export type Timing = (typeof TIMINGS)[number];
+
+/** Formspree: 25 MB per file, and the lower of the two counts it publishes. */
+export const MAX_FILES = 5;
+export const MAX_FILE_BYTES = 25 * 1024 * 1024;
 
 export const FORM_TEXT = {
   fi: {
-    vehicle: "Auto",
-    vehicles: {
-      "model-3": "Tesla Model 3",
-      "model-y": "Tesla Model Y",
-      "model-s": "Tesla Model S",
-      "model-x": "Tesla Model X",
-      "other-ev": "Muu sähköauto",
-      other: "Muu auto",
-    },
-    choose: "Valitse",
-    year: "Vuosimalli",
     reg: "Rekisterinumero",
+    regHint: "Riittää, että tiedämme auton. Vuosimalli tulee rekisterinumerolla.",
+    vin: "VIN eli valmistenumero",
+    vinHint: "17 merkkiä. Löytyy rekisteriotteesta ja tuulilasin alareunasta.",
     optional: "vapaaehtoinen",
     message: "Mikä on vialla tai mitä tarvitset?",
-    messageHint: "Oireet, varoitukset, milloin vika ilmenee. Kuvan voi lähettää WhatsAppilla.",
+    messageHint: "Oireet, varoitukset ja se, milloin vika ilmenee.",
+    messageHintWhatsApp: "Oireet, varoitukset ja se, milloin vika ilmenee. Kuvan voi lähettää WhatsAppilla.",
+    files: "Liitteet",
+    filesHint: "Kuvat, video tai rekisteriote. Enintään 5 tiedostoa, kukin alle 25 Mt.",
+    filesChosen: "tiedostoa valittu",
     timing: "Toivottu ajankohta",
     timings: {
       asap: "Mahdollisimman pian",
@@ -49,9 +46,9 @@ export const FORM_TEXT = {
     teslaOnly: "Tarkastustarjous koskee vain Tesla-autoja. Valitse Tesla-malli tai pyydä tarjous.",
     required: "pakollinen",
     errors: {
-      vehicle: "Valitse auto.",
-      year: "Anna vuosimalli neljällä numerolla, esimerkiksi 2021.",
-      reg: "Tarkista rekisterinumero.",
+      reg: "Anna rekisterinumero, esimerkiksi ABC-123.",
+      vin: "VIN on 17 merkkiä, eikä siinä käytetä kirjaimia I, O tai Q.",
+      files: "Liitteitä voi olla enintään 5, ja kunkin on oltava alle 25 Mt.",
       message: "Kerro pari lausetta autosta, niin voimme vastata hyödyllisesti.",
       timing: "Valitse ajankohta.",
       name: "Kerro nimesi.",
@@ -63,21 +60,17 @@ export const FORM_TEXT = {
     },
   },
   en: {
-    vehicle: "Vehicle",
-    vehicles: {
-      "model-3": "Tesla Model 3",
-      "model-y": "Tesla Model Y",
-      "model-s": "Tesla Model S",
-      "model-x": "Tesla Model X",
-      "other-ev": "Other EV",
-      other: "Other vehicle",
-    },
-    choose: "Choose",
-    year: "Model year",
     reg: "Registration number",
+    regHint: "Enough for us to identify the car. The year comes with the registration.",
+    vin: "VIN",
+    vinHint: "17 characters. On the registration certificate and at the base of the windscreen.",
     optional: "optional",
     message: "What is wrong, or what do you need?",
-    messageHint: "Symptoms, warnings, when it happens. You can send a photo on WhatsApp.",
+    messageHint: "Symptoms, warnings, and when it happens.",
+    messageHintWhatsApp: "Symptoms, warnings, and when it happens. You can send a photo on WhatsApp.",
+    files: "Attachments",
+    filesHint: "Photos, a video or the registration certificate. Up to 5 files, each under 25 MB.",
+    filesChosen: "files selected",
     timing: "Preferred timing",
     timings: {
       asap: "As soon as possible",
@@ -101,9 +94,9 @@ export const FORM_TEXT = {
     teslaOnly: "The inspection offer is for Tesla vehicles only. Choose a Tesla model or request a quote.",
     required: "required",
     errors: {
-      vehicle: "Please choose a vehicle.",
-      year: "Enter the model year as four digits, for example 2021.",
-      reg: "Please check the registration number.",
+      reg: "Please enter the registration number, for example ABC-123.",
+      vin: "A VIN is 17 characters and never uses the letters I, O or Q.",
+      files: "Up to 5 files, each under 25 MB.",
       message: "A sentence or two about the car helps us give a useful answer.",
       timing: "Please choose a timing.",
       name: "Please tell us your name.",
@@ -116,12 +109,9 @@ export const FORM_TEXT = {
   },
 } as const;
 
-const THIS_YEAR = new Date().getFullYear();
-
 export type BookingRequest = {
-  vehicle: Vehicle;
-  year: string;
   reg: string;
+  vin: string;
   message: string;
   timing: Timing;
   name: string;
@@ -141,22 +131,32 @@ const length = (min: number, max: number, short: string, long: string) => (value
 };
 
 /**
- * react-hook-form's own validation rules, built per language and per path so
- * the messages match the page and the diagnosis path accepts Teslas only.
- * Kept free of a schema library: this is the only form on the site.
+ * react-hook-form's own validation rules, built per language so the messages
+ * match the page. Kept free of a schema library: this is the only form on
+ * the site.
+ *
+ * The vehicle select used to enforce Teslas on the inspection path. It is
+ * gone, so that condition is now stated in the form instead of validated;
+ * a registration number cannot tell us the make.
  */
-export function bookingRules(lang: Lang, path: "diagnosis" | "quote"): Rules {
+export function bookingRules(lang: Lang): Rules {
   const e = FORM_TEXT[lang].errors;
   return {
-    vehicle: {
-      validate: (v: string) =>
-        !(VEHICLES as readonly string[]).includes(v) ? e.vehicle : path === "diagnosis" && !TESLA_VEHICLES.includes(v) ? FORM_TEXT[lang].teslaOnly : true,
-    },
-    year: {
-      validate: (v: string) => (/^(19|20)\d{2}$/.test(v.trim()) && Number(v) <= THIS_YEAR + 1) || e.year,
-    },
+    // The one thing we must have about the car. Everything else about it,
+    // the year included, follows from the registration in Finland.
     reg: {
-      validate: (v: string) => (v.trim().length <= 12 && /^[A-Za-zÅÄÖåäö0-9 -]*$/.test(v.trim())) || e.reg,
+      validate: (v: string) => {
+        const t = (v ?? "").trim();
+        return (t.length >= 2 && t.length <= 12 && /^[A-Za-zÅÄÖåäö0-9 -]+$/.test(t)) || e.reg;
+      },
+    },
+    // Optional, but checked when given: a mistyped VIN is worse than none.
+    // 17 characters, and I, O and Q are never used in a VIN.
+    vin: {
+      validate: (v: string) => {
+        const t = (v ?? "").trim();
+        return t === "" || /^[A-HJ-NPR-Za-hj-npr-z0-9]{17}$/.test(t) || e.vin;
+      },
     },
     message: { validate: length(10, 2000, e.message, e.tooLong) },
     timing: { validate: (v: string) => (TIMINGS as readonly string[]).includes(v) || e.timing },

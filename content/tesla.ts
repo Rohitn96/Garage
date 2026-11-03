@@ -150,7 +150,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     },
     howTitle: "Näin se etenee",
     steps: [
-      { title: "Varaa aika", body: "Lomakkeella, puhelimella tai WhatsAppilla. Kerro malli ja vuosimalli." },
+      { title: "Varaa aika", body: "Lomakkeella, puhelimella tai WhatsAppilla. Riittää, että annat rekisterinumeron." },
       { title: "Tuo auto", body: "Sovittuna aikana, myös viikonloppuisin." },
       { title: "Tarkastus", body: "Käymme auton läpi yleisellä perustarkastuksella." },
       { title: "Löydökset ja arvio", body: "Kerromme, mitä löytyi. Jos jotain on korjattava, saat arvion ja päätät itse. Voit hakea auton ilman korjausta." },
@@ -198,7 +198,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     },
     howTitle: "How it works",
     steps: [
-      { title: "Book", body: "By form, phone or WhatsApp. Tell us the model and year." },
+      { title: "Book", body: "By form, phone or WhatsApp. The registration number is enough." },
       { title: "Drop the car off", body: "At the agreed time, weekends included." },
       { title: "Inspection", body: "We go over the car with a basic general inspection." },
       { title: "Findings and estimate", body: "We tell you what we found. If anything needs work, you get an estimate and decide. You can collect the car without any repair." },

@@ -8,7 +8,7 @@ import { useLang } from "@/lib/i18n";
 import { isOfferLive } from "@/lib/offer";
 import { pathOf } from "@/lib/routes";
 import { CONTACT_ANCHORS, type ContactPath } from "@/lib/links";
-import { FORM_TEXT, TIMINGS, VEHICLES, TESLA_VEHICLES, bookingRules, type BookingRequest } from "@/lib/bookingSchema";
+import { FORM_TEXT, TIMINGS, MAX_FILES, MAX_FILE_BYTES, bookingRules, type BookingRequest } from "@/lib/bookingSchema";
 import { CONTACT_PAGE } from "@/content/pages";
 import { OfferSwitch } from "./OfferSwitch";
 
@@ -69,6 +69,8 @@ export function BookingSection() {
   const [status, setStatus] = useState<"idle" | "sent" | "failed">("idle");
   const mountedAt = useRef(0);
   const formRef = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [fileError, setFileError] = useState<string | undefined>();
 
   useEffect(() => {
     mountedAt.current = Date.now();
@@ -81,22 +83,15 @@ export function BookingSection() {
     return () => window.removeEventListener("hashchange", fromHash);
   }, []);
 
-  const rules = useMemo(() => bookingRules(lang, path), [lang, path]);
+  const rules = useMemo(() => bookingRules(lang), [lang]);
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { errors, isSubmitting, submitCount },
   } = useForm<BookingRequest>({
     mode: "onBlur",
-    defaultValues: { reg: "", timing: undefined, vehicle: undefined },
+    defaultValues: { reg: "", vin: "", timing: undefined },
   });
-
-  // Re-check the vehicle when the path changes: "Other EV" is fine for a quote
-  // but not for the Tesla-only diagnosis.
-  useEffect(() => {
-    if (submitCount > 0) void trigger("vehicle");
-  }, [path, submitCount, trigger]);
 
   const choose = (next: ContactPath) => {
     setPath(next);
@@ -115,26 +110,46 @@ export function BookingSection() {
     }
     const live = isOfferLive(Date.now());
     const kind = path === "diagnosis" ? (live ? "Tesla inspection, launch price 99 EUR incl. VAT 25.5%" : "Tesla inspection") : "Quote request";
+    const reg = values.reg.trim().toUpperCase();
+    const vin = values.vin.trim().toUpperCase();
+
+    const files = SITE.formUploads ? Array.from(fileRef.current?.files ?? []) : [];
+    if (files.length > MAX_FILES || files.some((file) => file.size > MAX_FILE_BYTES)) {
+      setFileError(f.errors.files);
+      return;
+    }
+    setFileError(undefined);
+
+    const fields: Record<string, string> = {
+      request: kind,
+      registration: reg,
+      vin: vin || "not given",
+      message: values.message,
+      timing: FORM_TEXT.en.timings[values.timing],
+      name: values.name,
+      phone: values.phone,
+      email: values.email,
+      consent: "yes",
+      language: lang,
+      _replyto: values.email,
+      _subject: `${kind}: ${values.name}, ${reg}`,
+    };
+
     try {
-      const response = await fetch(ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          request: kind,
-          vehicle: FORM_TEXT.en.vehicles[values.vehicle],
-          year: values.year,
-          registration: values.reg || "",
-          message: values.message,
-          timing: FORM_TEXT.en.timings[values.timing],
-          name: values.name,
-          phone: values.phone,
-          email: values.email,
-          consent: "yes",
-          language: lang,
-          _replyto: values.email,
-          _subject: `${kind}: ${values.name}, ${FORM_TEXT.en.vehicles[values.vehicle]} ${values.year}`,
-        }),
-      });
+      // Files force multipart/form-data. With none attached the request stays
+      // the JSON one that has always worked, so the common path is unchanged.
+      let body: BodyInit;
+      const headers: HeadersInit = { Accept: "application/json" };
+      if (files.length > 0) {
+        const data = new FormData();
+        for (const [key, value] of Object.entries(fields)) data.append(key, value);
+        for (const file of files) data.append("attachment", file);
+        body = data;
+      } else {
+        body = JSON.stringify(fields);
+        (headers as Record<string, string>)["Content-Type"] = "application/json";
+      }
+      const response = await fetch(ENDPOINT, { method: "POST", headers, body });
       if (!response.ok) throw new Error(`Request failed: ${response.status}`);
       setStatus("sent");
     } catch (error) {
@@ -234,40 +249,12 @@ export function BookingSection() {
               </p>
             ) : null}
 
-            <div className="grid gap-6 sm:grid-cols-3">
-              <Field id="vehicle" label={f.vehicle} error={errors.vehicle?.message}>
-                <select
-                  id="vehicle"
-                  className={FIELD}
-                  defaultValue=""
-                  aria-invalid={Boolean(errors.vehicle)}
-                  aria-describedby={describe("vehicle")}
-                  {...register("vehicle", rules.vehicle)}
-                >
-                  <option value="" disabled>
-                    {f.choose}
-                  </option>
-                  {VEHICLES.filter((v) => path === "quote" || TESLA_VEHICLES.includes(v)).map((v) => (
-                    <option key={v} value={v}>
-                      {f.vehicles[v]}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <Field id="year" label={f.year} error={errors.year?.message}>
-                <input
-                  id="year"
-                  inputMode="numeric"
-                  autoComplete="off"
-                  maxLength={4}
-                  placeholder="2021"
-                  className={`${FIELD} font-mono`}
-                  aria-invalid={Boolean(errors.year)}
-                  aria-describedby={describe("year")}
-                  {...register("year", rules.year)}
-                />
-              </Field>
-              <Field id="reg" label={f.reg} optional={f.optional} error={errors.reg?.message}>
+            {/* The inspection offer is for Teslas. The vehicle select used to
+                enforce that; with it gone the condition is stated instead. */}
+            {path === "diagnosis" ? <p className="text-step--1 text-muted">{f.teslaOnly}</p> : null}
+
+            <div className="grid gap-6 sm:grid-cols-2">
+              <Field id="reg" label={f.reg} hint={f.regHint} error={errors.reg?.message}>
                 <input
                   id="reg"
                   autoComplete="off"
@@ -275,13 +262,30 @@ export function BookingSection() {
                   placeholder="ABC-123"
                   className={`${FIELD} font-mono uppercase`}
                   aria-invalid={Boolean(errors.reg)}
-                  aria-describedby={describe("reg")}
+                  aria-describedby={describe("reg", true)}
                   {...register("reg", rules.reg)}
+                />
+              </Field>
+              <Field id="vin" label={f.vin} optional={f.optional} hint={f.vinHint} error={errors.vin?.message}>
+                <input
+                  id="vin"
+                  autoComplete="off"
+                  autoCapitalize="characters"
+                  maxLength={17}
+                  className={`${FIELD} font-mono uppercase`}
+                  aria-invalid={Boolean(errors.vin)}
+                  aria-describedby={describe("vin", true)}
+                  {...register("vin", rules.vin)}
                 />
               </Field>
             </div>
 
-            <Field id="message" label={f.message} hint={f.messageHint} error={errors.message?.message}>
+            <Field
+              id="message"
+              label={f.message}
+              hint={SITE.formUploads ? f.messageHint : f.messageHintWhatsApp}
+              error={errors.message?.message}
+            >
               <textarea
                 id="message"
                 rows={5}
@@ -291,6 +295,23 @@ export function BookingSection() {
                 {...register("message", rules.message)}
               />
             </Field>
+
+            {SITE.formUploads ? (
+              <Field id="files" label={f.files} optional={f.optional} hint={f.filesHint} error={fileError}>
+                <input
+                  id="files"
+                  ref={fileRef}
+                  type="file"
+                  name="attachment"
+                  multiple
+                  accept="image/*,video/*,application/pdf"
+                  onChange={() => setFileError(undefined)}
+                  className={`${FIELD} file:mr-3 file:cut-sm file:border-0 file:bg-ink/10 file:px-3 file:py-1.5 file:text-step--1`}
+                  aria-invalid={Boolean(fileError)}
+                  aria-describedby={fileError ? "files-error" : "files-hint"}
+                />
+              </Field>
+            ) : null}
 
             <fieldset aria-describedby={errors.timing ? "timing-error" : undefined}>
               <legend className="text-step--1 font-medium">{f.timing}</legend>

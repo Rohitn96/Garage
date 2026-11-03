@@ -91,7 +91,7 @@ export const EV_PAGE: Record<
       {
         p: "Merkkikohtaiset ohjelmistopäivitykset ja takuukorjaukset tekee valmistajan valtuuttama huolto. Jos vika näyttää kuuluvan takuuseen, kerromme sen. Muut työt, kuten jarrut, alusta, renkaat ja 12 V:n akku, teemme valmistajan ohjeiden mukaan.",
       },
-      { p: "Kerro varatessasi auton merkki, malli ja vuosimalli, niin varmistamme etukäteen, että meillä on työhön tarvittavat tiedot ja osat." },
+      { p: "Anna varatessasi auton rekisterinumero, niin varmistamme etukäteen, että meillä on työhön tarvittavat tiedot ja osat." },
       { h2: "Mitä sähköautoja Suomen teillä on" },
       {
         p: "Täyssähköisiä malleja myyvät Suomessa nykyään lähes kaikki merkit: Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, Toyota, BMW, Mercedes-Benz, Audi, Renault, Peugeot, Citroen, Opel, Fiat, Jeep, Cupra, Dacia, Ford, Nissan, Mini, Porsche, Lexus, Mazda, Honda, Subaru ja Smart. Mukaan on tullut myös kiinalaisia merkkejä, kuten BYD, MG, XPeng ja Leapmotor. Teillä liikkuu lisäksi aiempien vuosien sähköautoja, esimerkiksi Nissan Leafeja, Renault Zoeita ja Jaguar I-Paceja, joiden takuu on jo päättynyt.",
@@ -104,7 +104,7 @@ export const EV_PAGE: Record<
     faq: [
       {
         q: "Huollatteko muitakin sähköautoja kuin Teslaa?",
-        a: "Kyllä. Huollamme kaikkien merkkien sähköautoja Tattarisuolla Helsingissä, muun muassa Volkswagenit, Skodat, Volvot, Polestarit, Kiat, Hyundait, BMW:t, Mercedes-Benzit, Toyotat, Renaultit, BYD:t ja MG:t. Kerro varatessasi auton merkki, malli ja vuosimalli.",
+        a: "Kyllä. Huollamme kaikkien merkkien sähköautoja Tattarisuolla Helsingissä, muun muassa Volkswagenit, Skodat, Volvot, Polestarit, Kiat, Hyundait, BMW:t, Mercedes-Benzit, Toyotat, Renaultit, BYD:t ja MG:t. Anna varatessasi auton rekisterinumero, niin tiedämme tarkalleen minkä auton kanssa olemme tekemisissä.",
       },
       {
         q: "Mitä töitä teette sähköautoon?",
@@ -120,7 +120,7 @@ export const EV_PAGE: Record<
       },
       {
         q: "Huollatteko kiinalaisia sähköautoja, kuten BYD, MG tai XPeng?",
-        a: "Kyllä, samat työt kuin muissakin merkeissä: 12 V:n akku, jarrut, alusta, renkaat ja ilmastointi. Kerro malli ja vuosimalli varatessasi, niin tarkistamme osien saatavuuden etukäteen."
+        a: "Kyllä, samat työt kuin muissakin merkeissä: 12 V:n akku, jarrut, alusta, renkaat ja ilmastointi. Anna rekisterinumero varatessasi, niin tarkistamme osien saatavuuden etukäteen."
       },
     ],
     cta: "Pyydä tarjous sähköautollesi",
@@ -185,7 +185,7 @@ export const EV_PAGE: Record<
       {
         p: "Make-specific software updates and warranty repairs are done by the manufacturer's authorised service. If a fault looks like a warranty matter, we tell you. Other work, such as brakes, suspension, tyres and the 12 V battery, we do to the manufacturer's procedures.",
       },
-      { p: "Tell us the make, model and year when you book, and we will make sure in advance that we have the information and parts for the job." },
+      { p: "Give us the registration number when you book, and we will make sure in advance that we have the information and parts for the job." },
       { h2: "Which electric cars are on Finnish roads" },
       {
         p: "Almost every make now sells a fully electric model in Finland: Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, Toyota, BMW, Mercedes-Benz, Audi, Renault, Peugeot, Citroen, Opel, Fiat, Jeep, Cupra, Dacia, Ford, Nissan, Mini, Porsche, Lexus, Mazda, Honda, Subaru and Smart. Chinese makes have joined them, among them BYD, MG, XPeng and Leapmotor. On top of that there are earlier electric cars still on the road, such as the Nissan Leaf, the Renault Zoe and the Jaguar I-Pace, long out of warranty.",
@@ -198,7 +198,7 @@ export const EV_PAGE: Record<
     faq: [
       {
         q: "Do you service electric cars other than Tesla?",
-        a: "Yes. We service electric cars of every make in Tattarisuo, Helsinki, among them Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, Mercedes-Benz, Toyota, Renault, BYD and MG. Tell us the make, model and year when you book."
+        a: "Yes. We service electric cars of every make in Tattarisuo, Helsinki, among them Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, Mercedes-Benz, Toyota, Renault, BYD and MG. Give us the registration number when you book and we know exactly which car we are dealing with."
       },
       {
         q: "What work do you do on an electric car?",
@@ -214,7 +214,7 @@ export const EV_PAGE: Record<
       },
       {
         q: "Do you service Chinese electric cars such as BYD, MG or XPeng?",
-        a: "Yes, for the same jobs as any other make: the 12 V battery, brakes, suspension, tyres and air conditioning. Tell us the model and year when you book so we can check parts in advance."
+        a: "Yes, for the same jobs as any other make: the 12 V battery, brakes, suspension, tyres and air conditioning. Give us the registration number when you book so we can check parts in advance."
       },
     ],
     cta: "Request a quote for your EV",
@@ -307,7 +307,7 @@ export const WEEKEND_PAGE: Record<
     ],
     needTitle: "Mitä tarvitsemme sinulta",
     need: [
-      "Auton malli, vuosimalli ja rekisterinumero",
+      "Auton rekisterinumero",
       "Kuvaus viasta tai tehtävästä työstä, kuva varoituksesta jos sellainen on",
       "Avainkortti, jotta voimme siirtää autoa",
       "Puhelinnumero, josta tavoitamme sinut viikonloppuna",
@@ -360,7 +360,7 @@ export const WEEKEND_PAGE: Record<
     ],
     needTitle: "What we need from you",
     need: [
-      "The car's model, year and registration number",
+      "The car's registration number",
       "A description of the fault or the work, and a photo of any warning",
       "The key card, so we can move the car",
       "A phone number we can reach you on over the weekend",
@@ -539,7 +539,7 @@ export const PRIVACY_PAGE: Record<Lang, SimplePage & { body: Block[]; updated: s
       { h2: "Mitä tietoja keräämme" },
       {
         ul: [
-          "Varaus- ja tarjouslomakkeella: nimi, puhelinnumero, sähköpostiosoite, auton tyyppi, vuosimalli, rekisterinumero (vapaaehtoinen), kuvaus tarpeesta ja toivottu ajankohta.",
+          "Varaus- ja tarjouslomakkeella: nimi, puhelinnumero, sähköpostiosoite, auton rekisterinumero, valmistenumero eli VIN (vapaaehtoinen), kuvaus tarpeesta, toivottu ajankohta sekä mahdolliset liitteet, jotka itse lisäät.",
           "Kun otat yhteyttä puhelimella, WhatsAppilla tai sähköpostilla: viestisi ja yhteystietosi.",
         ],
       },
@@ -580,7 +580,7 @@ export const PRIVACY_PAGE: Record<Lang, SimplePage & { body: Block[]; updated: s
       { h2: "What we collect" },
       {
         ul: [
-          "Through the booking and quote form: name, phone number, email address, vehicle type, model year, registration number (optional), a description of what you need and your preferred timing.",
+          "Through the booking and quote form: name, phone number, email address, the car's registration number, the VIN (optional), a description of what you need, your preferred timing and any files you choose to attach.",
           "When you contact us by phone, WhatsApp or email: your message and contact details.",
         ],
       },

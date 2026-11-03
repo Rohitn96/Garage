@@ -187,6 +187,22 @@ export const SITE = {
   /** Formspree endpoint. NEXT_PUBLIC_FORMSPREE_ENDPOINT overrides it for previews. */
   formEndpoint: "https://formspree.io/f/maeyoeeq",
 
+  /**
+   * TODO(owner): set to true once the Formspree plan includes file uploads.
+   *
+   * Formspree lists file uploads on the Personal plan and above; the free
+   * plan has a quota of 0 GB. The attachment field is therefore built but
+   * switched off: with it off the form posts JSON exactly as before and the
+   * message hint points at WhatsApp for photos, which is where they go today.
+   * Turning it on makes the form post multipart/form-data when a file is
+   * attached, and nothing else changes.
+   *
+   * Formspree limits, as published: 25 MB per file, 100 MB per request, and
+   * a per-submission file count their help centre gives as 10 and their plans
+   * page as 5. The form enforces the lower of the two.
+   */
+  formUploads: false,
+
   /** Cloudflare Web Analytics token. Set NEXT_PUBLIC_CF_BEACON_TOKEN at build time. */
   analyticsToken: "",
 
