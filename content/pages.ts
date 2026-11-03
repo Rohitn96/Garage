@@ -11,18 +11,73 @@ type SimplePage = { seo: Seo; label: string; h1: string; lead: string };
 
 /* --- Other EVs ----------------------------------------------------------- */
 
-export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: string[]; workTitle: string; work: TitledItem[]; body: Block[]; cta: string }> = {
+export const EV_PAGE: Record<
+  Lang,
+  SimplePage & {
+    /**
+     * Answer first: the whole offer in 40 to 60 words, directly below the
+     * heading. It is what a reader in a hurry needs, and it is the passage an
+     * answer engine can quote without having to assemble one from the page.
+     * Every claim in it appears elsewhere on the site.
+     */
+    answer: string;
+    brandsTitle: string;
+    brands: string[];
+    workTitle: string;
+    work: TitledItem[];
+    body: Block[];
+    faqTitle: string;
+    faq: QA[];
+    cta: string;
+  }
+> = {
   fi: {
     seo: {
-      title: "Sähköauton huolto Helsingissä: Polestar, VW ID, Kia, Hyundai",
+      title: "Sähköauton huolto Helsingissä: kaikki merkit",
       description:
-        "Sähköauton huolto ja vianhaku Tattarisuolla, Helsingissä. Polestar, Volkswagen ID, Kia, Hyundai, BMW i ja muut. 12 V:n akku, jarrut, alusta, renkaat ja ilmastointi.",
+        "Sähköauton huolto ja vianhaku Tattarisuolla, Helsingissä. Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, Mercedes-Benz, BYD, MG ja muut merkit.",
     },
     label: "Muut sähköautot",
     h1: "Muiden sähköautojen huolto Helsingissä",
     lead: "Tesla on erikoisalamme, ja yli 10 vuoden yhteenlaskettu kokemuksemme alalta kattaa myös muut sähköautot. Huollamme Polestarit, Volkswagen ID:t, Kiat, Hyundait, BMW i -mallit ja muut sähköautot.",
+    answer:
+      "Huollamme kaikkien merkkien sähköautoja Tattarisuolla Helsingissä. Työt ovat samat merkistä riippumatta: 12 V:n akku, jarrut, alusta, renkaat ja suuntaus sekä ilmastointi ja lämpöpumppu. Tesla on erikoisalamme. Ajoakun ja voimalinjan suurjännitekorjaukset ovat ainoa työ, jota emme ota vastaan.",
     brandsTitle: "Merkit",
-    brands: ["Polestar", "Volkswagen ID", "Kia", "Hyundai", "BMW i", "Muut sähköautot"],
+    brands: [
+      "Audi",
+      "BMW",
+      "BYD",
+      "Citroen",
+      "Cupra",
+      "Dacia",
+      "Fiat",
+      "Ford",
+      "Honda",
+      "Hyundai",
+      "Jaguar",
+      "Jeep",
+      "Kia",
+      "Leapmotor",
+      "Lexus",
+      "Mazda",
+      "Mercedes-Benz",
+      "MG",
+      "Mini",
+      "Nissan",
+      "Opel",
+      "Peugeot",
+      "Polestar",
+      "Porsche",
+      "Renault",
+      "Skoda",
+      "Smart",
+      "Subaru",
+      "Toyota",
+      "Volkswagen",
+      "Volvo",
+      "XPeng",
+      "Muut sähköautot",
+    ],
     workTitle: "Mitä teemme",
     work: [
       { title: "12 V:n akku", body: "12 V:n akun testaus ja vaihto. Heikko 12 V:n akku on yleisin syy siihen, ettei sähköauto herää." },
@@ -37,20 +92,86 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
         p: "Merkkikohtaiset ohjelmistopäivitykset ja takuukorjaukset tekee valmistajan valtuuttama huolto. Jos vika näyttää kuuluvan takuuseen, kerromme sen. Muut työt, kuten jarrut, alusta, renkaat ja 12 V:n akku, teemme valmistajan ohjeiden mukaan.",
       },
       { p: "Kerro varatessasi auton merkki, malli ja vuosimalli, niin varmistamme etukäteen, että meillä on työhön tarvittavat tiedot ja osat." },
+      { h2: "Mitä sähköautoja Suomen teillä on" },
+      {
+        p: "Täyssähköisiä malleja myyvät Suomessa nykyään lähes kaikki merkit: Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, Toyota, BMW, Mercedes-Benz, Audi, Renault, Peugeot, Citroen, Opel, Fiat, Jeep, Cupra, Dacia, Ford, Nissan, Mini, Porsche, Lexus, Mazda, Honda, Subaru ja Smart. Mukaan on tullut myös kiinalaisia merkkejä, kuten BYD, MG, XPeng ja Leapmotor. Teillä liikkuu lisäksi aiempien vuosien sähköautoja, esimerkiksi Nissan Leafeja, Renault Zoeita ja Jaguar I-Paceja, joiden takuu on jo päättynyt.",
+      },
+      {
+        p: "Juuri takuun päättyminen tuo auton meille. Merkki vaihtuu, mutta työt ovat samat: 12 V:n akku, jarrut, alusta, renkaat ja ilmastointi. Jos mietit seuraavaa autoa, kokosimme [vuoden 2027 uudet sähköautot](@post-2027) ja sen, mitä ne tarkoittavat Suomen oloissa."
+      },
+    ],
+    faqTitle: "Usein kysyttyä sähköautojen huollosta",
+    faq: [
+      {
+        q: "Huollatteko muitakin sähköautoja kuin Teslaa?",
+        a: "Kyllä. Huollamme kaikkien merkkien sähköautoja Tattarisuolla Helsingissä, muun muassa Volkswagenit, Skodat, Volvot, Polestarit, Kiat, Hyundait, BMW:t, Mercedes-Benzit, Toyotat, Renaultit, BYD:t ja MG:t. Kerro varatessasi auton merkki, malli ja vuosimalli.",
+      },
+      {
+        q: "Mitä töitä teette sähköautoon?",
+        a: "Teemme sähköautoon 12 V:n akun testauksen ja vaihdon, jarrutyöt, alustatyöt, renkaat ja nelipyöräsuuntauksen sekä ilmastoinnin ja lämpöpumpun työt. Juuri nämä osat kuluvat sähköautossa Suomen oloissa."
+      },
+      {
+        q: "Korjaatteko ajoakkua tai sähkömoottoria?",
+        a: "Emme. Ajoakun ja voimalinjan suurjännitekorjaukset eivät kuulu palveluihimme. Jos vika on suurjännitejärjestelmässä, kerromme sen ja ohjaamme oikeaan paikkaan."
+      },
+      {
+        q: "Menettääkö auto takuun riippumattomassa korjaamossa?",
+        a: "Merkkikohtaiset ohjelmistopäivitykset ja takuukorjaukset kuuluvat valmistajan valtuuttamalle huollolle, ja jos vika näyttää kuuluvan takuuseen, kerromme sen. Muut työt, kuten jarrut, alusta, renkaat ja 12 V:n akku, teemme valmistajan ohjeiden mukaan."
+      },
+      {
+        q: "Huollatteko kiinalaisia sähköautoja, kuten BYD, MG tai XPeng?",
+        a: "Kyllä, samat työt kuin muissakin merkeissä: 12 V:n akku, jarrut, alusta, renkaat ja ilmastointi. Kerro malli ja vuosimalli varatessasi, niin tarkistamme osien saatavuuden etukäteen."
+      },
     ],
     cta: "Pyydä tarjous sähköautollesi",
   },
   en: {
     seo: {
-      title: "EV service in Helsinki: Polestar, VW ID, Kia, Hyundai and more",
+      title: "EV service in Helsinki: every make",
       description:
-        "Electric car servicing and diagnostics in Tattarisuo, Helsinki. Polestar, Volkswagen ID, Kia, Hyundai, BMW i and others. 12 V battery, brakes, suspension, tyres and air conditioning.",
+        "Electric car servicing and diagnostics in Tattarisuo, Helsinki. Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, Mercedes-Benz, BYD, MG and other makes.",
     },
     label: "Other EVs",
     h1: "Servicing for other electric cars in Helsinki",
     lead: "Tesla is our specialism, and our 10+ years of combined industry experience covers other electric cars too. We service Polestar, Volkswagen ID, Kia, Hyundai, BMW i and other EVs.",
+    answer:
+      "We service electric cars of every make at our workshop in Tattarisuo, Helsinki. The work is the same whatever the badge: the 12 V battery, brakes, suspension, tyres and alignment, air conditioning and the heat pump. Tesla is our specialism. High voltage battery and powertrain repairs are the one job we do not take on.",
     brandsTitle: "Makes",
-    brands: ["Polestar", "Volkswagen ID", "Kia", "Hyundai", "BMW i", "Other EVs"],
+    brands: [
+      "Audi",
+      "BMW",
+      "BYD",
+      "Citroen",
+      "Cupra",
+      "Dacia",
+      "Fiat",
+      "Ford",
+      "Honda",
+      "Hyundai",
+      "Jaguar",
+      "Jeep",
+      "Kia",
+      "Leapmotor",
+      "Lexus",
+      "Mazda",
+      "Mercedes-Benz",
+      "MG",
+      "Mini",
+      "Nissan",
+      "Opel",
+      "Peugeot",
+      "Polestar",
+      "Porsche",
+      "Renault",
+      "Skoda",
+      "Smart",
+      "Subaru",
+      "Toyota",
+      "Volkswagen",
+      "Volvo",
+      "XPeng",
+      "Other EVs",
+    ],
     workTitle: "What we do",
     work: [
       { title: "12 V battery", body: "Testing and replacing the 12 V battery. A weak 12 V battery is the most common reason an EV will not wake up." },
@@ -65,6 +186,36 @@ export const EV_PAGE: Record<Lang, SimplePage & { brandsTitle: string; brands: s
         p: "Make-specific software updates and warranty repairs are done by the manufacturer's authorised service. If a fault looks like a warranty matter, we tell you. Other work, such as brakes, suspension, tyres and the 12 V battery, we do to the manufacturer's procedures.",
       },
       { p: "Tell us the make, model and year when you book, and we will make sure in advance that we have the information and parts for the job." },
+      { h2: "Which electric cars are on Finnish roads" },
+      {
+        p: "Almost every make now sells a fully electric model in Finland: Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, Toyota, BMW, Mercedes-Benz, Audi, Renault, Peugeot, Citroen, Opel, Fiat, Jeep, Cupra, Dacia, Ford, Nissan, Mini, Porsche, Lexus, Mazda, Honda, Subaru and Smart. Chinese makes have joined them, among them BYD, MG, XPeng and Leapmotor. On top of that there are earlier electric cars still on the road, such as the Nissan Leaf, the Renault Zoe and the Jaguar I-Pace, long out of warranty.",
+      },
+      {
+        p: "The end of the warranty is usually what brings a car to us. The badge changes, the work does not: the 12 V battery, brakes, suspension, tyres and air conditioning. If you are thinking about your next car, we looked at [the new electric cars of 2027](@post-2027) and what they mean in Finnish conditions."
+      },
+    ],
+    faqTitle: "Common questions about EV servicing",
+    faq: [
+      {
+        q: "Do you service electric cars other than Tesla?",
+        a: "Yes. We service electric cars of every make in Tattarisuo, Helsinki, among them Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, Mercedes-Benz, Toyota, Renault, BYD and MG. Tell us the make, model and year when you book."
+      },
+      {
+        q: "What work do you do on an electric car?",
+        a: "On an electric car we test and replace the 12 V battery, do brake work, suspension work, tyres and four-wheel alignment, and air conditioning and heat pump work. These are the parts that wear on an EV in Finnish conditions."
+      },
+      {
+        q: "Do you repair the high voltage battery or the electric motor?",
+        a: "No. High voltage battery and powertrain repairs are not part of what we offer. If the fault is in the high voltage system, we tell you and point you to the right place."
+      },
+      {
+        q: "Does using an independent garage affect my warranty?",
+        a: "Make-specific software updates and warranty repairs belong with the manufacturer's authorised service, and if a fault looks like a warranty matter we tell you. Other work, such as brakes, suspension, tyres and the 12 V battery, we do to the manufacturer's procedures."
+      },
+      {
+        q: "Do you service Chinese electric cars such as BYD, MG or XPeng?",
+        a: "Yes, for the same jobs as any other make: the 12 V battery, brakes, suspension, tyres and air conditioning. Tell us the model and year when you book so we can check parts in advance."
+      },
     ],
     cta: "Request a quote for your EV",
   },

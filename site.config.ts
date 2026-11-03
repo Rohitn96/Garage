@@ -74,11 +74,13 @@ export const SITE = {
     phoneDisplay: "+358 45 865 6683",
     mapsUrl: "https://maps.app.goo.gl/ymn8vnducX7tqAai7",
     /**
-     * TODO(owner): exact coordinates of the hall door, from the Google Maps pin
-     * (right click on the pin, the first line is "lat, lng"). Geo is left out of
-     * the structured data until this is set, because a wrong pin is worse than none.
+     * Decoded from the Plus Code "7356+M6" (full code 9GG77356+M6) with the
+     * open-location-code library, using Helsinki as the reference location.
+     * Cross-checked against an OpenStreetMap geocode of Kytkintie 38, which
+     * sits 48 m away, so the pin is on the right building in Tattarisuo.
+     * Replace with the exact hall door pin if the owner reads one off Maps.
      */
-    geo: null as { lat: number; lng: number } | null,
+    geo: { lat: 60.259187, lng: 25.060562 } as { lat: number; lng: number } | null,
     /**
      * TODO(owner): public profile URLs: Google Business Profile, Facebook,
      * Instagram and similar. Used as schema.org sameAs. Empty means none are published.
@@ -120,7 +122,7 @@ export const SITE = {
 
   /** Workshop equipment and parts, as stated by the owner. */
   equipment: {
-    diagnostics: ["Tesla Toolbox", "Tesla service manual", "Topdon"],
+    diagnostics: ["Tesla Toolbox", "Tesla service manual"],
     teslaAcEquipment: true,
     parts: { genuine: true, basic: true },
   },
@@ -144,9 +146,9 @@ export const SITE = {
 
   /**
    * The launch offer: a basic general inspection, Tesla vehicles only, as
-   * confirmed by the owner, at 99 € including VAT 25.5 %. Fault diagnosis, diagnostic
-   * equipment and reports are not part of it. Set `confirmed: false` to hide
-   * both lists.
+   * confirmed by the owner, at 99 € including VAT 25.5 %. Fault diagnosis is
+   * part of it (owner, 1.11.2026); written or digital reports, repairs and
+   * parts are not. Set `confirmed: false` to hide both lists.
    *
    * Finnish consumer prices are shown VAT inclusive, so the site states only
    * `gross`, with the VAT rate. This is the only price the site publishes;
@@ -156,12 +158,20 @@ export const SITE = {
     confirmed: true,
     price: { gross: 99, vatPercent: 25.5 },
     includes: {
-      fi: ["Yleinen perustarkastus", "Löydökset kerrottuna, ja arvio, jos jotain on korjattava"],
-      en: ["A basic general inspection", "Findings explained, with an estimate if anything needs work"],
+      fi: [
+        "Yleinen perustarkastus",
+        "Vianhaku ja vikakoodien luku",
+        "Löydökset kerrottuna, ja arvio, jos jotain on korjattava",
+      ],
+      en: [
+        "A basic general inspection",
+        "Fault diagnosis and fault code reading",
+        "Findings explained, with an estimate if anything needs work",
+      ],
     } as LocalizedList,
     excludes: {
-      fi: ["Vianhaku ja diagnostiikkalaitteet", "Kirjalliset tai digitaaliset raportit", "Korjaukset ja varaosat"],
-      en: ["Fault diagnosis and diagnostic equipment", "Written or digital reports", "Repairs and parts"],
+      fi: ["Kirjalliset tai digitaaliset raportit", "Korjaukset ja varaosat"],
+      en: ["Written or digital reports", "Repairs and parts"],
     } as LocalizedList,
   },
 
@@ -179,6 +189,16 @@ export const SITE = {
 
   /** Cloudflare Web Analytics token. Set NEXT_PUBLIC_CF_BEACON_TOKEN at build time. */
   analyticsToken: "",
+
+  /**
+   * TODO(owner): GA4 measurement id, for example "G-XXXXXXXXXX".
+   *
+   * While this is empty no Google tag loads, no consent banner renders and no
+   * cookie is set: Cloudflare Web Analytics above is cookieless and needs
+   * neither. Set it and the banner appears, defaulting to denied under Consent
+   * Mode v2, and nothing is sent to Google until a visitor accepts.
+   */
+  ga4Id: "",
 
   /**
    * TODO(owner): real customer reviews only, copied word for word with the

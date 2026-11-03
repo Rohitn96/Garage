@@ -32,6 +32,9 @@ export function EvPage({ lang }: { lang: Lang }) {
         </Link>
       </PageHero>
       <Section>
+        {/* Answer first, above the brand list: see the comment on EV_PAGE.answer. */}
+        <p className="note max-w-prose">{c.answer}</p>
+        <div className="mt-14" />
         <p className="label">{c.brandsTitle}</p>
         <ul className="mt-4 flex flex-wrap gap-2">
           {c.brands.map((brand) => (
@@ -53,6 +56,12 @@ export function EvPage({ lang }: { lang: Lang }) {
           <div className="lg:col-span-5">
             <RelatedLinks ids={["tesla", "svc-electrical", "svc-brakes", "weekend"]} lang={lang} />
           </div>
+        </div>
+      </Section>
+      <Section>
+        <SectionHeading title={c.faqTitle} />
+        <div className="mt-10">
+          <FaqList items={c.faq} lang={lang} />
         </div>
       </Section>
       <CtaPanel lang={lang} title={c.cta} tesla={false} />

@@ -71,7 +71,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "Millä laitteilla teette vianhaun?",
-            a: "Käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja Topdonin ammattilaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan.",
+            a: "Käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja ammattitason diagnostiikkalaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan.",
           },
           {
             q: "Voitteko päivittää Teslan ohjelmiston?",
@@ -88,7 +88,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
         items: [
           {
             q: "Maksaako diagnostiikka?",
-            a: "Kerromme diagnostiikan kustannuksen aina etukäteen, eikä mitään veloiteta ilman hyväksyntääsi. Teslan avajaistarjouksen tiedot löytyvät [tarjoussivulta](@offer).",
+            a: "Teslan avajaistarjouksen tarkastus maksaa 99 €, ja vianhaku sisältyy siihen. Hinnassa on alv 25,5 %. Muissa töissä kerromme kustannuksen etukäteen, eikä mitään veloiteta ilman hyväksyntääsi. [Katso tarjous](@offer).",
           },
           {
             q: "Mitä vianhaku sisältää?",
@@ -190,7 +190,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "What diagnostic equipment do you use?",
-            a: "Tesla Toolbox, Tesla's official diagnostic software, and professional Topdon scan tools. We work from Tesla's own service manual.",
+            a: "Tesla Toolbox, Tesla's official diagnostic software, and professional scan tools. We work from Tesla's own service manual.",
           },
           {
             q: "Can you update a Tesla's software?",
@@ -207,7 +207,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
         items: [
           {
             q: "Does a diagnosis cost anything?",
-            a: "We always tell you the cost of a diagnosis in advance, and nothing is charged without your approval. Details of the Tesla launch offer are on the [offer page](@offer).",
+            a: "The Tesla launch inspection is €99 incl. 25.5% VAT, and the diagnosis is included in that price. For other work we tell you the cost in advance, and nothing is charged without your approval. [See the offer](@offer).",
           },
           {
             q: "What does a diagnosis involve?",
