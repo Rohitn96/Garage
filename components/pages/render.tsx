@@ -28,7 +28,7 @@ const isModel = (id: RouteId): id is ModelId => (MODEL_IDS as string[]).includes
 const isService = (id: RouteId): id is ServiceId => (SERVICE_IDS as string[]).includes(id);
 const isPost = (id: RouteId): id is BlogPostId => BLOG_POSTS.some((p) => p.id === id);
 
-function seoFor(id: RouteId, lang: Lang): Seo {
+export function seoFor(id: RouteId, lang: Lang): Seo {
   if (isModel(id)) return MODELS[lang][id].seo;
   if (isService(id)) return SERVICES[lang][id].seo;
   if (isPost(id)) return BLOG[lang][id].seo;

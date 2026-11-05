@@ -22,7 +22,7 @@ type HomeCopy = {
 export const HOME: Record<Lang, HomeCopy> = {
   fi: {
     seo: {
-      title: "Revamp Motors · Riippumaton Tesla-huolto Helsingissä",
+      title: "Tesla-huolto Helsingissä",
       description:
         "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
     },
@@ -127,7 +127,7 @@ export const HOME: Record<Lang, HomeCopy> = {
   },
   en: {
     seo: {
-      title: "Revamp Motors · Independent Tesla service in Helsinki",
+      title: "Tesla service in Helsinki · Revamp Motors",
       description:
         "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
     },
