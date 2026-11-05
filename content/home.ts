@@ -24,7 +24,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     seo: {
       title: "Tesla-huolto Helsingissä",
       description:
-        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
+        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
     },
     hero: {
       label: "Tesla- ja sähköautoasiantuntijat · Helsinki",
@@ -129,7 +129,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     seo: {
       title: "Tesla service in Helsinki · Revamp Motors",
       description:
-        "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
+        "Independent Tesla and EV garage in Tattarisuo, Helsinki. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
     },
     hero: {
       label: "Tesla & EV specialists · Helsinki",

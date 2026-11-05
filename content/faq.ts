@@ -15,7 +15,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
     seo: {
       title: "Usein kysyttyä: Tesla-huolto, takuu, ajanvaraus ja diagnostiikka",
       description:
-        "Vastaukset yleisimpiin kysymyksiin: vaikuttaako riippumaton huolto Teslan takuuseen, miten ajanvaraus toimii, mitä diagnostiikka sisältää ja huollammeko muita autoja.",
+        "Vaikuttaako riippumaton huolto Teslan takuuseen? Näin ajanvaraus toimii, mitä vianhaku sisältää ja mitä autoja huollamme.",
     },
     label: "Usein kysyttyä",
     h1: "Usein kysyttyä",
@@ -134,7 +134,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
     seo: {
       title: "FAQ: Tesla servicing, warranty, booking and diagnosis",
       description:
-        "Answers to the most common questions: does independent servicing affect your Tesla warranty, how booking works, what a diagnosis includes and whether we service other cars.",
+        "Does independent servicing affect your Tesla warranty? How booking works, what a diagnosis includes and which cars we take.",
     },
     label: "FAQ",
     h1: "Frequently asked questions",

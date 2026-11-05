@@ -15,7 +15,7 @@ const FI: Record<BlogPostId, BlogContent> = {
     seo: {
       title: "Tesla talvella Suomessa: esilämmitys, lataus, renkaat ja jarrut",
       description:
-        "Käytännön ohjeet Teslan omistajalle Suomen talveen: esilämmitys, lataus pakkasella, talvirenkaat, jarrujen ruoste, jäätyvät kahvat ja pitkä pysäköinti.",
+        "Tesla Suomen talvessa: esilämmitys, lataus pakkasella, talvirenkaat, jarrujen ruoste ja jäätyvät ovenkahvat.",
     },
     title: "Tesla talvella Suomessa: näin pidät auton kunnossa pakkasella",
     dek: "Esilämmitys, lataus, renkaat, jarrut ja jäätyvät kahvat. Käytännön ohjeet, jotka säästävät akkua, hermoja ja korjauksia.",
@@ -233,7 +233,7 @@ const FI: Record<BlogPostId, BlogContent> = {
     seo: {
       title: "Teslan ilmajousituksen viat: oireet, syyt ja korjaus",
       description:
-        "Model S:n ja Model X:n ilmajousituksen yleiset viat: laskeutuva auto, pitkään käyvä kompressori ja jousituksen varoitus. Mitä tehdä ja milloin korjata.",
+        "Model S:n ja X:n ilmajousituksen viat: laskeutuva auto, pitkään käyvä kompressori ja jousituksen varoitus. Milloin korjata.",
     },
     title: "Ilmajousituksen viat Model S:ssä ja Model X:ssä",
     dek: "Laskeutuva kulma, kompressorin ääni tai jousituksen varoitus. Näin ilmajousitus toimii, miksi se vikaantuu ja milloin kannattaa toimia.",
@@ -327,7 +327,7 @@ const FI: Record<BlogPostId, BlogContent> = {
     seo: {
       title: "Uudet sähköautot 2027: mitä Suomeen on tulossa",
       description:
-        "Vuonna 2027 Eurooppaan tulevat sähköautot: Volkswagen ID. Polo, Audi A2 e-tron, Volvon edullisempi malli, Mercedeksen sähkö-C ja sähkö-E, BMW iX5 ja Xiaomi.",
+        "Vuoden 2027 uudet sähköautot Euroopassa: VW ID. Polo, Audi A2 e-tron, edullisempi Volvo, sähkö-Mercedes C ja E sekä BMW iX5.",
     },
     title: "Uudet sähköautot 2027: mitä Suomeen on tulossa",
     dek: "Valmistajien ilmoittamat uutuudet vuodelle 2027 ja se, mitä ne tarkoittavat suomalaiselle kuljettajalle talvessa, suolatiellä ja huollossa.",
@@ -392,7 +392,7 @@ const EN: Record<BlogPostId, BlogContent> = {
     seo: {
       title: "Tesla winter care in Finland: preconditioning, charging, tyres, brakes",
       description:
-        "Practical advice for Tesla owners facing a Finnish winter: preconditioning, charging in frost, winter tyres, brake corrosion, frozen handles and long parking.",
+        "A Tesla in a Finnish winter: preconditioning, charging in frost, winter tyres, brake corrosion and frozen door handles.",
     },
     title: "Tesla winter care in Finland: keeping the car right in the cold",
     dek: "Preconditioning, charging, tyres, brakes and frozen handles. Practical advice that saves battery, nerves and repairs.",
@@ -658,7 +658,7 @@ const EN: Record<BlogPostId, BlogContent> = {
     seo: {
       title: "What a car diagnosis actually involves",
       description:
-        "A fault code is not the same as the cause. How a proper diagnosis works: symptoms, fault codes, measurements, inspection, confirmation and a written estimate.",
+        "A fault code is not the cause. How a proper diagnosis works: symptoms, codes, measurements, inspection and a written estimate.",
     },
     title: "What a diagnosis actually involves",
     dek: "A fault code tells you where to look, not what is broken. How a good diagnosis works, and why it saves money.",
@@ -704,7 +704,7 @@ const EN: Record<BlogPostId, BlogContent> = {
     seo: {
       title: "New electric cars coming to Finland in 2027",
       description:
-        "The EVs announced for Europe in 2027: Volkswagen ID. Polo, Audi A2 e-tron, Volvo's lower priced model, the electric Mercedes C-Class and E-Class, BMW iX5 and Xiaomi.",
+        "The electric cars announced for Europe in 2027: VW ID. Polo, Audi A2 e-tron, a lower priced Volvo, electric Mercedes C and E, BMW iX5.",
     },
     title: "New electric cars to watch in 2027",
     dek: "What manufacturers have announced for 2027, and what each one means for a driver in Finland once winter, salted roads and the first service arrive.",

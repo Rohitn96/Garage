@@ -66,7 +66,7 @@ export const HUB: Record<Lang, HubCopy> = {
     seo: {
       title: "Tesla service in Helsinki: brakes, suspension, tyres and AC",
       description:
-        "Independent Tesla service in Tattarisuo, Helsinki. Model 3, Y, S and X: brakes, air suspension, tyres, air conditioning, the 12 V battery and electrical faults.",
+        "Independent Tesla service in Tattarisuo, Helsinki. Model 3, Y, S and X: brakes, air suspension, tyres, AC and the 12 V battery.",
     },
     label: "Tesla · Tattarisuo, Helsinki",
     h1: "Independent Tesla service in Helsinki",
@@ -131,7 +131,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     seoLive: {
       title: "Tesla-tarkastus Helsingissä 99 € 31.12.2026 asti",
       description:
-        "Avajaistarjous: Tesla-autojen perustarkastus Tattarisuolla, Helsingissä, hintaan 99 € sis. alv 25,5 % 31.12.2026 asti. Jos jotain on korjattava, saat arvion ja päätät itse.",
+        "Teslan perustarkastus Helsingissä 99 € sis. alv 25,5 % 31.12.2026 asti. Korjattavasta saat arvion ennen työn aloitusta.",
     },
     seoEnded: {
       title: "Tesla-tarkastus Helsingissä",
@@ -179,7 +179,7 @@ export const OFFER_PAGE: Record<Lang, OfferCopy> = {
     seoLive: {
       title: "Tesla inspection in Helsinki for €99 until 31.12.2026",
       description:
-        "Launch offer: a basic inspection for Tesla vehicles in Tattarisuo, Helsinki, for €99 incl. 25.5% VAT until 31 December 2026. If anything needs work, you get an estimate and decide.",
+        "Tesla basic inspection in Helsinki for €99 incl. 25.5% VAT until 31 December 2026. Anything that needs work is quoted first.",
     },
     seoEnded: {
       title: "Tesla inspection in Helsinki",
