@@ -6,7 +6,8 @@
  *   2. sitemap.xml lists exactly the exported pages
  *   3. canonical is self-referencing; hreflang (fi, en, x-default) is
  *      symmetrical between every pair of translations
- *   4. every page has a unique title and meta description
+ *   4. every page has a unique title and meta description, and a unique H1
+ *      within its language
  *   5. every JSON-LD block parses
  *   6. no pricing language in user-facing HTML (scripts stripped)
  *   7. no em or en dashes anywhere in tracked source files
@@ -87,6 +88,23 @@ for (const [path, html] of pages) {
     if (seen[kind].has(value)) fail(`duplicate ${kind} on ${path} and ${seen[kind].get(value)}`);
     seen[kind].set(value, path);
   }
+}
+
+// 4b. One H1 per page per language, never shared. Two pages with the same H1
+// compete for the same search and Google ranks neither well: the home page and
+// the Tesla hub shared "Independent Tesla service in Helsinki", and the Tesla
+// queries sat on page 4 to 5 while the EV page, which nothing competes with,
+// ranked on page 1. Titles and descriptions were checked; H1s were not.
+const h1s = new Map();
+for (const [path, html] of pages) {
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1]?.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  if (!h1) {
+    fail(`no h1 on ${path}`);
+    continue;
+  }
+  const key = `${path.startsWith("/fi/") ? "fi" : "en"}:${h1.toLowerCase()}`;
+  if (h1s.has(key)) fail(`duplicate h1 "${h1}" on ${path} and ${h1s.get(key)}`);
+  else h1s.set(key, path);
 }
 
 // 5. JSON-LD

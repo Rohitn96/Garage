@@ -10,7 +10,12 @@ type HomeCopy = {
   offer: { label: string; title: string; body: string; more: string };
   models: { label: string; title: string; lead: string };
   explorer: { label: string; title: string; lead: string; hint: string };
-  services: { label: string; title: string; lead: string };
+  /**
+   * `hubLink` is the anchor text of the one link from the home page to the
+   * Tesla hub. It says the hub's own search term on purpose: see the note on
+   * HOME below.
+   */
+  services: { label: string; title: string; lead: string; hubLink: string };
   weekend: { label: string; title: string; body: string; steps: TitledItem[]; more: string };
   why: { label: string; title: string; lead: string; items: Array<TitledItem & { icon: IconName }> };
   steps: { label: string; title: string; items: TitledItem[] };
@@ -22,13 +27,13 @@ type HomeCopy = {
 export const HOME: Record<Lang, HomeCopy> = {
   fi: {
     seo: {
-      title: "Tesla-huolto Helsingissä",
+      title: "Tesla-korjaamo Helsingissä",
       description:
         "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
     },
     hero: {
       label: "Tesla- ja sähköautoasiantuntijat · Helsinki",
-      h1: "Riippumaton Tesla-huolto Helsingissä",
+      h1: "Riippumaton Tesla-korjaamo Helsingissä",
       lead: "Jarruista ja alustasta ilmastointiin ja renkaisiin, huolehdimme Teslastasi oikein. Teslan omat diagnostiikkaohjelmistot, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
       facts: ["Model S, 3, X ja Y", "Alkuperäiset Tesla-osat", "Viikonloppuisin täydet päivät"],
       videoAlt: "Teslan ohjaamo ajon aikana: ohjauspyörä ja keskinäyttö",
@@ -54,6 +59,7 @@ export const HOME: Record<Lang, HomeCopy> = {
       label: "Palvelut",
       title: "Kaikki mitä Teslasi tarvitsee",
       lead: "Jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Yksi riippumaton korjaamo Teslallesi.",
+      hubLink: "Tesla-huolto Helsingissä: kaikki palvelut",
     },
     weekend: {
       label: "Viikonloppuhuolto",
@@ -127,13 +133,13 @@ export const HOME: Record<Lang, HomeCopy> = {
   },
   en: {
     seo: {
-      title: "Tesla service in Helsinki · Revamp Motors",
+      title: "Independent Tesla garage in Helsinki · Revamp Motors",
       description:
         "Independent Tesla and EV garage in Tattarisuo, Helsinki. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
     },
     hero: {
       label: "Tesla & EV specialists · Helsinki",
-      h1: "Independent Tesla service in Helsinki",
+      h1: "Independent Tesla garage in Helsinki",
       lead: "From brakes and suspension to air conditioning and tyres, we look after your Tesla properly. Tesla's own diagnostic software, manufacturer procedures on every job, and a clear estimate before any work begins.",
       facts: ["Model S, 3, X and Y", "Genuine Tesla parts", "Full working days at weekends"],
       videoAlt: "Inside a Tesla on the move: the steering wheel and centre touchscreen",
@@ -159,6 +165,7 @@ export const HOME: Record<Lang, HomeCopy> = {
       label: "Services",
       title: "Everything your Tesla needs",
       lead: "Brakes, suspension and air suspension, tyres, air conditioning and heat pump, and electrical faults and the 12 V battery. One independent workshop for your Tesla.",
+      hubLink: "All Tesla services in Helsinki",
     },
     weekend: {
       label: "Weekend service",

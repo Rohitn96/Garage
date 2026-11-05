@@ -112,6 +112,11 @@ export function HomePage({ lang }: { lang: Lang }) {
         <div className="mt-10">
           <ServiceGrid lang={lang} />
         </div>
+        {/* The only link from the home page to the Tesla hub that says what the
+            hub is for. The nav calls it "Tesla", which tells Google nothing. */}
+        <Link href={pathOf("tesla", lang)} className="btn-ghost mt-8">
+          {c.services.hubLink} →
+        </Link>
       </Section>
 
       <Section>
