@@ -490,7 +490,7 @@ const FI: Record<ServiceId, ServiceContent> = {
     seo: {
       title: "Teslan ilmastointi ja lämpöpumppu, huolto Helsingissä",
       description:
-        "Teslan ilmastointi ja lämpöpumppu: ilmastointi ei viilennä, heikko lämpö, huurtuvat ikkunat ja raitisilmasuodattimet. Teslalle tarkoitetut ilmastoinnin huoltolaitteet. Tattarisuo, Helsinki.",
+        "Teslan ilmastointi ja lämpöpumppu Helsingissä: ei viilennä, heikko lämpö, huurtuvat ikkunat ja suodattimet. Tattarisuo.",
     },
     name: "Ilmastointi ja lämpöpumppu",
     h1: "Teslan ilmastointi ja lämpöpumppu",
@@ -603,7 +603,7 @@ const EN: Record<ServiceId, ServiceContent> = {
     seo: {
       title: "Tesla brakes and caliper service in Helsinki",
       description:
-        "Tesla brake caliper cleaning and lubrication, discs, pads and brake fluid, with regenerative braking and Finnish salted roads in mind. Tattarisuo, Helsinki.",
+        "Tesla brake calipers, discs, pads and brake fluid in Helsinki, with regenerative braking and salted winter roads in mind.",
     },
     name: "Brakes and regen",
     h1: "Tesla brakes and regenerative braking",
@@ -930,7 +930,7 @@ const EN: Record<ServiceId, ServiceContent> = {
     seo: {
       title: "Tesla 12 V battery and electrical faults in Helsinki",
       description:
-        "Tesla 12 V battery testing and replacement, and electrical fault finding: warnings, screen, cameras, sensors, doors and moisture faults. Tattarisuo, Helsinki.",
+        "Tesla 12 V battery and electrical faults in Helsinki: warnings, screen, cameras, sensors, doors and damp. Tattarisuo.",
     },
     name: "Electrical and 12 V battery",
     h1: "Tesla electrical faults and the 12 V battery",
@@ -1035,7 +1035,7 @@ const EN: Record<ServiceId, ServiceContent> = {
     seo: {
       title: "Tesla air conditioning and heat pump service in Helsinki",
       description:
-        "Tesla air conditioning and heat pump: AC that does not cool, weak heating, fogged windows and cabin filters. AC service equipment made for Tesla. Tattarisuo, Helsinki.",
+        "Tesla air conditioning and heat pump in Helsinki: no cooling, weak heat, fogged windows and cabin filters. Tattarisuo.",
     },
     name: "Air conditioning and heat pump",
     h1: "Tesla air conditioning and heat pump",

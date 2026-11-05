@@ -129,7 +129,7 @@ export const EV_PAGE: Record<
     seo: {
       title: "EV service in Helsinki: every make",
       description:
-        "Electric car servicing and diagnostics in Tattarisuo, Helsinki. Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, Mercedes-Benz, BYD, MG and other makes.",
+        "EV servicing in Tattarisuo, Helsinki, for every make: Volkswagen, Skoda, Volvo, Polestar, Kia, Hyundai, BMW, BYD and more.",
     },
     label: "Other EVs",
     h1: "Servicing for other electric cars in Helsinki",

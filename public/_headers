@@ -6,3 +6,24 @@
 # a full duplicate of the site. Keep that copy out of the index.
 https://:project.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
+
+# Build output under /_next/static/ carries a content hash in its filename, so
+# a changed file arrives at a new address and a cached one can never be stale.
+# That is exactly the case immutable exists for: a returning visitor refetches
+# none of it. The asset server otherwise sends max-age=0, must-revalidate,
+# which costs a conditional request per file per visit.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Videos and icons are not content hashed, so they cannot be immutable: a
+# replacement keeps its name. A week is long enough to matter on repeat visits
+# and short enough that a new hero video is not stranded in caches for months.
+/videos/*
+  Cache-Control: public, max-age=604800
+/icons/*
+  Cache-Control: public, max-age=604800
+
+# Nothing above matches HTML, the RSC payloads (index.txt), sitemap.xml,
+# robots.txt or llms.txt, and there is deliberately no /* rule here, so those
+# keep the asset server's revalidate-every-time default. That default is what
+# makes a deploy visible immediately.
