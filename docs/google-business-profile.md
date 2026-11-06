@@ -30,7 +30,7 @@ Prices: the site publishes only the launch inspection (99 € sis. alv 25,5 %, u
 
 ## Description (750 characters max). Draft, needs Finnish review
 
-> Revamp Motors on riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Teemme vianhaun ensin ja annamme arvion ennen töitä: jarrut, alusta ja ilmajousitus, renkaat ja suuntaus, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Huollamme myös muita sähköautoja ja teemme polttomoottoriautoihin perustöitä. Arkisin ajanvarauksella, viikonloppuisin täydet työpäivät. Emme ole sidoksissa Tesla, Inc:iin.
+> Revamp Motors on Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Teemme vianhaun ensin ja annamme arvion ennen töitä: jarrut, alusta ja ilmajousitus, renkaat ja suuntaus, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Huollamme myös muita sähköautoja ja teemme polttomoottoriautoihin perustöitä. Arkisin ajanvarauksella, viikonloppuisin täydet työpäivät. Emme ole sidoksissa Tesla, Inc:iin.
 
 ## Launch offer post (until 31.12.2026)
 

@@ -357,7 +357,7 @@ const FI: Record<BlogPostId, BlogContent> = {
       },
       { h2: "Mercedes-Benzin sähkö-C ja sähkö-E" },
       {
-        p: "Mercedes on ilmoittanut täyssähköisistä C- ja E-sarjan malleista. Nämä ovat lähivuosien työsuhdeautoja, mikä tarkoittaa, että ne tulevat käytettyjen markkinoille isoina erinä kolmen tai neljän vuoden kuluttua. Juuri silloin ne päätyvät riippumattomiin korjaamoihin.",
+        p: "Mercedes on ilmoittanut täyssähköisistä C- ja E-sarjan malleista. Nämä ovat lähivuosien työsuhdeautoja, mikä tarkoittaa, että ne tulevat käytettyjen markkinoille isoina erinä kolmen tai neljän vuoden kuluttua. Juuri silloin ne alkavat tulla meidän kaltaisiimme korjaamoihin.",
       },
       { h2: "BMW iX5" },
       {
@@ -734,7 +734,7 @@ const EN: Record<BlogPostId, BlogContent> = {
       },
       { h2: "The electric Mercedes-Benz C-Class and E-Class" },
       {
-        p: "Mercedes has announced fully electric versions of both the C-Class and the E-Class. These are the company cars of the next few years, which means they reach the used market in volume three or four years later. That is the point at which they start arriving at independent garages.",
+        p: "Mercedes has announced fully electric versions of both the C-Class and the E-Class. These are the company cars of the next few years, which means they reach the used market in volume three or four years later. That is the point at which they start arriving at garages like ours.",
       },
       { h2: "BMW iX5" },
       {

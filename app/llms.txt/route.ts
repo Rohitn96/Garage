@@ -61,7 +61,7 @@ export function GET() {
   const body = [
     "# Revamp Motors",
     "",
-    "> An independent Tesla and electric vehicle garage in Tattarisuo, Helsinki, Finland.",
+    "> A Tesla and electric vehicle garage in Tattarisuo, Helsinki, Finland.",
     "> Tesla is the specialism; other electric cars and petrol, diesel and hybrid cars are serviced too.",
     "",
     "The site is published in English at the root and in Finnish under /fi/. Every page exists in both languages.",

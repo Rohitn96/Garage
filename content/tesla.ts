@@ -22,10 +22,10 @@ export const HUB: Record<Lang, HubCopy> = {
     seo: {
       title: "Tesla-huolto Helsingissä: jarrut, alusta, renkaat ja ilmastointi",
       description:
-        "Riippumaton Tesla-huolto Tattarisuolla, Helsingissä. Model 3, Y, S ja X: jarrut, ilmajousitus, renkaat, ilmastointi, 12 V:n akku ja sähköviat.",
+        "Tesla-huolto Tattarisuolla, Helsingissä. Model 3, Y, S ja X: jarrut, ilmajousitus, renkaat, ilmastointi, 12 V:n akku ja sähköviat.",
     },
     label: "Tesla · Tattarisuo, Helsinki",
-    h1: "Riippumaton Tesla-huolto Helsingissä",
+    h1: "Tesla-huolto Helsingissä",
     lead: "Kaikki mitä Teslasi tarvitsee saman katon alta: jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Taustalla yli 10 vuoden yhteenlaskettu kokemus alalta. Ensin syy, sitten selkeä arvio, ja sinä päätät.",
     modelsTitle: "Valitse malli",
     servicesTitle: "Tesla-palvelut",
@@ -43,13 +43,13 @@ export const HUB: Record<Lang, HubCopy> = {
         p: "Vianhaussa käytämme Teslan virallista Toolbox-diagnostiikkaohjelmistoa ja ammattitason diagnostiikkalaitteita, ja työskentelemme Teslan oman huolto-ohjekirjan mukaan. Asennamme alkuperäisiä Tesla-osia tai laadukkaita perusosia, ja tekemällemme työlle annamme 1 vuoden tai 10 000 kilometrin takuun.",
       },
       {
-        note: "Revamp Motors on riippumaton korjaamo. Emme ole sidoksissa Tesla, Inc:iin emmekä ole sen valtuuttama huoltoliike.",
+        note: "Revamp Motors ei ole sidoksissa Tesla, Inc:iin eikä ole sen valtuuttama huoltoliike.",
       },
     ],
     faq: [
       {
-        q: "Vaikuttaako riippumaton huolto Teslan takuuseen?",
-        a: "EU:n kilpailusäännöt rajoittavat valmistajan oikeutta evätä takuu pelkästään siksi, että määräaikaishuolto on tehty riippumattomassa korjaamossa, kun työ tehdään valmistajan ohjeiden mukaan ja vaatimukset täyttävillä osilla. Takuukorjaukset tekee kuitenkin Tesla, ja virheellisestä työstä aiheutunut vahinko voi jäädä takuun ulkopuolelle. Tarkista oman autosi takuuehdot.",
+        q: "Säilyykö Teslan takuu, jos huollatan auton muualla?",
+        a: "EU:n kilpailusäännöt rajoittavat valmistajan oikeutta evätä takuu pelkästään siksi, että määräaikaishuolto on tehty muualla kuin merkkikorjaamossa, kun työ tehdään valmistajan ohjeiden mukaan ja vaatimukset täyttävillä osilla. Takuukorjaukset tekee kuitenkin Tesla, ja virheellisestä työstä aiheutunut vahinko voi jäädä takuun ulkopuolelle. Tarkista oman autosi takuuehdot.",
       },
       {
         q: "Teettekö takuukorjauksia?",
@@ -66,10 +66,10 @@ export const HUB: Record<Lang, HubCopy> = {
     seo: {
       title: "Tesla service in Helsinki: brakes, suspension, tyres and AC",
       description:
-        "Independent Tesla service in Tattarisuo, Helsinki. Model 3, Y, S and X: brakes, air suspension, tyres, AC and the 12 V battery.",
+        "Tesla service in Tattarisuo, Helsinki. Model 3, Y, S and X: brakes, air suspension, tyres, AC and the 12 V battery.",
     },
     label: "Tesla · Tattarisuo, Helsinki",
-    h1: "Independent Tesla service in Helsinki",
+    h1: "Tesla service in Helsinki",
     lead: "Everything your Tesla needs under one roof: brakes, suspension and air suspension, tyres, air conditioning and heat pump, and electrical faults and the 12 V battery. Backed by 10+ years of combined industry experience. The cause first, then a clear estimate, and you decide.",
     modelsTitle: "Choose a model",
     servicesTitle: "Tesla services",
@@ -87,13 +87,13 @@ export const HUB: Record<Lang, HubCopy> = {
         p: "We diagnose with Tesla Toolbox, Tesla's official diagnostic software, and professional scan tools, and we work from Tesla's own service manual. We fit genuine Tesla parts as well as quality basic parts, and our work comes with a warranty of 1 year or 10,000 km.",
       },
       {
-        note: "Revamp Motors is an independent garage. We are not affiliated with Tesla, Inc. and are not an authorised Tesla service centre.",
+        note: "Revamp Motors is not affiliated with Tesla, Inc. and is not an authorised Tesla service centre.",
       },
     ],
     faq: [
       {
-        q: "Does independent servicing affect my Tesla warranty?",
-        a: "EU competition rules limit a manufacturer's right to refuse warranty just because routine maintenance was done by an independent garage, provided the work follows the manufacturer's specifications and uses parts of matching quality. Warranty repairs themselves are still done by Tesla, and damage caused by faulty work can fall outside the warranty. Check the warranty terms for your own car.",
+        q: "Does servicing outside Tesla affect my warranty?",
+        a: "EU competition rules limit a manufacturer's right to refuse warranty just because routine maintenance was done outside the dealer network, provided the work follows the manufacturer's specifications and uses parts of matching quality. Warranty repairs themselves are still done by Tesla, and damage caused by faulty work can fall outside the warranty. Check the warranty terms for your own car.",
       },
       {
         q: "Do you do warranty repairs?",

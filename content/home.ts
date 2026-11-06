@@ -29,11 +29,11 @@ export const HOME: Record<Lang, HomeCopy> = {
     seo: {
       title: "Tesla-korjaamo Helsingissä",
       description:
-        "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
+        "Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Jarrut, alusta, renkaat, ilmastointi ja sähköviat. Arvio ennen töitä.",
     },
     hero: {
       label: "Tesla- ja sähköautoasiantuntijat · Helsinki",
-      h1: "Riippumaton Tesla-korjaamo Helsingissä",
+      h1: "Tesla-korjaamo Helsingissä",
       lead: "Jarruista ja alustasta ilmastointiin ja renkaisiin, huolehdimme Teslastasi oikein. Teslan omat diagnostiikkaohjelmistot, valmistajan menettelyt jokaisessa työssä ja selkeä arvio ennen kuin työ alkaa.",
       facts: ["Model S, 3, X ja Y", "Alkuperäiset Tesla-osat", "Viikonloppuisin täydet päivät"],
       videoAlt: "Teslan ohjaamo ajon aikana: ohjauspyörä ja keskinäyttö",
@@ -58,7 +58,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     services: {
       label: "Palvelut",
       title: "Kaikki mitä Teslasi tarvitsee",
-      lead: "Jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Yksi riippumaton korjaamo Teslallesi.",
+      lead: "Jarrut, alusta ja ilmajousitus, renkaat, ilmastointi ja lämpöpumppu sekä sähköviat ja 12 V:n akku. Yksi korjaamo kaikkiin Teslasi töihin.",
       hubLink: "Tesla-huolto Helsingissä: kaikki palvelut",
     },
     weekend: {
@@ -75,7 +75,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     why: {
       label: "Miksi me",
       title: "Tesla-osaamista, oikeilla työkaluilla",
-      lead: "Riippumaton korjaamo, joka työskentelee Teslan kanssa kuten valmistaja tarkoittaa: oikeilla ohjelmistoilla, oikeilla osilla ja takuulla.",
+      lead: "Korjaamo, joka työskentelee Teslan kanssa kuten valmistaja tarkoittaa: oikeilla ohjelmistoilla, oikeilla osilla ja takuulla.",
       items: [
         {
           icon: "experience",
@@ -133,13 +133,13 @@ export const HOME: Record<Lang, HomeCopy> = {
   },
   en: {
     seo: {
-      title: "Independent Tesla garage in Helsinki · Revamp Motors",
+      title: "Tesla garage in Helsinki · Revamp Motors",
       description:
-        "Independent Tesla and EV garage in Tattarisuo, Helsinki. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
+        "Tesla and EV garage in Tattarisuo, Helsinki. Brakes, suspension, tyres, air conditioning and electrical faults. Estimate before work.",
     },
     hero: {
       label: "Tesla & EV specialists · Helsinki",
-      h1: "Independent Tesla garage in Helsinki",
+      h1: "Tesla garage in Helsinki",
       lead: "From brakes and suspension to air conditioning and tyres, we look after your Tesla properly. Tesla's own diagnostic software, manufacturer procedures on every job, and a clear estimate before any work begins.",
       facts: ["Model S, 3, X and Y", "Genuine Tesla parts", "Full working days at weekends"],
       videoAlt: "Inside a Tesla on the move: the steering wheel and centre touchscreen",
@@ -164,7 +164,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     services: {
       label: "Services",
       title: "Everything your Tesla needs",
-      lead: "Brakes, suspension and air suspension, tyres, air conditioning and heat pump, and electrical faults and the 12 V battery. One independent workshop for your Tesla.",
+      lead: "Brakes, suspension and air suspension, tyres, air conditioning and heat pump, and electrical faults and the 12 V battery. One workshop for everything your Tesla needs.",
       hubLink: "All Tesla services in Helsinki",
     },
     weekend: {
@@ -181,7 +181,7 @@ export const HOME: Record<Lang, HomeCopy> = {
     why: {
       label: "Why us",
       title: "Tesla expertise, with the right tools",
-      lead: "An independent workshop that works on Teslas the way the manufacturer intends: with the right software, the right parts, and a warranty on our work.",
+      lead: "A workshop that works on Teslas the way the manufacturer intends: with the right software, the right parts, and a warranty on our work.",
       items: [
         {
           icon: "experience",

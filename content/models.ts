@@ -19,16 +19,16 @@ export const MODEL_CARDS: Record<ModelId, { letter: string; fi: string; en: stri
 };
 
 const WARRANTY_FI =
-  "EU:n kilpailusäännöt rajoittavat valmistajan oikeutta evätä takuu pelkästään siksi, että määräaikaishuolto on tehty riippumattomassa korjaamossa, kun työ tehdään valmistajan ohjeiden mukaan ja vaatimukset täyttävillä osilla. Takuukorjaukset tekee kuitenkin Tesla. Lue tarkemmin [usein kysytyistä](@faq).";
+  "EU:n kilpailusäännöt rajoittavat valmistajan oikeutta evätä takuu pelkästään siksi, että määräaikaishuolto on tehty muualla kuin merkkikorjaamossa, kun työ tehdään valmistajan ohjeiden mukaan ja vaatimukset täyttävillä osilla. Takuukorjaukset tekee kuitenkin Tesla. Lue tarkemmin [usein kysytyistä](@faq).";
 const WARRANTY_EN =
-  "EU competition rules limit a manufacturer's right to refuse warranty just because routine maintenance was done by an independent garage, provided the work follows the manufacturer's specifications and uses parts of matching quality. Warranty repairs themselves are still done by Tesla. More in the [FAQ](@faq).";
+  "EU competition rules limit a manufacturer's right to refuse warranty just because routine maintenance was done outside the dealer network, provided the work follows the manufacturer's specifications and uses parts of matching quality. Warranty repairs themselves are still done by Tesla. More in the [FAQ](@faq).";
 
 const FI: Record<ModelId, ModelContent> = {
   "model-3": {
     seo: {
       title: "Tesla Model 3 huolto ja korjaus Helsingissä",
       description:
-        "Tesla Model 3:n tyypilliset viat, mitä tarkistamme ja talven erityispiirteet. Riippumaton Tesla-korjaamo Tattarisuolla, Helsingissä. Arvio ennen töitä.",
+        "Tesla Model 3:n tyypilliset viat, mitä tarkistamme ja talven erityispiirteet. Tesla-korjaamo Tattarisuolla, Helsingissä. Arvio ennen töitä.",
     },
     name: "Model 3",
     h1: "Tesla Model 3:n huolto ja korjaus",
@@ -111,7 +111,7 @@ const FI: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model Y huolto ja korjaus Helsingissä",
       description:
-        "Tesla Model Y:n renkaat, alusta, jarrut ja lämpöpumppu. Tyypilliset viat ja talven huomiot. Riippumaton Tesla-korjaamo Tattarisuolla, Helsingissä.",
+        "Tesla Model Y:n renkaat, alusta, jarrut ja lämpöpumppu. Tyypilliset viat ja talven huomiot. Tesla-korjaamo Tattarisuolla, Helsingissä.",
     },
     name: "Model Y",
     h1: "Tesla Model Y:n huolto ja korjaus",
@@ -202,7 +202,7 @@ const FI: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model S huolto ja ilmajousitus Helsingissä",
       description:
-        "Tesla Model S:n ilmajousitus, alusta, 12 V ja elektroniikka. Myös vanhemmat Model S -autot. Riippumaton Tesla-korjaamo Tattarisuolla, Helsingissä.",
+        "Tesla Model S:n ilmajousitus, alusta, 12 V ja elektroniikka. Myös vanhemmat Model S -autot. Tesla-korjaamo Tattarisuolla, Helsingissä.",
     },
     name: "Model S",
     h1: "Tesla Model S:n huolto ja korjaus",
@@ -212,7 +212,7 @@ const FI: Record<ModelId, ModelContent> = {
         p: "Model S:n tekniikka on muuttunut vuosien varrella paljon: takavetoisista nelivetoisiin, alkuperäisestä keskusyksiköstä uudempiin ja aina vuoden 2021 uudistukseen asti. Siksi vianhaku alkaa auton tarkasta versiosta ja varustelusta. Saman nimen alla on käytännössä useita erilaisia autoja.",
       },
       {
-        p: "Vanhemman Model S:n omistajalle riippumaton korjaamo on usein järkevä vaihtoehto, kun takuu on päättynyt. Kerromme jokaisesta löydöksestä, kuinka kiireellinen se on, jotta voit suunnitella korjaukset.",
+        p: "Vanhemman Model S:n omistajalle meidän kaltaisemme korjaamo on usein järkevä vaihtoehto, kun takuu on päättynyt. Kerromme jokaisesta löydöksestä, kuinka kiireellinen se on, jotta voit suunnitella korjaukset.",
       },
       { p: WARRANTY_FI },
     ],
@@ -293,7 +293,7 @@ const FI: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model X huolto ja korjaus Helsingissä",
       description:
-        "Tesla Model X:n ilmajousitus, takaovet, tiivisteet ja alusta. Tyypilliset viat ja talven huomiot. Riippumaton Tesla-korjaamo Tattarisuolla, Helsingissä.",
+        "Tesla Model X:n ilmajousitus, takaovet, tiivisteet ja alusta. Tyypilliset viat ja talven huomiot. Tesla-korjaamo Tattarisuolla, Helsingissä.",
     },
     name: "Model X",
     h1: "Tesla Model X:n huolto ja korjaus",
@@ -389,7 +389,7 @@ const EN: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model 3 service and repair in Helsinki",
       description:
-        "Common Tesla Model 3 faults, what we check and what Finnish winters do to the car. Independent Tesla garage in Tattarisuo, Helsinki. Estimate before work.",
+        "Common Tesla Model 3 faults, what we check and what Finnish winters do to the car. Tesla garage in Tattarisuo, Helsinki. Estimate before work.",
     },
     name: "Model 3",
     h1: "Tesla Model 3 service and repair",
@@ -472,7 +472,7 @@ const EN: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model Y service and repair in Helsinki",
       description:
-        "Tesla Model Y tyres, suspension, brakes and heat pump. Common faults and winter notes. Independent Tesla garage in Tattarisuo, Helsinki.",
+        "Tesla Model Y tyres, suspension, brakes and heat pump. Common faults and winter notes. Tesla garage in Tattarisuo, Helsinki.",
     },
     name: "Model Y",
     h1: "Tesla Model Y service and repair",
@@ -563,7 +563,7 @@ const EN: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model S service and air suspension in Helsinki",
       description:
-        "Tesla Model S air suspension, chassis, 12 V and electronics, including older cars. Independent Tesla garage in Tattarisuo, Helsinki.",
+        "Tesla Model S air suspension, chassis, 12 V and electronics, including older cars. Tesla garage in Tattarisuo, Helsinki.",
     },
     name: "Model S",
     h1: "Tesla Model S service and repair",
@@ -573,7 +573,7 @@ const EN: Record<ModelId, ModelContent> = {
         p: "The Model S has changed a great deal over the years: from rear-wheel drive to all-wheel drive, from the original media control unit to newer ones, and on to the 2021 update. So diagnosis starts with the exact version and specification of the car. In practice, several quite different cars share the same name.",
       },
       {
-        p: "For the owner of an older Model S, an independent garage is often the sensible choice once the warranty has ended. For every finding we tell you how urgent it is, so you can plan the repairs.",
+        p: "For the owner of an older Model S, a garage like ours is often the sensible choice once the warranty has ended. For every finding we tell you how urgent it is, so you can plan the repairs.",
       },
       { p: WARRANTY_EN },
     ],
@@ -654,7 +654,7 @@ const EN: Record<ModelId, ModelContent> = {
     seo: {
       title: "Tesla Model X service and repair in Helsinki",
       description:
-        "Tesla Model X air suspension, rear doors, seals and chassis. Common faults and winter notes. Independent Tesla garage in Tattarisuo, Helsinki.",
+        "Tesla Model X air suspension, rear doors, seals and chassis. Common faults and winter notes. Tesla garage in Tattarisuo, Helsinki.",
     },
     name: "Model X",
     h1: "Tesla Model X service and repair",

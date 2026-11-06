@@ -87,7 +87,7 @@ export const EV_PAGE: Record<
       { title: "Ilmastointi ja lämpöpumppu", body: "Ilmastoinnin ja lämpöpumpun vianhaku, viilennysteho ja raitisilmasuodattimet." },
     ],
     body: [
-      { h2: "Merkkihuolto ja riippumaton korjaamo" },
+      { h2: "Mitä merkkihuolto tekee ja mitä me teemme" },
       {
         p: "Merkkikohtaiset ohjelmistopäivitykset ja takuukorjaukset tekee valmistajan valtuuttama huolto. Jos vika näyttää kuuluvan takuuseen, kerromme sen. Muut työt, kuten jarrut, alusta, renkaat ja 12 V:n akku, teemme valmistajan ohjeiden mukaan.",
       },
@@ -115,7 +115,7 @@ export const EV_PAGE: Record<
         a: "Emme. Ajoakun ja voimalinjan suurjännitekorjaukset eivät kuulu palveluihimme. Jos vika on suurjännitejärjestelmässä, kerromme sen ja ohjaamme oikeaan paikkaan."
       },
       {
-        q: "Menettääkö auto takuun riippumattomassa korjaamossa?",
+        q: "Menettääkö auto takuun, jos huollatan sen muualla kuin merkkikorjaamossa?",
         a: "Merkkikohtaiset ohjelmistopäivitykset ja takuukorjaukset kuuluvat valmistajan valtuuttamalle huollolle, ja jos vika näyttää kuuluvan takuuseen, kerromme sen. Muut työt, kuten jarrut, alusta, renkaat ja 12 V:n akku, teemme valmistajan ohjeiden mukaan."
       },
       {
@@ -181,7 +181,7 @@ export const EV_PAGE: Record<
       { title: "Air conditioning and heat pump", body: "AC and heat pump diagnosis, cooling performance and cabin filters." },
     ],
     body: [
-      { h2: "Dealer service and an independent garage" },
+      { h2: "What the dealer does, and what we do" },
       {
         p: "Make-specific software updates and warranty repairs are done by the manufacturer's authorised service. If a fault looks like a warranty matter, we tell you. Other work, such as brakes, suspension, tyres and the 12 V battery, we do to the manufacturer's procedures.",
       },
@@ -209,7 +209,7 @@ export const EV_PAGE: Record<
         a: "No. High voltage battery and powertrain repairs are not part of what we offer. If the fault is in the high voltage system, we tell you and point you to the right place."
       },
       {
-        q: "Does using an independent garage affect my warranty?",
+        q: "Does servicing outside the dealer affect my warranty?",
         a: "Make-specific software updates and warranty repairs belong with the manufacturer's authorised service, and if a fault looks like a warranty matter we tell you. Other work, such as brakes, suspension, tyres and the 12 V battery, we do to the manufacturer's procedures."
       },
       {
@@ -393,13 +393,13 @@ export const WEEKEND_PAGE: Record<
 export const ABOUT_PAGE: Record<Lang, SimplePage & { body: Block[]; principlesTitle: string; principles: TitledItem[]; factsTitle: string }> = {
   fi: {
     seo: {
-      title: "Meistä: riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla",
+      title: "Meistä: Tesla- ja sähköautokorjaamo Tattarisuolla",
       description:
-        "Revamp Motors on riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Toimintatapamme, yhteystiedot ja yritystiedot.",
+        "Revamp Motors on Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Toimintatapamme, yhteystiedot ja yritystiedot.",
     },
     label: "Meistä",
     h1: "Korjaamo, joka aloittaa vianhausta",
-    lead: "Revamp Motors on riippumaton korjaamo Tattarisuolla, Helsingissä, ja tiimillämme on yli 10 vuoden yhteenlaskettu kokemus alalta. Olemme erikoistuneet Teslaan ja sähköautoihin, ja teemme muille autoille perustöitä ajanvarauksella.",
+    lead: "Revamp Motors on korjaamo Tattarisuolla, Helsingissä, ja tiimillämme on yli 10 vuoden yhteenlaskettu kokemus alalta. Olemme erikoistuneet Teslaan ja sähköautoihin, ja teemme muille autoille perustöitä ajanvarauksella.",
     body: [
       {
         p: "Sähköautot ovat muuttaneet sitä, mitä autolle tehdään. Öljynvaihtoja ja jakohihnoja ei ole, mutta jarrut ruostuvat, 12 V:n akku pysäyttää auton, alusta kuluu painon alla ja moni vika näkyy ensin näytöllä. Näihin töihin tarvitaan oikeat tiedot, oikeat menettelyt ja kärsivällisyyttä etsiä vian todellinen syy.",
@@ -421,13 +421,13 @@ export const ABOUT_PAGE: Record<Lang, SimplePage & { body: Block[]; principlesTi
   },
   en: {
     seo: {
-      title: "About: an independent Tesla and EV garage in Tattarisuo",
+      title: "About: a Tesla and EV garage in Tattarisuo",
       description:
-        "Revamp Motors is an independent Tesla and EV specialist garage in Tattarisuo, Helsinki. How we work, contact details and company details.",
+        "Revamp Motors is a Tesla and EV specialist garage in Tattarisuo, Helsinki. How we work, contact details and company details.",
     },
     label: "About",
     h1: "A garage that starts with a diagnosis",
-    lead: "Revamp Motors is an independent garage in Tattarisuo, Helsinki, run by a team with 10+ years of combined industry experience. We specialise in Tesla and electric cars, and do basic work on other cars by appointment.",
+    lead: "Revamp Motors is a garage in Tattarisuo, Helsinki, run by a team with 10+ years of combined industry experience. We specialise in Tesla and electric cars, and do basic work on other cars by appointment.",
     body: [
       {
         p: "Electric cars have changed what a car needs. There are no oil changes or timing belts, but the brakes corrode, the 12 V battery strands the car, the suspension wears under the weight, and many faults show up on the screen first. This work needs the right information, the right procedures and the patience to find the real cause of a fault.",

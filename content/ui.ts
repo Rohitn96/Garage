@@ -10,7 +10,7 @@ import type { RouteId } from "@/lib/routes";
 
 const ROUTE_NAMES_FI: Record<RouteId, string> = {
   home: "Etusivu",
-  tesla: "Tesla",
+  tesla: "Tesla-huolto",
   "model-3": "Model 3",
   "model-y": "Model Y",
   "model-s": "Model S",
@@ -41,7 +41,7 @@ const ROUTE_NAMES_FI: Record<RouteId, string> = {
 
 const ROUTE_NAMES_EN: Record<RouteId, string> = {
   home: "Home",
-  tesla: "Tesla",
+  tesla: "Tesla service",
   "model-3": "Model 3",
   "model-y": "Model Y",
   "model-s": "Model S",
@@ -79,7 +79,7 @@ export const UI = {
     close: "Sulje",
     mainNav: "Päävalikko",
     nav: {
-      tesla: "Tesla",
+      tesla: "Tesla-huolto",
       ev: "Muut sähköautot",
       other: "Muut autot",
       weekend: "Viikonloppuhuolto",
@@ -116,7 +116,7 @@ export const UI = {
       dropInOk: "Viikonloppuisin voit tulla myös ilman varausta, mutta varaus kannattaa.",
     },
     footer: {
-      tagline: "Riippumaton Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta.",
+      tagline: "Tesla- ja sähköautokorjaamo Tattarisuolla, Helsingissä. Yli 10 vuoden yhteenlaskettu kokemus alalta.",
       services: "Tesla-palvelut",
       pages: "Sivut",
       contact: "Yhteystiedot",
@@ -126,7 +126,7 @@ export const UI = {
       companyId: "Y-tunnus",
       openMap: "Avaa kartalla",
       independent:
-        "Riippumaton korjaamo. Emme ole sidoksissa Tesla, Inc:iin emmekä sen valtuuttama huoltoliike. Tesla, Model S, Model 3, Model X ja Model Y ovat Tesla, Inc:n tavaramerkkejä.",
+        "Emme ole sidoksissa Tesla, Inc:iin emmekä ole sen valtuuttama huoltoliike. Tesla, Model S, Model 3, Model X ja Model Y ovat Tesla, Inc:n tavaramerkkejä.",
     },
     breadcrumb: "Murupolku",
     related: "Liittyvät sivut",
@@ -158,7 +158,7 @@ export const UI = {
     close: "Close",
     mainNav: "Main navigation",
     nav: {
-      tesla: "Tesla",
+      tesla: "Tesla service",
       ev: "Other EVs",
       other: "Other vehicles",
       weekend: "Weekend service",
@@ -195,7 +195,7 @@ export const UI = {
       dropInOk: "You can drop in at weekends, but booking is recommended.",
     },
     footer: {
-      tagline: "Independent Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience.",
+      tagline: "Tesla and EV specialists in Tattarisuo, Helsinki, with 10+ years of combined industry experience.",
       services: "Tesla services",
       pages: "Pages",
       contact: "Contact",
@@ -205,7 +205,7 @@ export const UI = {
       companyId: "Business ID",
       openMap: "Open in Maps",
       independent:
-        "Independent workshop. Not affiliated with, endorsed by, or an authorised agent of Tesla, Inc. Tesla, Model S, Model 3, Model X and Model Y are trademarks of Tesla, Inc.",
+        "Not affiliated with, endorsed by, or an authorised agent of Tesla, Inc. Tesla, Model S, Model 3, Model X and Model Y are trademarks of Tesla, Inc.",
     },
     breadcrumb: "Breadcrumb",
     related: "Related pages",

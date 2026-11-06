@@ -15,7 +15,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
     seo: {
       title: "Usein kysyttyä: Tesla-huolto, takuu, ajanvaraus ja diagnostiikka",
       description:
-        "Vaikuttaako riippumaton huolto Teslan takuuseen? Näin ajanvaraus toimii, mitä vianhaku sisältää ja mitä autoja huollamme.",
+        "Säilyykö Teslan takuu, jos huollatan auton muualla? Näin ajanvaraus toimii, mitä vianhaku sisältää ja mitä autoja huollamme.",
     },
     label: "Usein kysyttyä",
     h1: "Usein kysyttyä",
@@ -50,8 +50,8 @@ export const FAQ: Record<Lang, FaqCopy> = {
         title: "Tesla ja takuu",
         items: [
           {
-            q: "Vaikuttaako riippumaton huolto Teslan takuuseen?",
-            a: "EU:n kilpailusäännöt rajoittavat valmistajan oikeutta evätä takuu pelkästään siksi, että määräaikaishuolto on tehty riippumattomassa korjaamossa, kun työ tehdään valmistajan ohjeiden mukaan ja vaatimukset täyttävillä osilla. Takuukorjaukset tekee kuitenkin Tesla, ja virheellisestä työstä aiheutunut vahinko voi jäädä takuun ulkopuolelle. Takuuehdot vaihtelevat, joten tarkista oman autosi ehdot. Tämä ei ole oikeudellinen neuvo.",
+            q: "Säilyykö Teslan takuu, jos huollatan auton muualla?",
+            a: "EU:n kilpailusäännöt rajoittavat valmistajan oikeutta evätä takuu pelkästään siksi, että määräaikaishuolto on tehty muualla kuin merkkikorjaamossa, kun työ tehdään valmistajan ohjeiden mukaan ja vaatimukset täyttävillä osilla. Takuukorjaukset tekee kuitenkin Tesla, ja virheellisestä työstä aiheutunut vahinko voi jäädä takuun ulkopuolelle. Takuuehdot vaihtelevat, joten tarkista oman autosi ehdot. Tämä ei ole oikeudellinen neuvo.",
           },
           {
             q: "Teettekö takuukorjauksia?",
@@ -59,7 +59,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "Oletteko Teslan valtuuttama huolto?",
-            a: "Emme. Olemme riippumaton korjaamo, emmekä ole sidoksissa Tesla, Inc:iin.",
+            a: "Emme. Emme ole sidoksissa Tesla, Inc:iin emmekä ole sen valtuuttama huoltoliike.",
           },
           {
             q: "Mitä osia käytätte?",
@@ -134,7 +134,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
     seo: {
       title: "FAQ: Tesla servicing, warranty, booking and diagnosis",
       description:
-        "Does independent servicing affect your Tesla warranty? How booking works, what a diagnosis includes and which cars we take.",
+        "Does servicing outside Tesla affect your warranty? How booking works, what a diagnosis includes and which cars we take.",
     },
     label: "FAQ",
     h1: "Frequently asked questions",
@@ -169,8 +169,8 @@ export const FAQ: Record<Lang, FaqCopy> = {
         title: "Tesla and warranty",
         items: [
           {
-            q: "Does independent servicing affect my Tesla warranty?",
-            a: "EU competition rules limit a manufacturer's right to refuse warranty just because routine maintenance was done by an independent garage, provided the work follows the manufacturer's specifications and uses parts of matching quality. Warranty repairs themselves are still done by Tesla, and damage caused by faulty work can fall outside the warranty. Warranty terms vary, so check the terms for your own car. This is not legal advice.",
+            q: "Does servicing outside Tesla affect my warranty?",
+            a: "EU competition rules limit a manufacturer's right to refuse warranty just because routine maintenance was done outside the dealer network, provided the work follows the manufacturer's specifications and uses parts of matching quality. Warranty repairs themselves are still done by Tesla, and damage caused by faulty work can fall outside the warranty. Warranty terms vary, so check the terms for your own car. This is not legal advice.",
           },
           {
             q: "Do you do warranty repairs?",
@@ -178,7 +178,7 @@ export const FAQ: Record<Lang, FaqCopy> = {
           },
           {
             q: "Are you an authorised Tesla service centre?",
-            a: "No. We are an independent garage and are not affiliated with Tesla, Inc.",
+            a: "No. We are not affiliated with Tesla, Inc. and are not an authorised Tesla service centre.",
           },
           {
             q: "What parts do you use?",
